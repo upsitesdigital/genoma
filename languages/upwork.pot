@@ -1,0 +1,25 @@
+# UpWork Framework Translation Template
+# Copyright (C) 2026 Upsites Digital
+# This file is distributed under the same license as the UpWork package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: UpWork 1.0.0\n"
+"Report-Msgid-Bugs-To: https://github.com/upsites/upwork\n"
+"POT-Creation-Date: 2026-06-16\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"X-Generator: UpWork CLI\n"
+"X-Domain: upwork\n"
+
+#: functions.php
+msgid "Menu Principal"
+msgstr ""
+
+#: functions.php
+msgid "Menu Rodapé"
+msgstr ""

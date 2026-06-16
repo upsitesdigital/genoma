@@ -1,0 +1,21 @@
+{
+  "name": "upsites/upwork",
+  "description": "UpWork — Framework MVC WordPress + React SPA",
+  "type": "wordpress-theme",
+  "version": "1.0.0",
+  "require": {
+    "php": "^8.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Core\\": "core/"
+    }
+  },
+  "scripts": {
+    "fw:make:module": "@php bin/make-module.php",
+    "fw:sync-modules": "@php bin/sync-modules.php"
+  },
+  "config": {
+    "optimize-autoloader": true
+  }
+}

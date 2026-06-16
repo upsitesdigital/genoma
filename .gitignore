@@ -1,0 +1,9 @@
+node_modules/
+vendor/
+public/build/
+public/build/hot
+*.zip
+.DS_Store
+Thumbs.db
+tsconfig.tsbuildinfo
+bin/setup-teste-page.php
