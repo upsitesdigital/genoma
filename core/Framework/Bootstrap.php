@@ -19,10 +19,22 @@ class Bootstrap
         add_action('acf/init',         [ModuleLoader::class, 'registerFields']);
         add_action('rest_api_init',    [ModuleLoader::class, 'registerRestRoutes']);
         add_filter('template_include', [self::class,         'catchAll']);
+        add_action('save_post',        [self::class,         'clearRestCache']);
+        add_action('deleted_post',     [self::class,         'clearRestCache']);
 
         ModuleManager::register();
         FormCpt::register();
         FormApi::register();
+    }
+
+    public static function clearRestCache(): void
+    {
+        global $wpdb;
+        $wpdb->query(
+            "DELETE FROM {$wpdb->options}
+             WHERE option_name LIKE '_transient_fw_rest_%'
+                OR option_name LIKE '_transient_timeout_fw_rest_%'"
+        );
     }
 
     public static function catchAll(string $template): string
