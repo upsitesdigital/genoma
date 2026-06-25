@@ -3,7 +3,7 @@ export interface FwBoot {
   wpApiBase: string
   siteUrl: string
   themeUrl: string
-  nonce: string
+  nonce: string  // mutável — renovado por api.ts ao receber 401
   themeOptions: Record<string, unknown>
   currentPath: string
   currentRoute: {
@@ -20,4 +20,4 @@ declare global {
   }
 }
 
-export const boot = window.FW_BOOT
+export const boot: FwBoot = window.FW_BOOT
