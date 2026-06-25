@@ -4,8 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
+    "sync": "php bin/sync-modules.php",
+    "dev": "npm run sync && vite",
+    "build": "npm run sync && tsc -b && vite build",
     "lint": "eslint resources app --ext .ts,.tsx",
     "typecheck": "tsc --noEmit",
     "preview": "vite preview"
