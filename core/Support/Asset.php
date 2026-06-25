@@ -6,13 +6,26 @@ namespace Core\Support;
 class Asset
 {
     private static ?array $manifest = null;
-    private static string $devServerUrl = 'http://localhost:5173';
+
+    private static function devServerUrl(): string
+    {
+        if (defined('VITE_DEV_URL')) return VITE_DEV_URL;
+
+        $hot = get_template_directory() . '/public/build/hot';
+        if (file_exists($hot)) {
+            $url = trim((string) file_get_contents($hot));
+            if ($url !== '') return rtrim($url, '/');
+        }
+
+        return 'http://localhost:5173';
+    }
 
     public static function script(string $entry): string
     {
         if (self::isDev()) {
-            $viteClient = '<script type="module" src="' . self::$devServerUrl . '/@vite/client"></script>' . PHP_EOL;
-            $entryScript = '<script type="module" src="' . self::$devServerUrl . '/' . $entry . '"></script>';
+            $base = self::devServerUrl();
+            $viteClient  = '<script type="module" src="' . $base . '/@vite/client"></script>' . PHP_EOL;
+            $entryScript = '<script type="module" src="' . $base . '/' . $entry . '"></script>';
             return $viteClient . $entryScript;
         }
 
