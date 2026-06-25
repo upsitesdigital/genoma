@@ -1,7 +1,6 @@
 <?php
 declare(strict_types=1);
 
-use Core\Support\Asset;
 use Core\Framework\RouteResolver;
 
 // ── SEO ──────────────────────────────────────────────────────────────────────
@@ -51,13 +50,11 @@ $bootData = [
     <?php endif; ?>
 
     <?php wp_head(); ?>
-    <?= Asset::style('resources/app.tsx') ?>
 </head>
 <body <?php body_class(); ?>>
     <?php wp_body_open(); ?>
     <div id="app-root"></div>
     <script>window.FW_BOOT = <?= wp_json_encode($bootData) ?>;</script>
-    <?= Asset::script('resources/app.tsx') ?>
     <?php wp_footer(); ?>
 </body>
 </html>

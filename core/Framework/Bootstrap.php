@@ -6,6 +6,7 @@ namespace Core\Framework;
 use Core\Admin\ModuleManager;
 use Core\Admin\FormBuilder\FormCpt;
 use Core\Admin\FormBuilder\FormApi;
+use Core\Support\Asset;
 
 class Bootstrap
 {
@@ -21,6 +22,7 @@ class Bootstrap
         add_filter('template_include', [self::class,         'catchAll']);
         add_action('save_post',        [self::class,         'clearRestCache']);
         add_action('deleted_post',     [self::class,         'clearRestCache']);
+        add_action('wp_enqueue_scripts', static fn() => Asset::enqueue('resources/app.tsx'));
 
         ModuleManager::register();
         FormCpt::register();

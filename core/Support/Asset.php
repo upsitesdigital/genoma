@@ -20,30 +20,36 @@ class Asset
         return 'http://localhost:5173';
     }
 
-    public static function script(string $entry): string
+    /** Registra os assets Vite via wp_enqueue_script / wp_enqueue_style. */
+    public static function enqueue(string $entry): void
     {
         if (self::isDev()) {
             $base = self::devServerUrl();
-            $viteClient  = '<script type="module" src="' . $base . '/@vite/client"></script>' . PHP_EOL;
-            $entryScript = '<script type="module" src="' . $base . '/' . $entry . '"></script>';
-            return $viteClient . $entryScript;
+            wp_enqueue_script('vite-client', $base . '/@vite/client', [], null, false);
+            wp_enqueue_script('vite-app', $base . '/' . $entry, ['vite-client'], null, true);
+        } else {
+            $manifest = self::manifest();
+            $file = $manifest[$entry]['file'] ?? '';
+            $css  = $manifest[$entry]['css'][0] ?? '';
+
+            if ($file) {
+                wp_enqueue_script('vite-app', get_template_directory_uri() . '/public/build/' . $file, [], null, true);
+            }
+            if ($css) {
+                wp_enqueue_style('vite-app', get_template_directory_uri() . '/public/build/' . $css);
+            }
         }
 
-        $file = self::manifest()[$entry]['file'] ?? '';
-        if (!$file) return '';
-
-        return '<script type="module" src="' . get_template_directory_uri() . '/public/build/' . $file . '"></script>';
+        add_filter('script_loader_tag', [self::class, 'addModuleType'], 10, 2);
     }
 
-    public static function style(string $entry): string
+    /** @internal */
+    public static function addModuleType(string $tag, string $handle): string
     {
-        // Em dev o Vite injeta o CSS via JS — não precisa de <link>
-        if (self::isDev()) return '';
-
-        $css = self::manifest()[$entry]['css'][0] ?? '';
-        if (!$css) return '';
-
-        return '<link rel="stylesheet" href="' . get_template_directory_uri() . '/public/build/' . $css . '">';
+        if (in_array($handle, ['vite-client', 'vite-app'], true)) {
+            return str_replace('<script ', '<script type="module" ', $tag);
+        }
+        return $tag;
     }
 
     public static function isDev(): bool
