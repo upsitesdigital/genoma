@@ -26,6 +26,7 @@ class Bootstrap
         add_action('save_post',        [self::class,         'clearRestCache']);
         add_action('deleted_post',     [self::class,         'clearRestCache']);
         add_action('wp_enqueue_scripts', static fn() => Asset::enqueue('resources/app.tsx'));
+        add_action('rest_api_init',    [self::class,         'registerCoreRoutes']);
 
         ModuleManager::register();
         ThemeOptions::register();
@@ -33,6 +34,18 @@ class Bootstrap
         NonceApi::register();
         FormCpt::register();
         FormApi::register();
+    }
+
+    public static function registerCoreRoutes(): void
+    {
+        register_rest_route('framework/v1', '/route', [
+            'methods'             => 'GET',
+            'callback'            => [RouteResolver::class, 'restHandler'],
+            'permission_callback' => '__return_true',
+            'args'                => [
+                'path' => ['default' => '/', 'sanitize_callback' => 'sanitize_text_field'],
+            ],
+        ]);
     }
 
     public static function clearRestCache(): void

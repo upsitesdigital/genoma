@@ -1,17 +1,19 @@
 import { useQuery } from '@tanstack/react-query'
 import { api } from '@/lib/api'
-import { boot } from '@/lib/env'
+import { useCurrentRoute } from './useCurrentRoute'
 
 /**
  * Busca os dados de um módulo via REST.
- * Chama GET /wp-json/framework/v1/{slug} ou /{slug}/{pageId}.
+ * Resolve o pageId automaticamente via useCurrentRoute, inclusive na navegação client-side.
  */
 export function useModule<T>(slug: string, pageId?: number) {
-  const route = boot.currentRoute
-  const id = pageId ?? (route?.module === slug ? route.pageId : undefined)
+  const { data: route, isLoading: routeLoading } = useCurrentRoute()
+
+  const resolvedId = pageId ?? (route?.module === slug ? route.pageId ?? undefined : undefined)
 
   return useQuery<T>({
-    queryKey: ['module', slug, id],
-    queryFn: () => api<T>(id ? `/${slug}/${id}` : `/${slug}`),
+    queryKey: ['module', slug, resolvedId],
+    queryFn:  () => api<T>(resolvedId ? `/${slug}/${resolvedId}` : `/${slug}`),
+    enabled:  !routeLoading,
   })
 }
