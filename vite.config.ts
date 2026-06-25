@@ -3,7 +3,6 @@ import react from '@vitejs/plugin-react'
 import path from 'path'
 import { writeFileSync, rmSync, mkdirSync } from 'fs'
 
-const DEV_SERVER_URL = 'http://localhost:5173'
 const HOT_FILE = 'public/build/hot'
 
 export default defineConfig({
@@ -13,8 +12,12 @@ export default defineConfig({
       name: 'upwork-hot-file',
       configureServer(server) {
         server.httpServer?.once('listening', () => {
+          const addr = server.httpServer?.address()
+          const url = typeof addr === 'object' && addr
+            ? `http://localhost:${addr.port}`
+            : 'http://localhost:5173'
           mkdirSync('public/build', { recursive: true })
-          writeFileSync(HOT_FILE, DEV_SERVER_URL)
+          writeFileSync(HOT_FILE, url)
         })
         process.on('exit', () => { try { rmSync(HOT_FILE) } catch {} })
       },
