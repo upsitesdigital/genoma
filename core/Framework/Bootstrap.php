@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Core\Framework;
 
 use Core\Admin\ModuleManager;
+use Core\Admin\MenuApi;
 use Core\Admin\ThemeOptions;
 use Core\Admin\FormBuilder\FormCpt;
 use Core\Admin\FormBuilder\FormApi;
@@ -27,6 +28,7 @@ class Bootstrap
 
         ModuleManager::register();
         ThemeOptions::register();
+        MenuApi::register();
         FormCpt::register();
         FormApi::register();
     }
