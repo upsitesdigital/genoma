@@ -26,6 +26,7 @@ class Bootstrap
         add_action('save_post',        [self::class,         'clearRestCache']);
         add_action('deleted_post',     [self::class,         'clearRestCache']);
         add_action('wp_enqueue_scripts', static fn() => Asset::enqueue('resources/app.tsx'));
+        add_action('wp_head',          [self::class,         'injectThemeCssVars'], 1);
         add_action('rest_api_init',    [self::class,         'registerCoreRoutes']);
 
         ModuleManager::register();
@@ -34,6 +35,19 @@ class Bootstrap
         NonceApi::register();
         FormCpt::register();
         FormApi::register();
+    }
+
+    public static function injectThemeCssVars(): void
+    {
+        $opts  = get_option('upwork_theme_options', []);
+        $color = sanitize_hex_color($opts['primary_color'] ?? '');
+        if (!$color) return;
+
+        $parts = sscanf($color, '#%02x%02x%02x');
+        if (!is_array($parts) || count($parts) < 3) return;
+
+        [$r, $g, $b] = $parts;
+        echo "<style>:root{--theme-primary:{$color};--theme-primary-rgb:{$r} {$g} {$b};}</style>\n";
     }
 
     public static function registerCoreRoutes(): void
