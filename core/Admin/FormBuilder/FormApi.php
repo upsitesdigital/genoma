@@ -94,8 +94,19 @@ class FormApi
             ]);
         }
 
-        // Sanitiza todos os valores
-        $data = array_map('sanitize_text_field', $body);
+        // Sanitiza por tipo de campo
+        $fieldTypeMap = array_column($formFields, 'type', 'name');
+        $data = [];
+        foreach ($body as $key => $value) {
+            $type = $fieldTypeMap[$key] ?? 'text';
+            $data[$key] = match ($type) {
+                'textarea' => sanitize_textarea_field((string) $value),
+                'email'    => sanitize_email((string) $value),
+                'url'      => esc_url_raw((string) $value),
+                'number'   => is_numeric($value) ? (string) $value : '',
+                default    => sanitize_text_field((string) $value),
+            };
+        }
 
         // Executa as ações configuradas
         $actions = get_field('form_actions', $form->ID) ?: [];
