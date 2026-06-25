@@ -35,6 +35,7 @@ class ModuleManager
             menu_slug:   'upwork',
             callback:    [self::class, 'renderModules'],
         );
+
     }
 
     public static function handleToggle(): void

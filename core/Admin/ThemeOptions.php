@@ -16,12 +16,13 @@ class ThemeOptions
 
     public static function addMenu(): void
     {
-        add_theme_page(
-            'Opções do Tema',
-            'Opções do Tema',
-            'manage_options',
-            'upwork-theme-options',
-            [self::class, 'render']
+        add_submenu_page(
+            parent_slug: 'upwork',
+            page_title:  'Opções do Tema',
+            menu_title:  'Opções do Tema',
+            capability:  'manage_options',
+            menu_slug:   'upwork-theme-options',
+            callback:    [self::class, 'render'],
         );
     }
 
@@ -34,7 +35,7 @@ class ThemeOptions
 
     public static function enqueueMedia(string $hook): void
     {
-        if ($hook !== 'appearance_page_upwork-theme-options') return;
+        if ($hook !== 'upwork_page_upwork-theme-options') return;
         wp_enqueue_media();
     }
 
