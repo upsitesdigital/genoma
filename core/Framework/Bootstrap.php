@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Core\Framework;
 
 use Core\Admin\ModuleManager;
+use Core\Admin\ThemeOptions;
 use Core\Admin\FormBuilder\FormCpt;
 use Core\Admin\FormBuilder\FormApi;
 use Core\Support\Asset;
@@ -25,6 +26,7 @@ class Bootstrap
         add_action('wp_enqueue_scripts', static fn() => Asset::enqueue('resources/app.tsx'));
 
         ModuleManager::register();
+        ThemeOptions::register();
         FormCpt::register();
         FormApi::register();
     }
