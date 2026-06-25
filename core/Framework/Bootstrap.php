@@ -46,6 +46,10 @@ class Bootstrap
         $uri = $_SERVER['REQUEST_URI'] ?? '';
         if (str_contains($uri, '/wp-json/')) return $template;
 
+        if (is_404()) {
+            status_header(404);
+        }
+
         $shell = get_template_directory() . '/index.php';
         return file_exists($shell) ? $shell : $template;
     }
