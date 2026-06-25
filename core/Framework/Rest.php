@@ -78,7 +78,15 @@ class Rest
                 if ($cached !== false) return rest_ensure_response($cached);
             }
 
-            $result = $method->invoke($instance, $request);
+            try {
+                $result = $method->invoke($instance, $request);
+            } catch (\Throwable $e) {
+                return new \WP_Error(
+                    'fw_controller_error',
+                    $e->getMessage(),
+                    ['status' => 500]
+                );
+            }
 
             if ($cacheKey && $cache) {
                 set_transient($cacheKey, $result, $cache->ttl);
