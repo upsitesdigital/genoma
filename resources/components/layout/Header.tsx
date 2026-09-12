@@ -139,7 +139,7 @@ export default function Header() {
     setOpenSubmenus((prev) => ({ ...prev, [id]: !prev[id] }))
 
   return (
-    <header className="sticky top-0 z-40 bg-primary">
+    <header className="fixed inset-x-0 top-0 z-40 bg-transparent">
       <div className="container flex h-16 md:h-20 lg:h-[84px] items-center justify-between gap-4">
 
         {/* Logo */}
