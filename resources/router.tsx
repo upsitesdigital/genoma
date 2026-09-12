@@ -2,6 +2,9 @@ import { createBrowserRouter } from 'react-router-dom'
 import { Suspense } from 'react'
 import { modules } from './module-registry'
 import Layout from '@/components/layout/Layout'
+import { boot } from '@/lib/env'
+
+const basename = new URL(boot.siteUrl).pathname.replace(/\/$/, '')
 
 const routes = Object.entries(modules).map(([, mod]) => ({
   path: mod.path,
@@ -12,21 +15,24 @@ const routes = Object.entries(modules).map(([, mod]) => ({
   ),
 }))
 
-export const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <Layout />,
-    children: [
-      ...routes,
-      {
-        path: '*',
-        element: (
-          <div className="container py-32 text-center">
-            <h1 className="text-6xl font-bold">404</h1>
-            <p className="mt-4 text-muted-foreground">Página não encontrada.</p>
-          </div>
-        ),
-      },
-    ],
-  },
-])
+export const router = createBrowserRouter(
+  [
+    {
+      path: '/',
+      element: <Layout />,
+      children: [
+        ...routes,
+        {
+          path: '*',
+          element: (
+            <div className="container py-32 text-center">
+              <h1 className="text-6xl font-bold">404</h1>
+              <p className="mt-4 text-muted-foreground">Página não encontrada.</p>
+            </div>
+          ),
+        },
+      ],
+    },
+  ],
+  { basename }
+)
