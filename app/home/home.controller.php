@@ -493,7 +493,7 @@ final class HomeController extends Controller
         }
 
         return [
-            'eyebrow'   => (string) ($this->field($pageId, 'depoimentos_eyebrow') ?: 'Estrutura / Tecnologia'),
+            'eyebrow'   => (string) ($this->field($pageId, 'depoimentos_eyebrow') ?: 'Depoimentos'),
             'titulo'    => (string) ($this->field($pageId, 'depoimentos_titulo') ?: 'O que nossos clientes dizem'),
             'itens'     => $itens,
             'autoplay'  => (bool) ($this->field($pageId, 'depoimentos_autoplay') ?? true),
