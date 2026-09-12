@@ -53,6 +53,17 @@ modelos:
       - {nome: Estrutura, posicao: 6, link: https://www.figma.com/design/oG2OHKdDS4A2o0aFM63ywp/Genoma-Diagn%C3%B3sticos--c%C3%B3pia-?node-id=2002-1752&m=dev, descricao: "Estrutura"}
       - {nome: Depoimentos, posicao: 7, link: https://www.figma.com/design/oG2OHKdDS4A2o0aFM63ywp/Genoma-Diagn%C3%B3sticos--c%C3%B3pia-?node-id=2002-1792&m=dev, descricao: "Depoimentos"}
 
+  - nome: Veterinários
+    secoes:
+      - {nome: Hero, posicao: 1, link: https://www.figma.com/design/oG2OHKdDS4A2o0aFM63ywp/Genoma-Diagn%C3%B3sticos--c%C3%B3pia-?node-id=2006-1793&t=asiHled7riv0I6s4-0, descricao: "Hero, será um carossel"}
+      - {nome: Suporte, posicao: 2, link: https://www.figma.com/design/oG2OHKdDS4A2o0aFM63ywp/Genoma-Diagn%C3%B3sticos--c%C3%B3pia-?node-id=2006-1794&t=asiHled7riv0I6s4-0, descricao: "Suporte"}
+      - {nome: Praticidade, posicao: 3, link: https://www.figma.com/design/oG2OHKdDS4A2o0aFM63ywp/Genoma-Diagn%C3%B3sticos--c%C3%B3pia-?node-id=2006-1795&t=asiHled7riv0I6s4-0, descricao: "Praticidade"}
+      - {nome: Exames, posicao: 4, link: https://www.figma.com/design/oG2OHKdDS4A2o0aFM63ywp/Genoma-Diagn%C3%B3sticos--c%C3%B3pia-?node-id=2006-1798&t=asiHled7riv0I6s4-0, descricao: "Exames"}
+      - {nome: Estrutura, posicao: 5, link: https://www.figma.com/design/oG2OHKdDS4A2o0aFM63ywp/Genoma-Diagn%C3%B3sticos--c%C3%B3pia-?node-id=75-827&t=asiHled7riv0I6s4-0, descricao: "Estrutura"}
+      - {nome: Beneficios, posicao: 6, link: https://www.figma.com/design/oG2OHKdDS4A2o0aFM63ywp/Genoma-Diagn%C3%B3sticos--c%C3%B3pia-?node-id=2006-1797&t=asiHled7riv0I6s4-0, descricao: "Beneficios"}
+  
+
+
 
 
 
