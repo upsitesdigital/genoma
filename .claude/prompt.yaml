@@ -72,6 +72,14 @@ modelos:
       - {nome: Resultados dos exames, posicao: 6, link: https://www.figma.com/design/oG2OHKdDS4A2o0aFM63ywp/Genoma-Diagn%C3%B3sticos--c%C3%B3pia-?node-id=2009-1912&t=asiHled7riv0I6s4-0, descricao: "Resultados dos exames"}
       - {nome: Benefícios, posicao: 7, link: https://www.figma.com/design/oG2OHKdDS4A2o0aFM63ywp/Genoma-Diagn%C3%B3sticos--c%C3%B3pia-?node-id=2009-1913&t=asiHled7riv0I6s4-0, descricao: "Benefícios"}
   
+  - nome: O Genoma
+    secoes:
+      - {nome: Hero, posicao: 1, link: https://www.figma.com/design/oG2OHKdDS4A2o0aFM63ywp/Genoma-Diagn%C3%B3sticos--c%C3%B3pia-?node-id=2013-1914&t=asiHled7riv0I6s4-0, descricao: "Hero, será um carossel"}
+      - {nome: Sobre nós, posicao: 2, link: https://www.figma.com/design/oG2OHKdDS4A2o0aFM63ywp/Genoma-Diagn%C3%B3sticos--c%C3%B3pia-?node-id=2013-1915&t=asiHled7riv0I6s4-0, descricao: "Sobre nós"}
+      - {nome: Compromisso, posicao: 3, link: https://www.figma.com/design/oG2OHKdDS4A2o0aFM63ywp/Genoma-Diagn%C3%B3sticos--c%C3%B3pia-?node-id=2013-1916&t=asiHled7riv0I6s4-0, descricao: "Compromisso"}
+      - {nome: Diaginostico, posicao: 4, link: https://www.figma.com/design/oG2OHKdDS4A2o0aFM63ywp/Genoma-Diagn%C3%B3sticos--c%C3%B3pia-?node-id=2013-1917&t=asiHled7riv0I6s4-0, descricao: "Diaginostico"}
+      
+  
 
 
 

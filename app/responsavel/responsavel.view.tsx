@@ -398,7 +398,7 @@ function ExamesSection({ exames }: { exames: ResponsavelExames }) {
         className="absolute inset-0 -z-10 hidden bg-[linear-gradient(90deg,rgba(134,156,170,1)_39%,rgba(158,180,193,0)_100%)] lg:block"
       />
 
-      <div className="container relative flex flex-col gap-8 lg:h-full lg:max-w-none lg:justify-center lg:gap-10 xl:gap-12">
+      <div className="container relative flex flex-col gap-8 lg:h-full lg:justify-center lg:gap-10 xl:gap-12">
         <div className="max-w-xl space-y-3 md:space-y-4 lg:max-w-[594px]">
           {eyebrow && <p className="font-sans text-body text-white">{eyebrow}</p>}
 
