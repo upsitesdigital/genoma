@@ -35,8 +35,10 @@ final class ResponsavelController extends Controller
     private function footerCta(int $pageId): array
     {
         return [
-            'primaryLabel'   => (string) ($this->field($pageId, 'footer_cta_primario_texto') ?: 'Agendar Exame'),
+            'titulo'         => (string) ($this->field($pageId, 'footer_cta_titulo') ?: "Entre em contato com\na nossa equipe."),
+            'primaryLabel'   => (string) ($this->field($pageId, 'footer_cta_primario_texto') ?: 'Fale conosco pelo WhatsApp'),
             'primaryUrl'     => (string) ($this->field($pageId, 'footer_cta_primario_link') ?: '#'),
+            'showSecondary'  => (bool) ($this->field($pageId, 'footer_cta_mostrar_secundario') ?? false),
             'secondaryLabel' => (string) ($this->field($pageId, 'footer_cta_secundario_texto') ?: 'Fale Conosco'),
             'secondaryUrl'   => (string) ($this->field($pageId, 'footer_cta_secundario_link') ?: '#'),
         ];

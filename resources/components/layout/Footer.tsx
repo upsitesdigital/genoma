@@ -124,12 +124,14 @@ export default function Footer() {
   const watermarkUrl = `${boot.themeUrl}/resources/components/layout/assets/footer-watermark.svg`
 
   const overline = opts.footer_cta_overline || 'Fale conosco'
-  const title = opts.footer_cta_title || 'Cuidado começa com diagnóstico preciso.'
-  // O módulo da página atual pode sobrescrever o CTA do banner (ex: "Quero ser
-  // parceiro" em Veterinários vs "Agendar Exame" na Home) — cai pro padrão
-  // global de Opções do Tema quando o módulo não define nada.
+  // O módulo da página atual pode sobrescrever título, CTAs e a quantidade de
+  // botões do banner (ex: 1 botão "Fale conosco pelo WhatsApp" em Responsável
+  // vs 2 botões em Home/Veterinários) — cai pro padrão global de Opções do
+  // Tema quando o módulo não define nada.
+  const title = ctaOverride?.titulo || opts.footer_cta_title || 'Cuidado começa com diagnóstico preciso.'
   const primaryLabel = ctaOverride?.primaryLabel || opts.footer_cta_primary_label || 'Agendar Exame'
   const primaryUrl = ctaOverride?.primaryUrl || opts.footer_cta_primary_url || '#'
+  const showSecondary = ctaOverride?.showSecondary ?? true
   const secondaryLabel = ctaOverride?.secondaryLabel || opts.footer_cta_secondary_label || 'Fale Conosco'
   const secondaryUrl = ctaOverride?.secondaryUrl || opts.footer_cta_secondary_url || '#'
 
@@ -164,11 +166,19 @@ export default function Footer() {
         <div className="relative z-10 -mt-10 flex flex-col gap-8 rounded-2xl bg-white p-6 shadow-lg md:-mt-14 md:p-8 lg:-mt-16 lg:flex-row lg:items-end lg:justify-between lg:gap-6 lg:p-10">
           <div className="flex max-w-xl flex-col gap-2">
             <span className="text-body font-normal text-accent">{overline}</span>
-            <h2 className="text-h4 text-brand-purple-dark md:text-h3 lg:text-h2">{title}</h2>
+            <h2 className="text-h4 text-brand-purple-dark md:text-h3 lg:text-h2">
+              {title.split('\n').map((line, i) => (
+                <span key={i} className="block">{line}</span>
+              ))}
+            </h2>
           </div>
           <div className="flex flex-wrap items-center gap-3 md:gap-4">
-            <CtaBannerButton label={primaryLabel} url={primaryUrl} variant="outline" />
-            <CtaBannerButton label={secondaryLabel} url={secondaryUrl} variant="filled" />
+            {/* Com 1 botão só (showSecondary=false), o Figma usa o estilo preenchido —
+                o contornado só existe pra diferenciar do preenchido quando há 2. */}
+            <CtaBannerButton label={primaryLabel} url={primaryUrl} variant={showSecondary ? 'outline' : 'filled'} />
+            {showSecondary && (
+              <CtaBannerButton label={secondaryLabel} url={secondaryUrl} variant="filled" />
+            )}
           </div>
         </div>
       </div>

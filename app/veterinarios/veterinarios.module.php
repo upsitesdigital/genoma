@@ -413,6 +413,15 @@ final class VeterinariosModule extends Module
 
                 // ── Rodapé (sobrescreve o CTA do banner só nesta página) ───
                 [
+                    'key'           => 'field_veterinarios_footer_cta_titulo',
+                    'name'          => 'footer_cta_titulo',
+                    'label'         => 'Rodapé — CTA Título',
+                    'type'          => 'textarea',
+                    'rows'          => 2,
+                    'instructions'  => 'Sobrescreve o título do banner de CTA do rodapé só nesta página. Deixe em branco para usar o padrão de Opções do Tema.',
+                    'default_value' => 'Cuidado começa com diagnóstico preciso.',
+                ],
+                [
                     'key'           => 'field_veterinarios_footer_cta_primario_texto',
                     'name'          => 'footer_cta_primario_texto',
                     'label'         => 'Rodapé — CTA Primário (Texto)',
@@ -428,18 +437,44 @@ final class VeterinariosModule extends Module
                     'default_value' => '#',
                 ],
                 [
-                    'key'           => 'field_veterinarios_footer_cta_secundario_texto',
-                    'name'          => 'footer_cta_secundario_texto',
-                    'label'         => 'Rodapé — CTA Secundário (Texto)',
-                    'type'          => 'text',
-                    'default_value' => 'Fale Conosco',
+                    'key'           => 'field_veterinarios_footer_cta_mostrar_secundario',
+                    'name'          => 'footer_cta_mostrar_secundario',
+                    'label'         => 'Rodapé — Mostrar Botão Secundário',
+                    'type'          => 'true_false',
+                    'ui'            => 1,
+                    'default_value' => 1,
                 ],
                 [
-                    'key'           => 'field_veterinarios_footer_cta_secundario_link',
-                    'name'          => 'footer_cta_secundario_link',
-                    'label'         => 'Rodapé — CTA Secundário (Link)',
-                    'type'          => 'url',
-                    'default_value' => '#',
+                    'key'               => 'field_veterinarios_footer_cta_secundario_texto',
+                    'name'              => 'footer_cta_secundario_texto',
+                    'label'             => 'Rodapé — CTA Secundário (Texto)',
+                    'type'              => 'text',
+                    'default_value'     => 'Fale Conosco',
+                    'conditional_logic' => [
+                        [
+                            [
+                                'field'    => 'field_veterinarios_footer_cta_mostrar_secundario',
+                                'operator' => '==',
+                                'value'    => '1',
+                            ],
+                        ],
+                    ],
+                ],
+                [
+                    'key'               => 'field_veterinarios_footer_cta_secundario_link',
+                    'name'              => 'footer_cta_secundario_link',
+                    'label'             => 'Rodapé — CTA Secundário (Link)',
+                    'type'              => 'url',
+                    'default_value'     => '#',
+                    'conditional_logic' => [
+                        [
+                            [
+                                'field'    => 'field_veterinarios_footer_cta_mostrar_secundario',
+                                'operator' => '==',
+                                'value'    => '1',
+                            ],
+                        ],
+                    ],
                 ],
             ],
         ]);

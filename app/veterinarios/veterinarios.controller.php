@@ -34,8 +34,10 @@ final class VeterinariosController extends Controller
     private function footerCta(int $pageId): array
     {
         return [
+            'titulo'         => (string) ($this->field($pageId, 'footer_cta_titulo') ?: 'Cuidado começa com diagnóstico preciso.'),
             'primaryLabel'   => (string) ($this->field($pageId, 'footer_cta_primario_texto') ?: 'Quero ser parceiro'),
             'primaryUrl'     => (string) ($this->field($pageId, 'footer_cta_primario_link') ?: '#'),
+            'showSecondary'  => (bool) ($this->field($pageId, 'footer_cta_mostrar_secundario') ?? true),
             'secondaryLabel' => (string) ($this->field($pageId, 'footer_cta_secundario_texto') ?: 'Fale Conosco'),
             'secondaryUrl'   => (string) ($this->field($pageId, 'footer_cta_secundario_link') ?: '#'),
         ];
