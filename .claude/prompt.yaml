@@ -93,6 +93,7 @@ modelos:
     secoes:
       - {nome: Hero, posicao: 1, link: , descricao: "Hero"}
       - {nome: Conteudo do post, posicao: 2, link: , descricao: "Conteudo do post, criar todas as variações de conteudo de post do editor padrão do WP"}
+      - {nome: Veja também, posicao: 3, link: https://www.figma.com/design/EM2aHMZXvuuimrxIjjKn0y/Genoma-Diagn%C3%B3sticos?node-id=149-2034&t=3iFy1ZvwSs79Alu1-0, descricao: "Veja também"}
       
   
   
