@@ -3,7 +3,13 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useModule } from '@/hooks/useModule'
 import { useDocumentTitle } from '@/hooks/useDocumentTitle'
 import { cn } from '@/lib/cn'
-import type { OGenomaData, OGenomaHeroSlide } from './o-genoma.schema'
+import type {
+  OGenomaCompromisso,
+  OGenomaData,
+  OGenomaDiagnostico,
+  OGenomaHeroSlide,
+  OGenomaSobre,
+} from './o-genoma.schema'
 
 export default function OGenomaView() {
   const { data, isLoading, error } = useModule<OGenomaData>('o-genoma')
@@ -22,6 +28,9 @@ export default function OGenomaView() {
   return (
     <main>
       <HeroCarousel hero={data.hero} />
+      <SobreSection sobre={data.sobre} />
+      <CompromissoSection compromisso={data.compromisso} />
+      <DiagnosticoSection diagnostico={data.diagnostico} />
     </main>
   )
 }
@@ -156,6 +165,198 @@ function SlideContent({ slide }: { slide: OGenomaHeroSlide }) {
   )
 }
 
+// ─── Sobre nós ────────────────────────────────────────────────────────────────
+
+function SobreSection({ sobre }: { sobre: OGenomaSobre }) {
+  const { eyebrow, titulo, texto, destaque } = sobre
+
+  if (!eyebrow && !titulo && !texto && !destaque) return null
+
+  return (
+    <section className="w-full bg-background py-16 sm:py-20 md:py-24 xl:py-28">
+      <div className="container">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_351px] lg:gap-16 xl:gap-24">
+          <div>
+            {eyebrow && <p className="font-sans text-body text-brand-purple-accent">{eyebrow}</p>}
+
+            {titulo && (
+              <h2 className="mt-2 max-w-[560px] font-heading text-h3 text-brand-purple-dark md:text-h2">
+                {titulo}
+              </h2>
+            )}
+
+            {texto && (
+              <div className="mt-6 max-w-[620px] space-y-4 font-sans text-body-lg leading-relaxed text-brand-gray-text md:mt-8">
+                {texto.split('\n\n').map((paragrafo, i) => (
+                  <p key={i}>{paragrafo}</p>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {destaque && (
+            <div className="flex flex-col gap-6 lg:mt-[19px] lg:gap-10">
+              <hr className="border-t border-brand-purple" />
+              <h3 className="font-heading text-h4 text-brand-purple-dark">
+                {destaque.split('\n').map((line, i) => (
+                  <span key={i} className="block">
+                    {line}
+                  </span>
+                ))}
+              </h3>
+              <hr className="border-t border-brand-purple" />
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function SobreSkeleton() {
+  return (
+    <section className="w-full bg-background py-16 sm:py-20 md:py-24 xl:py-28">
+      <div className="container">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_351px] lg:gap-16 xl:gap-24">
+          <div className="space-y-4">
+            <div className="h-5 w-24 animate-pulse rounded bg-foreground/10" />
+            <div className="h-9 w-full max-w-[560px] animate-pulse rounded bg-foreground/10" />
+            <div className="mt-4 h-24 w-full max-w-[620px] animate-pulse rounded bg-foreground/10" />
+          </div>
+          <div className="space-y-4">
+            <div className="h-px w-full animate-pulse bg-foreground/10" />
+            <div className="h-16 w-full animate-pulse rounded bg-foreground/10" />
+            <div className="h-px w-full animate-pulse bg-foreground/10" />
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+// ─── Compromisso ────────────────────────────────────────────────────────────
+
+function CompromissoSection({ compromisso }: { compromisso: OGenomaCompromisso }) {
+  const { eyebrow, titulo, texto, imagem } = compromisso
+
+  if (!eyebrow && !titulo && !texto) return null
+
+  return (
+    <section className="relative isolate w-full overflow-hidden py-16 sm:py-20 md:py-24 xl:py-28">
+      <img
+        src={imagem.src}
+        alt={imagem.alt}
+        className="absolute inset-0 -z-20 h-full w-full object-cover"
+      />
+      {/* Overlay mobile/tablet: escurece de cima para baixo para garantir legibilidade */}
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-black/70 via-black/40 to-black/10 md:hidden" />
+      {/* Overlay desktop: gradiente horizontal fiel ao Figma */}
+      <div
+        className="absolute inset-0 -z-10 hidden md:block"
+        style={{ background: 'linear-gradient(90deg, rgba(133,156,169,1) 50%, rgba(158,180,193,0) 89%)' }}
+      />
+
+      <div className="container">
+        <div className="flex max-w-[594px] flex-col gap-6 md:gap-10">
+          <div className="flex flex-col gap-2">
+            {eyebrow && <p className="font-sans text-body text-white">{eyebrow}</p>}
+
+            {titulo && (
+              <h2 className="max-w-[581px] font-heading text-h3 text-white md:text-h2">
+                {titulo.split('\n').map((line, i) => (
+                  <span key={i} className="block">
+                    {line}
+                  </span>
+                ))}
+              </h2>
+            )}
+          </div>
+
+          {texto && <p className="font-sans text-body-lg leading-relaxed text-white/80">{texto}</p>}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function CompromissoSkeleton() {
+  return (
+    <section className="relative isolate w-full overflow-hidden bg-muted py-16 sm:py-20 md:py-24 xl:py-28">
+      <div className="container">
+        <div className="max-w-[594px] space-y-4">
+          <div className="h-5 w-28 animate-pulse rounded bg-foreground/10" />
+          <div className="h-9 w-full animate-pulse rounded bg-foreground/10" />
+          <div className="mt-4 h-20 w-full animate-pulse rounded bg-foreground/10" />
+        </div>
+      </div>
+    </section>
+  )
+}
+
+// ─── Diaginostico (posição 4, última seção) ──────────────────────────────────
+
+function DiagnosticoSection({ diagnostico }: { diagnostico: OGenomaDiagnostico }) {
+  const { titulo, texto, destaque } = diagnostico
+
+  if (!titulo && !texto && !destaque) return null
+
+  return (
+    <section className="w-full bg-background py-16 sm:py-20 md:py-24 xl:py-28">
+      <div className="container">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_351px] lg:gap-16 xl:gap-24">
+          <div>
+            {titulo && (
+              <h2 className="max-w-[560px] font-heading text-h3 text-brand-purple-dark md:text-h2">
+                {titulo.split('\n').map((line, i) => (
+                  <span key={i} className="block">
+                    {line}
+                  </span>
+                ))}
+              </h2>
+            )}
+
+            {texto && (
+              <div className="mt-6 max-w-[620px] space-y-4 font-sans text-body-lg leading-relaxed text-brand-gray-text md:mt-8">
+                {texto.split('\n\n').map((paragrafo, i) => (
+                  <p key={i}>{paragrafo}</p>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {destaque && (
+            <div className="flex flex-col gap-6 lg:gap-10">
+              <hr className="border-t border-brand-purple" />
+              <p className="font-sans text-body-lg leading-relaxed text-brand-purple-dark">{destaque}</p>
+              <hr className="border-t border-brand-purple" />
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function DiagnosticoSkeleton() {
+  return (
+    <section className="w-full bg-background py-16 sm:py-20 md:py-24 xl:py-28">
+      <div className="container">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_351px] lg:gap-16 xl:gap-24">
+          <div className="space-y-4">
+            <div className="h-9 w-full max-w-[560px] animate-pulse rounded bg-foreground/10" />
+            <div className="mt-4 h-24 w-full max-w-[620px] animate-pulse rounded bg-foreground/10" />
+          </div>
+          <div className="space-y-4">
+            <div className="h-px w-full animate-pulse bg-foreground/10" />
+            <div className="h-16 w-full animate-pulse rounded bg-foreground/10" />
+            <div className="h-px w-full animate-pulse bg-foreground/10" />
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
 function OGenomaSkeleton() {
   return (
     <main>
@@ -179,6 +380,9 @@ function OGenomaSkeleton() {
           </div>
         </div>
       </section>
+      <SobreSkeleton />
+      <CompromissoSkeleton />
+      <DiagnosticoSkeleton />
     </main>
   )
 }

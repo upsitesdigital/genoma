@@ -78,7 +78,19 @@ modelos:
       - {nome: Sobre nós, posicao: 2, link: https://www.figma.com/design/oG2OHKdDS4A2o0aFM63ywp/Genoma-Diagn%C3%B3sticos--c%C3%B3pia-?node-id=2013-1915&t=asiHled7riv0I6s4-0, descricao: "Sobre nós"}
       - {nome: Compromisso, posicao: 3, link: https://www.figma.com/design/oG2OHKdDS4A2o0aFM63ywp/Genoma-Diagn%C3%B3sticos--c%C3%B3pia-?node-id=2013-1916&t=asiHled7riv0I6s4-0, descricao: "Compromisso"}
       - {nome: Diaginostico, posicao: 4, link: https://www.figma.com/design/oG2OHKdDS4A2o0aFM63ywp/Genoma-Diagn%C3%B3sticos--c%C3%B3pia-?node-id=2013-1917&t=asiHled7riv0I6s4-0, descricao: "Diaginostico"}
+  
+  - nome: Contato
+    secoes:
+      - {nome: Hero, posicao: 1, link: https://www.figma.com/design/EM2aHMZXvuuimrxIjjKn0y/Genoma-Diagn%C3%B3sticos?node-id=298-1270&t=3iFy1ZvwSs79Alu1-0, descricao: "Hero, será um carossel"}
+      - {nome: Lista de contatos, posicao: 2, link: https://www.figma.com/design/EM2aHMZXvuuimrxIjjKn0y/Genoma-Diagn%C3%B3sticos?node-id=157-1549&t=3iFy1ZvwSs79Alu1-0, descricao: "Lista de contatos"}
+  
+  - nome: Blog
+    secoes:
+      - {nome: Hero, posicao: 1, link: https://www.figma.com/design/EM2aHMZXvuuimrxIjjKn0y/Genoma-Diagn%C3%B3sticos?node-id=298-1272&t=3iFy1ZvwSs79Alu1-0, descricao: "Hero, será um carossel"}
+      - {nome: Lista de post, posicao: 2, link: https://www.figma.com/design/EM2aHMZXvuuimrxIjjKn0y/Genoma-Diagn%C3%B3sticos?node-id=298-1273&t=3iFy1ZvwSs79Alu1-0, descricao: "Lista de post"}
       
+  
+  
   
 
 

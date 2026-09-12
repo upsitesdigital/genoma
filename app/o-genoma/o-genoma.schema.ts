@@ -1,3 +1,5 @@
+import type { FooterCtaOverride } from '@/lib/footer-cta'
+
 export interface OGenomaImage {
   src: string
   alt: string
@@ -20,6 +22,30 @@ export interface OGenomaHero {
   intervalo: number
 }
 
+export interface OGenomaSobre {
+  eyebrow: string
+  titulo: string
+  texto: string
+  destaque: string
+}
+
+export interface OGenomaCompromisso {
+  eyebrow: string
+  titulo: string
+  texto: string
+  imagem: OGenomaImage
+}
+
+export interface OGenomaDiagnostico {
+  titulo: string
+  texto: string
+  destaque: string
+}
+
 export interface OGenomaData {
   hero: OGenomaHero
+  sobre: OGenomaSobre
+  compromisso: OGenomaCompromisso
+  diagnostico: OGenomaDiagnostico
+  footerCta: FooterCtaOverride
 }
