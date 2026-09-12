@@ -81,13 +81,18 @@ modelos:
   
   - nome: Contato
     secoes:
-      - {nome: Hero, posicao: 1, link: https://www.figma.com/design/EM2aHMZXvuuimrxIjjKn0y/Genoma-Diagn%C3%B3sticos?node-id=298-1270&t=3iFy1ZvwSs79Alu1-0, descricao: "Hero, será um carossel"}
+      - {nome: Hero, posicao: 1, link: https://www.figma.com/design/EM2aHMZXvuuimrxIjjKn0y/Genoma-Diagn%C3%B3sticos?node-id=298-1270&t=3iFy1ZvwSs79Alu1-0, descricao: "Hero"}
       - {nome: Lista de contatos, posicao: 2, link: https://www.figma.com/design/EM2aHMZXvuuimrxIjjKn0y/Genoma-Diagn%C3%B3sticos?node-id=157-1549&t=3iFy1ZvwSs79Alu1-0, descricao: "Lista de contatos"}
   
   - nome: Blog
     secoes:
-      - {nome: Hero, posicao: 1, link: https://www.figma.com/design/EM2aHMZXvuuimrxIjjKn0y/Genoma-Diagn%C3%B3sticos?node-id=298-1272&t=3iFy1ZvwSs79Alu1-0, descricao: "Hero, será um carossel"}
+      - {nome: Hero, posicao: 1, link: https://www.figma.com/design/EM2aHMZXvuuimrxIjjKn0y/Genoma-Diagn%C3%B3sticos?node-id=298-1272&t=3iFy1ZvwSs79Alu1-0, descricao: "Hero"}
       - {nome: Lista de post, posicao: 2, link: https://www.figma.com/design/EM2aHMZXvuuimrxIjjKn0y/Genoma-Diagn%C3%B3sticos?node-id=298-1273&t=3iFy1ZvwSs79Alu1-0, descricao: "Lista de post"}
+  
+  - nome: Single post
+    secoes:
+      - {nome: Hero, posicao: 1, link: , descricao: "Hero"}
+      - {nome: Conteudo do post, posicao: 2, link: , descricao: "Conteudo do post, criar todas as variações de conteudo de post do editor padrão do WP"}
       
   
   

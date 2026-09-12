@@ -6,6 +6,10 @@ interface ModuleEntry {
 }
 
 export const modules: Record<string, ModuleEntry> = {
+  'contato': {
+    path: '/contato',
+    component: lazy(() => import('@/../app/contato/contato.view')),
+  },
   'home': {
     path: '/',
     component: lazy(() => import('@/../app/home/home.view')),
