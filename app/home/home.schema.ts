@@ -1,3 +1,5 @@
+import type { FooterCtaOverride } from '@/lib/footer-cta'
+
 export interface HomeImage {
   src: string
   alt: string
@@ -114,4 +116,5 @@ export interface HomeData {
   diferenciais: HomeDiferenciais
   estrutura: HomeEstrutura
   depoimentos: HomeDepoimentos
+  footerCta: FooterCtaOverride
 }

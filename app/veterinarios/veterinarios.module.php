@@ -410,6 +410,37 @@ final class VeterinariosModule extends Module
                         ],
                     ],
                 ],
+
+                // ── Rodapé (sobrescreve o CTA do banner só nesta página) ───
+                [
+                    'key'           => 'field_veterinarios_footer_cta_primario_texto',
+                    'name'          => 'footer_cta_primario_texto',
+                    'label'         => 'Rodapé — CTA Primário (Texto)',
+                    'type'          => 'text',
+                    'instructions'  => 'Sobrescreve o texto do botão principal do banner de CTA do rodapé só nesta página. Deixe em branco para usar o padrão de Opções do Tema.',
+                    'default_value' => 'Quero ser parceiro',
+                ],
+                [
+                    'key'           => 'field_veterinarios_footer_cta_primario_link',
+                    'name'          => 'footer_cta_primario_link',
+                    'label'         => 'Rodapé — CTA Primário (Link)',
+                    'type'          => 'url',
+                    'default_value' => '#',
+                ],
+                [
+                    'key'           => 'field_veterinarios_footer_cta_secundario_texto',
+                    'name'          => 'footer_cta_secundario_texto',
+                    'label'         => 'Rodapé — CTA Secundário (Texto)',
+                    'type'          => 'text',
+                    'default_value' => 'Fale Conosco',
+                ],
+                [
+                    'key'           => 'field_veterinarios_footer_cta_secundario_link',
+                    'name'          => 'footer_cta_secundario_link',
+                    'label'         => 'Rodapé — CTA Secundário (Link)',
+                    'type'          => 'url',
+                    'default_value' => '#',
+                ],
             ],
         ]);
     }

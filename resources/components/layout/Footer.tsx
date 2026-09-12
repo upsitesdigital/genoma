@@ -3,6 +3,8 @@ import { useQuery } from '@tanstack/react-query'
 import { api } from '@/lib/api'
 import { boot } from '@/lib/env'
 import { cn } from '@/lib/cn'
+import { useCurrentRoute } from '@/hooks/useCurrentRoute'
+import type { FooterCtaOverride } from '@/lib/footer-cta'
 
 interface MenuItem {
   id: number
@@ -45,6 +47,23 @@ function resolveHref(url: string): string {
 
 function isExternal(url: string): boolean {
   return url.startsWith('http') && !url.startsWith(boot.siteUrl)
+}
+
+// ─── Override do CTA do rodapé pela página atual ─────────────────────────────
+// Mesma queryKey que useModule(slug) usaria — reaproveita o cache, sem fetch duplicado.
+
+function useFooterCtaOverride(): FooterCtaOverride | undefined {
+  const { data: route } = useCurrentRoute()
+  const slug = route?.module
+  const pageId = route?.pageId ?? undefined
+
+  const { data } = useQuery<{ footerCta?: FooterCtaOverride }>({
+    queryKey: ['module', slug, pageId],
+    queryFn: () => api<{ footerCta?: FooterCtaOverride }>(pageId ? `/${slug}/${pageId}` : `/${slug}`),
+    enabled: !!slug,
+  })
+
+  return data?.footerCta
 }
 
 // ─── FooterNavLink (itens do menu WP `footer`) ───────────────────────────────
@@ -98,6 +117,7 @@ function FooterContatoLink({ label, url }: { label: string; url: string }) {
 export default function Footer() {
   const opts = boot.themeOptions as ThemeOptions
   const year = new Date().getFullYear()
+  const ctaOverride = useFooterCtaOverride()
 
   const logoUrl = opts.logo_url || `${boot.themeUrl}/resources/components/layout/assets/header-logo.svg`
   const ctaImageUrl = opts.footer_cta_image_url || `${boot.themeUrl}/resources/components/layout/assets/footer-cta-photo.png`
@@ -105,10 +125,13 @@ export default function Footer() {
 
   const overline = opts.footer_cta_overline || 'Fale conosco'
   const title = opts.footer_cta_title || 'Cuidado começa com diagnóstico preciso.'
-  const primaryLabel = opts.footer_cta_primary_label || 'Agendar Exame'
-  const primaryUrl = opts.footer_cta_primary_url || '#'
-  const secondaryLabel = opts.footer_cta_secondary_label || 'Fale Conosco'
-  const secondaryUrl = opts.footer_cta_secondary_url || '#'
+  // O módulo da página atual pode sobrescrever o CTA do banner (ex: "Quero ser
+  // parceiro" em Veterinários vs "Agendar Exame" na Home) — cai pro padrão
+  // global de Opções do Tema quando o módulo não define nada.
+  const primaryLabel = ctaOverride?.primaryLabel || opts.footer_cta_primary_label || 'Agendar Exame'
+  const primaryUrl = ctaOverride?.primaryUrl || opts.footer_cta_primary_url || '#'
+  const secondaryLabel = ctaOverride?.secondaryLabel || opts.footer_cta_secondary_label || 'Fale Conosco'
+  const secondaryUrl = ctaOverride?.secondaryUrl || opts.footer_cta_secondary_url || '#'
 
   const contatoLabel = opts.cta_secondary_label || 'Contato'
   const contatoUrl = opts.cta_secondary_url || '#'

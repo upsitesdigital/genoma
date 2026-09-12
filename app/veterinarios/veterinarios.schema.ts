@@ -1,3 +1,5 @@
+import type { FooterCtaOverride } from '@/lib/footer-cta'
+
 export interface VeterinariosImage {
   src: string
   alt: string
@@ -86,4 +88,5 @@ export interface VeterinariosData {
   exames: VeterinariosExames
   estrutura: VeterinariosEstrutura
   beneficios: VeterinariosBeneficios
+  footerCta: FooterCtaOverride
 }

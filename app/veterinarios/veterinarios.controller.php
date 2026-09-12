@@ -23,6 +23,21 @@ final class VeterinariosController extends Controller
             'exames'      => $this->exames($pageId),
             'estrutura'   => $this->estrutura($pageId),
             'beneficios'  => $this->beneficios($pageId),
+            'footerCta'   => $this->footerCta($pageId),
+        ];
+    }
+
+    /**
+     * Sobrescreve o CTA do banner do rodapé só nesta página (Footer.tsx cai
+     * pro padrão de Opções do Tema quando os campos ficam em branco).
+     */
+    private function footerCta(int $pageId): array
+    {
+        return [
+            'primaryLabel'   => (string) ($this->field($pageId, 'footer_cta_primario_texto') ?: 'Quero ser parceiro'),
+            'primaryUrl'     => (string) ($this->field($pageId, 'footer_cta_primario_link') ?: '#'),
+            'secondaryLabel' => (string) ($this->field($pageId, 'footer_cta_secundario_texto') ?: 'Fale Conosco'),
+            'secondaryUrl'   => (string) ($this->field($pageId, 'footer_cta_secundario_link') ?: '#'),
         ];
     }
 

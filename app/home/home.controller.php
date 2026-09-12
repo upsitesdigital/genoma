@@ -24,6 +24,21 @@ final class HomeController extends Controller
             'diferenciais' => $this->diferenciais($pageId),
             'estrutura'    => $this->estrutura($pageId),
             'depoimentos'  => $this->depoimentos($pageId),
+            'footerCta'    => $this->footerCta($pageId),
+        ];
+    }
+
+    /**
+     * Sobrescreve o CTA do banner do rodapé só nesta página (Footer.tsx cai
+     * pro padrão de Opções do Tema quando os campos ficam em branco).
+     */
+    private function footerCta(int $pageId): array
+    {
+        return [
+            'primaryLabel'   => (string) ($this->field($pageId, 'footer_cta_primario_texto') ?: 'Agendar Exame'),
+            'primaryUrl'     => (string) ($this->field($pageId, 'footer_cta_primario_link') ?: '#'),
+            'secondaryLabel' => (string) ($this->field($pageId, 'footer_cta_secundario_texto') ?: 'Fale Conosco'),
+            'secondaryUrl'   => (string) ($this->field($pageId, 'footer_cta_secundario_link') ?: '#'),
         ];
     }
 
