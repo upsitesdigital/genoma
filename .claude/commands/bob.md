@@ -193,28 +193,30 @@ function {Pascal}Skeleton() {
 ## Fluxo obrigatório
 
 ### 1. Buscar o design no Figma
-Sempre chamar `get_design_context` primeiro com o link recebido — ele retorna React com layout, tipografia, cores, espaçamentos e conteúdo.
+Sempre chamar `mcp__figma__get_figma_data` primeiro com o `fileKey` e o `nodeId` extraídos do link recebido (URL no formato `figma.com/design/{fileKey}/...?node-id={nodeId}`, onde o `node-id` da URL usa `-` no lugar de `:`) — ele retorna a árvore do node com layout, tipografia, cores, espaçamentos e conteúdo.
 
-Se necessário também usar:
-- `get_screenshot` — referência visual para layouts complexos
-- `get_variable_defs` — tokens de design (cores, tipografia)
-- `download_assets` — imagens e ícones
+Se necessário baixar imagens/ícones referenciados nessa árvore, usar `mcp__figma__download_figma_images` (recebe `fileKey`, a lista de `nodes` com `nodeId`/`fileName`, e `localPath`).
+
+Não existe ferramenta de screenshot nem de tokens de variáveis separada neste servidor MCP (`figma-developer-mcp`) — cores, tipografia e espaçamento vêm todos dentro da resposta de `get_figma_data`.
 
 ### 2. Decidir escopo
 - **Frame é página completa / nova rota** → criar novo módulo: `composer fw:make:module {slug}`
 - **Frame é uma seção de página existente** → atualizar os arquivos do módulo existente
+- **Item veio de um orquestrador (ex: `c3po`) marcado como componente compartilhado, header/footer ou setup** → ignore as duas opções acima e siga só as instruções específicas que vieram junto (essas não passam pelo fluxo de módulo de 4 arquivos)
 - Em caso de dúvida, perguntar antes de implementar
 
 ### 3. Implementar os 4 arquivos
 Gerar todos os arquivos com o conteúdo do Figma como padrão.
 
 ### 4. Baixar assets do Figma
-- Usar `download_assets` ou URLs do `get_design_context`
+- Usar `mcp__figma__download_figma_images` (nodeId de cada imagem/ícone vem da árvore retornada por `get_figma_data`)
 - Salvar em: `app/{slug}/assets/{secao}-{descricao}.webp`
 - Referenciar no controller como fallback e no view como src padrão
 - Nunca deixar URLs hotlinkadas do Figma no código final
 
 ### 5. Sincronizar e buildar
+Pule este passo por completo se as instruções recebidas vierem de um orquestrador (ex: `c3po`) dizendo para não buildar — quem builda nesse caso é o orquestrador, ao fechar cada marco.
+
 ```bash
 # Somente se módulo novo:
 composer fw:sync-modules
@@ -250,7 +252,7 @@ Ajustar por viewport: direção do layout, colunas do grid, tamanhos de fonte, e
 
 ## Checklist de validação (executar sempre)
 
-- [ ] `npm run build` sem erros TypeScript
+- [ ] `npm run build` sem erros TypeScript (pule se um orquestrador disse pra não buildar — nesse caso valide só com `tsc --noEmit`)
 - [ ] 4 arquivos criados/atualizados
 - [ ] Keys ACF únicas seguindo `field_{slug}_{nome}`
 - [ ] Controller retorna todos os campos do schema

@@ -1,0 +1,90 @@
+# prompt-template.yaml
+# Substitui o prompt.md em texto livre. Mesma informação, ~40-60% menos tokens
+# e sem ambiguidade de parsing (chaves fixas em vez de rótulos repetidos por seção).
+
+projeto:
+  tipo: custom-theme
+  skills: [wordpress, acf]
+  link admin: http://localhost/projetos/genoma/site/wp-login.php
+  user admin: admin
+  senha admin: admin
+
+setup:
+  card: https://www.figma.com/design/oG2OHKdDS4A2o0aFM63ywp/Genoma-Diagn%C3%B3sticos--c%C3%B3pia-?node-id=2002-1474&m=dev       # link do card (fontes, cores primárias)
+  header: https://www.figma.com/design/oG2OHKdDS4A2o0aFM63ywp/Genoma-Diagn%C3%B3sticos--c%C3%B3pia-?node-id=2002-1359&m=dev      # link do header no Figma
+  footer: https://www.figma.com/design/oG2OHKdDS4A2o0aFM63ywp/Genoma-Diagn%C3%B3sticos--c%C3%B3pia-?node-id=2002-1472&m=dev     # link do footer no Figma
+
+# Componentes cujo LAYOUT/HTML/CSS se repete entre modelos, mas o CONTEÚDO
+# muda por página (ex: CTA "Fale com um especialista" com texto/botão
+# diferentes em cada página). t1000 constrói a estrutura 1x (a partir do
+# `link` canônico abaixo, com loop de fidelidade completo) e vira
+# template-part reusado. Cada ocorrência nas seções de um modelo usa:
+#   {nome: ..., posicao: N, componente: <id>, link: <link da MESMA seção
+#    nessa página, só pra puxar o conteúdo>, descricao: "..."}
+# t1000 ainda roda por ocorrência, mas sem loop de fidelidade e sem buscar a
+# árvore completa do Figma — só os nós de texto do `link` daquela ocorrência.
+# componentes_compartilhados:
+#   - id: CTA
+#     descricao: "CTA"
+#     link:   
+
+# Seções flexíveis (ACF Flexible Content): quando várias seções de posição
+# fixa deveriam virar blocos que o editor pode adicionar/remover/reordenar
+# livremente numa única página (ex: os blocos de conteúdo de um case, que
+# variam de case pra case), troque a lista fixa por uma seção com
+# `flexible: true` e uma lista `layouts:` — cada layout é um tipo de bloco
+# possível (com seu próprio link/descricao). t1000 constrói o HTML/CSS de
+# cada layout (cada um com seu loop de fidelidade, como uma seção normal) e
+# empacota tudo num manifesto único de campo `flexible_content`. t800
+# registra **1 campo flexible content com N layouts** (não N field groups
+# soltos). No admin, o editor escolhe qual layout adicionar em cada posição
+# do repeater. Diferente de `componente:` (que reusa a MESMA seção entre
+# páginas) — aqui os layouts convivem dentro de uma única seção, na mesma
+# página.
+
+modelos:
+  - nome: home
+    secoes:
+      - {nome: Hero, posicao: 1, link: https://www.figma.com/design/oG2OHKdDS4A2o0aFM63ywp/Genoma-Diagn%C3%B3sticos--c%C3%B3pia-?node-id=2002-1495&m=dev, descricao: "Hero, será um carossel"}
+      - {nome: Serviços, posicao: 2, link: https://www.figma.com/design/oG2OHKdDS4A2o0aFM63ywp/Genoma-Diagn%C3%B3sticos--c%C3%B3pia-?node-id=2002-1564&m=dev, descricao: "Serviços"}
+      - {nome: Exames, posicao: 3, link: https://www.figma.com/design/oG2OHKdDS4A2o0aFM63ywp/Genoma-Diagn%C3%B3sticos--c%C3%B3pia-?node-id=2002-1566&m=dev, descricao: "Exames, os itens são slide toggle"}
+      - {nome: Sobre o genoma, posicao: 4, link: https://www.figma.com/design/oG2OHKdDS4A2o0aFM63ywp/Genoma-Diagn%C3%B3sticos--c%C3%B3pia-?node-id=2002-1657&m=dev, descricao: "Sobre o genoma"}
+      - {nome: Diferenciais, posicao: 5, link: https://www.figma.com/design/oG2OHKdDS4A2o0aFM63ywp/Genoma-Diagn%C3%B3sticos--c%C3%B3pia-?node-id=2002-1751&m=dev, descricao: "Diferenciais"}
+      - {nome: Estrutura, posicao: 6, link: https://www.figma.com/design/oG2OHKdDS4A2o0aFM63ywp/Genoma-Diagn%C3%B3sticos--c%C3%B3pia-?node-id=2002-1752&m=dev, descricao: "Estrutura"}
+      - {nome: Depoimentos, posicao: 7, link: https://www.figma.com/design/oG2OHKdDS4A2o0aFM63ywp/Genoma-Diagn%C3%B3sticos--c%C3%B3pia-?node-id=2002-1792&m=dev, descricao: "Depoimentos"}
+
+
+
+
+  
+# Regras:
+# - "posicao" define a ordem de renderização E a ordem de processamento pelo t1000.
+# - Seções de um mesmo modelo não têm dependência entre si -> podem rodar em paralelo.
+# - c3po lê este arquivo UMA vez e nunca mais re-lê o texto bruto: ele monta um
+#   checklist interno (ver c3po.md) e passa a cada subagente só o trecho relevante.
+
+
+#  - nome: home
+#    secoes:
+#      - {nome: Hero, posicao: 1, link: , descricao: "Hero"}
+#      - {nome: Sobre nós, posicao: 2, link: , descricao: "Sobre nós"}
+#      - {nome: Soluções integradas, posicao: 3, link: , descricao: "Soluções integradas"}
+#      - {nome: Presença estratégica, posicao: 4, link: , descricao: "Presença estratégica"}
+#      - {nome: Soluções adaptadas, posicao: 5, link: , descricao: "Soluções adaptadas"}
+#      - {nome: Confiam na Logic, posicao: 6, link: , descricao: "confiam na Logic"}
+#      - {nome: Conteúdos estratégicos, posicao: 7, componente: Conteúdos estratégicos, link: , descricao: "Conteúdos estratégicos"}
+#      - {nome: CTA, posicao: 8, componente: CTA, link: , descricao: "CTA"}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

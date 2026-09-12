@@ -47,6 +47,31 @@ module.exports = {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
         },
+        // Tokens de marca — Genoma Diagnósticos (Figma: Style Guide de Cores)
+        brand: {
+          purple: '#433292',
+          'purple-dark': '#2D2559',
+          'purple-accent': '#6E47F2',
+          'purple-subtle': 'rgba(67, 40, 187, 0.05)',
+          'purple-light': 'rgba(110, 71, 242, 0.2)',
+          'gray-text': '#6E6E6E',
+          'gray-border': '#DFDEE3',
+          'light-purple': '#F5F4FB',
+        },
+      },
+      fontFamily: {
+        sans: ['Manrope', 'system-ui', 'sans-serif'],
+        heading: ['Poppins', 'system-ui', 'sans-serif'],
+      },
+      fontSize: {
+        h1: ['3rem', { lineHeight: '1.15', fontWeight: '500' }], // Poppins Medium 48px
+        h2: ['2.25rem', { lineHeight: '1.3', fontWeight: '400' }], // Poppins Regular 36px
+        h3: ['1.75rem', { lineHeight: '1.3', fontWeight: '400' }], // Poppins Regular 28px
+        h4: ['1.5rem', { lineHeight: '1.4', fontWeight: '500' }], // Poppins Medium 24px
+        h5: ['1.25rem', { lineHeight: '1.4', fontWeight: '500' }], // Poppins Medium 20px
+        'body-lg': ['1.125rem', { lineHeight: '1.5' }], // Manrope 18px
+        body: ['1rem', { lineHeight: '1.5' }], // Manrope 16px
+        'body-sm': ['0.875rem', { lineHeight: '1.5' }], // Manrope 14px
       },
       borderRadius: {
         lg: 'var(--radius)',

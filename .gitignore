@@ -8,3 +8,4 @@ Thumbs.db
 tsconfig.tsbuildinfo
 bin/setup-teste-page.php
 bin/generate-screenshot.php
+.mcp.json
