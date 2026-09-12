@@ -10,6 +10,10 @@ export const modules: Record<string, ModuleEntry> = {
     path: '/',
     component: lazy(() => import('@/../app/home/home.view')),
   },
+  'responsavel': {
+    path: '/responsavel',
+    component: lazy(() => import('@/../app/responsavel/responsavel.view')),
+  },
   'teste': {
     path: '/teste',
     component: lazy(() => import('@/../app/teste/teste.view')),

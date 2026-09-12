@@ -62,6 +62,16 @@ modelos:
       - {nome: Estrutura, posicao: 5, link: https://www.figma.com/design/oG2OHKdDS4A2o0aFM63ywp/Genoma-Diagn%C3%B3sticos--c%C3%B3pia-?node-id=75-827&t=asiHled7riv0I6s4-0, descricao: "Estrutura"}
       - {nome: Beneficios, posicao: 6, link: https://www.figma.com/design/oG2OHKdDS4A2o0aFM63ywp/Genoma-Diagn%C3%B3sticos--c%C3%B3pia-?node-id=2006-1797&t=asiHled7riv0I6s4-0, descricao: "Beneficios"}
   
+  - nome: Responsável
+    secoes:
+      - {nome: Hero, posicao: 1, link: https://www.figma.com/design/oG2OHKdDS4A2o0aFM63ywp/Genoma-Diagn%C3%B3sticos--c%C3%B3pia-?node-id=2009-1799&t=asiHled7riv0I6s4-0, descricao: "Hero, será um carossel"}
+      - {nome: Suporte, posicao: 2, link: https://www.figma.com/design/oG2OHKdDS4A2o0aFM63ywp/Genoma-Diagn%C3%B3sticos--c%C3%B3pia-?node-id=2009-1800&t=asiHled7riv0I6s4-0, descricao: "Suporte"}
+      - {nome: Planos, posicao: 3, link: https://www.figma.com/design/oG2OHKdDS4A2o0aFM63ywp/Genoma-Diagn%C3%B3sticos--c%C3%B3pia-?node-id=105-541&t=asiHled7riv0I6s4-0, descricao: "Planos"}
+      - {nome: Exames, posicao: 4, link: https://www.figma.com/design/oG2OHKdDS4A2o0aFM63ywp/Genoma-Diagn%C3%B3sticos--c%C3%B3pia-?node-id=2009-1802&t=asiHled7riv0I6s4-0, descricao: "Exames"}
+      - {nome: Serviços, posicao: 5, link: https://www.figma.com/design/oG2OHKdDS4A2o0aFM63ywp/Genoma-Diagn%C3%B3sticos--c%C3%B3pia-?node-id=105-560&t=asiHled7riv0I6s4-0, descricao: "Serviços"}
+      - {nome: Resultados dos exames, posicao: 6, link: https://www.figma.com/design/oG2OHKdDS4A2o0aFM63ywp/Genoma-Diagn%C3%B3sticos--c%C3%B3pia-?node-id=2009-1912&t=asiHled7riv0I6s4-0, descricao: "Resultados dos exames"}
+      - {nome: Benefícios, posicao: 7, link: https://www.figma.com/design/oG2OHKdDS4A2o0aFM63ywp/Genoma-Diagn%C3%B3sticos--c%C3%B3pia-?node-id=2009-1913&t=asiHled7riv0I6s4-0, descricao: "Benefícios"}
+  
 
 
 
