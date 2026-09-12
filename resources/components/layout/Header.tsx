@@ -15,6 +15,15 @@ interface MenuItem {
   children: MenuItem[]
 }
 
+interface ThemeOptions {
+  site_name?: string
+  logo_url?: string
+  cta_primary_label?: string
+  cta_primary_url?: string
+  cta_secondary_label?: string
+  cta_secondary_url?: string
+}
+
 function useMenu(location: string) {
   return useQuery<MenuItem[]>({
     queryKey: ['menu', location],
@@ -36,8 +45,8 @@ function isExternal(url: string): boolean {
 
 function NavLink({ item, active }: { item: MenuItem; active: boolean }) {
   const cls = cn(
-    'text-sm transition-colors hover:text-foreground',
-    active ? 'text-foreground font-medium' : 'text-muted-foreground'
+    'text-base font-semibold transition-colors hover:text-white',
+    active ? 'text-white' : 'text-white/80'
   )
 
   if (isExternal(item.url)) {
@@ -55,16 +64,16 @@ function DropdownMenu({ item, active }: { item: MenuItem; active: boolean }) {
     <div className="relative" onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)}>
       <button
         className={cn(
-          'flex items-center gap-1 text-sm transition-colors hover:text-foreground',
-          active ? 'text-foreground font-medium' : 'text-muted-foreground'
+          'flex items-center gap-1 text-base font-semibold transition-colors hover:text-white',
+          active ? 'text-white' : 'text-white/80'
         )}
       >
         {item.title}
-        <ChevronDown className={cn('h-3 w-3 transition-transform', open && 'rotate-180')} />
+        <ChevronDown className={cn('h-3.5 w-3.5 transition-transform', open && 'rotate-180')} />
       </button>
 
       {open && (
-        <div className="absolute top-full left-0 z-50 mt-1 min-w-[160px] rounded-md border border-border bg-background shadow-md py-1">
+        <div className="absolute top-full left-0 z-50 mt-2 min-w-[180px] rounded-md border border-border bg-background shadow-md py-1">
           {item.children.map((child) => (
             <div key={child.id}>
               {isExternal(child.url) ? (
@@ -93,6 +102,22 @@ function DropdownMenu({ item, active }: { item: MenuItem; active: boolean }) {
   )
 }
 
+// ─── CTA (botões "Resultados" / "Contato") ───────────────────────────────────
+
+function CtaLink({ label, url, variant, onClick }: { label: string; url: string; variant: 'primary' | 'secondary'; onClick?: () => void }) {
+  const cls = cn(
+    'inline-flex items-center justify-center rounded-full px-6 py-4 text-base leading-none transition-colors whitespace-nowrap',
+    variant === 'primary'
+      ? 'bg-white text-primary hover:bg-white/90'
+      : 'bg-primary text-white border border-white/25 hover:bg-white/10'
+  )
+
+  if (isExternal(url)) {
+    return <a href={url} target="_blank" rel="noopener noreferrer" className={cls} onClick={onClick}>{label}</a>
+  }
+  return <Link to={resolveHref(url)} className={cls} onClick={onClick}>{label}</Link>
+}
+
 // ─── Header ──────────────────────────────────────────────────────────────────
 
 export default function Header() {
@@ -101,28 +126,30 @@ export default function Header() {
   const { pathname } = useLocation()
   const { data: items = [] } = useMenu('primary')
 
-  const opts = boot.themeOptions as { site_name?: string; logo_url?: string }
-  const siteName = opts.site_name || 'UpWork'
-  const logoUrl  = opts.logo_url  || ''
+  const opts = boot.themeOptions as ThemeOptions
+  const siteName = opts.site_name || 'Genoma Diagnósticos'
+  const logoUrl = opts.logo_url || `${boot.themeUrl}/resources/components/layout/assets/header-logo.svg`
+
+  const ctaPrimaryLabel = opts.cta_primary_label || 'Resultados'
+  const ctaPrimaryUrl = opts.cta_primary_url || '#'
+  const ctaSecondaryLabel = opts.cta_secondary_label || 'Contato'
+  const ctaSecondaryUrl = opts.cta_secondary_url || '#'
 
   const toggleSubmenu = (id: number) =>
     setOpenSubmenus((prev) => ({ ...prev, [id]: !prev[id] }))
 
   return (
-    <header className="border-b border-border bg-background sticky top-0 z-40">
-      <div className="container flex h-16 items-center justify-between">
+    <header className="sticky top-0 z-40 bg-primary">
+      <div className="container flex h-16 md:h-20 lg:h-[84px] items-center justify-between gap-4">
 
-        {/* Logo / nome */}
+        {/* Logo */}
         <Link to="/" className="flex items-center gap-2 shrink-0">
-          {logoUrl
-            ? <img src={logoUrl} alt={siteName} className="h-8 w-auto object-contain" />
-            : <span className="text-lg font-semibold">{siteName}</span>
-          }
+          <img src={logoUrl} alt={siteName} className="h-8 md:h-10 lg:h-[52px] w-auto object-contain" />
         </Link>
 
         {/* Menu desktop */}
         {items.length > 0 && (
-          <nav className="hidden md:flex items-center gap-6">
+          <nav className="hidden lg:flex items-center gap-6 xl:gap-10 2xl:gap-14">
             {items.map((item) => {
               const active = pathname === resolveHref(item.url)
               return item.children.length > 0
@@ -132,46 +159,50 @@ export default function Header() {
           </nav>
         )}
 
-        {/* Hamburguer mobile */}
-        {items.length > 0 && (
-          <button
-            className="md:hidden flex flex-col gap-1.5 p-2"
-            aria-label="Abrir menu"
-            onClick={() => setMobileOpen((v) => !v)}
-          >
-            <span className={cn('block h-0.5 w-5 bg-foreground transition-transform', mobileOpen && 'translate-y-2 rotate-45')} />
-            <span className={cn('block h-0.5 w-5 bg-foreground transition-opacity', mobileOpen && 'opacity-0')} />
-            <span className={cn('block h-0.5 w-5 bg-foreground transition-transform', mobileOpen && '-translate-y-2 -rotate-45')} />
-          </button>
-        )}
+        {/* CTAs desktop */}
+        <div className="hidden lg:flex items-center gap-2 shrink-0">
+          <CtaLink label={ctaPrimaryLabel} url={ctaPrimaryUrl} variant="primary" />
+          <CtaLink label={ctaSecondaryLabel} url={ctaSecondaryUrl} variant="secondary" />
+        </div>
+
+        {/* Hamburguer mobile/tablet */}
+        <button
+          className="lg:hidden flex flex-col gap-1.5 p-2"
+          aria-label="Abrir menu"
+          onClick={() => setMobileOpen((v) => !v)}
+        >
+          <span className={cn('block h-0.5 w-5 bg-white transition-transform', mobileOpen && 'translate-y-2 rotate-45')} />
+          <span className={cn('block h-0.5 w-5 bg-white transition-opacity', mobileOpen && 'opacity-0')} />
+          <span className={cn('block h-0.5 w-5 bg-white transition-transform', mobileOpen && '-translate-y-2 -rotate-45')} />
+        </button>
       </div>
 
-      {/* Menu mobile */}
-      {mobileOpen && items.length > 0 && (
-        <div className="md:hidden border-t border-border bg-background">
+      {/* Menu mobile/tablet */}
+      {mobileOpen && (
+        <div className="lg:hidden border-t border-white/15 bg-primary">
           <nav className="container flex flex-col py-4 gap-1">
             {items.map((item) => (
               <div key={item.id}>
                 {item.children.length > 0 ? (
                   <>
                     <button
-                      className="flex items-center justify-between w-full py-2 text-sm text-muted-foreground hover:text-foreground"
+                      className="flex items-center justify-between w-full py-2 text-base font-semibold text-white/90"
                       onClick={() => toggleSubmenu(item.id)}
                     >
                       {item.title}
-                      <ChevronDown className={cn('h-3 w-3 transition-transform', openSubmenus[item.id] && 'rotate-180')} />
+                      <ChevronDown className={cn('h-3.5 w-3.5 transition-transform', openSubmenus[item.id] && 'rotate-180')} />
                     </button>
                     {openSubmenus[item.id] && (
                       <div className="pl-4 flex flex-col gap-1">
                         {item.children.map((child) => (
                           isExternal(child.url) ? (
                             <a key={child.id} href={child.url} target={child.target} rel="noopener noreferrer"
-                              className="py-2 text-sm text-muted-foreground" onClick={() => setMobileOpen(false)}>
+                              className="py-2 text-sm text-white/70" onClick={() => setMobileOpen(false)}>
                               {child.title}
                             </a>
                           ) : (
                             <Link key={child.id} to={resolveHref(child.url)}
-                              className="py-2 text-sm text-muted-foreground hover:text-foreground"
+                              className="py-2 text-sm text-white/70 hover:text-white"
                               onClick={() => setMobileOpen(false)}>
                               {child.title}
                             </Link>
@@ -182,18 +213,24 @@ export default function Header() {
                   </>
                 ) : isExternal(item.url) ? (
                   <a href={item.url} target={item.target} rel="noopener noreferrer"
-                    className="block py-2 text-sm text-muted-foreground" onClick={() => setMobileOpen(false)}>
+                    className="block py-2 text-base font-semibold text-white/90" onClick={() => setMobileOpen(false)}>
                     {item.title}
                   </a>
                 ) : (
                   <Link to={resolveHref(item.url)}
-                    className="block py-2 text-sm text-muted-foreground hover:text-foreground"
+                    className="block py-2 text-base font-semibold text-white/90 hover:text-white"
                     onClick={() => setMobileOpen(false)}>
                     {item.title}
                   </Link>
                 )}
               </div>
             ))}
+
+            {/* CTAs mobile/tablet */}
+            <div className="flex flex-col gap-2 mt-3">
+              <CtaLink label={ctaPrimaryLabel} url={ctaPrimaryUrl} variant="primary" onClick={() => setMobileOpen(false)} />
+              <CtaLink label={ctaSecondaryLabel} url={ctaSecondaryUrl} variant="secondary" onClick={() => setMobileOpen(false)} />
+            </div>
           </nav>
         </div>
       )}
