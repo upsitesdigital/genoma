@@ -6,7 +6,8 @@ namespace Core\Framework;
 class RouteResolver
 {
     /**
-     * Resolve o módulo responsável pela URL atual (usado no carregamento inicial da página).
+     * Resolve o módulo responsável pela requisição atual. Chamado a partir dos
+     * templates PHP (front-page.php, page.php, single.php, index.php).
      *
      * @return array{module: string, pageId: int|null, url: string, title: string}|null
      */
@@ -39,47 +40,18 @@ class RouteResolver
             ];
         }
 
-        // 3. Nenhum módulo mapeado — React Router trata o 404
-        return null;
-    }
-
-    /**
-     * Resolve o módulo por path — usado pela SPA na navegação client-side.
-     * Não depende de tags condicionais do WP (is_page etc.), opera com queries diretas.
-     *
-     * @return array{module: string, pageId: int|null, url: string, title: string}|null
-     */
-    public static function byPath(string $path): ?array
-    {
-        $clean = '/' . ltrim((string) parse_url($path, PHP_URL_PATH), '/');
-
-        if ($clean === '/') {
-            $pageId = (int) get_option('page_on_front') ?: null;
+        // 3. Post individual (single.php)
+        if (is_singular('post')) {
+            $postId = get_the_ID();
             return [
-                'module' => 'home',
-                'pageId' => $pageId,
-                'url'    => home_url('/'),
-                'title'  => get_bloginfo('name'),
+                'module' => 'single-post',
+                'pageId' => $postId ?: null,
+                'url'    => (string) get_permalink($postId),
+                'title'  => get_the_title($postId),
             ];
         }
 
-        $page = get_page_by_path(trim($clean, '/'));
-        if (!$page) return null;
-
-        $template = get_post_meta($page->ID, '_wp_page_template', true);
-        if (!is_string($template) || !str_starts_with($template, 'fw:')) return null;
-
-        $slug = substr($template, 3);
-        return [
-            'module' => $slug,
-            'pageId' => $page->ID,
-            'url'    => (string) get_permalink($page->ID),
-            'title'  => get_the_title($page->ID),
-        ];
-    }
-
-    public static function restHandler(\WP_REST_Request $request): \WP_REST_Response
-    {
-        return rest_ensure_response(self::byPath($request->get_param('path') ?? '/'));
+        // 4. Nenhum módulo mapeado — 404 real (ver 404.php)
+        return null;
     }
 }

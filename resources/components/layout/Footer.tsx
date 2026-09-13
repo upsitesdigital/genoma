@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { api } from '@/lib/api'
 import { boot } from '@/lib/env'
@@ -40,11 +39,6 @@ function useMenu(location: string) {
   })
 }
 
-function resolveHref(url: string): string {
-  const siteUrl = boot.siteUrl.replace(/\/$/, '')
-  return url.startsWith(siteUrl) ? url.slice(siteUrl.length) || '/' : url
-}
-
 function isExternal(url: string): boolean {
   return url.startsWith('http') && !url.startsWith(boot.siteUrl)
 }
@@ -71,10 +65,16 @@ function useFooterCtaOverride(): FooterCtaOverride | undefined {
 function FooterNavLink({ item }: { item: MenuItem }) {
   const cls = 'text-sm md:text-base font-semibold text-white/85 hover:text-white transition-colors whitespace-nowrap'
 
-  if (isExternal(item.url)) {
-    return <a href={item.url} target={item.target} rel="noopener noreferrer" className={cls}>{item.title}</a>
-  }
-  return <Link to={resolveHref(item.url)} className={cls}>{item.title}</Link>
+  return (
+    <a
+      href={item.url}
+      target={isExternal(item.url) ? item.target : undefined}
+      rel={isExternal(item.url) ? 'noopener noreferrer' : undefined}
+      className={cls}
+    >
+      {item.title}
+    </a>
+  )
 }
 
 // ─── Botões do banner de CTA (dentro do card branco) ─────────────────────────
@@ -95,10 +95,16 @@ function CtaBannerButton({
       : 'bg-primary text-white hover:bg-brand-purple-dark'
   )
 
-  if (isExternal(url)) {
-    return <a href={url} target="_blank" rel="noopener noreferrer" className={cls}>{label}</a>
-  }
-  return <Link to={resolveHref(url)} className={cls}>{label}</Link>
+  return (
+    <a
+      href={url}
+      target={isExternal(url) ? '_blank' : undefined}
+      rel={isExternal(url) ? 'noopener noreferrer' : undefined}
+      className={cls}
+    >
+      {label}
+    </a>
+  )
 }
 
 // ─── Botão "Contato" da barra de navegação (pill contornada branca) ──────────
@@ -106,10 +112,16 @@ function CtaBannerButton({
 function FooterContatoLink({ label, url }: { label: string; url: string }) {
   const cls = 'inline-flex shrink-0 items-center justify-center rounded-full border border-white/60 px-6 py-4 text-body text-white transition-colors hover:bg-white/10 whitespace-nowrap'
 
-  if (isExternal(url)) {
-    return <a href={url} target="_blank" rel="noopener noreferrer" className={cls}>{label}</a>
-  }
-  return <Link to={resolveHref(url)} className={cls}>{label}</Link>
+  return (
+    <a
+      href={url}
+      target={isExternal(url) ? '_blank' : undefined}
+      rel={isExternal(url) ? 'noopener noreferrer' : undefined}
+      className={cls}
+    >
+      {label}
+    </a>
+  )
 }
 
 // ─── Footer ──────────────────────────────────────────────────────────────────
@@ -185,9 +197,9 @@ export default function Footer() {
 
       {/* ── Barra de navegação: logo, menu, botão Contato ── */}
       <div className="container flex flex-col items-center gap-6 py-10 md:py-12 lg:flex-row lg:items-center lg:justify-between lg:gap-8">
-        <Link to="/" className="shrink-0">
+        <a href={boot.siteUrl} className="shrink-0">
           <img src={logoUrl} alt="" className="h-9 w-auto object-contain md:h-10" />
-        </Link>
+        </a>
 
         {items.length > 0 && (
           <nav className="flex flex-wrap items-center justify-center gap-4 md:gap-8 lg:gap-10">
@@ -209,15 +221,14 @@ export default function Footer() {
       <div className="container flex flex-col items-center gap-3 py-6 text-center text-body-sm text-white/85 md:flex-row md:justify-between md:text-left">
         <span dangerouslySetInnerHTML={{ __html: copyright }} />
 
-        {isExternal(privacyUrl) ? (
-          <a href={privacyUrl} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
-            {privacyLabel}
-          </a>
-        ) : (
-          <Link to={resolveHref(privacyUrl)} className="hover:text-white transition-colors">
-            {privacyLabel}
-          </Link>
-        )}
+        <a
+          href={privacyUrl}
+          target={isExternal(privacyUrl) ? '_blank' : undefined}
+          rel={isExternal(privacyUrl) ? 'noopener noreferrer' : undefined}
+          className="hover:text-white transition-colors"
+        >
+          {privacyLabel}
+        </a>
 
         <span className="text-white/70">{credits}</span>
       </div>

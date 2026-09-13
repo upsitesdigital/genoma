@@ -1,37 +1,11 @@
 import { lazy, type ComponentType } from 'react'
 
-interface ModuleEntry {
-  path: string
-  component: ReturnType<typeof lazy<ComponentType>>
-}
-
-export const modules: Record<string, ModuleEntry> = {
-  'blog': {
-    path: '/blog',
-    component: lazy(() => import('@/../app/blog/blog.view')),
-  },
-  'contato': {
-    path: '/contato',
-    component: lazy(() => import('@/../app/contato/contato.view')),
-  },
-  'home': {
-    path: '/',
-    component: lazy(() => import('@/../app/home/home.view')),
-  },
-  'o-genoma': {
-    path: '/o-genoma',
-    component: lazy(() => import('@/../app/o-genoma/o-genoma.view')),
-  },
-  'responsavel': {
-    path: '/responsavel',
-    component: lazy(() => import('@/../app/responsavel/responsavel.view')),
-  },
-  'teste': {
-    path: '/teste',
-    component: lazy(() => import('@/../app/teste/teste.view')),
-  },
-  'veterinarios': {
-    path: '/veterinarios',
-    component: lazy(() => import('@/../app/veterinarios/veterinarios.view')),
-  },
+export const modules: Record<string, ReturnType<typeof lazy<ComponentType>>> = {
+  'blog': lazy(() => import('@/../app/blog/blog.view')),
+  'contato': lazy(() => import('@/../app/contato/contato.view')),
+  'home': lazy(() => import('@/../app/home/home.view')),
+  'o-genoma': lazy(() => import('@/../app/o-genoma/o-genoma.view')),
+  'responsavel': lazy(() => import('@/../app/responsavel/responsavel.view')),
+  'teste': lazy(() => import('@/../app/teste/teste.view')),
+  'veterinarios': lazy(() => import('@/../app/veterinarios/veterinarios.view')),
 }

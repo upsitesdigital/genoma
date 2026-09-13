@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { ChevronDown } from 'lucide-react'
 import { api } from '@/lib/api'
@@ -32,13 +31,14 @@ function useMenu(location: string) {
   })
 }
 
-function resolveHref(url: string): string {
-  const siteUrl = boot.siteUrl.replace(/\/$/, '')
-  return url.startsWith(siteUrl) ? url.slice(siteUrl.length) || '/' : url
-}
-
 function isExternal(url: string): boolean {
   return url.startsWith('http') && !url.startsWith(boot.siteUrl)
+}
+
+function isActive(url: string): boolean {
+  const current = boot.currentRoute?.url
+  if (!current) return false
+  return url.replace(/\/$/, '') === current.replace(/\/$/, '')
 }
 
 // ─── NavLink (desktop, sem filhos) ───────────────────────────────────────────
@@ -49,10 +49,16 @@ function NavLink({ item, active }: { item: MenuItem; active: boolean }) {
     active ? 'text-white' : 'text-white/80'
   )
 
-  if (isExternal(item.url)) {
-    return <a href={item.url} target={item.target} rel="noopener noreferrer" className={cls}>{item.title}</a>
-  }
-  return <Link to={resolveHref(item.url)} className={cls}>{item.title}</Link>
+  return (
+    <a
+      href={item.url}
+      target={isExternal(item.url) ? item.target : undefined}
+      rel={isExternal(item.url) ? 'noopener noreferrer' : undefined}
+      className={cls}
+    >
+      {item.title}
+    </a>
+  )
 }
 
 // ─── DropdownMenu (desktop, com filhos) ──────────────────────────────────────
@@ -75,26 +81,15 @@ function DropdownMenu({ item, active }: { item: MenuItem; active: boolean }) {
       {open && (
         <div className="absolute top-full left-0 z-50 mt-2 min-w-[180px] rounded-md border border-border bg-background shadow-md py-1">
           {item.children.map((child) => (
-            <div key={child.id}>
-              {isExternal(child.url) ? (
-                <a
-                  href={child.url}
-                  target={child.target}
-                  rel="noopener noreferrer"
-                  className="block px-4 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
-                >
-                  {child.title}
-                </a>
-              ) : (
-                <Link
-                  to={resolveHref(child.url)}
-                  className="block px-4 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
-                  onClick={() => setOpen(false)}
-                >
-                  {child.title}
-                </Link>
-              )}
-            </div>
+            <a
+              key={child.id}
+              href={child.url}
+              target={isExternal(child.url) ? child.target : undefined}
+              rel={isExternal(child.url) ? 'noopener noreferrer' : undefined}
+              className="block px-4 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+            >
+              {child.title}
+            </a>
           ))}
         </div>
       )}
@@ -104,7 +99,7 @@ function DropdownMenu({ item, active }: { item: MenuItem; active: boolean }) {
 
 // ─── CTA (botões "Resultados" / "Contato") ───────────────────────────────────
 
-function CtaLink({ label, url, variant, onClick }: { label: string; url: string; variant: 'primary' | 'secondary'; onClick?: () => void }) {
+function CtaLink({ label, url, variant }: { label: string; url: string; variant: 'primary' | 'secondary' }) {
   const cls = cn(
     'inline-flex items-center justify-center rounded-full px-6 py-4 text-base leading-none transition-colors whitespace-nowrap',
     variant === 'primary'
@@ -112,10 +107,16 @@ function CtaLink({ label, url, variant, onClick }: { label: string; url: string;
       : 'bg-primary text-white border border-white/25 hover:bg-white/10'
   )
 
-  if (isExternal(url)) {
-    return <a href={url} target="_blank" rel="noopener noreferrer" className={cls} onClick={onClick}>{label}</a>
-  }
-  return <Link to={resolveHref(url)} className={cls} onClick={onClick}>{label}</Link>
+  return (
+    <a
+      href={url}
+      target={isExternal(url) ? '_blank' : undefined}
+      rel={isExternal(url) ? 'noopener noreferrer' : undefined}
+      className={cls}
+    >
+      {label}
+    </a>
+  )
 }
 
 // ─── Header ──────────────────────────────────────────────────────────────────
@@ -123,7 +124,6 @@ function CtaLink({ label, url, variant, onClick }: { label: string; url: string;
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [openSubmenus, setOpenSubmenus] = useState<Record<number, boolean>>({})
-  const { pathname } = useLocation()
   const { data: items = [] } = useMenu('primary')
 
   const opts = boot.themeOptions as ThemeOptions
@@ -143,15 +143,15 @@ export default function Header() {
       <div className="container flex h-16 md:h-20 lg:h-[84px] items-center justify-between gap-4">
 
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2 shrink-0">
+        <a href={boot.siteUrl} className="flex items-center gap-2 shrink-0">
           <img src={logoUrl} alt={siteName} className="h-8 md:h-10 lg:h-[52px] w-auto object-contain" />
-        </Link>
+        </a>
 
         {/* Menu desktop */}
         {items.length > 0 && (
           <nav className="hidden lg:flex items-center gap-6 xl:gap-10 2xl:gap-14">
             {items.map((item) => {
-              const active = pathname === resolveHref(item.url)
+              const active = isActive(item.url)
               return item.children.length > 0
                 ? <DropdownMenu key={item.id} item={item} active={active} />
                 : <NavLink key={item.id} item={item} active={active} />
@@ -195,41 +195,36 @@ export default function Header() {
                     {openSubmenus[item.id] && (
                       <div className="pl-4 flex flex-col gap-1">
                         {item.children.map((child) => (
-                          isExternal(child.url) ? (
-                            <a key={child.id} href={child.url} target={child.target} rel="noopener noreferrer"
-                              className="py-2 text-sm text-white/70" onClick={() => setMobileOpen(false)}>
-                              {child.title}
-                            </a>
-                          ) : (
-                            <Link key={child.id} to={resolveHref(child.url)}
-                              className="py-2 text-sm text-white/70 hover:text-white"
-                              onClick={() => setMobileOpen(false)}>
-                              {child.title}
-                            </Link>
-                          )
+                          <a
+                            key={child.id}
+                            href={child.url}
+                            target={isExternal(child.url) ? child.target : undefined}
+                            rel={isExternal(child.url) ? 'noopener noreferrer' : undefined}
+                            className="py-2 text-sm text-white/70 hover:text-white"
+                          >
+                            {child.title}
+                          </a>
                         ))}
                       </div>
                     )}
                   </>
-                ) : isExternal(item.url) ? (
-                  <a href={item.url} target={item.target} rel="noopener noreferrer"
-                    className="block py-2 text-base font-semibold text-white/90" onClick={() => setMobileOpen(false)}>
+                ) : (
+                  <a
+                    href={item.url}
+                    target={isExternal(item.url) ? item.target : undefined}
+                    rel={isExternal(item.url) ? 'noopener noreferrer' : undefined}
+                    className="block py-2 text-base font-semibold text-white/90 hover:text-white"
+                  >
                     {item.title}
                   </a>
-                ) : (
-                  <Link to={resolveHref(item.url)}
-                    className="block py-2 text-base font-semibold text-white/90 hover:text-white"
-                    onClick={() => setMobileOpen(false)}>
-                    {item.title}
-                  </Link>
                 )}
               </div>
             ))}
 
             {/* CTAs mobile/tablet */}
             <div className="flex flex-col gap-2 mt-3">
-              <CtaLink label={ctaPrimaryLabel} url={ctaPrimaryUrl} variant="primary" onClick={() => setMobileOpen(false)} />
-              <CtaLink label={ctaSecondaryLabel} url={ctaSecondaryUrl} variant="secondary" onClick={() => setMobileOpen(false)} />
+              <CtaLink label={ctaPrimaryLabel} url={ctaPrimaryUrl} variant="primary" />
+              <CtaLink label={ctaSecondaryLabel} url={ctaSecondaryUrl} variant="secondary" />
             </div>
           </nav>
         </div>

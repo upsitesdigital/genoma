@@ -10,7 +10,7 @@
 
 $themeDir = dirname(__DIR__);
 $appDir   = $themeDir . '/app';
-$entries  = [];
+$slugs    = [];
 
 foreach (glob($appDir . '/*/') ?: [] as $dir) {
     $slug     = basename($dir);
@@ -18,36 +18,17 @@ foreach (glob($appDir . '/*/') ?: [] as $dir) {
 
     if (!file_exists($viewFile)) continue;
 
-    // Lê a rota declarada no #[Module(route: '...')] do module.php
-    $route      = '/' . $slug;
-    $moduleFile = "{$dir}{$slug}.module.php";
-
-    if (file_exists($moduleFile)) {
-        $content = file_get_contents($moduleFile);
-        if (preg_match("/route:\s*'([^']+)'/", $content, $m)) {
-            $route = $m[1];
-        }
-    }
-
-    $entries[$slug] = $route;
+    $slugs[] = $slug;
 }
 
 // Gera o module-registry.ts
 $lines   = [];
 $lines[] = "import { lazy, type ComponentType } from 'react'";
 $lines[] = '';
-$lines[] = 'interface ModuleEntry {';
-$lines[] = '  path: string';
-$lines[] = '  component: ReturnType<typeof lazy<ComponentType>>';
-$lines[] = '}';
-$lines[] = '';
-$lines[] = 'export const modules: Record<string, ModuleEntry> = {';
+$lines[] = 'export const modules: Record<string, ReturnType<typeof lazy<ComponentType>>> = {';
 
-foreach ($entries as $slug => $route) {
-    $lines[] = "  '{$slug}': {";
-    $lines[] = "    path: '{$route}',";
-    $lines[] = "    component: lazy(() => import('@/../app/{$slug}/{$slug}.view')),";
-    $lines[] = '  },';
+foreach ($slugs as $slug) {
+    $lines[] = "  '{$slug}': lazy(() => import('@/../app/{$slug}/{$slug}.view')),";
 }
 
 $lines[] = '}';
@@ -55,6 +36,6 @@ $lines[] = '';
 
 file_put_contents($themeDir . '/resources/module-registry.ts', implode("\n", $lines));
 
-$count = count($entries);
-$names = implode(', ', array_keys($entries));
+$count = count($slugs);
+$names = implode(', ', $slugs);
 echo "\033[32m✓\033[0m module-registry.ts atualizado — {$count} módulo(s): {$names}\n";
