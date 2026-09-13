@@ -84,11 +84,13 @@ function HeroCarousel({ hero }: { hero: HomeData['hero'] }) {
           )}
           aria-hidden={i !== index}
         >
-          <img
-            src={slide.imagem.src}
-            alt={slide.imagem.alt}
-            className="h-full w-full object-cover"
-          />
+          {slide.imagem && (
+            <img
+              src={slide.imagem.src}
+              alt={slide.imagem.alt}
+              className="h-full w-full object-cover"
+            />
+          )}
           <div className="absolute inset-0 bg-gradient-to-r from-brand-purple-dark/80 via-brand-purple-dark/40 to-transparent" />
         </div>
       ))}
@@ -246,11 +248,13 @@ function ServicoCard({ item }: { item: HomeServicoItem }) {
   return (
     <div className="flex flex-col gap-9 rounded-2xl bg-brand-light-purple p-6 md:p-8">
       <div className="flex flex-col gap-9">
-        <img
-          src={item.imagem.src}
-          alt={item.imagem.alt}
-          className="h-[170px] w-full rounded-lg object-cover"
-        />
+        {item.imagem && (
+          <img
+            src={item.imagem.src}
+            alt={item.imagem.alt}
+            className="h-[170px] w-full rounded-lg object-cover"
+          />
+        )}
         <div className="flex flex-col gap-4">
           <h3 className="font-heading text-h5 font-medium text-brand-purple-dark">
             {item.titulo}
@@ -522,7 +526,9 @@ function SobreSection({ sobre }: { sobre: HomeSobre }) {
 function DiferencialCard({ item }: { item: HomeDiferencial }) {
   return (
     <div className="flex flex-col gap-8 rounded-2xl bg-brand-light-purple p-6 md:gap-9 md:p-9">
-      <img src={item.icone.src} alt={item.icone.alt} className="h-[52px] w-[52px]" />
+      {item.icone && (
+        <img src={item.icone.src} alt={item.icone.alt} className="h-[52px] w-[52px]" />
+      )}
       <div className="flex flex-col gap-4">
         <h3 className="font-heading text-h5 font-medium text-brand-purple-dark md:text-h4">
           {item.titulo}
@@ -581,10 +587,12 @@ function SobreSkeleton() {
 function DiferenciaisSection({ diferenciais }: { diferenciais: HomeDiferenciais }) {
   const { eyebrow, titulo, imagem, itens } = diferenciais
 
+  if (itens.length === 0) return null
+
   return (
     <section
       className="relative isolate w-full overflow-hidden bg-brand-purple-dark bg-cover bg-center py-16 md:py-20 lg:py-24"
-      style={{ backgroundImage: `url(${imagem.src})` }}
+      style={imagem ? { backgroundImage: `url(${imagem.src})` } : undefined}
     >
       <div className="absolute inset-0 bg-gradient-to-r from-brand-purple-dark/95 via-brand-purple-dark/70 to-brand-purple-dark/10" />
 
@@ -609,7 +617,9 @@ function DiferenciaisSection({ diferenciais }: { diferenciais: HomeDiferenciais 
 function DiferencialItemCard({ item }: { item: HomeDiferenciaisItem }) {
   return (
     <div className="flex flex-col gap-8 rounded-xl border border-[#DFDEE3] bg-white p-6 md:gap-12 md:p-9">
-      <img src={item.icone.src} alt={item.icone.alt} className="h-[52px] w-[52px]" />
+      {item.icone && (
+        <img src={item.icone.src} alt={item.icone.alt} className="h-[52px] w-[52px]" />
+      )}
       {item.titulo && (
         <p className="max-w-[198px] font-sans text-base text-brand-purple-dark">{item.titulo}</p>
       )}
@@ -664,14 +674,16 @@ function EstruturaSection({ estrutura }: { estrutura: HomeEstrutura }) {
 
         {fotos.length > 0 && (
           <div className="flex flex-col gap-4 sm:flex-row sm:items-stretch sm:gap-5">
-            {fotos.map((foto, i) => (
-              <img
-                key={i}
-                src={foto.src}
-                alt={foto.alt}
-                className="h-64 w-full flex-1 rounded-2xl object-cover sm:h-72 md:h-80 lg:h-[374px]"
-              />
-            ))}
+            {fotos.map((foto, i) =>
+              foto && (
+                <img
+                  key={i}
+                  src={foto.src}
+                  alt={foto.alt}
+                  className="h-64 w-full flex-1 rounded-2xl object-cover sm:h-72 md:h-80 lg:h-[374px]"
+                />
+              )
+            )}
           </div>
         )}
       </div>
@@ -794,7 +806,9 @@ function DepoimentosSection({ depoimentos }: { depoimentos: HomeDepoimentos }) {
 function DepoimentoCard({ item }: { item: HomeDepoimentoItem }) {
   return (
     <div className="flex w-full shrink-0 snap-start flex-col gap-6 rounded-2xl bg-brand-light-purple p-6 sm:w-[calc(50%-10px)] md:gap-8 md:p-10 lg:w-[calc(50%-16px)] lg:p-16">
-      <img src={item.icone.src} alt={item.icone.alt} className="h-[60px] w-[60px] rounded-full" />
+      {item.icone && (
+        <img src={item.icone.src} alt={item.icone.alt} className="h-[60px] w-[60px] rounded-full" />
+      )}
 
       {item.texto && (
         <p className="font-heading text-lg font-medium leading-snug text-brand-purple-dark md:text-h4">

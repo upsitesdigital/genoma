@@ -14,7 +14,7 @@ export interface VeterinariosCta {
 }
 
 export interface VeterinariosHeroSlide {
-  imagem: VeterinariosImage
+  imagem: VeterinariosImage | null
   eyebrow: string
   titulo: string
   subtitulo: string
@@ -33,17 +33,17 @@ export interface VeterinariosSuporte {
   titulo: string
   texto: string
   quote: string
-  imagem1: VeterinariosImage
-  imagem2: VeterinariosImage
+  imagem1: VeterinariosImage | null
+  imagem2: VeterinariosImage | null
 }
 
 export interface VeterinariosPraticidade {
   eyebrow: string
   titulo: string
   texto: string
-  icone: VeterinariosImage
+  icone: VeterinariosImage | null
   horarios: string[]
-  imagem: VeterinariosImage
+  imagem: VeterinariosImage | null
 }
 
 export interface VeterinariosExames {
@@ -51,11 +51,11 @@ export interface VeterinariosExames {
   titulo: string
   texto: string
   cta: VeterinariosCta
-  imagem: VeterinariosImage
+  imagem: VeterinariosImage | null
 }
 
 export interface VeterinariosEstruturaContato {
-  icone: VeterinariosImage
+  icone: VeterinariosImage | null
   texto: string
 }
 
@@ -64,13 +64,13 @@ export interface VeterinariosEstrutura {
   titulo: string
   texto: string
   destaque: string
-  imagem1: VeterinariosImage
-  imagem2: VeterinariosImage
+  imagem1: VeterinariosImage | null
+  imagem2: VeterinariosImage | null
   contatos: VeterinariosEstruturaContato[]
 }
 
 export interface VeterinariosBeneficioItem {
-  icone: VeterinariosImage
+  icone: VeterinariosImage | null
   texto: string
 }
 

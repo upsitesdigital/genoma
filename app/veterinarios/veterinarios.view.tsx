@@ -140,11 +140,13 @@ function HeroCarousel({ hero }: { hero: VeterinariosData['hero'] }) {
 function SlideImage({ slide }: { slide: VeterinariosHeroSlide }) {
   return (
     <div className="absolute inset-0 lg:inset-y-0 lg:left-[40%] lg:right-0">
-      <img
-        src={slide.imagem.src}
-        alt={slide.imagem.alt}
-        className="h-full w-full object-cover object-[72%_20%] lg:object-[center_18%]"
-      />
+      {slide.imagem && (
+        <img
+          src={slide.imagem.src}
+          alt={slide.imagem.alt}
+          className="h-full w-full object-cover object-[72%_20%] lg:object-[center_18%]"
+        />
+      )}
 
       {/* Scrim para legibilidade do texto em telas menores (imagem ocupa toda a largura) */}
       <div className="absolute inset-0 bg-gradient-to-r from-[#2D2559]/80 via-[#2D2559]/45 to-[#2D2559]/10 lg:hidden" />
@@ -240,18 +242,24 @@ function SuporteSection({ suporte }: { suporte: VeterinariosSuporte }) {
           )}
         </div>
 
-        <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-[314fr_873fr] sm:gap-7 md:mt-14">
-          <img
-            src={imagem1.src}
-            alt={imagem1.alt}
-            className="h-64 w-full rounded-2xl object-cover sm:h-auto sm:aspect-[314/390]"
-          />
-          <img
-            src={imagem2.src}
-            alt={imagem2.alt}
-            className="h-64 w-full rounded-2xl object-cover sm:h-auto sm:aspect-[873/389]"
-          />
-        </div>
+        {(imagem1 || imagem2) && (
+          <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-[314fr_873fr] sm:gap-7 md:mt-14">
+            {imagem1 && (
+              <img
+                src={imagem1.src}
+                alt={imagem1.alt}
+                className="h-64 w-full rounded-2xl object-cover sm:h-auto sm:aspect-[314/390]"
+              />
+            )}
+            {imagem2 && (
+              <img
+                src={imagem2.src}
+                alt={imagem2.alt}
+                className="h-64 w-full rounded-2xl object-cover sm:h-auto sm:aspect-[873/389]"
+              />
+            )}
+          </div>
+        )}
       </div>
     </section>
   )
@@ -315,11 +323,13 @@ function PraticidadeSection({ praticidade }: { praticidade: VeterinariosPraticid
 
               {horarios.length > 0 && (
                 <div className="flex items-center gap-4 rounded-2xl bg-white/10 p-6 sm:gap-6 sm:p-7">
-                  <img
-                    src={icone.src}
-                    alt={icone.alt}
-                    className="h-10 w-10 shrink-0 sm:h-12 sm:w-12 lg:h-[58px] lg:w-[58px]"
-                  />
+                  {icone && (
+                    <img
+                      src={icone.src}
+                      alt={icone.alt}
+                      className="h-10 w-10 shrink-0 sm:h-12 sm:w-12 lg:h-[58px] lg:w-[58px]"
+                    />
+                  )}
                   <div className="flex flex-col gap-1">
                     {horarios.map((linha, i) => (
                       <p key={i} className="font-heading text-h5 text-white md:text-h4">
@@ -331,13 +341,15 @@ function PraticidadeSection({ praticidade }: { praticidade: VeterinariosPraticid
               )}
             </div>
 
-            <div className="relative h-64 w-full overflow-hidden rounded-2xl sm:h-80 lg:absolute lg:inset-y-[30px] lg:right-10 lg:h-auto lg:w-[38%] xl:right-16 xl:w-[478px]">
-              <img
-                src={imagem.src}
-                alt={imagem.alt}
-                className="h-full w-full rounded-2xl object-cover"
-              />
-            </div>
+            {imagem && (
+              <div className="relative h-64 w-full overflow-hidden rounded-2xl sm:h-80 lg:absolute lg:inset-y-[30px] lg:right-10 lg:h-auto lg:w-[38%] xl:right-16 xl:w-[478px]">
+                <img
+                  src={imagem.src}
+                  alt={imagem.alt}
+                  className="h-full w-full rounded-2xl object-cover"
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -372,11 +384,13 @@ function ExamesSection({ exames }: { exames: VeterinariosExames }) {
     <section className="relative isolate flex min-h-[420px] w-full items-center overflow-hidden bg-[#859CA9] py-16 sm:min-h-[480px] md:py-20 lg:min-h-[560px] xl:min-h-[625px] xl:py-0">
       {/* Imagem de fundo + gradientes de legibilidade */}
       <div className="absolute inset-0 lg:inset-y-0 lg:left-[43%] lg:right-0">
-        <img
-          src={imagem.src}
-          alt={imagem.alt}
-          className="h-full w-full object-cover object-[70%_30%] lg:object-[center_25%]"
-        />
+        {imagem && (
+          <img
+            src={imagem.src}
+            alt={imagem.alt}
+            className="h-full w-full object-cover object-[70%_30%] lg:object-[center_25%]"
+          />
+        )}
 
         {/* Scrim para legibilidade do texto em telas menores (imagem ocupa toda a largura) */}
         <div className="absolute inset-0 bg-gradient-to-r from-[#433292]/70 via-[#433292]/35 to-[#433292]/0 lg:hidden" />
@@ -467,26 +481,32 @@ function EstruturaSection({ estrutura }: { estrutura: VeterinariosEstrutura }) {
         </div>
 
         <div className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-5 lg:grid-cols-3 md:mt-14">
-          <img
-            src={imagem1.src}
-            alt={imagem1.alt}
-            className="h-64 w-full rounded-2xl object-cover lg:h-[374px]"
-          />
-          <img
-            src={imagem2.src}
-            alt={imagem2.alt}
-            className="h-64 w-full rounded-2xl object-cover lg:h-[374px]"
-          />
+          {imagem1 && (
+            <img
+              src={imagem1.src}
+              alt={imagem1.alt}
+              className="h-64 w-full rounded-2xl object-cover lg:h-[374px]"
+            />
+          )}
+          {imagem2 && (
+            <img
+              src={imagem2.src}
+              alt={imagem2.alt}
+              className="h-64 w-full rounded-2xl object-cover lg:h-[374px]"
+            />
+          )}
 
           {contatos.length > 0 && (
             <div className="flex flex-col justify-center gap-6 rounded-2xl bg-brand-purple p-8 sm:p-10 md:col-span-2 lg:col-span-1 lg:h-[374px] lg:gap-11">
               {contatos.map((contato, i) => (
                 <div key={i} className="flex items-center gap-6">
-                  <img
-                    src={contato.icone.src}
-                    alt={contato.icone.alt}
-                    className="h-10 w-10 shrink-0 sm:h-12 sm:w-12 lg:h-[52px] lg:w-[52px]"
-                  />
+                  {contato.icone && (
+                    <img
+                      src={contato.icone.src}
+                      alt={contato.icone.alt}
+                      className="h-10 w-10 shrink-0 sm:h-12 sm:w-12 lg:h-[52px] lg:w-[52px]"
+                    />
+                  )}
                   {contato.texto && (
                     <p className="whitespace-pre-line font-sans text-body text-white">
                       {contato.texto}
@@ -554,11 +574,13 @@ function BeneficiosSection({ beneficios }: { beneficios: VeterinariosBeneficios 
                 key={i}
                 className="flex flex-col gap-8 rounded-xl border border-border bg-white p-7 sm:gap-10 sm:p-8 lg:gap-12 lg:p-9"
               >
-                <img
-                  src={item.icone.src}
-                  alt={item.icone.alt}
-                  className="h-10 w-10 shrink-0 sm:h-12 sm:w-12 lg:h-[52px] lg:w-[52px]"
-                />
+                {item.icone && (
+                  <img
+                    src={item.icone.src}
+                    alt={item.icone.alt}
+                    className="h-10 w-10 shrink-0 sm:h-12 sm:w-12 lg:h-[52px] lg:w-[52px]"
+                  />
+                )}
                 {item.texto && (
                   <p className="font-sans text-body text-brand-purple-dark">{item.texto}</p>
                 )}

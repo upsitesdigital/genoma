@@ -11,8 +11,8 @@ export interface OGenomaImage {
 export interface OGenomaHeroSlide {
   eyebrow: string
   titulo: string
-  imagem1: OGenomaImage
-  imagem2: OGenomaImage
+  imagem1: OGenomaImage | null
+  imagem2: OGenomaImage | null
   destaque: string
 }
 
@@ -33,7 +33,7 @@ export interface OGenomaCompromisso {
   eyebrow: string
   titulo: string
   texto: string
-  imagem: OGenomaImage
+  imagem: OGenomaImage | null
 }
 
 export interface OGenomaDiagnostico {

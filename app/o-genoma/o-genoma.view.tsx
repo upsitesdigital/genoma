@@ -149,18 +149,24 @@ function SlideContent({ slide }: { slide: OGenomaHeroSlide }) {
         )}
       </div>
 
-      <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-[314fr_873fr] sm:gap-7 md:mt-14">
-        <img
-          src={imagem1.src}
-          alt={imagem1.alt}
-          className="h-64 w-full rounded-2xl object-cover sm:h-auto sm:aspect-[314/390]"
-        />
-        <img
-          src={imagem2.src}
-          alt={imagem2.alt}
-          className="h-64 w-full rounded-2xl object-cover sm:h-auto sm:aspect-[873/390]"
-        />
-      </div>
+      {(imagem1 || imagem2) && (
+        <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-[314fr_873fr] sm:gap-7 md:mt-14">
+          {imagem1 && (
+            <img
+              src={imagem1.src}
+              alt={imagem1.alt}
+              className="h-64 w-full rounded-2xl object-cover sm:h-auto sm:aspect-[314/390]"
+            />
+          )}
+          {imagem2 && (
+            <img
+              src={imagem2.src}
+              alt={imagem2.alt}
+              className="h-64 w-full rounded-2xl object-cover sm:h-auto sm:aspect-[873/390]"
+            />
+          )}
+        </div>
+      )}
     </div>
   )
 }
@@ -243,11 +249,13 @@ function CompromissoSection({ compromisso }: { compromisso: OGenomaCompromisso }
 
   return (
     <section className="relative isolate w-full overflow-hidden py-16 sm:py-20 md:py-24 xl:py-28">
-      <img
-        src={imagem.src}
-        alt={imagem.alt}
-        className="absolute inset-0 -z-20 h-full w-full object-cover"
-      />
+      {imagem && (
+        <img
+          src={imagem.src}
+          alt={imagem.alt}
+          className="absolute inset-0 -z-20 h-full w-full object-cover"
+        />
+      )}
       {/* Overlay mobile/tablet: escurece de cima para baixo para garantir legibilidade */}
       <div className="absolute inset-0 -z-10 bg-gradient-to-b from-black/70 via-black/40 to-black/10 md:hidden" />
       {/* Overlay desktop: gradiente horizontal fiel ao Figma */}

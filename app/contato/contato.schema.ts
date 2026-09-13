@@ -7,7 +7,7 @@ export interface ContatoImage {
 }
 
 export interface ContatoHeroCanal {
-  icone: ContatoImage
+  icone: ContatoImage | null
   titulo: string
   valor: string
   link: string
@@ -21,7 +21,7 @@ export interface ContatoHero {
 }
 
 export interface ContatoListaItem {
-  icone: ContatoImage
+  icone: ContatoImage | null
   texto: string
 }
 

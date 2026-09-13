@@ -44,22 +44,18 @@ final class BlogController extends Controller
 
     /**
      * Monta o Hero (etiqueta + título + campo de busca + pílulas de categoria).
-     * Se não houver linhas cadastradas no ACF, retorna o conteúdo padrão (Figma).
+     * Campos ACF vazios retornam vazio ("" ou []) — sem fallback de conteúdo.
      */
     private function hero(int $pageId): array
     {
         $rows = $this->field($pageId, 'hero_categorias');
 
-        if (empty($rows) || !is_array($rows)) {
-            $categorias = $this->defaultCategorias();
-        } else {
-            $categorias = array_map(fn (array $row): array => $this->mapCategoria($row), $rows);
-        }
+        $categorias = is_array($rows) ? array_map(fn (array $row): array => $this->mapCategoria($row), $rows) : [];
 
         return [
-            'eyebrow'          => (string) ($this->field($pageId, 'hero_eyebrow') ?: 'Blog'),
-            'titulo'           => (string) ($this->field($pageId, 'hero_titulo') ?: 'Simply dummy text of the  industry.'),
-            'buscaPlaceholder' => (string) ($this->field($pageId, 'hero_busca_placeholder') ?: 'Busca'),
+            'eyebrow'          => (string) ($this->field($pageId, 'hero_eyebrow') ?: ''),
+            'titulo'           => (string) ($this->field($pageId, 'hero_titulo') ?: ''),
+            'buscaPlaceholder' => (string) ($this->field($pageId, 'hero_busca_placeholder') ?: ''),
             'buscaIcone'       => $this->defaultBuscaIcone(),
             'categorias'       => $categorias,
         ];
@@ -82,19 +78,6 @@ final class BlogController extends Controller
             'width'  => 24,
             'height' => 24,
             'sizes'  => [],
-        ];
-    }
-
-    private function defaultCategorias(): array
-    {
-        return [
-            ['titulo' => 'Em destaque', 'link' => '#', 'destaque' => true],
-            ['titulo' => 'Categoria 02', 'link' => '#', 'destaque' => false],
-            ['titulo' => 'Categoria 03', 'link' => '#', 'destaque' => false],
-            ['titulo' => 'Categoria 04', 'link' => '#', 'destaque' => false],
-            ['titulo' => 'Categoria 05', 'link' => '#', 'destaque' => false],
-            ['titulo' => 'Categoria 06', 'link' => '#', 'destaque' => false],
-            ['titulo' => 'Categoria 06', 'link' => '#', 'destaque' => false],
         ];
     }
 

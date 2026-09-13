@@ -66,7 +66,7 @@ function CanalCard({ canal }: { canal: ContatoHeroCanal }) {
 
   const content = (
     <>
-      <img src={icone.src} alt={icone.alt} className="h-[52px] w-[52px] shrink-0" />
+      {icone && <img src={icone.src} alt={icone.alt} className="h-[52px] w-[52px] shrink-0" />}
       <div className="flex flex-col gap-2">
         {titulo && (
           <span className="font-sans text-body-sm text-brand-purple-dark/70">{titulo}</span>
@@ -126,10 +126,14 @@ function ContatoCardInfo({ card }: { card: Extract<ContatoListaCard, { tipo: 'in
         <div className="flex flex-col gap-6 sm:flex-row sm:flex-wrap sm:gap-8 lg:w-[587px] lg:flex-nowrap lg:justify-between">
           {itens.map((item, i) => (
             <div key={i} className="flex items-center gap-4">
-              <img src={item.icone.src} alt={item.icone.alt} className="h-[52px] w-[52px] shrink-0" />
-              <span className="whitespace-pre-line font-sans text-body-sm text-brand-purple-dark">
-                {item.texto}
-              </span>
+              {item.icone && (
+                <img src={item.icone.src} alt={item.icone.alt} className="h-[52px] w-[52px] shrink-0" />
+              )}
+              {item.texto && (
+                <span className="whitespace-pre-line font-sans text-body-sm text-brand-purple-dark">
+                  {item.texto}
+                </span>
+              )}
             </div>
           ))}
         </div>

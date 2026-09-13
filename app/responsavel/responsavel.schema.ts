@@ -14,7 +14,7 @@ export interface ResponsavelCta {
 }
 
 export interface ResponsavelHeroSlide {
-  imagem: ResponsavelImage
+  imagem: ResponsavelImage | null
   eyebrow: string
   titulo: string
   subtitulo: string
@@ -33,12 +33,12 @@ export interface ResponsavelSuporte {
   titulo: string
   texto: string
   quote: string
-  imagem1: ResponsavelImage
-  imagem2: ResponsavelImage
+  imagem1: ResponsavelImage | null
+  imagem2: ResponsavelImage | null
 }
 
 export interface ResponsavelPlanosLogo {
-  imagem: ResponsavelImage
+  imagem: ResponsavelImage | null
   nome: string
 }
 
@@ -49,7 +49,7 @@ export interface ResponsavelPlanos {
 }
 
 export interface ResponsavelExamesItem {
-  icone: ResponsavelImage
+  icone: ResponsavelImage | null
   texto: string
   destaque: string
 }
@@ -60,7 +60,7 @@ export interface ResponsavelExames {
   texto: string
   itens: ResponsavelExamesItem[]
   rodape: string
-  imagem: ResponsavelImage
+  imagem: ResponsavelImage | null
 }
 
 export interface ResponsavelServicosExame {
@@ -87,11 +87,11 @@ export interface ResponsavelResultados {
   eyebrow: string
   titulo: string
   texto: string
-  imagem: ResponsavelImage
+  imagem: ResponsavelImage | null
 }
 
 export interface ResponsavelBeneficioItem {
-  icone: ResponsavelImage
+  icone: ResponsavelImage | null
   texto: string
 }
 

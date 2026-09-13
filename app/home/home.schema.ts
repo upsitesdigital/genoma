@@ -14,7 +14,7 @@ export interface HomeCta {
 }
 
 export interface HomeHeroSlide {
-  imagem: HomeImage
+  imagem: HomeImage | null
   titulo: string
   subtitulo: string
   ctaPrimario: HomeCta
@@ -28,7 +28,7 @@ export interface HomeHero {
 }
 
 export interface HomeServicoItem {
-  imagem: HomeImage
+  imagem: HomeImage | null
   titulo: string
   descricao: string
   cta: HomeCta
@@ -61,7 +61,7 @@ export interface HomeExames {
 }
 
 export interface HomeDiferencial {
-  icone: HomeImage
+  icone: HomeImage | null
   titulo: string
   descricao: string
 }
@@ -69,21 +69,21 @@ export interface HomeDiferencial {
 export interface HomeSobre {
   eyebrow: string
   titulo: string
-  fotos: HomeImage[]
+  fotos: (HomeImage | null)[]
   paragrafos: string[]
   destaque: string
   diferenciais: HomeDiferencial[]
 }
 
 export interface HomeDiferenciaisItem {
-  icone: HomeImage
+  icone: HomeImage | null
   titulo: string
 }
 
 export interface HomeDiferenciais {
   eyebrow: string
   titulo: string
-  imagem: HomeImage
+  imagem: HomeImage | null
   itens: HomeDiferenciaisItem[]
 }
 
@@ -91,11 +91,11 @@ export interface HomeEstrutura {
   eyebrow: string
   titulo: string
   descricao: string
-  fotos: HomeImage[]
+  fotos: (HomeImage | null)[]
 }
 
 export interface HomeDepoimentoItem {
-  icone: HomeImage
+  icone: HomeImage | null
   texto: string
   nome: string
 }
