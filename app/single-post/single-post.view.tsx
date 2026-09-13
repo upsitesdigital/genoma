@@ -1,7 +1,7 @@
 import { Mail, Linkedin, Facebook, MessageCircle } from 'lucide-react'
 import { useModule } from '@/hooks/useModule'
 import { useDocumentTitle } from '@/hooks/useDocumentTitle'
-import type { SinglePostData, SinglePostHero } from './single-post.schema'
+import type { SinglePostData, SinglePostHero, SinglePostRelacionado } from './single-post.schema'
 
 export default function SinglePostView() {
   const { data, isLoading, error } = useModule<SinglePostData>('single-post')
@@ -20,6 +20,8 @@ export default function SinglePostView() {
   return (
     <main>
       <HeroSection hero={data.hero} />
+      <ConteudoSection html={data.conteudo} />
+      <VejaTambemSection posts={data.vejaTambem} />
     </main>
   )
 }
@@ -115,6 +117,71 @@ function HeroSection({ hero }: { hero: SinglePostHero }) {
   )
 }
 
+// ─── Conteúdo do post ────────────────────────────────────────────────────────
+
+function ConteudoSection({ html }: { html: string }) {
+  if (!html) return null
+
+  return (
+    <section className="w-full">
+      <div className="container pb-16 md:pb-20 lg:pb-24">
+        <div
+          className="post-content max-w-3xl"
+          dangerouslySetInnerHTML={{ __html: html }}
+        />
+      </div>
+    </section>
+  )
+}
+
+// ─── Veja também ─────────────────────────────────────────────────────────────
+// Posts REAIS relacionados (mesma categoria do post atual, com fallback para
+// posts recentes) — montados no controller via WP_Query/get_posts, sem ACF.
+
+function VejaTambemSection({ posts }: { posts: SinglePostRelacionado[] }) {
+  if (posts.length === 0) return null
+
+  return (
+    <section className="w-full">
+      <div className="container flex flex-col gap-9 pb-16 md:pb-20 lg:pb-24">
+        <h2 className="font-heading text-h2 font-normal text-brand-purple-dark">Veja também</h2>
+
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {posts.map((post) => (
+            <RelacionadoCard key={post.id} post={post} />
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function RelacionadoCard({ post }: { post: SinglePostRelacionado }) {
+  return (
+    <a
+      href={post.link}
+      className="flex flex-col gap-9 rounded-2xl bg-brand-purple-subtle p-8 transition-shadow hover:shadow-lg"
+    >
+      <div className="flex flex-col gap-9">
+        <img
+          src={post.imagem.src}
+          alt={post.imagem.alt || post.titulo}
+          className="h-[170px] w-full rounded-lg object-cover"
+        />
+        <div className="flex flex-col gap-4">
+          <h3 className="font-heading text-h4 font-medium leading-snug text-brand-purple-dark">
+            {post.titulo}
+          </h3>
+          <p className="line-clamp-3 font-sans text-body-sm text-brand-gray-text">{post.resumo}</p>
+        </div>
+      </div>
+      <span className="inline-flex w-fit shrink-0 items-center justify-center rounded-full bg-brand-purple px-4 py-3.5 font-sans text-body-sm font-semibold text-white transition-opacity hover:opacity-90">
+        Saiba mais
+      </span>
+    </a>
+  )
+}
+
 function buildShareLinks(url: string, titulo: string) {
   const encodedUrl   = encodeURIComponent(url)
   const encodedTitle = encodeURIComponent(titulo)
@@ -150,6 +217,41 @@ function SinglePostSkeleton() {
 
         <div className="container relative z-10 -mt-32 pb-10 md:-mt-40 md:pb-14 lg:-mt-56 lg:pb-16">
           <div className="aspect-[800/432] w-full max-w-3xl animate-pulse rounded-2xl bg-foreground/10" />
+        </div>
+      </section>
+
+      <section className="w-full">
+        <div className="container pb-16 md:pb-20 lg:pb-24">
+          <div className="flex max-w-3xl flex-col gap-4">
+            <div className="h-4 w-full animate-pulse rounded bg-foreground/10" />
+            <div className="h-4 w-full animate-pulse rounded bg-foreground/10" />
+            <div className="h-4 w-2/3 animate-pulse rounded bg-foreground/10" />
+            <div className="mt-4 h-6 w-1/3 animate-pulse rounded bg-foreground/10" />
+            <div className="h-4 w-full animate-pulse rounded bg-foreground/10" />
+            <div className="h-4 w-5/6 animate-pulse rounded bg-foreground/10" />
+          </div>
+        </div>
+      </section>
+
+      <section className="w-full">
+        <div className="container flex flex-col gap-9 pb-16 md:pb-20 lg:pb-24">
+          <div className="h-9 w-48 animate-pulse rounded bg-foreground/10" />
+
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <div key={i} className="flex flex-col gap-9 rounded-2xl bg-brand-purple-subtle p-8">
+                <div className="flex flex-col gap-9">
+                  <div className="h-[170px] w-full animate-pulse rounded-lg bg-foreground/10" />
+                  <div className="flex flex-col gap-4">
+                    <div className="h-6 w-3/4 animate-pulse rounded bg-foreground/10" />
+                    <div className="h-4 w-full animate-pulse rounded bg-foreground/10" />
+                    <div className="h-4 w-2/3 animate-pulse rounded bg-foreground/10" />
+                  </div>
+                </div>
+                <div className="h-11 w-28 animate-pulse rounded-full bg-foreground/10" />
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     </main>
