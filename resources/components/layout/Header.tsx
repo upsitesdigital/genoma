@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { ChevronDown } from 'lucide-react'
 import { api } from '@/lib/api'
@@ -124,7 +124,15 @@ function CtaLink({ label, url, variant }: { label: string; url: string; variant:
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [openSubmenus, setOpenSubmenus] = useState<Record<number, boolean>>({})
+  const [scrolled, setScrolled] = useState(false)
   const { data: items = [] } = useMenu('primary')
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 0)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   const opts = boot.themeOptions as ThemeOptions
   const siteName = opts.site_name || 'Genoma Diagnósticos'
@@ -139,12 +147,17 @@ export default function Header() {
     setOpenSubmenus((prev) => ({ ...prev, [id]: !prev[id] }))
 
   return (
-    <header className="fixed inset-x-0 top-0 z-40 bg-transparent">
+    <header
+      className={cn(
+        'fixed inset-x-0 top-0 z-40 transition-colors',
+        scrolled ? 'bg-[#ABC3CF]' : 'bg-transparent'
+      )}
+    >
       <div className="container flex h-16 md:h-20 lg:h-[84px] items-center justify-between gap-4">
 
         {/* Logo */}
         <a href={boot.siteUrl} className="flex items-center gap-2 shrink-0">
-          <img src={logoUrl} alt={siteName} className="h-8 md:h-10 lg:h-[52px] w-auto object-contain" />
+          <img src={logoUrl} alt={siteName} className="h-[84px] w-[166px] object-contain" />
         </a>
 
         {/* Menu desktop */}

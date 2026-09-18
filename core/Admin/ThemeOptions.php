@@ -47,6 +47,8 @@ class ThemeOptions
             'site_name'           => sanitize_text_field($input['site_name'] ?? ''),
             'logo_url'            => esc_url_raw($input['logo_url'] ?? ''),
             'logo_id'             => absint($input['logo_id'] ?? 0),
+            'footer_logo_url'     => esc_url_raw($input['footer_logo_url'] ?? ''),
+            'footer_logo_id'      => absint($input['footer_logo_id'] ?? 0),
             'primary_color'       => sanitize_hex_color($input['primary_color'] ?? ''),
             'footer_text'         => wp_kses_post($input['footer_text'] ?? ''),
             'cta_primary_label'   => sanitize_text_field($input['cta_primary_label'] ?? ''),
@@ -76,6 +78,8 @@ class ThemeOptions
         $siteName    = $opts['site_name']     ?? '';
         $logoUrl     = $opts['logo_url']      ?? '';
         $logoId      = $opts['logo_id']       ?? 0;
+        $footerLogoUrl = $opts['footer_logo_url'] ?? '';
+        $footerLogoId  = $opts['footer_logo_id']  ?? 0;
         $primaryColor = $opts['primary_color'] ?? '#000000';
         $footerText  = $opts['footer_text']   ?? '';
         $ctaPrimaryLabel   = $opts['cta_primary_label']   ?? 'Resultados';
@@ -113,7 +117,7 @@ class ThemeOptions
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><label>Logo</label></th>
+                        <th scope="row"><label>Logo do Header</label></th>
                         <td>
                             <div id="logo-preview" style="margin-bottom:8px">
                                 <?php if ($logoUrl): ?>
@@ -131,7 +135,7 @@ class ThemeOptions
                                 var frame;
                                 document.getElementById('btn-logo-select').addEventListener('click', function(){
                                     if (frame) { frame.open(); return; }
-                                    frame = wp.media({ title: 'Selecionar Logo', button: { text: 'Usar como logo' }, multiple: false });
+                                    frame = wp.media({ title: 'Selecionar Logo do Header', button: { text: 'Usar como logo' }, multiple: false });
                                     frame.on('select', function(){
                                         var att = frame.state().get('selection').first().toJSON();
                                         document.getElementById('logo_url').value = att.url;
@@ -146,6 +150,46 @@ class ThemeOptions
                                     document.getElementById('logo_url').value = '';
                                     document.getElementById('logo_id').value  = '0';
                                     document.getElementById('logo-preview').innerHTML = '';
+                                });
+                            })();
+                            </script>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label>Logo do Rodapé</label></th>
+                        <td>
+                            <div id="footer-logo-preview" style="margin-bottom:8px">
+                                <?php if ($footerLogoUrl): ?>
+                                    <img src="<?= esc_url($footerLogoUrl) ?>" style="max-height:80px;display:block">
+                                <?php endif; ?>
+                            </div>
+                            <input type="hidden" id="footer_logo_url" name="<?= self::OPTION_KEY ?>[footer_logo_url]" value="<?= esc_attr($footerLogoUrl) ?>">
+                            <input type="hidden" id="footer_logo_id"  name="<?= self::OPTION_KEY ?>[footer_logo_id]"  value="<?= esc_attr((string)$footerLogoId) ?>">
+                            <button type="button" class="button" id="btn-footer-logo-select">Selecionar imagem</button>
+                            <?php if ($footerLogoUrl): ?>
+                                <button type="button" class="button" id="btn-footer-logo-remove">Remover</button>
+                            <?php endif; ?>
+                            <p class="description">Opcional. Se vazio, usa a mesma logo do header.</p>
+                            <script>
+                            (function(){
+                                var frame;
+                                document.getElementById('btn-footer-logo-select').addEventListener('click', function(){
+                                    if (frame) { frame.open(); return; }
+                                    frame = wp.media({ title: 'Selecionar Logo do Rodapé', button: { text: 'Usar como logo' }, multiple: false });
+                                    frame.on('select', function(){
+                                        var att = frame.state().get('selection').first().toJSON();
+                                        document.getElementById('footer_logo_url').value = att.url;
+                                        document.getElementById('footer_logo_id').value  = att.id;
+                                        var preview = document.getElementById('footer-logo-preview');
+                                        preview.innerHTML = '<img src="' + att.url + '" style="max-height:80px;display:block">';
+                                    });
+                                    frame.open();
+                                });
+                                var btnRemove = document.getElementById('btn-footer-logo-remove');
+                                if (btnRemove) btnRemove.addEventListener('click', function(){
+                                    document.getElementById('footer_logo_url').value = '';
+                                    document.getElementById('footer_logo_id').value  = '0';
+                                    document.getElementById('footer-logo-preview').innerHTML = '';
                                 });
                             })();
                             </script>

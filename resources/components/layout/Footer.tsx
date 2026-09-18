@@ -16,6 +16,7 @@ interface MenuItem {
 
 interface ThemeOptions {
   logo_url?: string
+  footer_logo_url?: string
   footer_text?: string
   cta_secondary_label?: string
   cta_secondary_url?: string
@@ -131,7 +132,7 @@ export default function Footer() {
   const year = new Date().getFullYear()
   const ctaOverride = useFooterCtaOverride()
 
-  const logoUrl = opts.logo_url || `${boot.themeUrl}/resources/components/layout/assets/header-logo.svg`
+  const logoUrl = opts.footer_logo_url || opts.logo_url || `${boot.themeUrl}/resources/components/layout/assets/header-logo.svg`
   const ctaImageUrl = opts.footer_cta_image_url || `${boot.themeUrl}/resources/components/layout/assets/footer-cta-photo.png`
   const watermarkUrl = `${boot.themeUrl}/resources/components/layout/assets/footer-watermark.svg`
 
@@ -158,10 +159,10 @@ export default function Footer() {
   const { data: items = [] } = useMenu('footer')
 
   return (
-    <footer className="relative overflow-hidden bg-primary">
+    <footer className="relative mt-[100px] bg-primary">
       {/* ── Banner de CTA: imagem + card branco sobreposto ── */}
-      <div className="container pt-10 md:pt-14 lg:pt-16">
-        <div className="relative overflow-hidden rounded-2xl">
+      <div className="container -mt-[100px]">
+        <div className="relative mb-1 overflow-hidden rounded-2xl">
           <img
             src={ctaImageUrl}
             alt=""
@@ -171,11 +172,11 @@ export default function Footer() {
             src={watermarkUrl}
             alt=""
             aria-hidden="true"
-            className="pointer-events-none absolute bottom-0 left-1/2 hidden w-[280px] -translate-x-1/2 translate-y-1/4 opacity-70 md:block lg:w-[420px]"
+            className="pointer-events-none absolute bottom-0 left-6 hidden w-[280px] opacity-70 md:block lg:left-10 lg:w-[420px]"
           />
         </div>
 
-        <div className="relative z-10 -mt-10 flex flex-col gap-8 rounded-2xl bg-white p-6 shadow-lg md:-mt-14 md:p-8 lg:-mt-16 lg:flex-row lg:items-end lg:justify-between lg:gap-6 lg:p-10">
+        <div className="relative z-10 flex flex-col gap-8 rounded-2xl bg-white p-6 shadow-lg md:p-8 lg:flex-row lg:items-end lg:justify-between lg:gap-6 lg:p-10">
           <div className="flex max-w-xl flex-col gap-2">
             <span className="text-body font-normal text-accent">{overline}</span>
             <h2 className="text-h4 text-brand-purple-dark md:text-h3 lg:text-h2">
@@ -198,7 +199,7 @@ export default function Footer() {
       {/* ── Barra de navegação: logo, menu, botão Contato ── */}
       <div className="container flex flex-col items-center gap-6 py-10 md:py-12 lg:flex-row lg:items-center lg:justify-between lg:gap-8">
         <a href={boot.siteUrl} className="shrink-0">
-          <img src={logoUrl} alt="" className="h-9 w-auto object-contain md:h-10" />
+          <img src={logoUrl} alt="" className="h-[84px] w-[166px] object-contain" />
         </a>
 
         {items.length > 0 && (
@@ -230,7 +231,14 @@ export default function Footer() {
           {privacyLabel}
         </a>
 
-        <span className="text-white/70">{credits}</span>
+        <a
+          href="https://upsites.digital/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-white/70 hover:text-white transition-colors"
+        >
+          {credits}
+        </a>
       </div>
     </footer>
   )
