@@ -26,6 +26,7 @@ class Bootstrap
         add_action('deleted_post',     [self::class,         'clearRestCache']);
         add_action('wp_enqueue_scripts', static fn() => Asset::enqueue('resources/app.tsx'));
         add_action('wp_head',          [self::class,         'injectThemeCssVars'], 1);
+        add_action('add_meta_boxes',   [self::class,         'maybeRemoveEditorSupport'], 10, 2);
 
         ModuleManager::register();
         ThemeOptions::register();
@@ -46,6 +47,17 @@ class Bootstrap
 
         [$r, $g, $b] = $parts;
         echo "<style>:root{--theme-primary:{$color};--theme-primary-rgb:{$r} {$g} {$b};}</style>\n";
+    }
+
+    /** Remove o editor de conteúdo nativo do WP em páginas com Modelo diferente do padrão. */
+    public static function maybeRemoveEditorSupport(string $postType, \WP_Post $post): void
+    {
+        if ($postType !== 'page') return;
+
+        $template = get_post_meta($post->ID, '_wp_page_template', true);
+        if ($template && $template !== 'default') {
+            remove_post_type_support('page', 'editor');
+        }
     }
 
     public static function clearRestCache(): void
