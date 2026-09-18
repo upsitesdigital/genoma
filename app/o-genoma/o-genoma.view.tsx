@@ -58,7 +58,8 @@ function HeroCarousel({ hero }: { hero: OGenomaData['hero'] }) {
 
   return (
     <section
-      className="relative isolate w-full overflow-hidden bg-gradient-to-br from-[#95ABB7] to-[#AEC6D3] py-16 sm:py-20 md:py-24 xl:py-28"
+      id="hero"
+      className="relative isolate z-10 w-full bg-gradient-to-br from-[#95ABB7] to-[#AEC6D3] pt-16 sm:pt-20 md:pt-24 xl:pt-28"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       aria-roledescription="carousel"
@@ -150,7 +151,7 @@ function SlideContent({ slide }: { slide: OGenomaHeroSlide }) {
       </div>
 
       {(imagem1 || imagem2) && (
-        <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-[314fr_873fr] sm:gap-7 md:mt-14">
+        <div className="relative z-10 mt-10 grid grid-cols-1 gap-4 sm:grid-cols-[314fr_873fr] sm:gap-7 md:mt-14">
           {imagem1 && (
             <img
               src={imagem1.src}

@@ -36,11 +36,11 @@ function HeroSection({ hero }: { hero: SinglePostHero }) {
   return (
     <section className="relative isolate w-full">
       <div
-        className="w-full pb-40 pt-16 md:pb-52 md:pt-20 lg:pb-64 lg:pt-24"
+        className="w-full pb-40 pt-32 md:pb-52 md:pt-36 lg:pb-64 lg:pt-40"
         style={{ backgroundImage: 'linear-gradient(-20deg, #95ABB7 47%, #AEC6D3 100%)' }}
       >
         <div className="container">
-          <div className="flex max-w-3xl flex-col gap-4 md:gap-6">
+          <div className="mx-auto flex max-w-3xl flex-col gap-4 md:gap-6">
             <p className="font-sans text-body text-white">
               {data}
               {categoria && (
@@ -105,7 +105,7 @@ function HeroSection({ hero }: { hero: SinglePostHero }) {
       </div>
 
       <div className="container relative z-10 -mt-32 pb-10 md:-mt-40 md:pb-14 lg:-mt-56 lg:pb-16">
-        <div className="max-w-3xl">
+        <div className="mx-auto max-w-3xl">
           <img
             src={imagem.src}
             alt={imagem.alt || titulo}
@@ -126,7 +126,7 @@ function ConteudoSection({ html }: { html: string }) {
     <section className="w-full">
       <div className="container pb-16 md:pb-20 lg:pb-24">
         <div
-          className="post-content max-w-3xl"
+          className="post-content mx-auto max-w-3xl"
           dangerouslySetInnerHTML={{ __html: html }}
         />
       </div>
@@ -200,7 +200,7 @@ function SinglePostSkeleton() {
       <section className="relative isolate w-full">
         <div className="w-full bg-muted pb-40 pt-16 md:pb-52 md:pt-20 lg:pb-64 lg:pt-24">
           <div className="container">
-            <div className="flex max-w-3xl flex-col gap-4 md:gap-6">
+            <div className="mx-auto flex max-w-3xl flex-col gap-4 md:gap-6">
               <div className="h-5 w-64 animate-pulse rounded bg-foreground/10" />
               <div className="h-10 w-full animate-pulse rounded bg-foreground/10 md:h-14" />
               <div className="flex items-center gap-6">
@@ -216,13 +216,13 @@ function SinglePostSkeleton() {
         </div>
 
         <div className="container relative z-10 -mt-32 pb-10 md:-mt-40 md:pb-14 lg:-mt-56 lg:pb-16">
-          <div className="aspect-[800/432] w-full max-w-3xl animate-pulse rounded-2xl bg-foreground/10" />
+          <div className="mx-auto aspect-[800/432] w-full max-w-3xl animate-pulse rounded-2xl bg-foreground/10" />
         </div>
       </section>
 
       <section className="w-full">
         <div className="container pb-16 md:pb-20 lg:pb-24">
-          <div className="flex max-w-3xl flex-col gap-4">
+          <div className="mx-auto flex max-w-3xl flex-col gap-4">
             <div className="h-4 w-full animate-pulse rounded bg-foreground/10" />
             <div className="h-4 w-full animate-pulse rounded bg-foreground/10" />
             <div className="h-4 w-2/3 animate-pulse rounded bg-foreground/10" />

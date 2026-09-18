@@ -119,18 +119,18 @@ function ContatoCardInfo({ card }: { card: Extract<ContatoListaCard, { tipo: 'in
     <div className="flex flex-col gap-6 rounded-2xl border border-brand-gray-border bg-brand-light-purple p-6 sm:p-8 lg:flex-row lg:items-center lg:justify-between lg:gap-8 lg:p-12">
       <div className="flex flex-col gap-3 lg:w-[431px] lg:shrink-0">
         <h3 className="font-heading text-h5 font-medium text-brand-purple-dark">{titulo}</h3>
-        {descricao && <p className="font-sans text-body-sm text-brand-gray-text">{descricao}</p>}
+        {descricao && <p className="font-sans text-body text-brand-gray-text">{descricao}</p>}
       </div>
 
       {itens.length > 0 && (
         <div className="flex flex-col gap-6 sm:flex-row sm:flex-wrap sm:gap-8 lg:w-[587px] lg:flex-nowrap lg:justify-between">
           {itens.map((item, i) => (
-            <div key={i} className="flex items-center gap-4">
+            <div key={i} className="flex flex-col items-center gap-4 text-center">
               {item.icone && (
                 <img src={item.icone.src} alt={item.icone.alt} className="h-[52px] w-[52px] shrink-0" />
               )}
               {item.texto && (
-                <span className="whitespace-pre-line font-sans text-body-sm text-brand-purple-dark">
+                <span className="whitespace-pre-line font-sans text-body text-brand-purple-dark">
                   {item.texto}
                 </span>
               )}
@@ -151,12 +151,12 @@ function ContatoCardTexto({ card }: { card: Extract<ContatoListaCard, { tipo: 't
         <div className="flex flex-col gap-4">
           <h3 className="font-heading text-h5 font-medium text-brand-purple-dark">{titulo}</h3>
           {texto && (
-            <p className="font-sans text-body-sm text-brand-gray-text lg:max-w-2xl">{texto}</p>
+            <p className="font-sans text-body text-brand-gray-text lg:max-w-2xl">{texto}</p>
           )}
         </div>
         <a
           href={botao.link}
-          className="inline-flex w-fit shrink-0 items-center justify-center rounded-full bg-brand-purple px-6 py-4 font-sans text-body-sm font-semibold text-white transition-opacity hover:opacity-90"
+          className="inline-flex w-fit shrink-0 items-center justify-center rounded-full bg-brand-purple px-6 py-4 font-sans text-body font-semibold text-white transition-opacity hover:opacity-90"
         >
           {botao.texto}
         </a>
@@ -167,7 +167,7 @@ function ContatoCardTexto({ card }: { card: Extract<ContatoListaCard, { tipo: 't
   return (
     <div className="flex flex-col gap-4 rounded-2xl border border-brand-gray-border bg-brand-light-purple p-6 sm:p-8 lg:p-12">
       <h3 className="font-heading text-h5 font-medium text-brand-purple-dark">{titulo}</h3>
-      {texto && <p className="font-sans text-body-sm text-brand-gray-text lg:max-w-3xl">{texto}</p>}
+      {texto && <p className="font-sans text-body text-brand-gray-text lg:max-w-3xl">{texto}</p>}
     </div>
   )
 }
@@ -215,7 +215,7 @@ function ContatoSkeleton() {
               </div>
               <div className="flex flex-col gap-6 sm:flex-row sm:flex-wrap sm:gap-8 lg:w-[587px] lg:flex-nowrap lg:justify-between">
                 {Array.from({ length: 3 }).map((_, j) => (
-                  <div key={j} className="flex items-center gap-4">
+                  <div key={j} className="flex flex-col items-center gap-4">
                     <div className="h-[52px] w-[52px] shrink-0 animate-pulse rounded-full bg-foreground/10" />
                     <div className="h-4 w-28 animate-pulse rounded bg-foreground/10" />
                   </div>

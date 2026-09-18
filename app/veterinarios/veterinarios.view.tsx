@@ -65,7 +65,7 @@ function HeroCarousel({ hero }: { hero: VeterinariosData['hero'] }) {
 
   return (
     <section
-      className="relative isolate flex min-h-[620px] w-full items-center overflow-hidden bg-gradient-to-br from-[#95ABB7] to-[#AEC6D3] py-20 sm:min-h-[680px] md:py-24 lg:min-h-[720px] xl:min-h-[797px] xl:py-0"
+      className="relative isolate flex min-h-[620px] w-full items-center bg-gradient-to-br from-[#95ABB7] to-[#AEC6D3] py-20 sm:min-h-[680px] md:py-24 lg:min-h-[720px] xl:min-h-[797px] xl:py-0"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       aria-roledescription="carousel"
@@ -131,7 +131,7 @@ function HeroCarousel({ hero }: { hero: VeterinariosData['hero'] }) {
         src={waveUrl}
         alt=""
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 bottom-0 z-10 mx-auto hidden w-full max-w-[1426px] lg:block"
+        className="pointer-events-none absolute inset-x-0 bottom-[-20px] z-10 mx-auto hidden w-full max-w-[1426px] lg:block"
       />
     </section>
   )
@@ -299,27 +299,29 @@ function PraticidadeSection({ praticidade }: { praticidade: VeterinariosPraticid
   return (
     <section className="bg-background py-16 md:py-20 lg:py-24 xl:py-28">
       <div className="container">
-        <div className="relative overflow-hidden rounded-3xl bg-brand-purple">
+        <div className="relative overflow-hidden rounded-2xl bg-brand-purple">
           {/* Painel decorativo mais escuro atrás da imagem (apenas telas maiores) */}
           <div
             aria-hidden="true"
-            className="absolute inset-y-0 right-0 hidden w-[28%] rounded-r-3xl bg-brand-purple-dark lg:block xl:w-[22%]"
+            className="absolute inset-y-0 right-0 hidden w-[22%] rounded-r-2xl bg-brand-purple-dark lg:block"
           />
 
           <div className="relative z-10 flex flex-col gap-8 p-8 sm:p-10 md:p-12 lg:flex-row lg:items-center lg:gap-10 lg:p-14 xl:gap-16 xl:p-16">
-            <div className="flex flex-col gap-6 lg:max-w-[552px] lg:shrink-0">
-              <div className="flex flex-col gap-2">
-                {eyebrow && <p className="font-sans text-body text-white">{eyebrow}</p>}
-                {titulo && (
-                  <h2 className="font-heading text-h3 text-white md:text-h2">{titulo}</h2>
+            <div className="flex flex-col gap-8 lg:max-w-[552px] lg:shrink-0 lg:gap-[46px]">
+              <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-2">
+                  {eyebrow && <p className="font-sans text-body text-white">{eyebrow}</p>}
+                  {titulo && (
+                    <h2 className="font-heading text-h3 text-white md:text-h2">{titulo}</h2>
+                  )}
+                </div>
+
+                {texto && (
+                  <p className="whitespace-pre-line font-sans text-body-lg leading-relaxed text-white/70">
+                    {texto}
+                  </p>
                 )}
               </div>
-
-              {texto && (
-                <p className="whitespace-pre-line font-sans text-body-lg leading-relaxed text-white/70">
-                  {texto}
-                </p>
-              )}
 
               {horarios.length > 0 && (
                 <div className="flex items-center gap-4 rounded-2xl bg-white/10 p-6 sm:gap-6 sm:p-7">
@@ -342,11 +344,11 @@ function PraticidadeSection({ praticidade }: { praticidade: VeterinariosPraticid
             </div>
 
             {imagem && (
-              <div className="relative h-64 w-full overflow-hidden rounded-2xl sm:h-80 lg:absolute lg:inset-y-[30px] lg:right-10 lg:h-auto lg:w-[38%] xl:right-16 xl:w-[478px]">
+              <div className="relative h-64 w-full overflow-hidden rounded-2xl sm:h-80 lg:absolute lg:top-[30px] lg:bottom-0 lg:right-10 lg:h-full lg:w-[38%] xl:right-16 xl:w-[478px]">
                 <img
                   src={imagem.src}
                   alt={imagem.alt}
-                  className="h-full w-full rounded-2xl object-cover"
+                  className="h-full w-full rounded-2xl object-contain"
                 />
               </div>
             )}
