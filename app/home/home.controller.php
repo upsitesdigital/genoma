@@ -134,6 +134,7 @@ final class HomeController extends Controller
 
         return [
             'titulo' => (string) ($row['titulo'] ?? ''),
+            'texto'  => (string) ($row['texto'] ?? ''),
             'itens'  => is_array($itens) ? array_map(fn (array $item): array => $this->mapExameItem($item), $itens) : [],
         ];
     }

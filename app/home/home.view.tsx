@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react'
 import { useModule } from '@/hooks/useModule'
 import { useDocumentTitle } from '@/hooks/useDocumentTitle'
 import { cn } from '@/lib/cn'
+import { boot } from '@/lib/env'
 import type {
   HomeData,
   HomeHeroSlide,
@@ -67,9 +68,11 @@ function HeroCarousel({ hero }: { hero: HomeData['hero'] }) {
 
   if (total === 0) return null
 
+  const waveUrl = `${boot.themeUrl}/app/home/assets/hero-bottom-wave.svg`
+
   return (
     <section
-      className="relative isolate flex min-h-[560px] w-full items-center overflow-hidden py-20 sm:min-h-[620px] md:py-24 lg:min-h-[720px] xl:min-h-[797px]"
+      className="relative isolate flex min-h-[560px] w-full items-center py-20 sm:min-h-[620px] md:py-24 lg:min-h-[720px] xl:min-h-[797px]"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       aria-roledescription="carousel"
@@ -88,10 +91,16 @@ function HeroCarousel({ hero }: { hero: HomeData['hero'] }) {
             <img
               src={slide.imagem.src}
               alt={slide.imagem.alt}
-              className="h-full w-full object-cover"
+              className="relative z-[1] h-full w-full object-cover"
             />
           )}
-          <div className="absolute inset-0 bg-gradient-to-r from-brand-purple-dark/80 via-brand-purple-dark/40 to-transparent" />
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                'linear-gradient(295.78deg, #95ABB7 54.95%, #AEC6D3 100.42%)',
+            }}
+          />
         </div>
       ))}
 
@@ -137,6 +146,14 @@ function HeroCarousel({ hero }: { hero: HomeData['hero'] }) {
           </div>
         </>
       )}
+
+      {/* Onda decorativa inferior (apenas telas maiores) */}
+      <img
+        src={waveUrl}
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 bottom-[-20px] z-10 mx-auto hidden w-full max-w-[1426px] lg:block"
+      />
     </section>
   )
 }
@@ -367,8 +384,9 @@ function ExameCategoriaAccordion({
   isOpen: boolean
   onToggle: () => void
 }) {
-  const { titulo, itens } = categoria
+  const { titulo, texto, itens } = categoria
   const hasItens = itens.length > 0
+  const hasContent = hasItens || !!texto
 
   return (
     <div className="flex flex-col gap-6 rounded-2xl bg-brand-purple-subtle p-5 sm:gap-9 md:p-6 lg:p-8">
@@ -380,7 +398,7 @@ function ExameCategoriaAccordion({
         <button
           type="button"
           onClick={onToggle}
-          disabled={!hasItens}
+          disabled={!hasContent}
           aria-expanded={isOpen}
           aria-label={isOpen ? `Recolher ${titulo}` : `Expandir ${titulo}`}
           className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-purple text-white transition-opacity disabled:opacity-40 sm:h-[46px] sm:w-[46px]"
@@ -391,29 +409,36 @@ function ExameCategoriaAccordion({
         </button>
       </div>
 
-      {hasItens && (
+      {hasContent && (
         <div
           className="grid transition-[grid-template-rows] duration-300 ease-in-out"
           style={{ gridTemplateRows: isOpen ? '1fr' : '0fr' }}
         >
-          <div className="flex flex-col gap-2 overflow-hidden">
-            {itens.map((item, i) => (
-              <div key={i} className="flex w-full flex-wrap items-center gap-2">
-                <div className="min-w-[200px] flex-1 rounded-2xl bg-white px-4 py-4 font-sans text-sm font-semibold text-brand-purple-dark sm:text-base">
-                  {item.nome}
-                </div>
-                {item.prazo && (
-                  <div className="w-full shrink-0 rounded-2xl bg-white px-4 py-4 text-center font-sans text-body-sm text-brand-purple-dark sm:w-auto sm:min-w-[132px]">
-                    {item.prazo}
+          <div className="flex flex-col gap-4 overflow-hidden">
+            {texto && (
+              <p className="font-sans text-body-sm text-brand-gray-text">{texto}</p>
+            )}
+            {hasItens && (
+              <div className="flex flex-col gap-2">
+                {itens.map((item, i) => (
+                  <div key={i} className="flex w-full flex-wrap items-center gap-2">
+                    <div className="min-w-[200px] flex-1 rounded-2xl bg-white px-4 py-4 font-sans text-sm font-semibold text-brand-purple-dark sm:text-base">
+                      {item.nome}
+                    </div>
+                    {item.prazo && (
+                      <div className="w-full shrink-0 rounded-2xl bg-white px-4 py-4 text-center font-sans text-body-sm text-brand-purple-dark sm:w-auto sm:min-w-[132px]">
+                        {item.prazo}
+                      </div>
+                    )}
+                    {item.amostra && (
+                      <div className="w-full shrink-0 rounded-2xl bg-white px-4 py-4 text-center font-sans text-body-sm text-brand-purple-dark sm:w-auto">
+                        {item.amostra}
+                      </div>
+                    )}
                   </div>
-                )}
-                {item.amostra && (
-                  <div className="w-full shrink-0 rounded-2xl bg-white px-4 py-4 text-center font-sans text-body-sm text-brand-purple-dark sm:w-auto">
-                    {item.amostra}
-                  </div>
-                )}
+                ))}
               </div>
-            ))}
+            )}
           </div>
         </div>
       )}
@@ -465,7 +490,7 @@ function SobreSection({ sobre }: { sobre: HomeSobre }) {
           </div>
 
           {fotos.length > 0 && (
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-stretch sm:gap-5">
+            <div className="relative flex flex-col gap-4 sm:flex-row sm:items-stretch sm:gap-5">
               {foto1 && (
                 <img
                   src={foto1.src}
@@ -487,13 +512,19 @@ function SobreSection({ sobre }: { sobre: HomeSobre }) {
                   className="h-64 w-full rounded-2xl object-cover sm:h-72 sm:flex-[1.8] md:h-80 lg:h-[389px]"
                 />
               )}
+              <img
+                src={`${boot.themeUrl}/app/home/assets/sobre-genoma-dna-decor.svg`}
+                alt=""
+                aria-hidden="true"
+                className="pointer-events-none absolute -top-[73px] right-6 hidden w-16 sm:block md:-top-[92px] md:right-8 md:w-20 lg:-top-[115px] lg:right-[46px] lg:w-[100px]"
+              />
             </div>
           )}
         </div>
 
         {/* Texto institucional + frase de destaque */}
         {(paragrafos.length > 0 || destaque) && (
-          <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:gap-16">
+          <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between lg:gap-16">
             {paragrafos.length > 0 && (
               <div className="flex flex-col gap-4 font-sans text-base text-brand-gray-text lg:max-w-xl lg:flex-1">
                 {paragrafos.map((paragrafo, i) => (
@@ -591,19 +622,24 @@ function DiferenciaisSection({ diferenciais }: { diferenciais: HomeDiferenciais 
 
   return (
     <section
-      className="relative isolate w-full overflow-hidden bg-brand-purple-dark bg-cover bg-center py-16 md:py-20 lg:py-24"
+      className="relative isolate w-full bg-[#9EB4C1] bg-cover bg-center pb-16 pt-[22rem] md:pb-20 lg:pb-24"
       style={imagem ? { backgroundImage: `url(${imagem.src})` } : undefined}
     >
-      <div className="absolute inset-0 bg-gradient-to-r from-brand-purple-dark/95 via-brand-purple-dark/70 to-brand-purple-dark/10" />
+      <div
+        className="absolute inset-0"
+        style={{
+          background: 'linear-gradient(36deg, rgba(158, 180, 193, 1) 15%, rgba(158, 180, 193, 0) 100%)',
+        }}
+      />
 
-      <div className="container relative z-10 flex flex-col gap-8 md:gap-10 lg:gap-12">
+      <div className="container relative z-10 flex flex-col gap-[5rem] mb-[-210px]">
         <div className="flex max-w-xl flex-col gap-2 lg:max-w-2xl">
-          {eyebrow && <span className="font-sans text-base text-white/80">{eyebrow}</span>}
+          {eyebrow && <span className="font-sans text-base text-white">{eyebrow}</span>}
           <h2 className="font-heading text-h3 font-normal text-white md:text-h2">{titulo}</h2>
         </div>
 
         {itens.length > 0 && (
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-6 lg:grid-cols-4">
+          <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap md:gap-[38px]">
             {itens.map((item, i) => (
               <DiferencialItemCard key={i} item={item} />
             ))}
@@ -616,12 +652,12 @@ function DiferenciaisSection({ diferenciais }: { diferenciais: HomeDiferenciais 
 
 function DiferencialItemCard({ item }: { item: HomeDiferenciaisItem }) {
   return (
-    <div className="flex flex-col gap-8 rounded-xl border border-[#DFDEE3] bg-white p-6 md:gap-12 md:p-9">
+    <div className="flex flex-col gap-8 rounded-xl border border-[#DFDEE3] bg-white p-6 md:gap-12 md:p-9 lg:w-[281px] lg:shrink-0">
       {item.icone && (
         <img src={item.icone.src} alt={item.icone.alt} className="h-[52px] w-[52px]" />
       )}
       {item.titulo && (
-        <p className="max-w-[198px] font-sans text-base text-brand-purple-dark">{item.titulo}</p>
+        <p className="max-w-[198px] font-sans text-body-lg text-brand-purple-dark">{item.titulo}</p>
       )}
     </div>
   )
@@ -654,7 +690,7 @@ function EstruturaSection({ estrutura }: { estrutura: HomeEstrutura }) {
   const { eyebrow, titulo, descricao, fotos } = estrutura
 
   return (
-    <section className="w-full py-16 md:py-20 lg:py-24">
+    <section className="w-full py-16 md:py-20 lg:py-24 mt-[110px]">
       <div className="container flex flex-col gap-6 md:gap-8 lg:gap-16">
         <div className="flex flex-col gap-2">
           <div className="flex flex-col gap-2">
@@ -680,7 +716,7 @@ function EstruturaSection({ estrutura }: { estrutura: HomeEstrutura }) {
                   key={i}
                   src={foto.src}
                   alt={foto.alt}
-                  className="h-64 w-full flex-1 rounded-2xl object-cover sm:h-72 md:h-80 lg:h-[374px]"
+                  className="h-64 w-full min-w-0 flex-1 rounded-2xl object-cover sm:h-72 md:h-80 lg:h-[374px]"
                 />
               )
             )}

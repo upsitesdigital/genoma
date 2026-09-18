@@ -441,11 +441,11 @@ final class ResponsavelModule extends Module
                 [
                     'key'           => 'field_responsavel_beneficios_texto',
                     'name'          => 'beneficios_texto',
-                    'label'         => 'Benefícios — Texto',
+                    'label'         => 'Benefícios — Texto de destaque',
                     'type'          => 'textarea',
                     'rows'          => 2,
-                    'instructions'  => 'Opcional. Deixe em branco se a seção não tiver texto de introdução.',
-                    'default_value' => '',
+                    'instructions'  => 'Opcional. Aparece abaixo dos cards de benefícios.',
+                    'default_value' => 'Tudo para garantir mais segurança e cuidado com a saúde do seu melhor amigo 💙',
                 ],
                 [
                     'key'          => 'field_responsavel_beneficios_itens',

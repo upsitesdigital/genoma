@@ -49,6 +49,7 @@ export interface HomeExameItem {
 
 export interface HomeExameCategoria {
   titulo: string
+  texto: string
   itens: HomeExameItem[]
 }
 

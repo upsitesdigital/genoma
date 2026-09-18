@@ -67,7 +67,7 @@ function HeroCarousel({ hero }: { hero: ResponsavelData['hero'] }) {
 
   return (
     <section
-      className="relative isolate flex min-h-[620px] w-full items-center overflow-hidden bg-gradient-to-br from-[#95ABB7] to-[#AEC6D3] py-20 sm:min-h-[680px] md:py-24 lg:min-h-[720px] xl:min-h-[797px] xl:py-0"
+      className="relative isolate flex min-h-[620px] w-full items-center bg-gradient-to-br from-[#95ABB7] to-[#AEC6D3] py-20 sm:min-h-[680px] md:py-24 lg:min-h-[720px] xl:min-h-[797px] xl:py-0"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       aria-roledescription="carousel"
@@ -133,7 +133,7 @@ function HeroCarousel({ hero }: { hero: ResponsavelData['hero'] }) {
         src={waveUrl}
         alt=""
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 bottom-0 z-10 mx-auto hidden w-full max-w-[1426px] lg:block"
+        className="pointer-events-none absolute inset-x-0 bottom-[-20px] z-10 mx-auto hidden w-full max-w-[1426px] lg:block"
       />
     </section>
   )
@@ -703,12 +703,6 @@ function BeneficiosSection({ beneficios }: { beneficios: ResponsavelBeneficios }
           )}
         </div>
 
-        {texto && (
-          <p className="mt-6 max-w-2xl font-sans text-body-lg leading-relaxed text-brand-gray-text md:mt-8">
-            {texto}
-          </p>
-        )}
-
         {itens.length > 0 && (
           <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 md:mt-14">
             {itens.map((item, i) => (
@@ -729,6 +723,12 @@ function BeneficiosSection({ beneficios }: { beneficios: ResponsavelBeneficios }
               </div>
             ))}
           </div>
+        )}
+
+        {texto && (
+          <p className="mt-10 max-w-2xl font-heading text-h4 text-brand-purple-dark md:mt-14">
+            {texto}
+          </p>
         )}
       </div>
     </section>

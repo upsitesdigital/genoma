@@ -230,6 +230,7 @@ final class HomeModule extends Module
                     'min'          => 0,
                     'max'          => 0,
                     'button_label' => 'Adicionar Categoria',
+                    'collapsed' => 'field_home_exames_categoria_titulo',
                     'sub_fields'   => [
                         [
                             'key'           => 'field_home_exames_categoria_titulo',
@@ -237,6 +238,14 @@ final class HomeModule extends Module
                             'label'         => 'Título da Categoria',
                             'type'          => 'text',
                             'required'      => 1,
+                            'default_value' => '',
+                        ],
+                        [
+                            'key'           => 'field_home_exames_categoria_texto',
+                            'name'          => 'texto',
+                            'label'         => 'Texto (opcional)',
+                            'type'          => 'textarea',
+                            'rows'          => 2,
                             'default_value' => '',
                         ],
                         [
