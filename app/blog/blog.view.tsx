@@ -4,6 +4,7 @@ import { useModule } from '@/hooks/useModule'
 import { useDocumentTitle } from '@/hooks/useDocumentTitle'
 import { cn } from '@/lib/cn'
 import { api } from '@/lib/api'
+import { boot } from '@/lib/env'
 import type { BlogData, BlogHero, BlogHeroCategoria, BlogListaPost, BlogPost } from './blog.schema'
 
 export default function BlogView() {
@@ -36,15 +37,7 @@ function HeroSection({ hero }: { hero: BlogHero }) {
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-
-    const params = new URLSearchParams(window.location.search)
-    if (busca) {
-      params.set('s', busca)
-    } else {
-      params.delete('s')
-    }
-    const query = params.toString()
-    window.location.search = query
+    window.location.href = `${boot.siteUrl}/?s=${encodeURIComponent(busca)}`
   }
 
   return (

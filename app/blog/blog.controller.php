@@ -9,9 +9,6 @@ use Core\Framework\Attributes\Cache;
 
 final class BlogController extends Controller
 {
-    /** Quantidade de posts por página na "Lista de post" (Figma mostra 12 cards por página, em grid 3x4). */
-    private const POSTS_PER_PAGE = 12;
-
     #[Get('/blog')]
     #[Get('/blog/:id')]
     #[Cache(ttl: 300)]
@@ -22,7 +19,7 @@ final class BlogController extends Controller
         $categoria = (string) ($request->get_param('categoria') ?: '');
 
         return [
-            'hero'      => $this->hero($pageId),
+            'hero'      => $this->hero($pageId, $categoria),
             'listaPost' => $this->listaPost($page, $categoria),
         ];
     }
@@ -46,28 +43,54 @@ final class BlogController extends Controller
      * Monta o Hero (etiqueta + título + campo de busca + pílulas de categoria).
      * Campos ACF vazios retornam vazio ("" ou []) — sem fallback de conteúdo.
      */
-    private function hero(int $pageId): array
+    private function hero(int $pageId, string $categoriaAtual): array
     {
-        $rows = $this->field($pageId, 'hero_categorias');
-
-        $categorias = is_array($rows) ? array_map(fn (array $row): array => $this->mapCategoria($row), $rows) : [];
-
         return [
             'eyebrow'          => (string) ($this->field($pageId, 'hero_eyebrow') ?: ''),
             'titulo'           => (string) ($this->field($pageId, 'hero_titulo') ?: ''),
             'buscaPlaceholder' => (string) ($this->field($pageId, 'hero_busca_placeholder') ?: ''),
             'buscaIcone'       => $this->defaultBuscaIcone(),
-            'categorias'       => $categorias,
+            'categorias'       => $this->categoriasReais($pageId, $categoriaAtual),
         ];
     }
 
-    private function mapCategoria(array $row): array
+    /**
+     * Pílulas de categoria montadas a partir da taxonomia nativa `category`:
+     * "Todos" + uma pílula por categoria com pelo menos um post publicado.
+     * O pill ativo (`destaque`) é o que corresponde ao filtro atual (?categoria=).
+     */
+    private function categoriasReais(int $pageId, string $categoriaAtual): array
     {
-        return [
-            'titulo'   => (string) ($row['titulo'] ?? ''),
-            'link'     => (string) ($row['link'] ?? '#'),
-            'destaque' => (bool) ($row['destaque'] ?? false),
+        $baseUrl = $pageId ? (get_permalink($pageId) ?: home_url('/blog/')) : home_url('/blog/');
+
+        $categorias = [
+            [
+                'titulo'   => 'Todos',
+                'link'     => $baseUrl,
+                'destaque' => $categoriaAtual === '',
+            ],
         ];
+
+        $termos = get_categories([
+            'hide_empty' => true,
+            'orderby'    => 'name',
+            'order'      => 'ASC',
+        ]);
+
+        // "Em destaque" sempre logo após "Todos", independente da ordem alfabética.
+        usort($termos, fn (\WP_Term $a, \WP_Term $b): int =>
+            ($b->slug === 'em-destaque') <=> ($a->slug === 'em-destaque')
+        );
+
+        foreach ($termos as $termo) {
+            $categorias[] = [
+                'titulo'   => $termo->name,
+                'link'     => add_query_arg('categoria', $termo->slug, $baseUrl),
+                'destaque' => $categoriaAtual === $termo->slug,
+            ];
+        }
+
+        return $categorias;
     }
 
     private function defaultBuscaIcone(): array
@@ -95,7 +118,7 @@ final class BlogController extends Controller
         $args = [
             'post_type'           => 'post',
             'post_status'         => 'publish',
-            'posts_per_page'      => self::POSTS_PER_PAGE,
+            'posts_per_page'      => (int) get_option('posts_per_page'),
             'paged'               => $paged,
             'ignore_sticky_posts' => true,
             'no_found_rows'       => false,

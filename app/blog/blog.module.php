@@ -47,41 +47,10 @@ final class BlogModule extends Module
                     'type'          => 'text',
                     'default_value' => 'Busca',
                 ],
-                [
-                    'key'          => 'field_blog_hero_categorias',
-                    'name'         => 'hero_categorias',
-                    'label'        => 'Hero — Categorias (pílulas de filtro)',
-                    'type'         => 'repeater',
-                    'layout'       => 'block',
-                    'min'          => 0,
-                    'max'          => 0,
-                    'button_label' => 'Adicionar Categoria',
-                    'sub_fields'   => [
-                        [
-                            'key'           => 'field_blog_hero_categoria_titulo',
-                            'name'          => 'titulo',
-                            'label'         => 'Título',
-                            'type'          => 'text',
-                            'required'      => 1,
-                            'default_value' => '',
-                        ],
-                        [
-                            'key'           => 'field_blog_hero_categoria_link',
-                            'name'          => 'link',
-                            'label'         => 'Link',
-                            'type'          => 'url',
-                            'default_value' => '#',
-                        ],
-                        [
-                            'key'           => 'field_blog_hero_categoria_destaque',
-                            'name'          => 'destaque',
-                            'label'         => 'Destacar (estilo "Em destaque")',
-                            'type'          => 'true_false',
-                            'ui'            => 1,
-                            'default_value' => 0,
-                        ],
-                    ],
-                ],
+                // As pílulas de categoria (Hero) não são um campo ACF — são
+                // montadas no controller a partir das categorias reais do
+                // WordPress (taxonomia nativa `category`), com um pill "Todos"
+                // + um pill por categoria com posts publicados.
 
                 // ── Lista de post ─────────────────────────────────────────
                 // Seção 100% dinâmica: lista posts reais do WordPress (post type
