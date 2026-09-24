@@ -573,13 +573,14 @@ function ServicosSection({ servicos }: { servicos: ResponsavelServicos }) {
                               <div className="flex-1 rounded-2xl bg-white px-4 py-4 font-sans text-body font-semibold text-brand-purple-dark">
                                 {exame.nome}
                               </div>
+                              {/* Larguras fixas: dias e amostra alinham em coluna em todas as linhas */}
                               {exame.prazo && (
-                                <div className="shrink-0 rounded-2xl bg-white px-4 py-4 font-sans text-body-sm text-brand-purple-dark sm:w-[132px]">
+                                <div className="flex shrink-0 items-center justify-center rounded-2xl bg-white px-4 py-4 text-center font-sans text-body-sm text-brand-purple-dark sm:w-[132px]">
                                   {exame.prazo}
                                 </div>
                               )}
                               {exame.amostra && (
-                                <div className="flex shrink-0 items-center justify-center whitespace-nowrap rounded-2xl bg-white px-4 py-4 font-sans text-body-sm text-brand-purple-dark">
+                                <div className="flex shrink-0 items-center justify-center rounded-2xl bg-white px-4 py-4 text-center font-sans text-body-sm text-brand-purple-dark sm:w-[220px]">
                                   {exame.amostra}
                                 </div>
                               )}
