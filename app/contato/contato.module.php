@@ -87,7 +87,7 @@ final class ContatoModule extends Module
                             'key'           => 'field_contato_hero_canal_link',
                             'name'          => 'link',
                             'label'         => 'Link (ex: https://wa.me/... ou mailto:...)',
-                            'type'          => 'url',
+                            'type'          => 'text',
                             'default_value' => '',
                         ],
                     ],
@@ -206,7 +206,7 @@ final class ContatoModule extends Module
                                     'key'               => 'field_contato_lista_card_texto_botao_link',
                                     'name'              => 'botao_link',
                                     'label'             => 'Botão — Link',
-                                    'type'              => 'url',
+                                    'type'              => 'text',
                                     'default_value'     => '#',
                                     'conditional_logic' => [
                                         [

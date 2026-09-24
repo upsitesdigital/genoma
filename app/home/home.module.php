@@ -80,7 +80,7 @@ final class HomeModule extends Module
                             'key'           => 'field_home_hero_slide_cta_primario_link',
                             'name'          => 'cta_primario_link',
                             'label'         => 'CTA Primário — Link',
-                            'type'          => 'url',
+                            'type'          => 'text',
                             'default_value' => '#',
                         ],
                         [
@@ -94,7 +94,7 @@ final class HomeModule extends Module
                             'key'           => 'field_home_hero_slide_cta_secundario_link',
                             'name'          => 'cta_secundario_link',
                             'label'         => 'CTA Secundário — Link',
-                            'type'          => 'url',
+                            'type'          => 'text',
                             'default_value' => '#',
                         ],
                     ],
@@ -186,7 +186,7 @@ final class HomeModule extends Module
                             'key'           => 'field_home_servicos_item_cta_link',
                             'name'          => 'cta_link',
                             'label'         => 'CTA — Link',
-                            'type'          => 'url',
+                            'type'          => 'text',
                             'default_value' => '#',
                         ],
                     ],
@@ -202,7 +202,7 @@ final class HomeModule extends Module
                     'key'           => 'field_home_servicos_cta_link',
                     'name'          => 'servicos_cta_link',
                     'label'         => 'Serviços — CTA Final (Link)',
-                    'type'          => 'url',
+                    'type'          => 'text',
                     'default_value' => '#',
                 ],
 
@@ -303,7 +303,7 @@ final class HomeModule extends Module
                     'key'           => 'field_home_exames_cta_link',
                     'name'          => 'exames_cta_link',
                     'label'         => 'Exames — CTA Final (Link)',
-                    'type'          => 'url',
+                    'type'          => 'text',
                     'default_value' => '#',
                 ],
 
@@ -604,7 +604,7 @@ final class HomeModule extends Module
                     'key'           => 'field_home_footer_cta_primario_link',
                     'name'          => 'footer_cta_primario_link',
                     'label'         => 'Rodapé — CTA Primário (Link)',
-                    'type'          => 'url',
+                    'type'          => 'text',
                     'default_value' => '#',
                 ],
                 [
@@ -635,7 +635,7 @@ final class HomeModule extends Module
                     'key'               => 'field_home_footer_cta_secundario_link',
                     'name'              => 'footer_cta_secundario_link',
                     'label'             => 'Rodapé — CTA Secundário (Link)',
-                    'type'              => 'url',
+                    'type'              => 'text',
                     'default_value'     => '#',
                     'conditional_logic' => [
                         [

@@ -80,7 +80,7 @@ final class ResponsavelModule extends Module
                             'key'           => 'field_responsavel_hero_slide_cta_primario_link',
                             'name'          => 'cta_primario_link',
                             'label'         => 'CTA Primário — Link',
-                            'type'          => 'url',
+                            'type'          => 'text',
                             'default_value' => '#',
                         ],
                         [
@@ -94,7 +94,7 @@ final class ResponsavelModule extends Module
                             'key'           => 'field_responsavel_hero_slide_cta_secundario_link',
                             'name'          => 'cta_secundario_link',
                             'label'         => 'CTA Secundário — Link',
-                            'type'          => 'url',
+                            'type'          => 'text',
                             'default_value' => '#',
                         ],
                     ],
@@ -498,7 +498,7 @@ final class ResponsavelModule extends Module
                     'key'           => 'field_responsavel_footer_cta_primario_link',
                     'name'          => 'footer_cta_primario_link',
                     'label'         => 'Rodapé — CTA Primário (Link)',
-                    'type'          => 'url',
+                    'type'          => 'text',
                     'default_value' => '#',
                 ],
                 [
@@ -529,7 +529,7 @@ final class ResponsavelModule extends Module
                     'key'               => 'field_responsavel_footer_cta_secundario_link',
                     'name'              => 'footer_cta_secundario_link',
                     'label'             => 'Rodapé — CTA Secundário (Link)',
-                    'type'              => 'url',
+                    'type'              => 'text',
                     'default_value'     => '#',
                     'conditional_logic' => [
                         [

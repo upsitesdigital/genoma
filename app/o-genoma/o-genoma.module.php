@@ -227,7 +227,7 @@ final class OGenomaModule extends Module
                     'key'           => 'field_o-genoma_footer_cta_primario_link',
                     'name'          => 'footer_cta_primario_link',
                     'label'         => 'Rodapé — CTA Primário (Link)',
-                    'type'          => 'url',
+                    'type'          => 'text',
                     'default_value' => '#',
                 ],
                 [
@@ -258,7 +258,7 @@ final class OGenomaModule extends Module
                     'key'               => 'field_o-genoma_footer_cta_secundario_link',
                     'name'              => 'footer_cta_secundario_link',
                     'label'             => 'Rodapé — CTA Secundário (Link)',
-                    'type'              => 'url',
+                    'type'              => 'text',
                     'default_value'     => '#',
                     'conditional_logic' => [
                         [
