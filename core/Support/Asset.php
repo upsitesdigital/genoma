@@ -43,6 +43,35 @@ class Asset
         add_filter('script_loader_tag', [self::class, 'addModuleType'], 10, 2);
     }
 
+    /**
+     * Imprime <link rel="modulepreload"> do chunk de um entry dinâmico (ex: a view
+     * do módulo da página atual) e dos seus imports, para o navegador baixá-los
+     * em paralelo com o app.js em vez de só depois dele. Chamar dentro do <head>.
+     */
+    public static function preload(string $entry): void
+    {
+        if (self::isDev()) return;
+
+        $manifest = self::manifest();
+        $base     = get_template_directory_uri() . '/public/build/';
+        $seen     = [];
+
+        $walk = static function (string $key) use (&$walk, &$seen, $manifest, $base): void {
+            if (isset($seen[$key]) || !isset($manifest[$key]['file'])) return;
+            $seen[$key] = true;
+
+            echo '<link rel="modulepreload" href="' . esc_url($base . $manifest[$key]['file']) . '">' . "\n";
+            foreach ($manifest[$key]['css'] ?? [] as $css) {
+                echo '<link rel="preload" as="style" href="' . esc_url($base . $css) . '">' . "\n";
+            }
+            foreach ($manifest[$key]['imports'] ?? [] as $import) {
+                $walk($import);
+            }
+        };
+
+        $walk($entry);
+    }
+
     /** @internal */
     public static function addModuleType(string $tag, string $handle): string
     {

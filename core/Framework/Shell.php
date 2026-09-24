@@ -37,6 +37,16 @@ class Shell
             'themeOptions' => get_option('upwork_theme_options', []),
             'currentPath'  => $_SERVER['REQUEST_URI'] ?? '/',
             'currentRoute' => $route,
+            // Dados já resolvidos no servidor: o front semeia o cache do React
+            // Query com eles e renderiza o conteúdo de primeira, sem skeleton
+            // nem fetch extra (ver resources/lib/preload.ts).
+            'preload'      => [
+                'module' => $route ? self::preloadModule($route) : null,
+                'menus'  => [
+                    'primary' => self::internalGet('/menus/primary'),
+                    'footer'  => self::internalGet('/menus/footer'),
+                ],
+            ],
         ];
         ?>
 <!DOCTYPE html>
@@ -59,6 +69,7 @@ class Shell
     <?php endif; ?>
 
     <?php wp_head(); ?>
+    <?php if ($route) \Core\Support\Asset::preload("app/{$route['module']}/{$route['module']}.view.tsx"); ?>
 </head>
 <body <?php body_class(); ?>>
     <?php wp_body_open(); ?>
@@ -68,5 +79,37 @@ class Shell
 </body>
 </html>
         <?php
+    }
+
+    /**
+     * Mesma requisição que useModule(slug) faria no front: GET /{slug}/{pageId}
+     * com a query string atual (ex: ?s= na busca, paginação do blog).
+     *
+     * @param array{module: string, pageId: int|null} $route
+     */
+    private static function preloadModule(array $route): mixed
+    {
+        $path = '/' . $route['module'] . ($route['pageId'] ? '/' . $route['pageId'] : '');
+        return self::internalGet($path, wp_unslash($_GET));
+    }
+
+    /**
+     * Executa uma rota do framework internamente (sem HTTP) e devolve o JSON
+     * que ela responderia, ou null em caso de erro — o front então busca via
+     * REST normalmente.
+     */
+    private static function internalGet(string $path, array $query = []): mixed
+    {
+        try {
+            $request = new \WP_REST_Request('GET', '/' . Rest::NAMESPACE . $path);
+            $request->set_query_params($query);
+
+            $response = rest_do_request($request);
+            if ($response->is_error() || $response->get_status() >= 400) return null;
+
+            return rest_get_server()->response_to_data($response, false);
+        } catch (\Throwable) {
+            return null;
+        }
     }
 }

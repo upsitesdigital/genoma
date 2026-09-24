@@ -9,7 +9,7 @@ module.exports = {
   theme: {
     container: {
       center: true,
-      padding: '2rem',
+      padding: { DEFAULT: '1.25rem', sm: '2rem' }, // 20px no mobile (Figma), 32px a partir do sm
       screens: { '2xl': '1400px' },
     },
     extend: {
@@ -69,6 +69,8 @@ module.exports = {
         h3: ['1.75rem', { lineHeight: '1.3', fontWeight: '400' }], // Poppins Regular 28px
         h4: ['1.5rem', { lineHeight: '1.4', fontWeight: '500' }], // Poppins Medium 24px
         h5: ['1.25rem', { lineHeight: '1.4', fontWeight: '500' }], // Poppins Medium 20px
+        'h2-mobile': ['1.375rem', { lineHeight: '1.3', fontWeight: '500' }], // Poppins Medium 22px — título de seção no mobile (Figma)
+        eyebrow: ['0.8125rem', { lineHeight: '1.5', letterSpacing: '0.0769em' }], // Manrope Regular 13px UPPERCASE — etiqueta de seção
         'body-lg': ['1.125rem', { lineHeight: '1.5' }], // Manrope 18px
         body: ['1rem', { lineHeight: '1.5' }], // Manrope 16px
         'body-sm': ['0.875rem', { lineHeight: '1.5' }], // Manrope 14px

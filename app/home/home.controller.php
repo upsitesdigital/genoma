@@ -63,6 +63,7 @@ final class HomeController extends Controller
     {
         return [
             'imagem' => $this->image($row['imagem'] ?? null),
+            'eyebrow' => (string) ($row['eyebrow'] ?? ''),
             'titulo' => (string) ($row['titulo'] ?? ''),
             'subtitulo' => (string) ($row['subtitulo'] ?? ''),
             'ctaPrimario' => [
@@ -165,7 +166,7 @@ final class HomeController extends Controller
                 $this->image($this->field($pageId, 'sobre_foto_2')),
                 $this->image($this->field($pageId, 'sobre_foto_3')),
             ],
-            'paragrafos'   => array_values(array_filter(array_map('trim', explode("\n\n", $texto)))),
+            'paragrafos'   => array_values(array_filter(array_map('trim', preg_split('/\R\s*\R/', $texto)))),
             'destaque'     => (string) ($this->field($pageId, 'sobre_destaque') ?: ''),
             'diferenciais' => is_array($rows) ? array_map(fn (array $row): array => $this->mapDiferencial($row), $rows) : [],
         ];

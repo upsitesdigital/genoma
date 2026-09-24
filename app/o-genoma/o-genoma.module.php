@@ -38,8 +38,9 @@ final class OGenomaModule extends Module
                         [
                             'key'           => 'field_o-genoma_hero_slide_eyebrow',
                             'name'          => 'eyebrow',
-                            'label'         => 'Etiqueta',
+                            'label'         => 'Etiqueta (H1)',
                             'type'          => 'text',
+                            'instructions'  => 'Renderizado como H1 da página apenas no primeiro slide (o Título abaixo é H2).',
                             'default_value' => 'O Genoma',
                         ],
                         [

@@ -51,10 +51,11 @@ function useFooterCtaOverride(): FooterCtaOverride | undefined {
   const { data: route } = useCurrentRoute()
   const slug = route?.module
   const pageId = route?.pageId ?? undefined
+  const search = window.location.search
 
   const { data } = useQuery<{ footerCta?: FooterCtaOverride }>({
-    queryKey: ['module', slug, pageId],
-    queryFn: () => api<{ footerCta?: FooterCtaOverride }>(pageId ? `/${slug}/${pageId}` : `/${slug}`),
+    queryKey: ['module', slug, pageId, search],
+    queryFn: () => api<{ footerCta?: FooterCtaOverride }>(`${pageId ? `/${slug}/${pageId}` : `/${slug}`}${search}`),
     enabled: !!slug,
   })
 
@@ -224,8 +225,8 @@ export default function Footer() {
 
         <a
           href={privacyUrl}
-          target={isExternal(privacyUrl) ? '_blank' : undefined}
-          rel={isExternal(privacyUrl) ? 'noopener noreferrer' : undefined}
+          target="_blank"
+          rel="noopener noreferrer"
           className="hover:text-white transition-colors"
         >
           {privacyLabel}

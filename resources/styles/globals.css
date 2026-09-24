@@ -269,3 +269,7 @@ section#hero:before {
 .page-template-default header {
   background-color: rgb(171 195 207);
 }
+/* Scroll reveal (resources/hooks/useScrollReveal.ts): esconde o bloco até ele entrar na tela */
+.sr-pending {
+  opacity: 0;
+}

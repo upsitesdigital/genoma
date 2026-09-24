@@ -59,7 +59,7 @@ function HeroCarousel({ hero }: { hero: OGenomaData['hero'] }) {
   return (
     <section
       id="hero"
-      className="relative isolate z-10 w-full bg-gradient-to-br from-[#95ABB7] to-[#AEC6D3] pt-16 sm:pt-20 md:pt-24 xl:pt-28"
+      className="relative isolate z-10 w-full bg-gradient-to-br from-[#95ABB7] to-[#AEC6D3] pt-28 sm:pt-32 md:pt-36 lg:pt-40 xl:pt-[203px]"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       aria-roledescription="carousel"
@@ -75,7 +75,7 @@ function HeroCarousel({ hero }: { hero: OGenomaData['hero'] }) {
             )}
             aria-hidden={i !== index}
           >
-            <SlideContent slide={slide} />
+            <SlideContent slide={slide} isFirst={i === 0} />
           </div>
         ))}
       </div>
@@ -121,23 +121,24 @@ function HeroCarousel({ hero }: { hero: OGenomaData['hero'] }) {
   )
 }
 
-function SlideContent({ slide }: { slide: OGenomaHeroSlide }) {
+function SlideContent({ slide, isFirst }: { slide: OGenomaHeroSlide; isFirst: boolean }) {
   const { eyebrow, titulo, imagem1, imagem2, destaque } = slide
+  const Eyebrow = isFirst ? 'h1' : 'p'
 
   return (
     <div className="container">
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_351px] lg:gap-16 xl:gap-24">
         <div className="max-w-xl lg:max-w-[636px]">
-          {eyebrow && <p className="font-sans text-body text-white">{eyebrow}</p>}
+          {eyebrow && <Eyebrow className="font-sans text-body text-white">{eyebrow}</Eyebrow>}
 
           {titulo && (
-            <h1 className="mt-4 font-heading text-3xl font-medium leading-tight text-white sm:mt-6 md:text-4xl lg:text-h1">
+            <h2 className="mt-4 font-heading text-3xl font-medium leading-tight text-white sm:mt-6 md:text-4xl lg:text-h1">
               {titulo.split('\n').map((line, i) => (
                 <span key={i} className="block">
                   {line}
                 </span>
               ))}
-            </h1>
+            </h2>
           )}
         </div>
 
@@ -151,7 +152,7 @@ function SlideContent({ slide }: { slide: OGenomaHeroSlide }) {
       </div>
 
       {(imagem1 || imagem2) && (
-        <div className="relative z-10 mt-10 grid grid-cols-1 gap-4 sm:grid-cols-[314fr_873fr] sm:gap-7 md:mt-14">
+        <div className="relative z-10 mt-10 grid grid-cols-1 gap-4 sm:grid-cols-[314fr_873fr] sm:gap-7 md:mt-16 lg:mt-24 xl:mt-[147px]">
           {imagem1 && (
             <img
               src={imagem1.src}
@@ -180,21 +181,21 @@ function SobreSection({ sobre }: { sobre: OGenomaSobre }) {
   if (!eyebrow && !titulo && !texto && !destaque) return null
 
   return (
-    <section className="w-full bg-background py-16 sm:py-20 md:py-24 xl:py-28">
+    <section className="w-full bg-background pb-16 pt-12 sm:pb-24 sm:pt-20 md:pb-32 md:pt-24 xl:pb-48 xl:pt-28">
       <div className="container">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_351px] lg:gap-16 xl:gap-24">
           <div>
-            {eyebrow && <p className="font-sans text-body text-brand-purple-accent">{eyebrow}</p>}
+            {eyebrow && <p className="font-sans text-eyebrow uppercase text-brand-purple-accent">{eyebrow}</p>}
 
             {titulo && (
-              <h2 className="mt-2 max-w-[560px] font-heading text-h3 text-brand-purple-dark md:text-h2">
+              <h2 className="mt-2 max-w-[560px] font-heading text-h2-mobile text-brand-purple-dark md:text-h2">
                 {titulo}
               </h2>
             )}
 
             {texto && (
               <div className="mt-6 max-w-[620px] space-y-4 font-sans text-body-lg leading-relaxed text-brand-gray-text md:mt-8">
-                {texto.split('\n\n').map((paragrafo, i) => (
+                {texto.split(/\n\s*\n/).map((paragrafo, i) => (
                   <p key={i}>{paragrafo}</p>
                 ))}
               </div>
@@ -222,7 +223,7 @@ function SobreSection({ sobre }: { sobre: OGenomaSobre }) {
 
 function SobreSkeleton() {
   return (
-    <section className="w-full bg-background py-16 sm:py-20 md:py-24 xl:py-28">
+    <section className="w-full bg-background py-12 sm:py-20 md:py-24 xl:py-28">
       <div className="container">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_351px] lg:gap-16 xl:gap-24">
           <div className="space-y-4">
@@ -310,12 +311,12 @@ function DiagnosticoSection({ diagnostico }: { diagnostico: OGenomaDiagnostico }
   if (!titulo && !texto && !destaque) return null
 
   return (
-    <section className="w-full bg-background py-16 sm:py-20 md:py-24 xl:py-28">
+    <section className="w-full bg-background pb-16 pt-12 sm:pb-24 sm:pt-20 md:pb-32 md:pt-24 xl:pb-40 xl:pt-28">
       <div className="container">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_351px] lg:gap-16 xl:gap-24">
           <div>
             {titulo && (
-              <h2 className="max-w-[560px] font-heading text-h3 text-brand-purple-dark md:text-h2">
+              <h2 className="max-w-[560px] font-heading text-h2-mobile text-brand-purple-dark md:text-h2">
                 {titulo.split('\n').map((line, i) => (
                   <span key={i} className="block">
                     {line}
@@ -326,7 +327,7 @@ function DiagnosticoSection({ diagnostico }: { diagnostico: OGenomaDiagnostico }
 
             {texto && (
               <div className="mt-6 max-w-[620px] space-y-4 font-sans text-body-lg leading-relaxed text-brand-gray-text md:mt-8">
-                {texto.split('\n\n').map((paragrafo, i) => (
+                {texto.split(/\n\s*\n/).map((paragrafo, i) => (
                   <p key={i}>{paragrafo}</p>
                 ))}
               </div>
@@ -348,7 +349,7 @@ function DiagnosticoSection({ diagnostico }: { diagnostico: OGenomaDiagnostico }
 
 function DiagnosticoSkeleton() {
   return (
-    <section className="w-full bg-background py-16 sm:py-20 md:py-24 xl:py-28">
+    <section className="w-full bg-background py-12 sm:py-20 md:py-24 xl:py-28">
       <div className="container">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_351px] lg:gap-16 xl:gap-24">
           <div className="space-y-4">

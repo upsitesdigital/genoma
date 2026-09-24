@@ -83,7 +83,7 @@ function HeroCarousel({ hero }: { hero: VeterinariosData['hero'] }) {
           <SlideImage slide={slide} />
 
           <div className="container relative z-10 flex h-full items-center">
-            <SlideContent slide={slide} />
+            <SlideContent slide={slide} isFirst={i === 0} />
           </div>
         </div>
       ))}
@@ -140,40 +140,41 @@ function HeroCarousel({ hero }: { hero: VeterinariosData['hero'] }) {
 function SlideImage({ slide }: { slide: VeterinariosHeroSlide }) {
   return (
     <div className="absolute inset-0 lg:inset-y-0 lg:left-[40%] lg:right-0">
+      {/* Mask (como no Figma) funde a borda esquerda da imagem ao gradiente da seção,
+          sem a emenda de cor que um overlay de cor fixa deixava */}
       {slide.imagem && (
         <img
           src={slide.imagem.src}
           alt={slide.imagem.alt}
-          className="h-full w-full object-cover object-[72%_20%] lg:object-[center_18%]"
+          className="h-full w-full object-cover object-[72%_20%] lg:object-[center_18%] lg:[mask-image:linear-gradient(to_right,transparent,black_40%)]"
         />
       )}
 
       {/* Scrim para legibilidade do texto em telas menores (imagem ocupa toda a largura) */}
       <div className="absolute inset-0 bg-gradient-to-r from-[#2D2559]/80 via-[#2D2559]/45 to-[#2D2559]/10 lg:hidden" />
-
-      {/* Fade que funde a borda esquerda da imagem ao fundo (mask do Figma) */}
-      <div className="pointer-events-none absolute inset-y-0 left-0 hidden w-1/3 bg-gradient-to-r from-[#AEC6D3] via-[#AEC6D3]/70 to-transparent backdrop-blur-[2px] lg:block" />
     </div>
   )
 }
 
-function SlideContent({ slide }: { slide: VeterinariosHeroSlide }) {
+function SlideContent({ slide, isFirst }: { slide: VeterinariosHeroSlide; isFirst: boolean }) {
+  const Eyebrow = isFirst ? 'h1' : 'p'
+
   return (
     <div className="max-w-xl text-left lg:max-w-[598px]">
       {slide.eyebrow && (
-        <p className="font-sans text-body text-white">{slide.eyebrow}</p>
+        <Eyebrow className="font-sans text-body text-white">{slide.eyebrow}</Eyebrow>
       )}
 
-      <h1 className="mt-3 font-heading text-3xl font-medium leading-tight text-white md:text-4xl lg:mt-6 lg:text-h1">
+      <h2 className="mt-3 font-heading text-3xl font-medium leading-tight text-white md:text-4xl lg:mt-6 lg:text-h1">
         {slide.titulo.split('\n').map((line, i) => (
           <span key={i} className="block">
             {line}
           </span>
         ))}
-      </h1>
+      </h2>
 
       {slide.subtitulo && (
-        <p className="mt-4 max-w-md font-heading text-base font-medium leading-snug text-white md:mt-6 lg:max-w-[542px] lg:text-h3">
+        <p className="mt-4 max-w-md font-heading text-base font-medium leading-snug text-white md:mt-6 lg:max-w-[542px] lg:text-h4">
           {slide.subtitulo}
         </p>
       )}
@@ -183,7 +184,7 @@ function SlideContent({ slide }: { slide: VeterinariosHeroSlide }) {
           {slide.ctaPrimario.texto && (
             <a
               href={slide.ctaPrimario.link || '#'}
-              className="inline-flex items-center justify-center rounded-full bg-primary px-7 py-5 font-heading text-h4 leading-none text-white transition-opacity hover:opacity-90"
+              className="inline-flex items-center justify-center rounded-full bg-primary px-7 py-5 font-heading text-h5 leading-none text-white transition-colors hover:bg-brand-purple-dark"
             >
               {slide.ctaPrimario.texto}
             </a>
@@ -191,7 +192,7 @@ function SlideContent({ slide }: { slide: VeterinariosHeroSlide }) {
           {slide.ctaSecundario.texto && (
             <a
               href={slide.ctaSecundario.link || '#'}
-              className="inline-flex items-center justify-center rounded-full bg-white px-7 py-5 font-heading text-h4 leading-none text-primary transition-opacity hover:opacity-90"
+              className="inline-flex items-center justify-center rounded-full bg-white px-7 py-5 font-heading text-h5 leading-none text-primary transition-colors hover:bg-primary hover:text-white"
             >
               {slide.ctaSecundario.texto}
             </a>
@@ -208,16 +209,16 @@ function SuporteSection({ suporte }: { suporte: VeterinariosSuporte }) {
   const { eyebrow, titulo, texto, quote, imagem1, imagem2 } = suporte
 
   return (
-    <section className="bg-background py-16 md:py-20 lg:py-24 xl:py-28">
+    <section className="bg-background pb-6 pt-12 md:pb-10 md:pt-20 lg:pb-12 lg:pt-24 xl:pb-14 xl:pt-28">
       <div className="container">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_351px] lg:gap-16 xl:gap-24">
           <div>
             {eyebrow && (
-              <p className="font-sans text-body text-brand-purple-accent">{eyebrow}</p>
+              <p className="font-sans text-eyebrow uppercase text-brand-purple-accent">{eyebrow}</p>
             )}
 
             {titulo && (
-              <h2 className="mt-2 max-w-[620px] font-heading text-h3 text-brand-purple-dark md:text-h2">
+              <h2 className="mt-2 max-w-[620px] font-heading text-h2-mobile text-brand-purple-dark md:text-h2">
                 {titulo.split('\n').map((line, i) => (
                   <span key={i} className="block">
                     {line}
@@ -267,7 +268,7 @@ function SuporteSection({ suporte }: { suporte: VeterinariosSuporte }) {
 
 function SuporteSkeleton() {
   return (
-    <section className="bg-background py-16 md:py-20 lg:py-24 xl:py-28">
+    <section className="bg-background py-12 md:py-20 lg:py-24 xl:py-28">
       <div className="container">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_351px] lg:gap-16 xl:gap-24">
           <div className="max-w-[646px] space-y-4">
@@ -297,7 +298,7 @@ function PraticidadeSection({ praticidade }: { praticidade: VeterinariosPraticid
   const { eyebrow, titulo, texto, icone, horarios, imagem } = praticidade
 
   return (
-    <section className="bg-background py-16 md:py-20 lg:py-24 xl:py-28">
+    <section className="bg-background py-12 md:py-20 lg:py-24 xl:py-28">
       <div className="container">
         <div className="relative overflow-hidden rounded-2xl bg-brand-purple">
           {/* Painel decorativo mais escuro atrás da imagem (apenas telas maiores) */}
@@ -361,7 +362,7 @@ function PraticidadeSection({ praticidade }: { praticidade: VeterinariosPraticid
 
 function PraticidadeSkeleton() {
   return (
-    <section className="bg-background py-16 md:py-20 lg:py-24 xl:py-28">
+    <section className="bg-background py-12 md:py-20 lg:py-24 xl:py-28">
       <div className="container">
         <div className="flex flex-col gap-8 rounded-3xl bg-muted p-8 sm:p-10 md:p-12 lg:flex-row lg:items-center lg:gap-10 lg:p-14">
           <div className="flex flex-col gap-6 lg:max-w-[552px] lg:shrink-0">
@@ -417,7 +418,7 @@ function ExamesSection({ exames }: { exames: VeterinariosExames }) {
           {cta.texto && (
             <a
               href={cta.link || '#'}
-              className="inline-flex w-fit items-center justify-center rounded-full bg-white px-7 py-5 font-heading text-h4 leading-none text-primary transition-opacity hover:opacity-90"
+              className="inline-flex w-fit items-center justify-center rounded-full bg-white px-7 py-5 font-heading text-h4 leading-none text-primary transition-colors hover:bg-primary hover:text-white"
             >
               {cta.texto}
             </a>
@@ -449,16 +450,16 @@ function EstruturaSection({ estrutura }: { estrutura: VeterinariosEstrutura }) {
   const { eyebrow, titulo, texto, destaque, imagem1, imagem2, contatos } = estrutura
 
   return (
-    <section className="bg-background py-16 md:py-20 lg:py-24 xl:py-28">
+    <section className="bg-background pb-6 pt-12 md:pb-10 md:pt-20 lg:pb-12 lg:pt-24 xl:pb-14 xl:pt-28">
       <div className="container">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between lg:gap-10">
           <div className="flex flex-col gap-6 lg:gap-8">
             <div className="flex flex-col gap-2">
               {eyebrow && (
-                <p className="font-sans text-body text-brand-purple-accent">{eyebrow}</p>
+                <p className="font-sans text-eyebrow uppercase text-brand-purple-accent">{eyebrow}</p>
               )}
               {titulo && (
-                <h2 className="font-heading text-h3 text-brand-purple-dark md:text-h2">
+                <h2 className="font-heading text-h2-mobile text-brand-purple-dark md:text-h2">
                   {titulo.split('\n').map((line, i) => (
                     <span key={i} className="block">
                       {line}
@@ -526,7 +527,7 @@ function EstruturaSection({ estrutura }: { estrutura: VeterinariosEstrutura }) {
 
 function EstruturaSkeleton() {
   return (
-    <section className="bg-background py-16 md:py-20 lg:py-24 xl:py-28">
+    <section className="bg-background py-12 md:py-20 lg:py-24 xl:py-28">
       <div className="container">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between lg:gap-10">
           <div className="max-w-[754px] flex-1 space-y-4">
@@ -552,12 +553,12 @@ function BeneficiosSection({ beneficios }: { beneficios: VeterinariosBeneficios 
   const { eyebrow, titulo, texto, itens } = beneficios
 
   return (
-    <section className="bg-background py-16 md:py-20 lg:py-24 xl:py-28">
+    <section className="bg-background py-12 md:py-20 lg:py-24 xl:py-28">
       <div className="container">
         <div className="flex flex-col gap-2">
-          {eyebrow && <p className="font-sans text-body text-brand-purple-accent">{eyebrow}</p>}
+          {eyebrow && <p className="font-sans text-eyebrow uppercase text-brand-purple-accent">{eyebrow}</p>}
           {titulo && (
-            <h2 className="max-w-2xl font-heading text-h3 text-brand-purple-dark md:text-h2">
+            <h2 className="max-w-2xl font-heading text-h2-mobile text-brand-purple-dark md:text-h2">
               {titulo}
             </h2>
           )}
@@ -597,7 +598,7 @@ function BeneficiosSection({ beneficios }: { beneficios: VeterinariosBeneficios 
 
 function BeneficiosSkeleton() {
   return (
-    <section className="bg-background py-16 md:py-20 lg:py-24 xl:py-28">
+    <section className="bg-background py-12 md:py-20 lg:py-24 xl:py-28">
       <div className="container">
         <div className="max-w-2xl space-y-4">
           <div className="h-5 w-28 animate-pulse rounded bg-foreground/10" />

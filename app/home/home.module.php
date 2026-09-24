@@ -46,6 +46,14 @@ final class HomeModule extends Module
                             'preview_size'  => 'medium',
                         ],
                         [
+                            'key'           => 'field_home_hero_slide_eyebrow',
+                            'name'          => 'eyebrow',
+                            'label'         => 'Subtítulo (H1)',
+                            'type'          => 'text',
+                            'instructions'  => 'Texto curto exibido acima do título. Renderizado como H1 da página (o Título abaixo vira H2).',
+                            'default_value' => 'Diagnóstico Veterinário',
+                        ],
+                        [
                             'key'           => 'field_home_hero_slide_titulo',
                             'name'          => 'titulo',
                             'label'         => 'Título',

@@ -103,8 +103,8 @@ function CtaLink({ label, url, variant }: { label: string; url: string; variant:
   const cls = cn(
     'inline-flex items-center justify-center rounded-full px-6 py-4 text-base leading-none transition-colors whitespace-nowrap',
     variant === 'primary'
-      ? 'bg-white text-primary hover:bg-white/90'
-      : 'bg-primary text-white border border-white/25 hover:bg-white/10'
+      ? 'bg-white text-primary hover:bg-brand-light-purple'
+      : 'bg-primary text-white border border-white/25 hover:bg-brand-purple-dark active:bg-brand-purple-dark'
   )
 
   return (
@@ -148,6 +148,7 @@ export default function Header() {
 
   return (
     <header
+      data-no-reveal
       className={cn(
         'fixed inset-x-0 top-0 z-40 transition-colors',
         scrolled ? 'bg-[#ABC3CF]' : 'bg-transparent'

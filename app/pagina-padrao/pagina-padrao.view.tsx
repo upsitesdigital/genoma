@@ -21,7 +21,7 @@ export default function PaginaPadraoView() {
       <section className="w-full">
         <div className="container pb-16 pt-32 md:pb-20 md:pt-36 lg:pb-24 lg:pt-40">
           <div className="mx-auto max-w-3xl">
-            <h1 className="font-heading text-h3 font-normal text-brand-purple-dark md:text-h2">
+            <h1 className="font-heading text-h2-mobile text-brand-purple-dark md:text-h2">
               {data.titulo}
             </h1>
 

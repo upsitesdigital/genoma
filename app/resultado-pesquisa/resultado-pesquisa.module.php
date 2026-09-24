@@ -30,8 +30,9 @@ final class ResultadoPesquisaModule extends Module
                 [
                     'key'           => 'field_resultado_pesquisa_hero_eyebrow',
                     'name'          => 'hero_eyebrow',
-                    'label'         => 'Hero — Etiqueta',
+                    'label'         => 'Hero — Etiqueta (H1)',
                     'type'          => 'text',
+                    'instructions'  => 'Renderizado como H1 da página (o Título abaixo é H2).',
                     'default_value' => 'Busca',
                 ],
                 [

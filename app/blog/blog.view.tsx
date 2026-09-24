@@ -43,15 +43,15 @@ function HeroSection({ hero }: { hero: BlogHero }) {
   return (
     <section className="relative isolate w-full">
       <div
-        className="w-full pb-16 pt-16 md:pb-20 md:pt-20 lg:pb-24 lg:pt-24"
+        className="w-full pb-16 pt-28 md:pb-20 md:pt-32 lg:pb-24 lg:pt-40"
         style={{ backgroundImage: 'linear-gradient(-20deg, #95ABB7 47%, #AEC6D3 100%)' }}
       >
         <div className="container flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between lg:gap-10">
           <div className="flex max-w-xl flex-col gap-3 md:gap-4">
-            {eyebrow && <span className="font-sans text-body-lg text-white">{eyebrow}</span>}
-            <h1 className="font-heading text-3xl font-medium leading-tight text-white sm:max-w-md md:text-h1 lg:max-w-md">
+            {eyebrow && <h1 className="font-sans text-body-lg text-white">{eyebrow}</h1>}
+            <h2 className="font-heading text-3xl font-medium leading-tight text-white sm:max-w-md md:text-h1 lg:max-w-md">
               {titulo}
-            </h1>
+            </h2>
           </div>
 
           <form
@@ -141,7 +141,7 @@ function ListaPostSection({ initial }: { initial: BlogListaPost }) {
   }
 
   return (
-    <section className="container py-16 md:py-20 lg:py-24">
+    <section className="container py-12 md:py-20 lg:py-24">
       <div
         className={cn(
           'grid grid-cols-1 gap-8 transition-opacity md:grid-cols-2 lg:grid-cols-3',
@@ -225,7 +225,7 @@ function BlogSkeleton() {
   return (
     <main>
       <section className="relative isolate w-full">
-        <div className="w-full bg-muted pb-16 pt-16 md:pb-20 md:pt-20 lg:pb-24 lg:pt-24">
+        <div className="w-full bg-muted pb-16 pt-28 md:pb-20 md:pt-32 lg:pb-24 lg:pt-40">
           <div className="container flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between lg:gap-10">
             <div className="flex max-w-xl flex-col gap-3 md:gap-4">
               <div className="h-6 w-16 animate-pulse rounded bg-foreground/10" />
@@ -244,7 +244,7 @@ function BlogSkeleton() {
         </div>
       </section>
 
-      <section className="container py-16 md:py-20 lg:py-24">
+      <section className="container py-12 md:py-20 lg:py-24">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {Array.from({ length: 6 }).map((_, i) => (
             <div key={i} className="flex flex-col gap-9 rounded-2xl bg-brand-purple-subtle p-6 md:p-8">

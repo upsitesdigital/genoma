@@ -5,6 +5,7 @@ import { modules } from './module-registry'
 import Layout from '@/components/layout/Layout'
 import ErrorBoundary from '@/components/shared/ErrorBoundary'
 import { boot } from '@/lib/env'
+import { seedQueryCache } from '@/lib/preload'
 import './styles/globals.css'
 
 const queryClient = new QueryClient({
@@ -12,6 +13,8 @@ const queryClient = new QueryClient({
     queries: { staleTime: 60_000, retry: 1 },
   },
 })
+
+seedQueryCache(queryClient)
 
 const root = document.getElementById('app-root')
 
@@ -25,7 +28,7 @@ createRoot(root).render(
       <QueryClientProvider client={queryClient}>
         <Layout>
           {ModuleComponent ? (
-            <Suspense fallback={<div className="container py-16 text-center text-muted-foreground">Carregando...</div>}>
+            <Suspense fallback={<div className="min-h-screen" />}>
               <ModuleComponent />
             </Suspense>
           ) : (

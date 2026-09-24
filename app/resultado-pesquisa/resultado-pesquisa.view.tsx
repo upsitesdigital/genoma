@@ -53,8 +53,8 @@ function HeroSection({ hero }: { hero: ResultadoPesquisaHero }) {
       >
         <div className="container flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between lg:gap-10">
           <div className="flex max-w-xl flex-col gap-3 md:gap-4">
-            {eyebrow && <span className="font-sans text-body-lg text-white">{eyebrow}</span>}
-            <h1 className="font-heading text-3xl font-medium leading-tight text-white sm:max-w-md md:text-h1 lg:max-w-lg">
+            {eyebrow && <h1 className="font-sans text-body-lg text-white">{eyebrow}</h1>}
+            <h2 className="font-heading text-3xl font-medium leading-tight text-white sm:max-w-md md:text-h1 lg:max-w-lg">
               {termo ? (
                 <>
                   Resultados para <span className="italic">"{termo}"</span>
@@ -62,7 +62,7 @@ function HeroSection({ hero }: { hero: ResultadoPesquisaHero }) {
               ) : (
                 'Buscar no site'
               )}
-            </h1>
+            </h2>
           </div>
 
           <form
@@ -130,7 +130,7 @@ function ListaResultadosSection({
   }
 
   return (
-    <section className="container py-16 md:py-20 lg:py-24">
+    <section className="container py-12 md:py-20 lg:py-24">
       <p className="mb-8 font-sans text-body text-brand-gray-text md:mb-10">
         {resultados.totalPosts} resultado{resultados.totalPosts === 1 ? '' : 's'} encontrado
         {resultados.totalPosts === 1 ? '' : 's'}
@@ -233,7 +233,7 @@ function ResultadoPesquisaSkeleton() {
         </div>
       </section>
 
-      <section className="container py-16 md:py-20 lg:py-24">
+      <section className="container py-12 md:py-20 lg:py-24">
         <div className="mb-8 h-5 w-48 animate-pulse rounded bg-foreground/10 md:mb-10" />
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {Array.from({ length: 6 }).map((_, i) => (

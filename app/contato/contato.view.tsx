@@ -32,7 +32,7 @@ function HeroSection({ hero }: { hero: ContatoData['hero'] }) {
   return (
     <section className="relative isolate w-full">
       <div
-        className="w-full pb-40 pt-20 sm:pt-24 md:pb-48 md:pt-28 lg:pb-56 lg:pt-32"
+        className="w-full pb-40 pt-28 sm:pt-32 md:pb-48 md:pt-36 lg:pb-56 lg:pt-40"
         style={{ backgroundImage: 'linear-gradient(-20deg, #95ABB7 47%, #AEC6D3 100%)' }}
       >
         <div className="container flex flex-col items-center gap-6 text-center md:gap-9">
@@ -49,7 +49,7 @@ function HeroSection({ hero }: { hero: ContatoData['hero'] }) {
       </div>
 
       {canais.length > 0 && (
-        <div className="container relative z-10 -mt-28 pb-16 sm:-mt-24 md:-mt-28 lg:-mt-24">
+        <div className="container relative z-10 -mt-28 pb-8 md:pb-10 sm:-mt-24 md:-mt-28 lg:-mt-24">
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {canais.map((canal, i) => (
               <CanalCard key={i} canal={canal} />
@@ -98,7 +98,7 @@ function ListaContatosSection({ cards }: { cards: ContatoListaCard[] }) {
   if (cards.length === 0) return null
 
   return (
-    <section className="container py-12 md:py-16 lg:py-20">
+    <section className="container pb-12 pt-4 md:pb-16 md:pt-6 lg:pb-20 lg:pt-8">
       <div className="flex flex-col gap-4 md:gap-[22px]">
         {cards.map((card, i) =>
           card.tipo === 'info' ? (
@@ -167,7 +167,7 @@ function ContatoCardTexto({ card }: { card: Extract<ContatoListaCard, { tipo: 't
   return (
     <div className="flex flex-col gap-4 rounded-2xl border border-brand-gray-border bg-brand-light-purple p-6 sm:p-8 lg:p-12">
       <h3 className="font-heading text-h5 font-medium text-brand-purple-dark">{titulo}</h3>
-      {texto && <p className="font-sans text-body text-brand-gray-text lg:max-w-3xl">{texto}</p>}
+      {texto && <p className="font-sans text-body text-brand-gray-text lg:max-w-5xl">{texto}</p>}
     </div>
   )
 }
@@ -176,7 +176,7 @@ function ContatoSkeleton() {
   return (
     <main>
       <section className="relative isolate w-full">
-        <div className="w-full bg-muted pb-40 pt-20 sm:pt-24 md:pb-48 md:pt-28 lg:pb-56 lg:pt-32">
+        <div className="w-full bg-muted pb-40 pt-28 sm:pt-32 md:pb-48 md:pt-36 lg:pb-56 lg:pt-40">
           <div className="container flex flex-col items-center gap-6 text-center md:gap-9">
             <div className="h-6 w-24 animate-pulse rounded bg-foreground/10" />
             <div className="h-10 w-full max-w-xl animate-pulse rounded bg-foreground/10 md:h-14" />
@@ -184,7 +184,7 @@ function ContatoSkeleton() {
           </div>
         </div>
 
-        <div className="container relative z-10 -mt-28 pb-16 sm:-mt-24 md:-mt-28 lg:-mt-24">
+        <div className="container relative z-10 -mt-28 pb-8 md:pb-10 sm:-mt-24 md:-mt-28 lg:-mt-24">
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {Array.from({ length: 3 }).map((_, i) => (
               <div
@@ -202,7 +202,7 @@ function ContatoSkeleton() {
         </div>
       </section>
 
-      <section className="container py-12 md:py-16 lg:py-20">
+      <section className="container pb-12 pt-4 md:pb-16 md:pt-6 lg:pb-20 lg:pt-8">
         <div className="flex flex-col gap-4 md:gap-[22px]">
           {Array.from({ length: 3 }).map((_, i) => (
             <div

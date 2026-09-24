@@ -12,6 +12,11 @@ export interface FwBoot {
     url: string
     title: string
   } | null
+  /** Respostas REST já resolvidas no servidor (core/Framework/Shell.php) — null quando falhou */
+  preload?: {
+    module: unknown
+    menus: Record<string, unknown>
+  }
 }
 
 declare global {

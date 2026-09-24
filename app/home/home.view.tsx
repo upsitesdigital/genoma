@@ -106,7 +106,7 @@ function HeroCarousel({ hero }: { hero: HomeData['hero'] }) {
 
       {/* Conteúdo do slide ativo */}
       <div className="container relative z-10">
-        <SlideContent slide={slides[index]} />
+        <SlideContent slide={slides[index]} isFirst={index === 0} />
       </div>
 
       {/* Setas + indicadores (só com mais de 1 slide) */}
@@ -158,12 +158,18 @@ function HeroCarousel({ hero }: { hero: HomeData['hero'] }) {
   )
 }
 
-function SlideContent({ slide }: { slide: HomeHeroSlide }) {
+function SlideContent({ slide, isFirst }: { slide: HomeHeroSlide; isFirst: boolean }) {
+  const Eyebrow = isFirst ? 'h1' : 'p'
+
   return (
     <div className="max-w-xl text-left lg:max-w-2xl">
-      <h1 className="font-heading text-3xl font-medium leading-tight text-white md:text-4xl lg:text-5xl xl:text-h1">
+      {slide.eyebrow && (
+        <Eyebrow className="font-sans text-body text-white">{slide.eyebrow}</Eyebrow>
+      )}
+
+      <h2 className="mt-4 font-heading text-3xl font-medium leading-tight text-white sm:mt-6 md:text-4xl lg:text-5xl xl:text-h1">
         {slide.titulo}
-      </h1>
+      </h2>
 
       {slide.subtitulo && (
         <p className="mt-4 max-w-md font-heading text-base font-medium text-white/90 md:mt-6 lg:max-w-lg lg:text-h4">
@@ -172,11 +178,11 @@ function SlideContent({ slide }: { slide: HomeHeroSlide }) {
       )}
 
       {(slide.ctaPrimario.texto || slide.ctaSecundario.texto) && (
-        <div className="mt-8 flex flex-wrap items-center gap-4 md:mt-10">
+        <div className="mt-6 flex flex-col items-stretch gap-3 sm:mt-8 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4 md:mt-10">
           {slide.ctaPrimario.texto && (
             <a
               href={slide.ctaPrimario.link || '#'}
-              className="inline-flex items-center justify-center rounded-full bg-primary px-7 py-5 font-heading text-h5 leading-none text-white transition-opacity hover:opacity-90"
+              className="inline-flex w-full items-center justify-center rounded-full bg-primary px-7 py-5 font-heading text-h5 leading-none text-white transition-colors hover:bg-brand-purple-dark sm:w-auto"
             >
               {slide.ctaPrimario.texto}
             </a>
@@ -184,7 +190,7 @@ function SlideContent({ slide }: { slide: HomeHeroSlide }) {
           {slide.ctaSecundario.texto && (
             <a
               href={slide.ctaSecundario.link || '#'}
-              className="inline-flex items-center justify-center rounded-full bg-white px-7 py-5 font-heading text-h5 leading-none text-primary transition-opacity hover:opacity-90"
+              className="inline-flex w-full items-center justify-center rounded-full bg-white px-7 py-5 font-heading text-h5 leading-none text-primary transition-colors hover:bg-primary hover:text-white sm:w-auto"
             >
               {slide.ctaSecundario.texto}
             </a>
@@ -225,39 +231,74 @@ function HomeSkeleton() {
 
 function ServicosSection({ servicos }: { servicos: HomeServicos }) {
   const { eyebrow, titulo, itens, cta } = servicos
+  const [expanded, setExpanded] = useState(false)
 
   if (itens.length === 0) return null
 
+  const hasMore = itens.length > VISIVEIS_INICIAL
+  const visiveis = expanded ? itens : itens.slice(0, VISIVEIS_INICIAL)
+
   return (
-    <section className="w-full py-16 md:py-20 lg:py-24">
+    <section className="w-full py-12 md:py-20 lg:py-24">
       <div className="container">
         <div className="flex max-w-2xl flex-col gap-2">
           {eyebrow && (
-            <span className="font-sans text-base text-brand-purple-accent">{eyebrow}</span>
+            <span className="font-sans text-eyebrow uppercase text-brand-purple-accent">{eyebrow}</span>
           )}
-          <h2 className="font-heading text-h3 font-normal text-brand-purple-dark md:text-h2">
+          <h2 className="font-heading text-h2-mobile text-brand-purple-dark md:text-h2">
             {titulo}
           </h2>
         </div>
 
         <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 md:mt-10 lg:grid-cols-3 lg:gap-8">
-          {itens.map((item, i) => (
+          {visiveis.map((item, i) => (
             <ServicoCard key={i} item={item} />
           ))}
         </div>
 
-        {cta.texto && (
-          <div className="mt-10 flex justify-center md:mt-12">
-            <a
-              href={cta.link || '#'}
-              className="inline-flex items-center justify-center rounded-full border border-brand-purple px-6 py-4 font-heading text-base font-medium text-brand-purple transition-colors hover:bg-brand-purple hover:text-white md:px-7 md:py-5 md:text-h5"
-            >
-              {cta.texto}
-            </a>
-          </div>
-        )}
+        <VerMaisButton hasMore={hasMore} expanded={expanded} onToggle={() => setExpanded((v) => !v)} cta={cta} />
       </div>
     </section>
+  )
+}
+
+// Serviços e Exames mostram só os primeiros itens; o botão expande o restante.
+// Sem itens escondidos, o botão volta a ser o link do CTA configurado no admin.
+const VISIVEIS_INICIAL = 3
+
+function VerMaisButton({
+  hasMore,
+  expanded,
+  onToggle,
+  cta,
+}: {
+  hasMore: boolean
+  expanded: boolean
+  onToggle: () => void
+  cta: { texto: string; link: string }
+}) {
+  const cls =
+    'inline-flex items-center justify-center gap-2 rounded-full border border-brand-purple px-6 py-4 font-heading text-base font-medium text-brand-purple transition-colors hover:bg-brand-purple hover:text-white md:px-7 md:py-5 md:text-h5'
+
+  if (hasMore) {
+    return (
+      <div className="mt-10 flex justify-center md:mt-12">
+        <button type="button" onClick={onToggle} aria-expanded={expanded} className={cls}>
+          {expanded ? 'Ver menos' : 'Ver mais'}
+          <ChevronDown className={cn('h-4 w-4 transition-transform duration-300', expanded && 'rotate-180')} />
+        </button>
+      </div>
+    )
+  }
+
+  if (!cta.texto) return null
+
+  return (
+    <div className="mt-10 flex justify-center md:mt-12">
+      <a href={cta.link || '#'} className={cls}>
+        {cta.texto}
+      </a>
+    </div>
   )
 }
 
@@ -277,7 +318,7 @@ function ServicoCard({ item }: { item: HomeServicoItem }) {
             {item.titulo}
           </h3>
           {item.descricao && (
-            <p className="font-sans text-base font-semibold text-brand-gray-text">
+            <p className="font-sans text-body-sm text-brand-gray-text">
               {item.descricao}
             </p>
           )}
@@ -298,7 +339,7 @@ function ServicoCard({ item }: { item: HomeServicoItem }) {
 
 function ServicosSkeleton() {
   return (
-    <section className="w-full py-16 md:py-20 lg:py-24">
+    <section className="w-full py-12 md:py-20 lg:py-24">
       <div className="container">
         <div className="flex max-w-2xl flex-col gap-2">
           <div className="h-5 w-32 animate-pulse rounded bg-foreground/10" />
@@ -327,18 +368,22 @@ function ServicosSkeleton() {
 function ExamesSection({ exames }: { exames: HomeExames }) {
   const { eyebrow, titulo, descricao, categorias, cta } = exames
   const [openIndex, setOpenIndex] = useState<number | null>(null)
+  const [expanded, setExpanded] = useState(false)
 
   if (categorias.length === 0) return null
 
+  const hasMore = categorias.length > VISIVEIS_INICIAL
+  const visiveis = expanded ? categorias : categorias.slice(0, VISIVEIS_INICIAL)
+
   return (
-    <section className="w-full py-16 md:py-20 lg:py-24">
+    <section className="w-full py-12 md:py-20 lg:py-24">
       <div className="container">
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
             {eyebrow && (
-              <span className="font-sans text-base text-brand-purple-accent">{eyebrow}</span>
+              <span className="font-sans text-eyebrow uppercase text-brand-purple-accent">{eyebrow}</span>
             )}
-            <h2 className="max-w-xl font-heading text-h3 font-normal text-brand-purple-dark md:max-w-2xl md:text-h2">
+            <h2 className="max-w-xl font-heading text-h2-mobile text-brand-purple-dark md:max-w-2xl md:text-h2">
               {titulo}
             </h2>
           </div>
@@ -350,7 +395,7 @@ function ExamesSection({ exames }: { exames: HomeExames }) {
         </div>
 
         <div className="mt-8 flex flex-col gap-4 md:mt-10">
-          {categorias.map((categoria, i) => (
+          {visiveis.map((categoria, i) => (
             <ExameCategoriaAccordion
               key={i}
               categoria={categoria}
@@ -360,16 +405,7 @@ function ExamesSection({ exames }: { exames: HomeExames }) {
           ))}
         </div>
 
-        {cta.texto && (
-          <div className="mt-10 flex justify-center md:mt-12">
-            <a
-              href={cta.link || '#'}
-              className="inline-flex items-center justify-center rounded-full border border-brand-purple px-6 py-4 font-heading text-base font-medium text-brand-purple transition-colors hover:bg-brand-purple hover:text-white md:px-7 md:py-5 md:text-h5"
-            >
-              {cta.texto}
-            </a>
-          </div>
-        )}
+        <VerMaisButton hasMore={hasMore} expanded={expanded} onToggle={() => setExpanded((v) => !v)} cta={cta} />
       </div>
     </section>
   )
@@ -422,16 +458,17 @@ function ExameCategoriaAccordion({
               <div className="flex flex-col gap-2">
                 {itens.map((item, i) => (
                   <div key={i} className="flex w-full flex-wrap items-center gap-2">
-                    <div className="min-w-[200px] flex-1 rounded-2xl bg-white px-4 py-4 font-sans text-sm font-semibold text-brand-purple-dark sm:text-base">
+                    <div className="min-w-[200px] flex-1 self-stretch rounded-2xl bg-white px-4 py-4 font-sans text-sm font-semibold text-brand-purple-dark sm:text-base">
                       {item.nome}
                     </div>
+                    {/* Larguras fixas: dias e amostra alinham em coluna em todas as linhas */}
                     {item.prazo && (
-                      <div className="w-full shrink-0 rounded-2xl bg-white px-4 py-4 text-center font-sans text-body-sm text-brand-purple-dark sm:w-auto sm:min-w-[132px]">
+                      <div className="flex w-full shrink-0 items-center justify-center self-stretch rounded-2xl bg-white px-4 py-4 text-center font-sans text-body-sm text-brand-purple-dark sm:w-[132px]">
                         {item.prazo}
                       </div>
                     )}
                     {item.amostra && (
-                      <div className="w-full shrink-0 rounded-2xl bg-white px-4 py-4 text-center font-sans text-body-sm text-brand-purple-dark sm:w-auto">
+                      <div className="flex w-full shrink-0 items-center justify-center self-stretch rounded-2xl bg-white px-4 py-4 text-center font-sans text-body-sm text-brand-purple-dark sm:w-[220px]">
                         {item.amostra}
                       </div>
                     )}
@@ -448,7 +485,7 @@ function ExameCategoriaAccordion({
 
 function ExamesSkeleton() {
   return (
-    <section className="w-full py-16 md:py-20 lg:py-24">
+    <section className="w-full py-12 md:py-20 lg:py-24">
       <div className="container">
         <div className="flex flex-col gap-2">
           <div className="h-5 w-24 animate-pulse rounded bg-foreground/10" />
@@ -476,15 +513,15 @@ function SobreSection({ sobre }: { sobre: HomeSobre }) {
   const [foto1, foto2, foto3] = fotos
 
   return (
-    <section className="w-full py-16 md:py-20 lg:py-24">
+    <section className="w-full py-12 md:py-20 lg:py-24">
       <div className="container flex flex-col gap-12 md:gap-14 lg:gap-[73px]">
         {/* Cabeçalho + fotos */}
         <div className="flex flex-col gap-8 md:gap-10 lg:gap-[49px]">
           <div className="flex max-w-xl flex-col gap-2 lg:max-w-[476px]">
             {eyebrow && (
-              <span className="font-sans text-base text-brand-purple-accent">{eyebrow}</span>
+              <span className="font-sans text-eyebrow uppercase text-brand-purple-accent">{eyebrow}</span>
             )}
-            <h2 className="font-heading text-h3 font-normal text-brand-purple-dark md:text-h2">
+            <h2 className="font-heading text-h2-mobile text-brand-purple-dark md:text-h2">
               {titulo}
             </h2>
           </div>
@@ -574,7 +611,7 @@ function DiferencialCard({ item }: { item: HomeDiferencial }) {
 
 function SobreSkeleton() {
   return (
-    <section className="w-full py-16 md:py-20 lg:py-24">
+    <section className="w-full py-12 md:py-20 lg:py-24">
       <div className="container flex flex-col gap-12 md:gap-14 lg:gap-[73px]">
         <div className="flex flex-col gap-8 md:gap-10 lg:gap-[49px]">
           <div className="flex max-w-xl flex-col gap-2">
@@ -621,30 +658,57 @@ function DiferenciaisSection({ diferenciais }: { diferenciais: HomeDiferenciais 
   if (itens.length === 0) return null
 
   return (
-    <section
-      className="relative isolate w-full bg-[#9EB4C1] bg-cover bg-center pb-16 pt-[22rem] md:pb-20 lg:pb-24"
-      style={imagem ? { backgroundImage: `url(${imagem.src})` } : undefined}
-    >
-      <div
-        className="absolute inset-0"
-        style={{
-          background: 'linear-gradient(36deg, rgba(158, 180, 193, 1) 15%, rgba(158, 180, 193, 0) 100%)',
-        }}
-      />
+    <section className="relative isolate w-full">
+      {/* Mobile: fundo claro, foto simples no topo e lista de cards com borda (Figma "Why-Us") */}
+      <div className="bg-brand-light-purple py-12 md:hidden">
+        <div className="container flex flex-col gap-8">
+          {imagem && (
+            <img
+              src={imagem.src}
+              alt={imagem.alt}
+              className="h-40 w-full rounded-2xl object-cover"
+            />
+          )}
 
-      <div className="container relative z-10 flex flex-col gap-[5rem] mb-[-210px]">
-        <div className="flex max-w-xl flex-col gap-2 lg:max-w-2xl">
-          {eyebrow && <span className="font-sans text-base text-white">{eyebrow}</span>}
-          <h2 className="font-heading text-h3 font-normal text-white md:text-h2">{titulo}</h2>
+          <div className="flex flex-col gap-2">
+            {eyebrow && (
+              <span className="font-sans text-eyebrow uppercase text-brand-purple-accent">{eyebrow}</span>
+            )}
+            <h2 className="font-heading text-h2-mobile text-brand-purple-dark">{titulo}</h2>
+          </div>
+
+          <div className="flex flex-col gap-3">
+            {itens.map((item, i) => (
+              <DiferencialItemCardMobile key={i} item={item} />
+            ))}
+          </div>
         </div>
+      </div>
 
-        {itens.length > 0 && (
+      {/* Tablet/Desktop: banner com imagem de fundo e cards flutuantes (layout original) */}
+      <div
+        className="relative isolate hidden bg-[#9EB4C1] bg-cover bg-center pb-20 pt-[22rem] md:block lg:pb-24"
+        style={imagem ? { backgroundImage: `url(${imagem.src})` } : undefined}
+      >
+        <div
+          className="absolute inset-0"
+          style={{
+            background: 'linear-gradient(36deg, rgba(158, 180, 193, 1) 15%, rgba(158, 180, 193, 0) 100%)',
+          }}
+        />
+
+        <div className="container relative z-10 flex flex-col gap-[5rem] mb-[-210px]">
+          <div className="flex max-w-xl flex-col gap-2 lg:max-w-2xl">
+            {eyebrow && <span className="font-sans text-base text-white">{eyebrow}</span>}
+            <h2 className="font-heading text-h3 font-normal text-white md:text-h2">{titulo}</h2>
+          </div>
+
           <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap md:gap-[38px]">
             {itens.map((item, i) => (
               <DiferencialItemCard key={i} item={item} />
             ))}
           </div>
-        )}
+        </div>
       </div>
     </section>
   )
@@ -663,9 +727,26 @@ function DiferencialItemCard({ item }: { item: HomeDiferenciaisItem }) {
   )
 }
 
+function DiferencialItemCardMobile({ item }: { item: HomeDiferenciaisItem }) {
+  return (
+    <div className="flex items-center gap-4 rounded-xl border border-brand-gray-border bg-white p-5">
+      {item.icone && (
+        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-purple-subtle">
+          <img src={item.icone.src} alt={item.icone.alt} className="h-[18px] w-[18px] object-contain" />
+        </span>
+      )}
+      {item.titulo && (
+        <p className="font-heading text-base font-medium leading-snug text-brand-purple-dark">
+          {item.titulo}
+        </p>
+      )}
+    </div>
+  )
+}
+
 function DiferenciaisSkeleton() {
   return (
-    <section className="w-full bg-muted py-16 md:py-20 lg:py-24">
+    <section className="w-full bg-muted py-12 md:py-20 lg:py-24">
       <div className="container flex flex-col gap-8 md:gap-10 lg:gap-12">
         <div className="flex max-w-xl flex-col gap-2">
           <div className="h-5 w-28 animate-pulse rounded bg-foreground/10" />
@@ -690,14 +771,14 @@ function EstruturaSection({ estrutura }: { estrutura: HomeEstrutura }) {
   const { eyebrow, titulo, descricao, fotos } = estrutura
 
   return (
-    <section className="w-full py-16 md:py-20 lg:py-24 mt-[110px]">
+    <section className="w-full py-12 md:mt-[110px] md:py-20 lg:py-24">
       <div className="container flex flex-col gap-6 md:gap-8 lg:gap-16">
         <div className="flex flex-col gap-2">
           <div className="flex flex-col gap-2">
             {eyebrow && (
-              <span className="font-sans text-base text-brand-purple-accent">{eyebrow}</span>
+              <span className="font-sans text-eyebrow uppercase text-brand-purple-accent">{eyebrow}</span>
             )}
-            <h2 className="font-heading text-h3 font-normal text-brand-purple-dark md:text-h2">
+            <h2 className="font-heading text-h2-mobile text-brand-purple-dark md:text-h2">
               {titulo}
             </h2>
           </div>
@@ -729,7 +810,7 @@ function EstruturaSection({ estrutura }: { estrutura: HomeEstrutura }) {
 
 function EstruturaSkeleton() {
   return (
-    <section className="w-full py-16 md:py-20 lg:py-24">
+    <section className="w-full py-12 md:py-20 lg:py-24">
       <div className="container flex flex-col gap-6 md:gap-8 lg:gap-16">
         <div className="flex flex-col gap-2">
           <div className="h-5 w-32 animate-pulse rounded bg-foreground/10" />
@@ -788,16 +869,16 @@ function DepoimentosSection({ depoimentos }: { depoimentos: HomeDepoimentos }) {
 
   return (
     <section
-      className="w-full py-16 md:py-20 lg:py-24"
+      className="w-full py-12 md:py-20 lg:py-24"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
-      <div className="container flex flex-col items-center gap-8 md:gap-10 lg:gap-12">
-        <div className="flex max-w-xl flex-col items-center gap-2 text-center">
+      <div className="container flex flex-col gap-8 md:gap-10 lg:gap-12">
+        <div className="flex max-w-xl flex-col gap-2">
           {eyebrow && (
-            <span className="font-sans text-base text-brand-purple-accent">{eyebrow}</span>
+            <span className="font-sans text-eyebrow uppercase text-brand-purple-accent">{eyebrow}</span>
           )}
-          <h2 className="font-heading text-h3 font-normal text-brand-purple-dark md:text-h2">
+          <h2 className="font-heading text-h2-mobile text-brand-purple-dark md:text-h2">
             {titulo}
           </h2>
         </div>
@@ -816,6 +897,7 @@ function DepoimentosSection({ depoimentos }: { depoimentos: HomeDepoimentos }) {
 
           <div
             ref={trackRef}
+            data-no-reveal
             className="flex w-full snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:gap-8"
           >
             {itens.map((item, i) => (
@@ -863,9 +945,9 @@ function DepoimentoCard({ item }: { item: HomeDepoimentoItem }) {
 
 function DepoimentosSkeleton() {
   return (
-    <section className="w-full py-16 md:py-20 lg:py-24">
-      <div className="container flex flex-col items-center gap-8 md:gap-10 lg:gap-12">
-        <div className="flex max-w-xl flex-col items-center gap-2">
+    <section className="w-full py-12 md:py-20 lg:py-24">
+      <div className="container flex flex-col gap-8 md:gap-10 lg:gap-12">
+        <div className="flex max-w-xl flex-col gap-2">
           <div className="h-5 w-40 animate-pulse rounded bg-foreground/10" />
           <div className="h-9 w-full animate-pulse rounded bg-foreground/10 md:h-10" />
         </div>

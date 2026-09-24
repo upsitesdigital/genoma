@@ -28,8 +28,9 @@ final class BlogModule extends Module
                 [
                     'key'           => 'field_blog_hero_eyebrow',
                     'name'          => 'hero_eyebrow',
-                    'label'         => 'Hero — Etiqueta',
+                    'label'         => 'Hero — Etiqueta (H1)',
                     'type'          => 'text',
+                    'instructions'  => 'Renderizado como H1 da página (o Título abaixo é H2).',
                     'default_value' => 'Blog',
                 ],
                 [

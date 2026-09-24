@@ -85,7 +85,7 @@ function HeroCarousel({ hero }: { hero: ResponsavelData['hero'] }) {
           <SlideImage slide={slide} />
 
           <div className="container relative z-10 flex h-full items-center">
-            <SlideContent slide={slide} />
+            <SlideContent slide={slide} isFirst={i === 0} />
           </div>
         </div>
       ))}
@@ -158,23 +158,25 @@ function SlideImage({ slide }: { slide: ResponsavelHeroSlide }) {
   )
 }
 
-function SlideContent({ slide }: { slide: ResponsavelHeroSlide }) {
+function SlideContent({ slide, isFirst }: { slide: ResponsavelHeroSlide; isFirst: boolean }) {
+  const Eyebrow = isFirst ? 'h1' : 'p'
+
   return (
     <div className="relative max-w-xl text-left lg:max-w-[598px]">
       {slide.eyebrow && (
-        <p className="font-sans text-body text-white">{slide.eyebrow}</p>
+        <Eyebrow className="font-sans text-body text-white">{slide.eyebrow}</Eyebrow>
       )}
 
-      <h1 className="mt-3 font-heading text-3xl font-medium leading-tight text-white md:text-4xl lg:mt-6 lg:text-h1">
+      <h2 className="mt-3 font-heading text-3xl font-medium leading-tight text-white md:text-4xl lg:mt-6 lg:text-h1">
         {slide.titulo.split('\n').map((line, i) => (
           <span key={i} className="block">
             {line}
           </span>
         ))}
-      </h1>
+      </h2>
 
       {slide.subtitulo && (
-        <p className="mt-4 max-w-md font-heading text-base font-medium leading-snug text-white md:mt-6 lg:max-w-[542px] lg:text-h3">
+        <p className="mt-4 max-w-md font-heading text-base font-medium leading-snug text-white md:mt-6 lg:max-w-[542px] lg:text-h4">
           {slide.subtitulo}
         </p>
       )}
@@ -184,7 +186,7 @@ function SlideContent({ slide }: { slide: ResponsavelHeroSlide }) {
           {slide.ctaPrimario.texto && (
             <a
               href={slide.ctaPrimario.link || '#'}
-              className="inline-flex items-center justify-center rounded-full bg-primary px-7 py-5 font-heading text-h4 leading-none text-white transition-opacity hover:opacity-90"
+              className="inline-flex items-center justify-center rounded-full bg-primary px-7 py-5 font-heading text-h5 leading-none text-white transition-colors hover:bg-brand-purple-dark"
             >
               {slide.ctaPrimario.texto}
             </a>
@@ -192,7 +194,7 @@ function SlideContent({ slide }: { slide: ResponsavelHeroSlide }) {
           {slide.ctaSecundario.texto && (
             <a
               href={slide.ctaSecundario.link || '#'}
-              className="inline-flex items-center justify-center rounded-full bg-white px-7 py-5 font-heading text-h4 leading-none text-primary transition-opacity hover:opacity-90"
+              className="inline-flex items-center justify-center rounded-full bg-white px-7 py-5 font-heading text-h5 leading-none text-primary transition-colors hover:bg-primary hover:text-white"
             >
               {slide.ctaSecundario.texto}
             </a>
@@ -236,16 +238,16 @@ function SuporteSection({ suporte }: { suporte: ResponsavelSuporte }) {
   const { eyebrow, titulo, texto, quote, imagem1, imagem2 } = suporte
 
   return (
-    <section className="bg-background py-16 md:py-20 lg:py-24 xl:py-28">
+    <section className="bg-background py-12 md:py-20 lg:py-24 xl:py-28">
       <div className="container">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_351px] lg:gap-16 xl:gap-24">
           <div>
             {eyebrow && (
-              <p className="font-sans text-body text-brand-purple-accent">{eyebrow}</p>
+              <p className="font-sans text-eyebrow uppercase text-brand-purple-accent">{eyebrow}</p>
             )}
 
             {titulo && (
-              <h2 className="mt-2 max-w-[620px] font-heading text-h3 text-brand-purple-dark md:text-h2">
+              <h2 className="mt-2 max-w-[620px] font-heading text-h2-mobile text-brand-purple-dark md:text-h2">
                 {titulo.split('\n').map((line, i) => (
                   <span key={i} className="block">
                     {line}
@@ -295,7 +297,7 @@ function SuporteSection({ suporte }: { suporte: ResponsavelSuporte }) {
 
 function SuporteSkeleton() {
   return (
-    <section className="bg-background py-16 md:py-20 lg:py-24 xl:py-28">
+    <section className="bg-background py-12 md:py-20 lg:py-24 xl:py-28">
       <div className="container">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_351px] lg:gap-16 xl:gap-24">
           <div className="max-w-[646px] space-y-4">
@@ -327,15 +329,15 @@ function PlanosSection({ planos }: { planos: ResponsavelPlanos }) {
   if (!eyebrow && !titulo && logos.length === 0) return null
 
   return (
-    <section className="bg-background pb-16 md:pb-20 lg:pb-24 xl:pb-28">
+    <section className="bg-background pb-12 md:pb-20 lg:pb-24 xl:pb-28">
       <div className="container">
         {(eyebrow || titulo) && (
           <div className="max-w-[572px]">
             {eyebrow && (
-              <p className="font-sans text-body text-brand-purple-accent">{eyebrow}</p>
+              <p className="font-sans text-eyebrow uppercase text-brand-purple-accent">{eyebrow}</p>
             )}
             {titulo && (
-              <h2 className="mt-3 font-heading text-h3 text-brand-purple-dark md:mt-4 md:text-h2">
+              <h2 className="mt-3 font-heading text-h2-mobile text-brand-purple-dark md:mt-4 md:text-h2">
                 {titulo.split('\n').map((line, i) => (
                   <span key={i} className="block">
                     {line}
@@ -368,7 +370,7 @@ function PlanosSection({ planos }: { planos: ResponsavelPlanos }) {
 
 function PlanosSkeleton() {
   return (
-    <section className="bg-background pb-16 md:pb-20 lg:pb-24 xl:pb-28">
+    <section className="bg-background pb-12 md:pb-20 lg:pb-24 xl:pb-28">
       <div className="container">
         <div className="max-w-[572px] space-y-3">
           <div className="h-5 w-40 animate-pulse rounded bg-foreground/10" />
@@ -498,15 +500,15 @@ function ServicosSection({ servicos }: { servicos: ResponsavelServicos }) {
   const toggle = (i: number) => setOpenState((prev) => prev.map((v, idx) => (idx === i ? !v : v)))
 
   return (
-    <section className="bg-background py-16 md:py-20 lg:py-24 xl:py-28">
+    <section className="bg-background py-12 md:py-20 lg:py-24 xl:py-28">
       <div className="container">
         <div className="max-w-[571px]">
           {eyebrow && (
-            <p className="font-sans text-body text-brand-purple-accent">{eyebrow}</p>
+            <p className="font-sans text-eyebrow uppercase text-brand-purple-accent">{eyebrow}</p>
           )}
 
           {titulo && (
-            <h2 className="mt-2 font-heading text-h3 text-brand-purple-dark md:text-h2">
+            <h2 className="mt-2 font-heading text-h2-mobile text-brand-purple-dark md:text-h2">
               {titulo.split('\n').map((line, i) => (
                 <span key={i} className="block">
                   {line}
@@ -599,7 +601,7 @@ function ServicosSection({ servicos }: { servicos: ResponsavelServicos }) {
 
 function ServicosSkeleton() {
   return (
-    <section className="bg-background py-16 md:py-20 lg:py-24 xl:py-28">
+    <section className="bg-background py-12 md:py-20 lg:py-24 xl:py-28">
       <div className="container">
         <div className="max-w-[571px] space-y-3">
           <div className="h-5 w-32 animate-pulse rounded bg-foreground/10" />
@@ -627,16 +629,16 @@ function ResultadosSection({ resultados }: { resultados: ResponsavelResultados }
   if (!eyebrow && !titulo && !texto) return null
 
   return (
-    <section className="border-b border-[rgba(41,19,154,0.2)] bg-background py-16 md:py-20 lg:py-24 xl:py-28">
+    <section className="border-b border-[rgba(41,19,154,0.2)] bg-background py-12 md:py-20 lg:py-24 xl:py-28">
       <div className="container">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_508px] lg:gap-16 xl:gap-24">
           <div>
             {eyebrow && (
-              <p className="font-sans text-body text-brand-purple-accent">{eyebrow}</p>
+              <p className="font-sans text-eyebrow uppercase text-brand-purple-accent">{eyebrow}</p>
             )}
 
             {titulo && (
-              <h2 className="mt-2 max-w-[620px] font-heading text-h3 text-brand-purple-dark md:text-h2">
+              <h2 className="mt-2 max-w-[620px] font-heading text-h2-mobile text-brand-purple-dark md:text-h2">
                 {titulo.split('\n').map((line, i) => (
                   <span key={i} className="block">
                     {line}
@@ -647,7 +649,7 @@ function ResultadosSection({ resultados }: { resultados: ResponsavelResultados }
 
             {texto && (
               <div className="mt-6 max-w-[577px] space-y-4 font-sans text-body leading-relaxed text-brand-gray-text md:mt-8">
-                {texto.split('\n\n').map((paragrafo, i) => (
+                {texto.split(/\n\s*\n/).map((paragrafo, i) => (
                   <p key={i}>{paragrafo}</p>
                 ))}
               </div>
@@ -669,7 +671,7 @@ function ResultadosSection({ resultados }: { resultados: ResponsavelResultados }
 
 function ResultadosSkeleton() {
   return (
-    <section className="border-b border-[rgba(41,19,154,0.2)] bg-background py-16 md:py-20 lg:py-24 xl:py-28">
+    <section className="border-b border-[rgba(41,19,154,0.2)] bg-background py-12 md:py-20 lg:py-24 xl:py-28">
       <div className="container">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_508px] lg:gap-16 xl:gap-24">
           <div className="max-w-[577px] space-y-4">
@@ -692,12 +694,12 @@ function BeneficiosSection({ beneficios }: { beneficios: ResponsavelBeneficios }
   if (!eyebrow && !titulo && itens.length === 0) return null
 
   return (
-    <section className="bg-background py-16 md:py-20 lg:py-24 xl:py-28">
+    <section className="bg-background py-12 md:py-20 lg:py-24 xl:py-28">
       <div className="container">
         <div className="flex flex-col gap-2">
-          {eyebrow && <p className="font-sans text-body text-brand-purple-accent">{eyebrow}</p>}
+          {eyebrow && <p className="font-sans text-eyebrow uppercase text-brand-purple-accent">{eyebrow}</p>}
           {titulo && (
-            <h2 className="max-w-2xl font-heading text-h3 text-brand-purple-dark md:text-h2">
+            <h2 className="max-w-2xl font-heading text-h2-mobile text-brand-purple-dark md:text-h2">
               {titulo}
             </h2>
           )}
@@ -737,7 +739,7 @@ function BeneficiosSection({ beneficios }: { beneficios: ResponsavelBeneficios }
 
 function BeneficiosSkeleton() {
   return (
-    <section className="bg-background py-16 md:py-20 lg:py-24 xl:py-28">
+    <section className="bg-background py-12 md:py-20 lg:py-24 xl:py-28">
       <div className="container">
         <div className="max-w-2xl space-y-4">
           <div className="h-5 w-28 animate-pulse rounded bg-foreground/10" />
