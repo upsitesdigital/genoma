@@ -134,6 +134,14 @@ export default function Header() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  // Menu mobile em tela cheia: trava o scroll da página enquanto aberto
+  useEffect(() => {
+    if (!mobileOpen) return
+    const prev = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => { document.body.style.overflow = prev }
+  }, [mobileOpen])
+
   const opts = boot.themeOptions as ThemeOptions
   const siteName = opts.site_name || 'Genoma Diagnósticos'
   const logoUrl = opts.logo_url || `${boot.themeUrl}/resources/components/layout/assets/header-logo.svg`
@@ -150,15 +158,15 @@ export default function Header() {
     <header
       data-no-reveal
       className={cn(
-        'fixed inset-x-0 top-0 z-40 transition-colors',
-        scrolled ? 'bg-[#ABC3CF]' : 'bg-transparent'
+        'fixed inset-x-0 top-0 z-40 bg-white transition-colors',
+        scrolled ? 'lg:bg-[#ABC3CF]' : 'lg:bg-transparent'
       )}
     >
-      <div className="container flex h-16 md:h-20 lg:h-[84px] items-center justify-between gap-4">
+      <div className="container flex min-h-[93px] lg:min-h-0 lg:h-[84px] items-center justify-between gap-4">
 
         {/* Logo */}
         <a href={boot.siteUrl} className="flex items-center gap-2 shrink-0">
-          <img src={logoUrl} alt={siteName} className="h-[84px] w-[166px] object-contain" />
+          <img src={logoUrl} alt={siteName} className="w-[122px] h-auto lg:h-[84px] lg:w-[166px] object-contain" />
         </a>
 
         {/* Menu desktop */}
@@ -181,19 +189,21 @@ export default function Header() {
 
         {/* Hamburguer mobile/tablet */}
         <button
-          className="lg:hidden flex flex-col gap-1.5 p-2"
-          aria-label="Abrir menu"
+          className="lg:hidden flex h-10 w-10 flex-col items-center justify-center gap-[5px] rounded-full bg-brand-light-purple"
+          aria-label={mobileOpen ? 'Fechar menu' : 'Abrir menu'}
+          aria-expanded={mobileOpen}
           onClick={() => setMobileOpen((v) => !v)}
         >
-          <span className={cn('block h-0.5 w-5 bg-white transition-transform', mobileOpen && 'translate-y-2 rotate-45')} />
-          <span className={cn('block h-0.5 w-5 bg-white transition-opacity', mobileOpen && 'opacity-0')} />
-          <span className={cn('block h-0.5 w-5 bg-white transition-transform', mobileOpen && '-translate-y-2 -rotate-45')} />
+          <span className={cn('block h-0.5 w-[18px] rounded-full bg-brand-purple-dark transition-transform', mobileOpen && 'translate-y-[7px] rotate-45')} />
+          <span className={cn('block h-0.5 w-[18px] rounded-full bg-brand-purple-dark transition-opacity', mobileOpen && 'opacity-0')} />
+          <span className={cn('block h-0.5 w-[18px] rounded-full bg-brand-purple-dark transition-transform', mobileOpen && '-translate-y-[7px] -rotate-45')} />
         </button>
       </div>
 
       {/* Menu mobile/tablet */}
       {mobileOpen && (
-        <div className="lg:hidden border-t border-white/15 bg-primary">
+        // Ocupa o restante da tela abaixo do header (min-h 93px); dvh desconta a barra do navegador mobile
+        <div className="lg:hidden h-[calc(100vh-93px)] overflow-y-auto border-t border-white/15 bg-primary supports-[height:100dvh]:h-[calc(100dvh-93px)]">
           <nav className="container flex flex-col py-4 gap-1">
             {items.map((item) => (
               <div key={item.id}>

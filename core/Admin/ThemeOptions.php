@@ -67,6 +67,10 @@ class ThemeOptions
             'footer_privacy_label'       => sanitize_text_field($input['footer_privacy_label'] ?? ''),
             'footer_privacy_url'         => esc_url_raw($input['footer_privacy_url'] ?? ''),
             'footer_credits_text'        => sanitize_text_field($input['footer_credits_text'] ?? ''),
+            'footer_tagline'             => sanitize_text_field($input['footer_tagline'] ?? ''),
+            'footer_email'               => sanitize_email($input['footer_email'] ?? ''),
+            'footer_phone'               => sanitize_text_field($input['footer_phone'] ?? ''),
+            'footer_rights_text'         => sanitize_text_field($input['footer_rights_text'] ?? ''),
         ];
     }
 
@@ -98,6 +102,10 @@ class ThemeOptions
         $footerPrivacyLabel     = $opts['footer_privacy_label']       ?? 'Política de privacidade';
         $footerPrivacyUrl       = $opts['footer_privacy_url']         ?? '';
         $footerCreditsText      = $opts['footer_credits_text']        ?? 'Desenvolvido por Upsites';
+        $footerTagline          = $opts['footer_tagline']             ?? '';
+        $footerEmail            = $opts['footer_email']               ?? '';
+        $footerPhone            = $opts['footer_phone']               ?? '';
+        $footerRightsText       = $opts['footer_rights_text']         ?? '';
         ?>
         <div class="wrap">
             <h1>Opções do Tema</h1>
@@ -398,6 +406,56 @@ class ThemeOptions
                                 class="regular-text"
                                 placeholder="Desenvolvido por Upsites"
                             >
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="footer_tagline">Rodapé — Frase abaixo do logo</label></th>
+                        <td>
+                            <input
+                                type="text"
+                                id="footer_tagline"
+                                name="<?= self::OPTION_KEY ?>[footer_tagline]"
+                                value="<?= esc_attr($footerTagline) ?>"
+                                class="large-text"
+                                placeholder="Diagnóstico Veterinário com Precisão, Agilidade e Confiança."
+                            >
+                            <p class="description">Exibida no rodapé mobile.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="footer_email">Rodapé — E-mail e Telefone</label></th>
+                        <td>
+                            <input
+                                type="email"
+                                id="footer_email"
+                                name="<?= self::OPTION_KEY ?>[footer_email]"
+                                value="<?= esc_attr($footerEmail) ?>"
+                                class="regular-text"
+                                placeholder="contato@genomadiagnostico.com.br"
+                            >
+                            <input
+                                type="text"
+                                id="footer_phone"
+                                name="<?= self::OPTION_KEY ?>[footer_phone]"
+                                value="<?= esc_attr($footerPhone) ?>"
+                                class="regular-text"
+                                placeholder="(11) 99999-9999"
+                            >
+                            <p class="description">Exibidos no rodapé mobile. Vazios não aparecem.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="footer_rights_text">Rodapé — Direitos reservados</label></th>
+                        <td>
+                            <input
+                                type="text"
+                                id="footer_rights_text"
+                                name="<?= self::OPTION_KEY ?>[footer_rights_text]"
+                                value="<?= esc_attr($footerRightsText) ?>"
+                                class="regular-text"
+                                placeholder="Todos os direitos reservados."
+                            >
+                            <p class="description">Linha abaixo do copyright no rodapé mobile.</p>
                         </td>
                     </tr>
                 </table>

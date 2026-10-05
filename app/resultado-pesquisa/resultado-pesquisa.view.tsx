@@ -48,7 +48,7 @@ function HeroSection({ hero }: { hero: ResultadoPesquisaHero }) {
   return (
     <section className="relative isolate w-full">
       <div
-        className="w-full pb-16 pt-16 md:pb-20 md:pt-20 lg:pb-24 lg:pt-24"
+        className="w-full pb-16 pt-[186px] md:pb-20 lg:pb-24 lg:pt-24"
         style={{ backgroundImage: 'linear-gradient(-20deg, #95ABB7 47%, #AEC6D3 100%)' }}
       >
         <div className="container flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between lg:gap-10">
@@ -180,7 +180,7 @@ function ResultadoCard({ post }: { post: ResultadoPesquisaPost }) {
           <p className="line-clamp-3 font-sans text-body-sm text-brand-gray-text">{post.resumo}</p>
         </div>
       </div>
-      <span className="inline-flex w-fit shrink-0 items-center justify-center rounded-full bg-brand-purple px-4 py-3.5 font-sans text-body-sm font-semibold text-white transition-opacity hover:opacity-90">
+      <span className="inline-flex w-full shrink-0 items-center lg:w-fit justify-center rounded-full bg-brand-purple px-4 py-3.5 font-sans text-body-sm font-semibold text-white transition-opacity hover:opacity-90">
         Saiba mais
       </span>
     </a>
@@ -222,7 +222,7 @@ function ResultadoPesquisaSkeleton() {
   return (
     <main>
       <section className="relative isolate w-full">
-        <div className="w-full bg-muted pb-16 pt-16 md:pb-20 md:pt-20 lg:pb-24 lg:pt-24">
+        <div className="w-full bg-muted pb-16 pt-[186px] md:pb-20 lg:pb-24 lg:pt-24">
           <div className="container flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between lg:gap-10">
             <div className="flex max-w-xl flex-col gap-3 md:gap-4">
               <div className="h-6 w-16 animate-pulse rounded bg-foreground/10" />

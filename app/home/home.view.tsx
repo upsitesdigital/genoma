@@ -69,10 +69,12 @@ function HeroCarousel({ hero }: { hero: HomeData['hero'] }) {
   if (total === 0) return null
 
   const waveUrl = `${boot.themeUrl}/app/home/assets/hero-bottom-wave.svg`
+  const waveMobileUrl = `${boot.themeUrl}/app/home/assets/hero-mobile-bottom-wave.svg`
+  const imagemMobilePadrao = `${boot.themeUrl}/app/home/assets/hero-mobile-cachorro.png`
 
   return (
     <section
-      className="relative isolate flex min-h-[560px] w-full items-center py-20 sm:min-h-[620px] md:py-24 lg:min-h-[720px] xl:min-h-[797px]"
+      className="relative isolate flex min-h-[842px] w-full items-start overflow-hidden bg-[#AAC1CD] pt-[186px] lg:min-h-[720px] lg:items-center lg:overflow-visible lg:bg-transparent lg:py-24 xl:min-h-[797px]"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       aria-roledescription="carousel"
@@ -91,15 +93,25 @@ function HeroCarousel({ hero }: { hero: HomeData['hero'] }) {
             <img
               src={slide.imagem.src}
               alt={slide.imagem.alt}
-              className="relative z-[1] h-full w-full object-cover"
+              className="relative z-[1] hidden h-full w-full object-cover lg:block"
             />
           )}
           <div
-            className="absolute inset-0"
+            className="absolute inset-0 hidden lg:block"
             style={{
               background:
                 'linear-gradient(295.78deg, #95ABB7 54.95%, #AEC6D3 100.42%)',
             }}
+          />
+
+          {/* Mobile/tablet: imagem recortada na base do slide (Figma 393×459) */}
+          <img
+            src={slide.imagemMobile?.src ?? imagemMobilePadrao}
+            alt={slide.imagemMobile?.alt ?? ''}
+            className={cn(
+              'absolute inset-x-0 bottom-0 aspect-[393/459] w-full lg:hidden',
+              slide.imagemMobile ? 'object-cover object-bottom' : 'object-fill'
+            )}
           />
         </div>
       ))}
@@ -116,7 +128,7 @@ function HeroCarousel({ hero }: { hero: HomeData['hero'] }) {
             type="button"
             onClick={prev}
             aria-label="Slide anterior"
-            className="absolute left-3 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-md transition hover:bg-white/90 sm:left-6 sm:h-12 sm:w-12 lg:left-10 lg:h-[58px] lg:w-[58px]"
+            className="absolute left-10 top-1/2 z-20 hidden h-[58px] w-[58px] -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-md transition hover:bg-white/90 lg:flex"
           >
             <ChevronLeft className="h-5 w-5 text-primary sm:h-6 sm:w-6" />
           </button>
@@ -124,12 +136,12 @@ function HeroCarousel({ hero }: { hero: HomeData['hero'] }) {
             type="button"
             onClick={next}
             aria-label="Próximo slide"
-            className="absolute right-3 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-md transition hover:bg-white/90 sm:right-6 sm:h-12 sm:w-12 lg:right-10 lg:h-[58px] lg:w-[58px]"
+            className="absolute right-10 top-1/2 z-20 hidden h-[58px] w-[58px] -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-md transition hover:bg-white/90 lg:flex"
           >
             <ChevronRight className="h-5 w-5 text-primary sm:h-6 sm:w-6" />
           </button>
 
-          <div className="absolute inset-x-0 bottom-4 z-20 flex justify-center gap-2 md:bottom-6">
+          <div className="absolute inset-x-0 bottom-14 z-20 flex justify-center gap-2 lg:bottom-6">
             {slides.map((_, i) => (
               <button
                 key={i}
@@ -147,7 +159,13 @@ function HeroCarousel({ hero }: { hero: HomeData['hero'] }) {
         </>
       )}
 
-      {/* Onda decorativa inferior (apenas telas maiores) */}
+      {/* Onda decorativa inferior */}
+      <img
+        src={waveMobileUrl}
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute -bottom-px left-[-2.54%] z-10 w-[105.26%] max-w-none lg:hidden"
+      />
       <img
         src={waveUrl}
         alt=""
@@ -162,27 +180,28 @@ function SlideContent({ slide, isFirst }: { slide: HomeHeroSlide; isFirst: boole
   const Eyebrow = isFirst ? 'h1' : 'p'
 
   return (
-    <div className="max-w-xl text-left lg:max-w-2xl">
+    <div className="text-left lg:max-w-2xl">
+      {/* Eyebrow: h1 no 1º slide, p nos demais */}
       {slide.eyebrow && (
         <Eyebrow className="font-sans text-body text-white">{slide.eyebrow}</Eyebrow>
       )}
 
-      <h2 className="mt-4 font-heading text-3xl font-medium leading-tight text-white sm:mt-6 md:text-4xl lg:text-5xl xl:text-h1">
+      <h2 className="mt-4 font-heading text-[28px] font-semibold leading-[1.25] text-white lg:mt-6 lg:text-5xl lg:font-medium lg:leading-tight xl:text-h1">
         {slide.titulo}
       </h2>
 
       {slide.subtitulo && (
-        <p className="mt-4 max-w-md font-heading text-base font-medium text-white/90 md:mt-6 lg:max-w-lg lg:text-h4">
+        <p className="mt-4 font-sans text-[15px] leading-[1.5] text-white lg:mt-6 lg:max-w-lg lg:font-heading lg:text-h4 lg:font-medium lg:text-white/90">
           {slide.subtitulo}
         </p>
       )}
 
       {(slide.ctaPrimario.texto || slide.ctaSecundario.texto) && (
-        <div className="mt-6 flex flex-col items-stretch gap-3 sm:mt-8 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4 md:mt-10">
+        <div className="mt-6 flex flex-col items-stretch gap-3 lg:mt-10 lg:flex-row lg:flex-wrap lg:items-center lg:gap-4">
           {slide.ctaPrimario.texto && (
             <a
               href={slide.ctaPrimario.link || '#'}
-              className="inline-flex w-full items-center justify-center rounded-full bg-primary px-7 py-5 font-heading text-h5 leading-none text-white transition-colors hover:bg-brand-purple-dark sm:w-auto"
+              className="inline-flex w-full items-center justify-center rounded-full bg-brand-purple-accent px-6 py-4 font-sans text-[15px] font-semibold leading-[1.5] text-white transition-colors hover:bg-primary lg:w-auto lg:bg-primary lg:px-7 lg:py-5 lg:font-heading lg:text-h5 lg:font-normal lg:leading-none lg:hover:bg-brand-purple-dark"
             >
               {slide.ctaPrimario.texto}
             </a>
@@ -190,7 +209,7 @@ function SlideContent({ slide, isFirst }: { slide: HomeHeroSlide; isFirst: boole
           {slide.ctaSecundario.texto && (
             <a
               href={slide.ctaSecundario.link || '#'}
-              className="inline-flex w-full items-center justify-center rounded-full bg-white px-7 py-5 font-heading text-h5 leading-none text-primary transition-colors hover:bg-primary hover:text-white sm:w-auto"
+              className="inline-flex w-full items-center justify-center rounded-full bg-white px-6 py-4 font-sans text-[15px] font-semibold leading-[1.5] text-[#29139A] transition-colors hover:bg-primary hover:text-white lg:w-auto lg:px-7 lg:py-5 lg:font-heading lg:text-h5 lg:font-normal lg:leading-none lg:text-primary"
             >
               {slide.ctaSecundario.texto}
             </a>
@@ -278,7 +297,7 @@ function VerMaisButton({
   cta: { texto: string; link: string }
 }) {
   const cls =
-    'inline-flex items-center justify-center gap-2 rounded-full border border-brand-purple px-6 py-4 font-heading text-base font-medium text-brand-purple transition-colors hover:bg-brand-purple hover:text-white md:px-7 md:py-5 md:text-h5'
+    'inline-flex w-full items-center justify-center gap-2 rounded-full border border-brand-purple px-6 py-4 lg:w-auto font-heading text-base font-medium text-brand-purple transition-colors hover:bg-brand-purple hover:text-white md:px-7 md:py-5 md:text-h5'
 
   if (hasMore) {
     return (
@@ -328,7 +347,7 @@ function ServicoCard({ item }: { item: HomeServicoItem }) {
       {item.cta.texto && (
         <a
           href={item.cta.link || '#'}
-          className="inline-flex w-fit items-center justify-center gap-2 rounded-full bg-brand-purple px-4 py-3.5 font-sans text-base font-semibold text-white transition-opacity hover:opacity-90"
+          className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-brand-purple px-4 py-3.5 lg:w-fit font-sans text-base font-semibold text-white transition-opacity hover:opacity-90"
         >
           {item.cta.texto}
         </a>
@@ -425,7 +444,7 @@ function ExameCategoriaAccordion({
   const hasContent = hasItens || !!texto
 
   return (
-    <div className="flex flex-col gap-6 rounded-2xl bg-brand-purple-subtle p-5 sm:gap-9 md:p-6 lg:p-8">
+    <div className="flex flex-col rounded-2xl bg-brand-purple-subtle p-5 md:p-6 lg:p-8">
       <div className="flex w-full items-center justify-between gap-4">
         <h3 className="font-heading text-h5 font-medium text-brand-purple-dark md:text-h4">
           {titulo}
@@ -450,7 +469,9 @@ function ExameCategoriaAccordion({
           className="grid transition-[grid-template-rows] duration-300 ease-in-out"
           style={{ gridTemplateRows: isOpen ? '1fr' : '0fr' }}
         >
-          <div className="flex flex-col gap-4 overflow-hidden">
+          {/* Espaçamento como padding interno: some junto ao recolher (sem gap fixo) */}
+          <div className="overflow-hidden">
+          <div className="flex flex-col gap-4 pt-6 sm:pt-9">
             {texto && (
               <p className="font-sans text-body-sm text-brand-gray-text">{texto}</p>
             )}
@@ -476,6 +497,7 @@ function ExameCategoriaAccordion({
                 ))}
               </div>
             )}
+          </div>
           </div>
         </div>
       )}
@@ -889,7 +911,7 @@ function DepoimentosSection({ depoimentos }: { depoimentos: HomeDepoimentos }) {
               type="button"
               onClick={() => scrollByCard(-1)}
               aria-label="Depoimento anterior"
-              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-purple-dark text-white transition-opacity hover:opacity-90 sm:h-[54px] sm:w-[54px]"
+              className="hidden h-10 w-10 shrink-0 lg:flex items-center justify-center rounded-full bg-brand-purple-dark text-white transition-opacity hover:opacity-90 sm:h-[54px] sm:w-[54px]"
             >
               <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6" />
             </button>
@@ -898,7 +920,7 @@ function DepoimentosSection({ depoimentos }: { depoimentos: HomeDepoimentos }) {
           <div
             ref={trackRef}
             data-no-reveal
-            className="flex w-full snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:gap-8"
+            className="flex w-full flex-col gap-4 lg:snap-x lg:snap-mandatory lg:flex-row lg:gap-8 lg:overflow-x-auto lg:scroll-smooth lg:[scrollbar-width:none] lg:[&::-webkit-scrollbar]:hidden"
           >
             {itens.map((item, i) => (
               <DepoimentoCard key={i} item={item} />
@@ -910,7 +932,7 @@ function DepoimentosSection({ depoimentos }: { depoimentos: HomeDepoimentos }) {
               type="button"
               onClick={() => scrollByCard(1)}
               aria-label="Próximo depoimento"
-              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-purple-dark text-white transition-opacity hover:opacity-90 sm:h-[54px] sm:w-[54px]"
+              className="hidden h-10 w-10 shrink-0 lg:flex items-center justify-center rounded-full bg-brand-purple-dark text-white transition-opacity hover:opacity-90 sm:h-[54px] sm:w-[54px]"
             >
               <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6" />
             </button>
@@ -923,22 +945,29 @@ function DepoimentosSection({ depoimentos }: { depoimentos: HomeDepoimentos }) {
 
 function DepoimentoCard({ item }: { item: HomeDepoimentoItem }) {
   return (
-    <div className="flex w-full shrink-0 snap-start flex-col gap-6 rounded-2xl bg-brand-light-purple p-6 sm:w-[calc(50%-10px)] md:gap-8 md:p-10 lg:w-[calc(50%-16px)] lg:p-16">
-      {item.icone && (
-        <img src={item.icone.src} alt={item.icone.alt} className="h-[60px] w-[60px] rounded-full" />
-      )}
-
+    <div className="flex w-full shrink-0 snap-start flex-col gap-5 rounded-2xl bg-brand-light-purple p-6 lg:w-[calc(50%-16px)] lg:gap-8 lg:p-16">
       {item.texto && (
-        <p className="font-heading text-lg font-medium leading-snug text-brand-purple-dark md:text-h4">
+        <p className="font-sans text-[15px] leading-[1.5] text-brand-purple-dark lg:order-2 lg:font-heading lg:text-h4 lg:font-medium">
           {item.texto}
         </p>
       )}
 
-      {item.nome && (
-        <span className="font-heading text-base font-medium text-brand-purple-accent md:text-h5">
-          {item.nome}
-        </span>
-      )}
+      {/* Mobile: avatar ao lado do nome; desktop: avatar no topo, nome no fim (lg:contents + order) */}
+      <div className="flex items-center gap-3 lg:contents">
+        {item.icone && (
+          <img
+            src={item.icone.src}
+            alt={item.icone.alt}
+            className="h-10 w-10 shrink-0 rounded-full object-cover lg:order-1 lg:h-[60px] lg:w-[60px]"
+          />
+        )}
+
+        {item.nome && (
+          <span className="font-sans text-[15px] font-semibold leading-[1.5] text-brand-purple-accent lg:order-3 lg:font-heading lg:text-h5 lg:font-medium">
+            {item.nome}
+          </span>
+        )}
+      </div>
     </div>
   )
 }
@@ -952,11 +981,11 @@ function DepoimentosSkeleton() {
           <div className="h-9 w-full animate-pulse rounded bg-foreground/10 md:h-10" />
         </div>
 
-        <div className="flex w-full gap-5 overflow-hidden lg:gap-8">
+        <div className="flex w-full flex-col gap-4 overflow-hidden lg:flex-row lg:gap-8">
           {Array.from({ length: 2 }).map((_, i) => (
             <div
               key={i}
-              className="hidden w-[calc(50%-10px)] shrink-0 flex-col gap-6 rounded-2xl bg-brand-light-purple p-6 first:flex md:gap-8 md:p-10 sm:flex lg:w-[calc(50%-16px)] lg:p-16"
+              className="flex w-full shrink-0 flex-col gap-6 rounded-2xl bg-brand-light-purple p-6 lg:w-[calc(50%-16px)] lg:gap-8 lg:p-16"
             >
               <div className="h-[60px] w-[60px] animate-pulse rounded-full bg-foreground/10" />
               <div className="space-y-3">

@@ -36,7 +36,7 @@ function HeroSection({ hero }: { hero: SinglePostHero }) {
   return (
     <section className="relative isolate w-full">
       <div
-        className="w-full pb-40 pt-32 md:pb-52 md:pt-36 lg:pb-64 lg:pt-40"
+        className="w-full pb-40 pt-[186px] md:pb-52 lg:pb-64 lg:pt-40"
         style={{ backgroundImage: 'linear-gradient(-20deg, #95ABB7 47%, #AEC6D3 100%)' }}
       >
         <div className="container">
@@ -175,7 +175,7 @@ function RelacionadoCard({ post }: { post: SinglePostRelacionado }) {
           <p className="line-clamp-3 font-sans text-body-sm text-brand-gray-text">{post.resumo}</p>
         </div>
       </div>
-      <span className="inline-flex w-fit shrink-0 items-center justify-center rounded-full bg-brand-purple px-4 py-3.5 font-sans text-body-sm font-semibold text-white transition-opacity hover:opacity-90">
+      <span className="inline-flex w-full shrink-0 items-center lg:w-fit justify-center rounded-full bg-brand-purple px-4 py-3.5 font-sans text-body-sm font-semibold text-white transition-opacity hover:opacity-90">
         Saiba mais
       </span>
     </a>
@@ -198,7 +198,7 @@ function SinglePostSkeleton() {
   return (
     <main>
       <section className="relative isolate w-full">
-        <div className="w-full bg-muted pb-40 pt-16 md:pb-52 md:pt-20 lg:pb-64 lg:pt-24">
+        <div className="w-full bg-muted pb-40 pt-[186px] md:pb-52 lg:pb-64 lg:pt-24">
           <div className="container">
             <div className="mx-auto flex max-w-3xl flex-col gap-4 md:gap-6">
               <div className="h-5 w-64 animate-pulse rounded bg-foreground/10" />

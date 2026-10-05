@@ -15,6 +15,7 @@ export interface HomeCta {
 
 export interface HomeHeroSlide {
   imagem: HomeImage | null
+  imagemMobile: HomeImage | null
   eyebrow: string
   titulo: string
   subtitulo: string

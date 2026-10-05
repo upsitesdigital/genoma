@@ -59,7 +59,7 @@ function HeroCarousel({ hero }: { hero: OGenomaData['hero'] }) {
   return (
     <section
       id="hero"
-      className="relative isolate z-10 w-full bg-gradient-to-br from-[#95ABB7] to-[#AEC6D3] pt-28 sm:pt-32 md:pt-36 lg:pt-40 xl:pt-[203px]"
+      className="relative isolate z-10 w-full bg-gradient-to-br from-[#95ABB7] to-[#AEC6D3] pt-[186px] lg:pt-40 xl:pt-[203px]"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       aria-roledescription="carousel"
@@ -87,7 +87,7 @@ function HeroCarousel({ hero }: { hero: OGenomaData['hero'] }) {
             type="button"
             onClick={prev}
             aria-label="Slide anterior"
-            className="absolute left-3 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-md transition hover:bg-white/90 sm:left-6 sm:h-12 sm:w-12 lg:left-10 lg:h-[58px] lg:w-[58px]"
+            className="absolute left-10 top-1/2 z-20 hidden h-[58px] w-[58px] -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-md transition hover:bg-white/90 lg:flex"
           >
             <ChevronLeft className="h-5 w-5 text-primary sm:h-6 sm:w-6" />
           </button>
@@ -95,7 +95,7 @@ function HeroCarousel({ hero }: { hero: OGenomaData['hero'] }) {
             type="button"
             onClick={next}
             aria-label="Próximo slide"
-            className="absolute right-3 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-md transition hover:bg-white/90 sm:right-6 sm:h-12 sm:w-12 lg:right-10 lg:h-[58px] lg:w-[58px]"
+            className="absolute right-10 top-1/2 z-20 hidden h-[58px] w-[58px] -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-md transition hover:bg-white/90 lg:flex"
           >
             <ChevronRight className="h-5 w-5 text-primary sm:h-6 sm:w-6" />
           </button>

@@ -46,6 +46,15 @@ final class HomeModule extends Module
                             'preview_size'  => 'medium',
                         ],
                         [
+                            'key'           => 'field_home_hero_slide_imagem_mobile',
+                            'name'          => 'imagem_mobile',
+                            'label'         => 'Imagem Mobile',
+                            'type'          => 'image',
+                            'return_format' => 'array',
+                            'preview_size'  => 'medium',
+                            'instructions'  => 'Imagem exibida na parte inferior do slide no mobile (PNG com fundo transparente, proporção 393×459).',
+                        ],
+                        [
                             'key'           => 'field_home_hero_slide_eyebrow',
                             'name'          => 'eyebrow',
                             'label'         => 'Subtítulo (H1)',

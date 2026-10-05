@@ -67,7 +67,7 @@ function HeroCarousel({ hero }: { hero: ResponsavelData['hero'] }) {
 
   return (
     <section
-      className="relative isolate flex min-h-[620px] w-full items-center bg-gradient-to-br from-[#95ABB7] to-[#AEC6D3] py-20 sm:min-h-[680px] md:py-24 lg:min-h-[720px] xl:min-h-[797px] xl:py-0"
+      className="relative isolate flex min-h-[842px] w-full items-center bg-gradient-to-br from-[#95ABB7] to-[#AEC6D3] py-20 md:py-24 lg:min-h-[720px] xl:min-h-[797px] xl:py-0"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       aria-roledescription="carousel"
@@ -84,7 +84,7 @@ function HeroCarousel({ hero }: { hero: ResponsavelData['hero'] }) {
         >
           <SlideImage slide={slide} />
 
-          <div className="container relative z-10 flex h-full items-center">
+          <div className="container relative z-10 flex h-full items-start pt-[186px] lg:items-center lg:pt-0">
             <SlideContent slide={slide} isFirst={i === 0} />
           </div>
         </div>
@@ -97,7 +97,7 @@ function HeroCarousel({ hero }: { hero: ResponsavelData['hero'] }) {
             type="button"
             onClick={prev}
             aria-label="Slide anterior"
-            className="absolute left-3 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-md transition hover:bg-white/90 sm:left-6 sm:h-12 sm:w-12 lg:left-10 lg:h-[58px] lg:w-[58px]"
+            className="absolute left-10 top-1/2 z-20 hidden h-[58px] w-[58px] -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-md transition hover:bg-white/90 lg:flex"
           >
             <ChevronLeft className="h-5 w-5 text-primary sm:h-6 sm:w-6" />
           </button>
@@ -105,7 +105,7 @@ function HeroCarousel({ hero }: { hero: ResponsavelData['hero'] }) {
             type="button"
             onClick={next}
             aria-label="Próximo slide"
-            className="absolute right-3 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-md transition hover:bg-white/90 sm:right-6 sm:h-12 sm:w-12 lg:right-10 lg:h-[58px] lg:w-[58px]"
+            className="absolute right-10 top-1/2 z-20 hidden h-[58px] w-[58px] -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-md transition hover:bg-white/90 lg:flex"
           >
             <ChevronRight className="h-5 w-5 text-primary sm:h-6 sm:w-6" />
           </button>
@@ -182,11 +182,11 @@ function SlideContent({ slide, isFirst }: { slide: ResponsavelHeroSlide; isFirst
       )}
 
       {(slide.ctaPrimario.texto || slide.ctaSecundario.texto) && (
-        <div className="mt-8 flex flex-wrap items-center gap-4 md:mt-10">
+        <div className="mt-8 flex flex-col items-stretch gap-3 md:mt-10 lg:flex-row lg:flex-wrap lg:items-center lg:gap-4">
           {slide.ctaPrimario.texto && (
             <a
               href={slide.ctaPrimario.link || '#'}
-              className="inline-flex items-center justify-center rounded-full bg-primary px-7 py-5 font-heading text-h5 leading-none text-white transition-colors hover:bg-brand-purple-dark"
+              className="inline-flex w-full items-center justify-center rounded-full bg-primary px-7 py-5 font-heading text-h5 lg:w-auto leading-none text-white transition-colors hover:bg-brand-purple-dark"
             >
               {slide.ctaPrimario.texto}
             </a>
@@ -194,7 +194,7 @@ function SlideContent({ slide, isFirst }: { slide: ResponsavelHeroSlide; isFirst
           {slide.ctaSecundario.texto && (
             <a
               href={slide.ctaSecundario.link || '#'}
-              className="inline-flex items-center justify-center rounded-full bg-white px-7 py-5 font-heading text-h5 leading-none text-primary transition-colors hover:bg-primary hover:text-white"
+              className="inline-flex w-full items-center justify-center rounded-full bg-white px-7 py-5 font-heading text-h5 lg:w-auto leading-none text-primary transition-colors hover:bg-primary hover:text-white"
             >
               {slide.ctaSecundario.texto}
             </a>

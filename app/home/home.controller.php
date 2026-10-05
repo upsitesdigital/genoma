@@ -63,6 +63,7 @@ final class HomeController extends Controller
     {
         return [
             'imagem' => $this->image($row['imagem'] ?? null),
+            'imagemMobile' => $this->image($row['imagem_mobile'] ?? null),
             'eyebrow' => (string) ($row['eyebrow'] ?? ''),
             'titulo' => (string) ($row['titulo'] ?? ''),
             'subtitulo' => (string) ($row['subtitulo'] ?? ''),

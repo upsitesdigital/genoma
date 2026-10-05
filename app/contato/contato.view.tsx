@@ -32,7 +32,7 @@ function HeroSection({ hero }: { hero: ContatoData['hero'] }) {
   return (
     <section className="relative isolate w-full">
       <div
-        className="w-full pb-40 pt-28 sm:pt-32 md:pb-48 md:pt-36 lg:pb-56 lg:pt-40"
+        className="w-full pb-40 pt-[186px] md:pb-48 lg:pb-56 lg:pt-40"
         style={{ backgroundImage: 'linear-gradient(-20deg, #95ABB7 47%, #AEC6D3 100%)' }}
       >
         <div className="container flex flex-col items-center gap-6 text-center md:gap-9">
@@ -156,7 +156,7 @@ function ContatoCardTexto({ card }: { card: Extract<ContatoListaCard, { tipo: 't
         </div>
         <a
           href={botao.link}
-          className="inline-flex w-fit shrink-0 items-center justify-center rounded-full bg-brand-purple px-6 py-4 font-sans text-body font-semibold text-white transition-opacity hover:opacity-90"
+          className="inline-flex w-full shrink-0 items-center lg:w-fit justify-center rounded-full bg-brand-purple px-6 py-4 font-sans text-body font-semibold text-white transition-opacity hover:opacity-90"
         >
           {botao.texto}
         </a>
@@ -176,7 +176,7 @@ function ContatoSkeleton() {
   return (
     <main>
       <section className="relative isolate w-full">
-        <div className="w-full bg-muted pb-40 pt-28 sm:pt-32 md:pb-48 md:pt-36 lg:pb-56 lg:pt-40">
+        <div className="w-full bg-muted pb-40 pt-[186px] md:pb-48 lg:pb-56 lg:pt-40">
           <div className="container flex flex-col items-center gap-6 text-center md:gap-9">
             <div className="h-6 w-24 animate-pulse rounded bg-foreground/10" />
             <div className="h-10 w-full max-w-xl animate-pulse rounded bg-foreground/10 md:h-14" />
