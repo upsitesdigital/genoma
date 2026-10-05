@@ -10,6 +10,7 @@ use Core\Admin\ThemeOptions;
 use Core\Admin\FormBuilder\FormCpt;
 use Core\Admin\FormBuilder\FormApi;
 use Core\Support\Asset;
+use Core\Support\Webp;
 
 class Bootstrap
 {
@@ -34,6 +35,7 @@ class Bootstrap
         NonceApi::register();
         FormCpt::register();
         FormApi::register();
+        Webp::register();
     }
 
     public static function injectThemeCssVars(): void

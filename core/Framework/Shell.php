@@ -74,7 +74,7 @@ class Shell
 <body <?php body_class(); ?>>
     <?php wp_body_open(); ?>
     <div id="app-root"></div>
-    <script>window.FW_BOOT = <?= wp_json_encode($bootData) ?>;</script>
+    <script>window.FW_BOOT = <?= wp_json_encode(\Core\Support\Webp::rewrite($bootData)) ?>;</script>
     <?php wp_footer(); ?>
 </body>
 </html>
