@@ -44,8 +44,11 @@ final class SinglePostController extends Controller
 
         $categorias    = get_the_category($post->ID);
         $categoriaNome = $categorias[0]->name ?? '';
+        // Blog filtrado pela categoria; sem Page de blog, cai no arquivo nativo
+        // (que o tema redireciona — ver Bootstrap::redirectCategoryArchive).
         $categoriaLink = $categorias[0] ?? null
-            ? (string) get_category_link($categorias[0]->term_id)
+            ? (\Core\Framework\RouteResolver::blogCategoryUrl($categorias[0]->slug)
+                ?? (string) get_category_link($categorias[0]->term_id))
             : '';
 
         return [

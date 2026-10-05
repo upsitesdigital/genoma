@@ -34,7 +34,7 @@ export default function TesteView() {
           <div className="container max-w-4xl mx-auto px-4 text-center">
             {data.imagem && (
               <img
-                src={data.imagem.url}
+                src={data.imagem.src}
                 alt={data.imagem.alt}
                 className="w-24 h-24 rounded-full object-cover mx-auto mb-6 ring-4 ring-white/30"
               />

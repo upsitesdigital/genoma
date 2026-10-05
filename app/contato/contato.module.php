@@ -100,7 +100,7 @@ final class ContatoModule extends Module
                     'label'        => 'Lista de Contatos — Cards',
                     'type'         => 'flexible_content',
                     'button_label' => 'Adicionar Card',
-                    'instructions' => 'Deixe em branco para usar os cards padrão (conteúdo do Figma).',
+                    'instructions' => 'Cards exibidos abaixo do hero. Sem nenhum card cadastrado, a seção não aparece.',
                     'layouts'      => [
                         'layout_contato_lista_card_info' => [
                             'key'        => 'layout_contato_lista_card_info',

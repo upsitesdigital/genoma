@@ -70,13 +70,17 @@ final class ResultadoPesquisaController extends Controller
 
         $args = [
             's'                   => $termo,
-            'post_type'           => 'post',
+            'post_type'           => ['post', 'page'],
             'post_status'         => 'publish',
             'posts_per_page'      => (int) get_option('posts_per_page'),
             'paged'               => $paged,
             'ignore_sticky_posts' => true,
             'no_found_rows'       => false,
         ];
+
+        // A própria página de resultados não deve aparecer como resultado
+        $paginaBusca = \Core\Framework\RouteResolver::findModulePageId('resultado-pesquisa');
+        if ($paginaBusca) $args['post__not_in'] = [$paginaBusca];
 
         $query = $termo !== '' ? new \WP_Query($args) : null;
 

@@ -8,7 +8,7 @@ export interface TesteData {
   titulo: string
   descricao: string
   numero: number
-  imagem: { url: string; alt: string; width: number; height: number } | null
+  imagem: { src: string; alt: string; width: number | null; height: number | null } | null
   cor: 'azul' | 'verde' | 'roxo' | 'laranja'
   exibir_banner: boolean
   cta: { title: string; url: string; target: string } | null

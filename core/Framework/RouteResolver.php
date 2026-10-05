@@ -26,6 +26,18 @@ class RouteResolver
             ];
         }
 
+        // 0b. "Página de posts" (Configurações → Leitura) — o WP trata como
+        // is_home(), não is_page(); resolve para o módulo blog com a própria Page.
+        if (is_home() && !is_front_page()) {
+            $pageId = (int) get_option('page_for_posts') ?: self::findModulePageId('blog');
+            return [
+                'module' => 'blog',
+                'pageId' => $pageId,
+                'url'    => $pageId ? (string) get_permalink($pageId) : home_url('/'),
+                'title'  => $pageId ? get_the_title($pageId) : 'Blog',
+            ];
+        }
+
         // 1. Page com template fw:* atribuído
         if (is_page()) {
             $page     = get_queried_object();
@@ -80,8 +92,21 @@ class RouteResolver
         return null;
     }
 
+    /**
+     * URL do blog filtrado por categoria (`/blog/?categoria=slug`). Usada no
+     * lugar do arquivo nativo /category/slug/, que nenhum módulo renderiza.
+     * Sem Page de blog cadastrada, devolve null.
+     */
+    public static function blogCategoryUrl(string $categorySlug): ?string
+    {
+        $pageId = self::findModulePageId('blog') ?: ((int) get_option('page_for_posts') ?: null);
+        if (!$pageId) return null;
+
+        return add_query_arg('categoria', $categorySlug, (string) get_permalink($pageId));
+    }
+
     /** Encontra o ID da Page que usa o template `fw:{$slug}`, se existir. */
-    private static function findModulePageId(string $slug): ?int
+    public static function findModulePageId(string $slug): ?int
     {
         $pages = get_pages([
             'meta_key'   => '_wp_page_template',

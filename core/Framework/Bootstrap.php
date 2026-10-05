@@ -28,6 +28,7 @@ class Bootstrap
         add_action('wp_enqueue_scripts', static fn() => Asset::enqueue('resources/app.tsx'));
         add_action('wp_head',          [self::class,         'injectThemeCssVars'], 1);
         add_action('add_meta_boxes',   [self::class,         'maybeRemoveEditorSupport'], 10, 2);
+        add_action('template_redirect', [self::class,        'redirectCategoryArchive']);
 
         ModuleManager::register();
         ThemeOptions::register();
@@ -59,6 +60,21 @@ class Bootstrap
         $template = get_post_meta($post->ID, '_wp_page_template', true);
         if ($template && $template !== 'default') {
             remove_post_type_support('page', 'editor');
+        }
+    }
+
+    /** Arquivo nativo /category/slug/ não tem módulo — redireciona pro blog filtrado. */
+    public static function redirectCategoryArchive(): void
+    {
+        if (!is_category()) return;
+
+        $term = get_queried_object();
+        if (!$term instanceof \WP_Term) return;
+
+        $url = RouteResolver::blogCategoryUrl($term->slug);
+        if ($url) {
+            wp_safe_redirect($url, 301);
+            exit;
         }
     }
 
