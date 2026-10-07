@@ -37,6 +37,7 @@ final class ResultadoPesquisaModule extends Module
                 ],
                 [
                     'key'           => 'field_resultado_pesquisa_busca_placeholder',
+                    'instructions'  => 'Texto de exemplo dentro do campo de busca (ex.: Buscar artigos).',
                     'name'          => 'hero_busca_placeholder',
                     'label'         => 'Hero — Busca (placeholder do campo)',
                     'type'          => 'text',
@@ -44,6 +45,7 @@ final class ResultadoPesquisaModule extends Module
                 ],
                 [
                     'key'           => 'field_resultado_pesquisa_sem_resultados',
+                    'instructions'  => 'Mensagem exibida quando a busca não encontra nada.',
                     'name'          => 'sem_resultados_texto',
                     'label'         => 'Mensagem — Nenhum resultado encontrado',
                     'type'          => 'textarea',

@@ -27,6 +27,7 @@ final class VeterinariosModule extends Module
                 // ── Hero (carrossel) ──────────────────────────────────────
                 [
                     'key'          => 'field_veterinarios_hero_slides',
+                    'instructions' => 'Cada linha é um slide. Com 2 ou mais slides aparecem as setas e as bolinhas de navegação. Sem nenhum slide, o topo da página não aparece.',
                     'name'         => 'hero_slides',
                     'label'        => 'Hero — Slides do Carrossel',
                     'type'         => 'repeater',
@@ -37,6 +38,7 @@ final class VeterinariosModule extends Module
                     'sub_fields'   => [
                         [
                             'key'           => 'field_veterinarios_hero_slide_imagem',
+                            'instructions'  => 'Foto do slide, exibida ao lado do texto. Prefira PNG com fundo transparente ou foto com o assunto à direita.',
                             'name'          => 'imagem',
                             'label'         => 'Imagem',
                             'type'          => 'image',
@@ -63,6 +65,7 @@ final class VeterinariosModule extends Module
                         ],
                         [
                             'key'           => 'field_veterinarios_hero_slide_subtitulo',
+                            'instructions'  => 'Frase de apoio abaixo do título.',
                             'name'          => 'subtitulo',
                             'label'         => 'Subtítulo',
                             'type'          => 'textarea',
@@ -71,6 +74,7 @@ final class VeterinariosModule extends Module
                         ],
                         [
                             'key'           => 'field_veterinarios_hero_slide_cta_primario_texto',
+                            'instructions'  => 'Texto do botão roxo. Em branco, o botão não aparece.',
                             'name'          => 'cta_primario_texto',
                             'label'         => 'CTA Primário — Texto',
                             'type'          => 'text',
@@ -78,6 +82,7 @@ final class VeterinariosModule extends Module
                         ],
                         [
                             'key'           => 'field_veterinarios_hero_slide_cta_primario_link',
+                            'instructions'  => 'Endereço completo do botão, começando com https:// (ou o endereço de uma página do site).',
                             'name'          => 'cta_primario_link',
                             'label'         => 'CTA Primário — Link',
                             'type'          => 'text',
@@ -85,6 +90,7 @@ final class VeterinariosModule extends Module
                         ],
                         [
                             'key'           => 'field_veterinarios_hero_slide_cta_secundario_texto',
+                            'instructions'  => 'Texto do botão branco. Em branco, o botão não aparece.',
                             'name'          => 'cta_secundario_texto',
                             'label'         => 'CTA Secundário — Texto',
                             'type'          => 'text',
@@ -92,6 +98,7 @@ final class VeterinariosModule extends Module
                         ],
                         [
                             'key'           => 'field_veterinarios_hero_slide_cta_secundario_link',
+                            'instructions'  => 'Endereço completo do botão, começando com https:// (ou o endereço de uma página do site).',
                             'name'          => 'cta_secundario_link',
                             'label'         => 'CTA Secundário — Link',
                             'type'          => 'text',
@@ -101,6 +108,7 @@ final class VeterinariosModule extends Module
                 ],
                 [
                     'key'           => 'field_veterinarios_hero_autoplay',
+                    'instructions'  => 'Ligado: os slides passam sozinhos (pausam quando o mouse está sobre eles).',
                     'name'          => 'hero_autoplay',
                     'label'         => 'Hero — Autoplay do Carrossel',
                     'type'          => 'true_false',
@@ -109,6 +117,7 @@ final class VeterinariosModule extends Module
                 ],
                 [
                     'key'               => 'field_veterinarios_hero_intervalo',
+                    'instructions'      => 'Tempo de cada slide em milissegundos: 6000 = 6 segundos. Mínimo 2000.',
                     'name'              => 'hero_intervalo',
                     'label'             => 'Hero — Intervalo do Autoplay (ms)',
                     'type'              => 'number',
@@ -129,6 +138,7 @@ final class VeterinariosModule extends Module
                 // ── Suporte ───────────────────────────────────────────────
                 [
                     'key'           => 'field_veterinarios_suporte_eyebrow',
+                    'instructions'  => 'Texto curto exibido acima do título da seção (ex.: SERVIÇOS).',
                     'name'          => 'suporte_eyebrow',
                     'label'         => 'Suporte — Etiqueta',
                     'type'          => 'text',
@@ -145,6 +155,7 @@ final class VeterinariosModule extends Module
                 ],
                 [
                     'key'           => 'field_veterinarios_suporte_texto',
+                    'instructions'  => 'Use uma linha em branco para separar os parágrafos.',
                     'name'          => 'suporte_texto',
                     'label'         => 'Suporte — Texto',
                     'type'          => 'textarea',
@@ -162,6 +173,7 @@ final class VeterinariosModule extends Module
                 ],
                 [
                     'key'           => 'field_veterinarios_suporte_imagem_1',
+                    'instructions'  => 'Foto menor, à esquerda. Vertical.',
                     'name'          => 'suporte_imagem_1',
                     'label'         => 'Suporte — Imagem 1 (menor)',
                     'type'          => 'image',
@@ -170,6 +182,7 @@ final class VeterinariosModule extends Module
                 ],
                 [
                     'key'           => 'field_veterinarios_suporte_imagem_2',
+                    'instructions'  => 'Foto maior, à direita. Horizontal.',
                     'name'          => 'suporte_imagem_2',
                     'label'         => 'Suporte — Imagem 2 (maior)',
                     'type'          => 'image',
@@ -180,6 +193,7 @@ final class VeterinariosModule extends Module
                 // ── Praticidade ───────────────────────────────────────────
                 [
                     'key'           => 'field_veterinarios_praticidade_eyebrow',
+                    'instructions'  => 'Texto curto exibido acima do título da seção (ex.: SERVIÇOS).',
                     'name'          => 'praticidade_eyebrow',
                     'label'         => 'Praticidade — Etiqueta',
                     'type'          => 'text',
@@ -187,6 +201,7 @@ final class VeterinariosModule extends Module
                 ],
                 [
                     'key'           => 'field_veterinarios_praticidade_titulo',
+                    'instructions'  => 'Título principal da seção.',
                     'name'          => 'praticidade_titulo',
                     'label'         => 'Praticidade — Título',
                     'type'          => 'text',
@@ -194,6 +209,7 @@ final class VeterinariosModule extends Module
                 ],
                 [
                     'key'           => 'field_veterinarios_praticidade_texto',
+                    'instructions'  => 'Texto do card roxo. Enter quebra a linha.',
                     'name'          => 'praticidade_texto',
                     'label'         => 'Praticidade — Texto',
                     'type'          => 'textarea',
@@ -202,6 +218,7 @@ final class VeterinariosModule extends Module
                 ],
                 [
                     'key'           => 'field_veterinarios_praticidade_icone',
+                    'instructions'  => 'Ícone exibido ao lado da lista de horários. SVG ou PNG com fundo transparente.',
                     'name'          => 'praticidade_icone',
                     'label'         => 'Praticidade — Ícone dos Horários',
                     'type'          => 'image',
@@ -210,6 +227,7 @@ final class VeterinariosModule extends Module
                 ],
                 [
                     'key'          => 'field_veterinarios_praticidade_horarios',
+                    'instructions' => 'Horários de coleta do motoboy, um por linha (ex.: Segunda a sexta, das 8h às 18h).',
                     'name'         => 'praticidade_horarios',
                     'label'        => 'Praticidade — Horários',
                     'type'         => 'repeater',
@@ -220,6 +238,7 @@ final class VeterinariosModule extends Module
                     'sub_fields'   => [
                         [
                             'key'           => 'field_veterinarios_praticidade_horario_texto',
+                            'instructions'  => 'Um horário ou faixa de horário.',
                             'name'          => 'texto',
                             'label'         => 'Texto',
                             'type'          => 'text',
@@ -229,6 +248,7 @@ final class VeterinariosModule extends Module
                 ],
                 [
                     'key'           => 'field_veterinarios_praticidade_imagem',
+                    'instructions'  => 'Foto ao lado do card roxo.',
                     'name'          => 'praticidade_imagem',
                     'label'         => 'Praticidade — Imagem',
                     'type'          => 'image',
@@ -239,6 +259,7 @@ final class VeterinariosModule extends Module
                 // ── Exames ────────────────────────────────────────────────
                 [
                     'key'           => 'field_veterinarios_exames_eyebrow',
+                    'instructions'  => 'Texto curto exibido acima do título da seção (ex.: SERVIÇOS).',
                     'name'          => 'exames_eyebrow',
                     'label'         => 'Exames — Etiqueta',
                     'type'          => 'text',
@@ -246,6 +267,7 @@ final class VeterinariosModule extends Module
                 ],
                 [
                     'key'           => 'field_veterinarios_exames_titulo',
+                    'instructions'  => 'Título principal da seção.',
                     'name'          => 'exames_titulo',
                     'label'         => 'Exames — Título',
                     'type'          => 'text',
@@ -253,6 +275,7 @@ final class VeterinariosModule extends Module
                 ],
                 [
                     'key'           => 'field_veterinarios_exames_texto',
+                    'instructions'  => 'Use uma linha em branco para separar os parágrafos.',
                     'name'          => 'exames_texto',
                     'label'         => 'Exames — Texto',
                     'type'          => 'textarea',
@@ -261,6 +284,7 @@ final class VeterinariosModule extends Module
                 ],
                 [
                     'key'           => 'field_veterinarios_exames_cta_texto',
+                    'instructions'  => 'Texto do botão. Em branco, o botão não aparece.',
                     'name'          => 'exames_cta_texto',
                     'label'         => 'Exames — CTA Texto',
                     'type'          => 'text',
@@ -268,6 +292,7 @@ final class VeterinariosModule extends Module
                 ],
                 [
                     'key'           => 'field_veterinarios_exames_cta_link',
+                    'instructions'  => 'Endereço da lista de exames (página do site ou arquivo PDF), começando com https://.',
                     'name'          => 'exames_cta_link',
                     'label'         => 'Exames — CTA Link',
                     'type'          => 'text',
@@ -275,6 +300,7 @@ final class VeterinariosModule extends Module
                 ],
                 [
                     'key'           => 'field_veterinarios_exames_imagem',
+                    'instructions'  => 'Foto horizontal da seção. O texto fica sobre ela.',
                     'name'          => 'exames_imagem',
                     'label'         => 'Exames — Imagem',
                     'type'          => 'image',
@@ -285,6 +311,7 @@ final class VeterinariosModule extends Module
                 // ── Estrutura ─────────────────────────────────────────────
                 [
                     'key'           => 'field_veterinarios_estrutura_eyebrow',
+                    'instructions'  => 'Texto curto exibido acima do título da seção (ex.: SERVIÇOS).',
                     'name'          => 'estrutura_eyebrow',
                     'label'         => 'Estrutura — Etiqueta',
                     'type'          => 'text',
@@ -292,6 +319,7 @@ final class VeterinariosModule extends Module
                 ],
                 [
                     'key'           => 'field_veterinarios_estrutura_titulo',
+                    'instructions'  => 'Título principal da seção. Aperte Enter para escolher onde o título quebra.',
                     'name'          => 'estrutura_titulo',
                     'label'         => 'Estrutura — Título',
                     'type'          => 'textarea',
@@ -300,6 +328,7 @@ final class VeterinariosModule extends Module
                 ],
                 [
                     'key'           => 'field_veterinarios_estrutura_texto',
+                    'instructions'  => 'Use uma linha em branco para separar os parágrafos.',
                     'name'          => 'estrutura_texto',
                     'label'         => 'Estrutura — Texto',
                     'type'          => 'textarea',
@@ -317,6 +346,7 @@ final class VeterinariosModule extends Module
                 ],
                 [
                     'key'           => 'field_veterinarios_estrutura_imagem_1',
+                    'instructions'  => 'Primeira foto da grade, ao lado do card de contato.',
                     'name'          => 'estrutura_imagem_1',
                     'label'         => 'Estrutura — Imagem 1',
                     'type'          => 'image',
@@ -325,6 +355,7 @@ final class VeterinariosModule extends Module
                 ],
                 [
                     'key'           => 'field_veterinarios_estrutura_imagem_2',
+                    'instructions'  => 'Segunda foto da grade, ao lado do card de contato.',
                     'name'          => 'estrutura_imagem_2',
                     'label'         => 'Estrutura — Imagem 2',
                     'type'          => 'image',
@@ -333,6 +364,7 @@ final class VeterinariosModule extends Module
                 ],
                 [
                     'key'          => 'field_veterinarios_estrutura_contatos',
+                    'instructions' => 'Itens do card de contato, cada um com ícone e texto (ex.: telefone, horário, endereço).',
                     'name'         => 'estrutura_contatos',
                     'label'        => 'Estrutura — Card de Contato',
                     'type'         => 'repeater',
@@ -343,6 +375,7 @@ final class VeterinariosModule extends Module
                     'sub_fields'   => [
                         [
                             'key'           => 'field_veterinarios_estrutura_contato_icone',
+                            'instructions'  => 'Ícone em SVG ou PNG com fundo transparente.',
                             'name'          => 'icone',
                             'label'         => 'Ícone',
                             'type'          => 'image',
@@ -364,6 +397,7 @@ final class VeterinariosModule extends Module
                 // ── Benefícios ────────────────────────────────────────────
                 [
                     'key'           => 'field_veterinarios_beneficios_eyebrow',
+                    'instructions'  => 'Texto curto exibido acima do título da seção (ex.: SERVIÇOS).',
                     'name'          => 'beneficios_eyebrow',
                     'label'         => 'Benefícios — Etiqueta',
                     'type'          => 'text',
@@ -371,6 +405,7 @@ final class VeterinariosModule extends Module
                 ],
                 [
                     'key'           => 'field_veterinarios_beneficios_titulo',
+                    'instructions'  => 'Título principal da seção.',
                     'name'          => 'beneficios_titulo',
                     'label'         => 'Benefícios — Título',
                     'type'          => 'text',
@@ -378,6 +413,7 @@ final class VeterinariosModule extends Module
                 ],
                 [
                     'key'           => 'field_veterinarios_beneficios_texto',
+                    'instructions'  => 'Texto curto abaixo do título.',
                     'name'          => 'beneficios_texto',
                     'label'         => 'Benefícios — Texto',
                     'type'          => 'textarea',
@@ -386,6 +422,7 @@ final class VeterinariosModule extends Module
                 ],
                 [
                     'key'          => 'field_veterinarios_beneficios_itens',
+                    'instructions' => 'Cada linha é um card com ícone e texto. Fica melhor com 4 itens (uma linha no computador).',
                     'name'         => 'beneficios_itens',
                     'label'        => 'Benefícios — Itens',
                     'type'         => 'repeater',
@@ -396,6 +433,7 @@ final class VeterinariosModule extends Module
                     'sub_fields'   => [
                         [
                             'key'           => 'field_veterinarios_beneficios_item_icone',
+                            'instructions'  => 'Ícone em SVG ou PNG com fundo transparente.',
                             'name'          => 'icone',
                             'label'         => 'Ícone',
                             'type'          => 'image',
@@ -404,6 +442,7 @@ final class VeterinariosModule extends Module
                         ],
                         [
                             'key'           => 'field_veterinarios_beneficios_item_texto',
+                            'instructions'  => 'Texto curto do card (até 3 linhas).',
                             'name'          => 'texto',
                             'label'         => 'Texto',
                             'type'          => 'text',
@@ -432,6 +471,7 @@ final class VeterinariosModule extends Module
                 ],
                 [
                     'key'           => 'field_veterinarios_footer_cta_primario_link',
+                    'instructions'  => 'Endereço do botão principal do banner. Em branco, usa o das Opções do Tema.',
                     'name'          => 'footer_cta_primario_link',
                     'label'         => 'Rodapé — CTA Primário (Link)',
                     'type'          => 'text',
@@ -439,6 +479,7 @@ final class VeterinariosModule extends Module
                 ],
                 [
                     'key'           => 'field_veterinarios_footer_cta_mostrar_secundario',
+                    'instructions'  => 'Desligado: o banner mostra só o botão principal (roxo).',
                     'name'          => 'footer_cta_mostrar_secundario',
                     'label'         => 'Rodapé — Mostrar Botão Secundário',
                     'type'          => 'true_false',
@@ -447,6 +488,7 @@ final class VeterinariosModule extends Module
                 ],
                 [
                     'key'               => 'field_veterinarios_footer_cta_secundario_texto',
+                    'instructions'      => 'Texto do segundo botão do banner. Em branco, usa o das Opções do Tema.',
                     'name'              => 'footer_cta_secundario_texto',
                     'label'             => 'Rodapé — CTA Secundário (Texto)',
                     'type'              => 'text',
@@ -463,6 +505,7 @@ final class VeterinariosModule extends Module
                 ],
                 [
                     'key'               => 'field_veterinarios_footer_cta_secundario_link',
+                    'instructions'      => 'Endereço do segundo botão do banner. Em branco, usa o das Opções do Tema.',
                     'name'              => 'footer_cta_secundario_link',
                     'label'             => 'Rodapé — CTA Secundário (Link)',
                     'type'              => 'text',

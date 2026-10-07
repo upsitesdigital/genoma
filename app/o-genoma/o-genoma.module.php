@@ -27,6 +27,7 @@ final class OGenomaModule extends Module
                 // ── Hero (carrossel) ──────────────────────────────────────
                 [
                     'key'          => 'field_o-genoma_hero_slides',
+                    'instructions' => 'Cada linha é um slide. Com 2 ou mais slides aparecem as setas e as bolinhas de navegação. Sem nenhum slide, o topo da página não aparece.',
                     'name'         => 'hero_slides',
                     'label'        => 'Hero — Slides do Carrossel',
                     'type'         => 'repeater',
@@ -55,6 +56,7 @@ final class OGenomaModule extends Module
                         ],
                         [
                             'key'           => 'field_o-genoma_hero_slide_imagem_1',
+                            'instructions'  => 'Foto menor, à esquerda, abaixo do texto. Vertical.',
                             'name'          => 'imagem_1',
                             'label'         => 'Imagem 1 (menor)',
                             'type'          => 'image',
@@ -63,6 +65,7 @@ final class OGenomaModule extends Module
                         ],
                         [
                             'key'           => 'field_o-genoma_hero_slide_imagem_2',
+                            'instructions'  => 'Foto maior, à direita, abaixo do texto. Horizontal.',
                             'name'          => 'imagem_2',
                             'label'         => 'Imagem 2 (maior)',
                             'type'          => 'image',
@@ -82,6 +85,7 @@ final class OGenomaModule extends Module
                 ],
                 [
                     'key'           => 'field_o-genoma_hero_autoplay',
+                    'instructions'  => 'Ligado: os slides passam sozinhos (pausam quando o mouse está sobre eles).',
                     'name'          => 'hero_autoplay',
                     'label'         => 'Hero — Autoplay do Carrossel',
                     'type'          => 'true_false',
@@ -90,6 +94,7 @@ final class OGenomaModule extends Module
                 ],
                 [
                     'key'               => 'field_o-genoma_hero_intervalo',
+                    'instructions'      => 'Tempo de cada slide em milissegundos: 6000 = 6 segundos. Mínimo 2000.',
                     'name'              => 'hero_intervalo',
                     'label'             => 'Hero — Intervalo do Autoplay (ms)',
                     'type'              => 'number',
@@ -110,6 +115,7 @@ final class OGenomaModule extends Module
                 // ── Sobre nós ─────────────────────────────────────────────
                 [
                     'key'           => 'field_o-genoma_sobre_eyebrow',
+                    'instructions'  => 'Texto curto exibido acima do título da seção (ex.: SERVIÇOS).',
                     'name'          => 'sobre_eyebrow',
                     'label'         => 'Sobre nós — Etiqueta',
                     'type'          => 'text',
@@ -117,6 +123,7 @@ final class OGenomaModule extends Module
                 ],
                 [
                     'key'           => 'field_o-genoma_sobre_titulo',
+                    'instructions'  => 'Título principal da seção. Aperte Enter para escolher onde o título quebra.',
                     'name'          => 'sobre_titulo',
                     'label'         => 'Sobre nós — Título',
                     'type'          => 'textarea',
@@ -145,6 +152,7 @@ final class OGenomaModule extends Module
                 // ── Compromisso ───────────────────────────────────────────
                 [
                     'key'           => 'field_o-genoma_compromisso_eyebrow',
+                    'instructions'  => 'Texto curto exibido acima do título da seção (ex.: SERVIÇOS).',
                     'name'          => 'compromisso_eyebrow',
                     'label'         => 'Compromisso — Etiqueta',
                     'type'          => 'text',
@@ -161,6 +169,7 @@ final class OGenomaModule extends Module
                 ],
                 [
                     'key'           => 'field_o-genoma_compromisso_texto',
+                    'instructions'  => 'Use uma linha em branco para separar os parágrafos.',
                     'name'          => 'compromisso_texto',
                     'label'         => 'Compromisso — Texto',
                     'type'          => 'textarea',
@@ -169,6 +178,7 @@ final class OGenomaModule extends Module
                 ],
                 [
                     'key'           => 'field_o-genoma_compromisso_imagem',
+                    'instructions'  => 'Foto de fundo do banner, horizontal, com pelo menos 1920 px de largura. O texto fica sobre ela.',
                     'name'          => 'compromisso_imagem',
                     'label'         => 'Compromisso — Imagem de fundo',
                     'type'          => 'image',
@@ -225,6 +235,7 @@ final class OGenomaModule extends Module
                 ],
                 [
                     'key'           => 'field_o-genoma_footer_cta_primario_link',
+                    'instructions'  => 'Endereço do botão principal do banner. Em branco, usa o das Opções do Tema.',
                     'name'          => 'footer_cta_primario_link',
                     'label'         => 'Rodapé — CTA Primário (Link)',
                     'type'          => 'text',
@@ -232,6 +243,7 @@ final class OGenomaModule extends Module
                 ],
                 [
                     'key'           => 'field_o-genoma_footer_cta_mostrar_secundario',
+                    'instructions'  => 'Desligado: o banner mostra só o botão principal (roxo).',
                     'name'          => 'footer_cta_mostrar_secundario',
                     'label'         => 'Rodapé — Mostrar Botão Secundário',
                     'type'          => 'true_false',
@@ -240,6 +252,7 @@ final class OGenomaModule extends Module
                 ],
                 [
                     'key'               => 'field_o-genoma_footer_cta_secundario_texto',
+                    'instructions'      => 'Texto do segundo botão do banner. Em branco, usa o das Opções do Tema.',
                     'name'              => 'footer_cta_secundario_texto',
                     'label'             => 'Rodapé — CTA Secundário (Texto)',
                     'type'              => 'text',
@@ -256,6 +269,7 @@ final class OGenomaModule extends Module
                 ],
                 [
                     'key'               => 'field_o-genoma_footer_cta_secundario_link',
+                    'instructions'      => 'Endereço do segundo botão do banner. Em branco, usa o das Opções do Tema.',
                     'name'              => 'footer_cta_secundario_link',
                     'label'             => 'Rodapé — CTA Secundário (Link)',
                     'type'              => 'text',

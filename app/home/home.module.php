@@ -29,6 +29,7 @@ final class HomeModule extends Module
                 // ── Hero (carrossel) ──────────────────────────────────────
                 [
                     'key'          => 'field_home_hero_slides',
+                    'instructions' => 'Cada linha é um slide. Com 2 ou mais slides aparecem as setas e as bolinhas de navegação. Sem nenhum slide, o topo da página não aparece.',
                     'name'         => 'hero_slides',
                     'label'        => 'Hero — Slides do Carrossel',
                     'type'         => 'repeater',
@@ -39,6 +40,7 @@ final class HomeModule extends Module
                     'sub_fields'   => [
                         [
                             'key'           => 'field_home_hero_slide_imagem',
+                            'instructions'  => 'Foto de fundo do slide no computador. Horizontal, com pelo menos 1920 px de largura. No celular é substituída pela Imagem Mobile.',
                             'name'          => 'imagem',
                             'label'         => 'Imagem de Fundo',
                             'type'          => 'image',
@@ -64,6 +66,7 @@ final class HomeModule extends Module
                         ],
                         [
                             'key'           => 'field_home_hero_slide_titulo',
+                            'instructions'  => 'Título grande do slide.',
                             'name'          => 'titulo',
                             'label'         => 'Título',
                             'type'          => 'text',
@@ -72,6 +75,7 @@ final class HomeModule extends Module
                         ],
                         [
                             'key'           => 'field_home_hero_slide_subtitulo',
+                            'instructions'  => 'Frase de apoio abaixo do título.',
                             'name'          => 'subtitulo',
                             'label'         => 'Subtítulo',
                             'type'          => 'textarea',
@@ -80,6 +84,7 @@ final class HomeModule extends Module
                         ],
                         [
                             'key'           => 'field_home_hero_slide_cta_primario_texto',
+                            'instructions'  => 'Texto do botão roxo. Em branco, o botão não aparece.',
                             'name'          => 'cta_primario_texto',
                             'label'         => 'CTA Primário — Texto',
                             'type'          => 'text',
@@ -87,6 +92,7 @@ final class HomeModule extends Module
                         ],
                         [
                             'key'           => 'field_home_hero_slide_cta_primario_link',
+                            'instructions'  => 'Endereço completo do botão, começando com https:// (ou o endereço de uma página do site).',
                             'name'          => 'cta_primario_link',
                             'label'         => 'CTA Primário — Link',
                             'type'          => 'text',
@@ -94,6 +100,7 @@ final class HomeModule extends Module
                         ],
                         [
                             'key'           => 'field_home_hero_slide_cta_secundario_texto',
+                            'instructions'  => 'Texto do botão branco. Em branco, o botão não aparece.',
                             'name'          => 'cta_secundario_texto',
                             'label'         => 'CTA Secundário — Texto',
                             'type'          => 'text',
@@ -101,6 +108,7 @@ final class HomeModule extends Module
                         ],
                         [
                             'key'           => 'field_home_hero_slide_cta_secundario_link',
+                            'instructions'  => 'Endereço completo do botão, começando com https:// (ou o endereço de uma página do site).',
                             'name'          => 'cta_secundario_link',
                             'label'         => 'CTA Secundário — Link',
                             'type'          => 'text',
@@ -110,6 +118,7 @@ final class HomeModule extends Module
                 ],
                 [
                     'key'           => 'field_home_hero_autoplay',
+                    'instructions'  => 'Ligado: os slides passam sozinhos (pausam quando o mouse está sobre eles).',
                     'name'          => 'hero_autoplay',
                     'label'         => 'Hero — Autoplay do Carrossel',
                     'type'          => 'true_false',
@@ -118,6 +127,7 @@ final class HomeModule extends Module
                 ],
                 [
                     'key'               => 'field_home_hero_intervalo',
+                    'instructions'      => 'Tempo de cada slide em milissegundos: 6000 = 6 segundos. Mínimo 2000.',
                     'name'              => 'hero_intervalo',
                     'label'             => 'Hero — Intervalo do Autoplay (ms)',
                     'type'              => 'number',
@@ -138,6 +148,7 @@ final class HomeModule extends Module
                 // ── Serviços ──────────────────────────────────────────────
                 [
                     'key'           => 'field_home_servicos_eyebrow',
+                    'instructions'  => 'Texto curto exibido acima do título da seção (ex.: SERVIÇOS).',
                     'name'          => 'servicos_eyebrow',
                     'label'         => 'Serviços — Etiqueta',
                     'type'          => 'text',
@@ -145,6 +156,7 @@ final class HomeModule extends Module
                 ],
                 [
                     'key'           => 'field_home_servicos_titulo',
+                    'instructions'  => 'Título principal da seção.',
                     'name'          => 'servicos_titulo',
                     'label'         => 'Serviços — Título',
                     'type'          => 'text',
@@ -152,6 +164,7 @@ final class HomeModule extends Module
                 ],
                 [
                     'key'          => 'field_home_servicos_itens',
+                    'instructions' => 'Cada linha é um card de serviço. Aparecem 3; com mais de 3, surge o botão "Ver mais".',
                     'name'         => 'servicos_itens',
                     'label'        => 'Serviços — Itens',
                     'type'         => 'repeater',
@@ -162,6 +175,7 @@ final class HomeModule extends Module
                     'sub_fields'   => [
                         [
                             'key'           => 'field_home_servicos_item_imagem',
+                            'instructions'  => 'Foto horizontal do card (proporção aproximada de 2:1).',
                             'name'          => 'imagem',
                             'label'         => 'Imagem',
                             'type'          => 'image',
@@ -170,6 +184,7 @@ final class HomeModule extends Module
                         ],
                         [
                             'key'           => 'field_home_servicos_item_titulo',
+                            'instructions'  => 'Nome do serviço.',
                             'name'          => 'titulo',
                             'label'         => 'Título',
                             'type'          => 'text',
@@ -178,6 +193,7 @@ final class HomeModule extends Module
                         ],
                         [
                             'key'           => 'field_home_servicos_item_descricao',
+                            'instructions'  => 'Descrição curta do serviço (2 a 3 linhas).',
                             'name'          => 'descricao',
                             'label'         => 'Descrição',
                             'type'          => 'textarea',
@@ -186,6 +202,7 @@ final class HomeModule extends Module
                         ],
                         [
                             'key'           => 'field_home_servicos_item_cta_texto',
+                            'instructions'  => 'Texto do botão. Em branco, o botão não aparece.',
                             'name'          => 'cta_texto',
                             'label'         => 'CTA — Texto',
                             'type'          => 'text',
@@ -193,6 +210,7 @@ final class HomeModule extends Module
                         ],
                         [
                             'key'           => 'field_home_servicos_item_cta_link',
+                            'instructions'  => 'Endereço completo do botão, começando com https:// (ou o endereço de uma página do site).',
                             'name'          => 'cta_link',
                             'label'         => 'CTA — Link',
                             'type'          => 'text',
@@ -202,6 +220,7 @@ final class HomeModule extends Module
                 ],
                 [
                     'key'           => 'field_home_servicos_cta_texto',
+                    'instructions'  => 'Botão abaixo dos cards, usado quando há 3 serviços ou menos. Em branco, não aparece.',
                     'name'          => 'servicos_cta_texto',
                     'label'         => 'Serviços — CTA Final (Texto)',
                     'type'          => 'text',
@@ -209,6 +228,7 @@ final class HomeModule extends Module
                 ],
                 [
                     'key'           => 'field_home_servicos_cta_link',
+                    'instructions'  => 'Endereço completo do botão, começando com https:// (ou o endereço de uma página do site).',
                     'name'          => 'servicos_cta_link',
                     'label'         => 'Serviços — CTA Final (Link)',
                     'type'          => 'text',
@@ -218,6 +238,7 @@ final class HomeModule extends Module
                 // ── Exames (acordeão) ─────────────────────────────────────
                 [
                     'key'           => 'field_home_exames_eyebrow',
+                    'instructions'  => 'Texto curto exibido acima do título da seção (ex.: SERVIÇOS).',
                     'name'          => 'exames_eyebrow',
                     'label'         => 'Exames — Etiqueta',
                     'type'          => 'text',
@@ -225,6 +246,7 @@ final class HomeModule extends Module
                 ],
                 [
                     'key'           => 'field_home_exames_titulo',
+                    'instructions'  => 'Título principal da seção.',
                     'name'          => 'exames_titulo',
                     'label'         => 'Exames — Título',
                     'type'          => 'text',
@@ -232,6 +254,7 @@ final class HomeModule extends Module
                 ],
                 [
                     'key'           => 'field_home_exames_descricao',
+                    'instructions'  => 'Texto curto abaixo do título.',
                     'name'          => 'exames_descricao',
                     'label'         => 'Exames — Descrição',
                     'type'          => 'textarea',
@@ -240,6 +263,7 @@ final class HomeModule extends Module
                 ],
                 [
                     'key'          => 'field_home_exames_categorias',
+                    'instructions' => 'Cada linha é uma categoria do acordeão (abre e fecha ao clicar). Aparecem 3; com mais, surge o botão "Ver mais".',
                     'name'         => 'exames_categorias',
                     'label'        => 'Exames — Categorias (acordeão)',
                     'type'         => 'repeater',
@@ -251,6 +275,7 @@ final class HomeModule extends Module
                     'sub_fields'   => [
                         [
                             'key'           => 'field_home_exames_categoria_titulo',
+                            'instructions'  => 'Nome da categoria (ex.: Hematologia).',
                             'name'          => 'titulo',
                             'label'         => 'Título da Categoria',
                             'type'          => 'text',
@@ -259,6 +284,7 @@ final class HomeModule extends Module
                         ],
                         [
                             'key'           => 'field_home_exames_categoria_texto',
+                            'instructions'  => 'Texto exibido ao abrir a categoria, acima da lista de exames. Em branco, aparece só a lista.',
                             'name'          => 'texto',
                             'label'         => 'Texto (opcional)',
                             'type'          => 'textarea',
@@ -267,6 +293,7 @@ final class HomeModule extends Module
                         ],
                         [
                             'key'          => 'field_home_exames_categoria_itens',
+                            'instructions' => 'Exames da categoria, um por linha.',
                             'name'         => 'itens',
                             'label'        => 'Itens (exames desta categoria)',
                             'type'         => 'repeater',
@@ -277,6 +304,7 @@ final class HomeModule extends Module
                             'sub_fields'   => [
                                 [
                                     'key'           => 'field_home_exames_item_nome',
+                                    'instructions'  => 'Nome do exame.',
                                     'name'          => 'nome',
                                     'label'         => 'Nome do Exame',
                                     'type'          => 'text',
@@ -285,6 +313,7 @@ final class HomeModule extends Module
                                 ],
                                 [
                                     'key'           => 'field_home_exames_item_prazo',
+                                    'instructions'  => 'Prazo do resultado (ex.: 2 dias úteis).',
                                     'name'          => 'prazo',
                                     'label'         => 'Prazo',
                                     'type'          => 'text',
@@ -292,6 +321,7 @@ final class HomeModule extends Module
                                 ],
                                 [
                                     'key'           => 'field_home_exames_item_amostra',
+                                    'instructions'  => 'Tipo de amostra (ex.: Sangue total).',
                                     'name'          => 'amostra',
                                     'label'         => 'Tipo de Amostra',
                                     'type'          => 'text',
@@ -303,6 +333,7 @@ final class HomeModule extends Module
                 ],
                 [
                     'key'           => 'field_home_exames_cta_texto',
+                    'instructions'  => 'Botão abaixo do acordeão, usado quando há 3 categorias ou menos. Em branco, não aparece.',
                     'name'          => 'exames_cta_texto',
                     'label'         => 'Exames — CTA Final (Texto)',
                     'type'          => 'text',
@@ -310,6 +341,7 @@ final class HomeModule extends Module
                 ],
                 [
                     'key'           => 'field_home_exames_cta_link',
+                    'instructions'  => 'Endereço completo do botão, começando com https:// (ou o endereço de uma página do site).',
                     'name'          => 'exames_cta_link',
                     'label'         => 'Exames — CTA Final (Link)',
                     'type'          => 'text',
@@ -319,6 +351,7 @@ final class HomeModule extends Module
                 // ── Sobre o Genoma ────────────────────────────────────────
                 [
                     'key'           => 'field_home_sobre_eyebrow',
+                    'instructions'  => 'Texto curto exibido acima do título da seção (ex.: SERVIÇOS).',
                     'name'          => 'sobre_eyebrow',
                     'label'         => 'Sobre — Etiqueta',
                     'type'          => 'text',
@@ -326,6 +359,7 @@ final class HomeModule extends Module
                 ],
                 [
                     'key'           => 'field_home_sobre_titulo',
+                    'instructions'  => 'Título principal da seção.',
                     'name'          => 'sobre_titulo',
                     'label'         => 'Sobre — Título',
                     'type'          => 'text',
@@ -333,6 +367,7 @@ final class HomeModule extends Module
                 ],
                 [
                     'key'           => 'field_home_sobre_foto_1',
+                    'instructions'  => 'Primeira das 3 fotos da seção. Use fotos do laboratório ou da equipe.',
                     'name'          => 'sobre_foto_1',
                     'label'         => 'Sobre — Foto 1',
                     'type'          => 'image',
@@ -341,6 +376,7 @@ final class HomeModule extends Module
                 ],
                 [
                     'key'           => 'field_home_sobre_foto_2',
+                    'instructions'  => 'Segunda das 3 fotos da seção.',
                     'name'          => 'sobre_foto_2',
                     'label'         => 'Sobre — Foto 2',
                     'type'          => 'image',
@@ -349,6 +385,7 @@ final class HomeModule extends Module
                 ],
                 [
                     'key'           => 'field_home_sobre_foto_3',
+                    'instructions'  => 'Terceira das 3 fotos da seção.',
                     'name'          => 'sobre_foto_3',
                     'label'         => 'Sobre — Foto 3',
                     'type'          => 'image',
@@ -357,6 +394,7 @@ final class HomeModule extends Module
                 ],
                 [
                     'key'           => 'field_home_sobre_texto',
+                    'instructions'  => 'Use uma linha em branco para separar os parágrafos.',
                     'name'          => 'sobre_texto',
                     'label'         => 'Sobre — Texto (parágrafos separados por linha em branco)',
                     'type'          => 'textarea',
@@ -366,6 +404,7 @@ final class HomeModule extends Module
                 ],
                 [
                     'key'           => 'field_home_sobre_destaque',
+                    'instructions'  => 'Frase curta exibida em destaque, entre linhas.',
                     'name'          => 'sobre_destaque',
                     'label'         => 'Sobre — Frase de Destaque',
                     'type'          => 'textarea',
@@ -374,6 +413,7 @@ final class HomeModule extends Module
                 ],
                 [
                     'key'          => 'field_home_sobre_diferenciais',
+                    'instructions' => 'Cada linha é um card com ícone, título e descrição. Fica melhor com 3 cards.',
                     'name'         => 'sobre_diferenciais',
                     'label'        => 'Sobre — Diferenciais (cards)',
                     'type'         => 'repeater',
@@ -384,6 +424,7 @@ final class HomeModule extends Module
                     'sub_fields'   => [
                         [
                             'key'           => 'field_home_sobre_diferencial_icone',
+                            'instructions'  => 'Ícone em SVG ou PNG com fundo transparente.',
                             'name'          => 'icone',
                             'label'         => 'Ícone',
                             'type'          => 'image',
@@ -393,6 +434,7 @@ final class HomeModule extends Module
                         ],
                         [
                             'key'           => 'field_home_sobre_diferencial_titulo',
+                            'instructions'  => 'Título curto do card.',
                             'name'          => 'titulo',
                             'label'         => 'Título',
                             'type'          => 'text',
@@ -401,6 +443,7 @@ final class HomeModule extends Module
                         ],
                         [
                             'key'           => 'field_home_sobre_diferencial_descricao',
+                            'instructions'  => 'Descrição curta (2 a 3 linhas).',
                             'name'          => 'descricao',
                             'label'         => 'Descrição',
                             'type'          => 'textarea',
@@ -413,6 +456,7 @@ final class HomeModule extends Module
                 // ── Diferenciais ──────────────────────────────────────────
                 [
                     'key'           => 'field_home_diferenciais_eyebrow',
+                    'instructions'  => 'Texto curto exibido acima do título da seção (ex.: SERVIÇOS).',
                     'name'          => 'diferenciais_eyebrow',
                     'label'         => 'Diferenciais — Etiqueta',
                     'type'          => 'text',
@@ -420,6 +464,7 @@ final class HomeModule extends Module
                 ],
                 [
                     'key'           => 'field_home_diferenciais_titulo',
+                    'instructions'  => 'Título principal da seção.',
                     'name'          => 'diferenciais_titulo',
                     'label'         => 'Diferenciais — Título',
                     'type'          => 'text',
@@ -427,6 +472,7 @@ final class HomeModule extends Module
                 ],
                 [
                     'key'           => 'field_home_diferenciais_imagem',
+                    'instructions'  => 'Foto de fundo da seção, horizontal, com pelo menos 1920 px de largura. No celular aparece acima dos cards.',
                     'name'          => 'diferenciais_imagem',
                     'label'         => 'Diferenciais — Imagem de Fundo',
                     'type'          => 'image',
@@ -435,6 +481,7 @@ final class HomeModule extends Module
                 ],
                 [
                     'key'          => 'field_home_diferenciais_itens',
+                    'instructions' => 'Cada linha é um card com ícone e texto curto.',
                     'name'         => 'diferenciais_itens',
                     'label'        => 'Diferenciais — Itens (cards)',
                     'type'         => 'repeater',
@@ -445,6 +492,7 @@ final class HomeModule extends Module
                     'sub_fields'   => [
                         [
                             'key'           => 'field_home_diferenciais_item_icone',
+                            'instructions'  => 'Ícone em SVG ou PNG com fundo transparente.',
                             'name'          => 'icone',
                             'label'         => 'Ícone',
                             'type'          => 'image',
@@ -454,6 +502,7 @@ final class HomeModule extends Module
                         ],
                         [
                             'key'           => 'field_home_diferenciais_item_titulo',
+                            'instructions'  => 'Texto curto do card (até 2 linhas).',
                             'name'          => 'titulo',
                             'label'         => 'Texto',
                             'type'          => 'text',
@@ -466,6 +515,7 @@ final class HomeModule extends Module
                 // ── Estrutura ─────────────────────────────────────────────
                 [
                     'key'           => 'field_home_estrutura_eyebrow',
+                    'instructions'  => 'Texto curto exibido acima do título da seção (ex.: SERVIÇOS).',
                     'name'          => 'estrutura_eyebrow',
                     'label'         => 'Estrutura — Etiqueta',
                     'type'          => 'text',
@@ -473,6 +523,7 @@ final class HomeModule extends Module
                 ],
                 [
                     'key'           => 'field_home_estrutura_titulo',
+                    'instructions'  => 'Título principal da seção.',
                     'name'          => 'estrutura_titulo',
                     'label'         => 'Estrutura — Título',
                     'type'          => 'text',
@@ -480,6 +531,7 @@ final class HomeModule extends Module
                 ],
                 [
                     'key'           => 'field_home_estrutura_descricao',
+                    'instructions'  => 'Use uma linha em branco para separar os parágrafos.',
                     'name'          => 'estrutura_descricao',
                     'label'         => 'Estrutura — Descrição',
                     'type'          => 'textarea',
@@ -488,6 +540,7 @@ final class HomeModule extends Module
                 ],
                 [
                     'key'           => 'field_home_estrutura_foto_1',
+                    'instructions'  => 'Primeira das 3 fotos da estrutura.',
                     'name'          => 'estrutura_foto_1',
                     'label'         => 'Estrutura — Foto 1',
                     'type'          => 'image',
@@ -496,6 +549,7 @@ final class HomeModule extends Module
                 ],
                 [
                     'key'           => 'field_home_estrutura_foto_2',
+                    'instructions'  => 'Segunda das 3 fotos da estrutura.',
                     'name'          => 'estrutura_foto_2',
                     'label'         => 'Estrutura — Foto 2',
                     'type'          => 'image',
@@ -504,6 +558,7 @@ final class HomeModule extends Module
                 ],
                 [
                     'key'           => 'field_home_estrutura_foto_3',
+                    'instructions'  => 'Terceira das 3 fotos da estrutura.',
                     'name'          => 'estrutura_foto_3',
                     'label'         => 'Estrutura — Foto 3',
                     'type'          => 'image',
@@ -514,6 +569,7 @@ final class HomeModule extends Module
                 // ── Depoimentos (carrossel) ──────────────────────────────
                 [
                     'key'           => 'field_home_depoimentos_eyebrow',
+                    'instructions'  => 'Texto curto exibido acima do título da seção (ex.: SERVIÇOS).',
                     'name'          => 'depoimentos_eyebrow',
                     'label'         => 'Depoimentos — Etiqueta',
                     'type'          => 'text',
@@ -521,6 +577,7 @@ final class HomeModule extends Module
                 ],
                 [
                     'key'           => 'field_home_depoimentos_titulo',
+                    'instructions'  => 'Título principal da seção.',
                     'name'          => 'depoimentos_titulo',
                     'label'         => 'Depoimentos — Título',
                     'type'          => 'text',
@@ -528,6 +585,7 @@ final class HomeModule extends Module
                 ],
                 [
                     'key'          => 'field_home_depoimentos_itens',
+                    'instructions' => 'Cada linha é um depoimento. No computador aparecem 2 por vez em carrossel; no celular, um abaixo do outro.',
                     'name'         => 'depoimentos_itens',
                     'label'        => 'Depoimentos — Itens (carrossel)',
                     'type'         => 'repeater',
@@ -538,6 +596,7 @@ final class HomeModule extends Module
                     'sub_fields'   => [
                         [
                             'key'           => 'field_home_depoimentos_item_icone',
+                            'instructions'  => 'Foto do cliente, quadrada (aparece em círculo).',
                             'name'          => 'icone',
                             'label'         => 'Ícone',
                             'type'          => 'image',
@@ -547,6 +606,7 @@ final class HomeModule extends Module
                         ],
                         [
                             'key'           => 'field_home_depoimentos_item_texto',
+                            'instructions'  => 'Texto do depoimento, sem aspas (até 4 linhas).',
                             'name'          => 'texto',
                             'label'         => 'Depoimento',
                             'type'          => 'textarea',
@@ -556,6 +616,7 @@ final class HomeModule extends Module
                         ],
                         [
                             'key'           => 'field_home_depoimentos_item_nome',
+                            'instructions'  => 'Nome de quem deu o depoimento.',
                             'name'          => 'nome',
                             'label'         => 'Nome do Cliente',
                             'type'          => 'text',
@@ -566,6 +627,7 @@ final class HomeModule extends Module
                 ],
                 [
                     'key'           => 'field_home_depoimentos_autoplay',
+                    'instructions'  => 'Ligado: os depoimentos passam sozinhos no computador.',
                     'name'          => 'depoimentos_autoplay',
                     'label'         => 'Depoimentos — Autoplay do Carrossel',
                     'type'          => 'true_false',
@@ -574,6 +636,7 @@ final class HomeModule extends Module
                 ],
                 [
                     'key'               => 'field_home_depoimentos_intervalo',
+                    'instructions'      => 'Tempo de cada slide em milissegundos: 6000 = 6 segundos. Mínimo 2000.',
                     'name'              => 'depoimentos_intervalo',
                     'label'             => 'Depoimentos — Intervalo do Autoplay (ms)',
                     'type'              => 'number',
@@ -611,6 +674,7 @@ final class HomeModule extends Module
                 ],
                 [
                     'key'           => 'field_home_footer_cta_primario_link',
+                    'instructions'  => 'Endereço do botão principal do banner. Em branco, usa o das Opções do Tema.',
                     'name'          => 'footer_cta_primario_link',
                     'label'         => 'Rodapé — CTA Primário (Link)',
                     'type'          => 'text',
@@ -618,6 +682,7 @@ final class HomeModule extends Module
                 ],
                 [
                     'key'           => 'field_home_footer_cta_mostrar_secundario',
+                    'instructions'  => 'Desligado: o banner mostra só o botão principal (roxo).',
                     'name'          => 'footer_cta_mostrar_secundario',
                     'label'         => 'Rodapé — Mostrar Botão Secundário',
                     'type'          => 'true_false',
@@ -626,6 +691,7 @@ final class HomeModule extends Module
                 ],
                 [
                     'key'               => 'field_home_footer_cta_secundario_texto',
+                    'instructions'      => 'Texto do segundo botão do banner. Em branco, usa o das Opções do Tema.',
                     'name'              => 'footer_cta_secundario_texto',
                     'label'             => 'Rodapé — CTA Secundário (Texto)',
                     'type'              => 'text',
@@ -642,6 +708,7 @@ final class HomeModule extends Module
                 ],
                 [
                     'key'               => 'field_home_footer_cta_secundario_link',
+                    'instructions'      => 'Endereço do segundo botão do banner. Em branco, usa o das Opções do Tema.',
                     'name'              => 'footer_cta_secundario_link',
                     'label'             => 'Rodapé — CTA Secundário (Link)',
                     'type'              => 'text',

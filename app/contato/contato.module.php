@@ -27,6 +27,7 @@ final class ContatoModule extends Module
                 // ── Hero ──────────────────────────────────────────────────
                 [
                     'key'           => 'field_contato_hero_eyebrow',
+                    'instructions'  => 'Texto curto exibido acima do título (ex.: Contato).',
                     'name'          => 'hero_eyebrow',
                     'label'         => 'Hero — Etiqueta',
                     'type'          => 'text',
@@ -34,6 +35,7 @@ final class ContatoModule extends Module
                 ],
                 [
                     'key'           => 'field_contato_hero_titulo',
+                    'instructions'  => 'Título grande do topo da página. É o título principal da página para o Google.',
                     'name'          => 'hero_titulo',
                     'label'         => 'Hero — Título',
                     'type'          => 'text',
@@ -42,6 +44,7 @@ final class ContatoModule extends Module
                 ],
                 [
                     'key'           => 'field_contato_hero_descricao',
+                    'instructions'  => 'Frase de apoio abaixo do título.',
                     'name'          => 'hero_descricao',
                     'label'         => 'Hero — Descrição',
                     'type'          => 'textarea',
@@ -50,6 +53,7 @@ final class ContatoModule extends Module
                 ],
                 [
                     'key'          => 'field_contato_hero_canais',
+                    'instructions' => 'Cada linha é um card de contato (WhatsApp, e-mail...). Fica melhor com 3 cards.',
                     'name'         => 'hero_canais',
                     'label'        => 'Hero — Canais de Contato (cards)',
                     'type'         => 'repeater',
@@ -60,6 +64,7 @@ final class ContatoModule extends Module
                     'sub_fields'   => [
                         [
                             'key'           => 'field_contato_hero_canal_icone',
+                            'instructions'  => 'Ícone em SVG ou PNG com fundo transparente.',
                             'name'          => 'icone',
                             'label'         => 'Ícone',
                             'type'          => 'image',
@@ -69,6 +74,7 @@ final class ContatoModule extends Module
                         ],
                         [
                             'key'           => 'field_contato_hero_canal_titulo',
+                            'instructions'  => 'Nome do canal, exibido em destaque no card.',
                             'name'          => 'titulo',
                             'label'         => 'Título (ex: Whatsapp clientes)',
                             'type'          => 'text',
@@ -77,6 +83,7 @@ final class ContatoModule extends Module
                         ],
                         [
                             'key'           => 'field_contato_hero_canal_valor',
+                            'instructions'  => 'Telefone ou e-mail exibido no card, como o visitante deve ler (ex.: (11) 99999-9999).',
                             'name'          => 'valor',
                             'label'         => 'Valor (telefone ou e-mail)',
                             'type'          => 'text',
@@ -85,6 +92,7 @@ final class ContatoModule extends Module
                         ],
                         [
                             'key'           => 'field_contato_hero_canal_link',
+                            'instructions'  => 'Opcional. Preenchido, o card fica clicável. WhatsApp: https://wa.me/5511999999999 (só números, com 55 e DDD). E-mail: mailto:contato@dominio.com.br',
                             'name'          => 'link',
                             'label'         => 'Link (ex: https://wa.me/... ou mailto:...)',
                             'type'          => 'text',
@@ -110,6 +118,7 @@ final class ContatoModule extends Module
                             'sub_fields' => [
                                 [
                                     'key'           => 'field_contato_lista_card_info_titulo',
+                                    'instructions'  => 'Título do card (ex.: Atendimento presencial).',
                                     'name'          => 'titulo',
                                     'label'         => 'Título',
                                     'type'          => 'text',
@@ -118,6 +127,7 @@ final class ContatoModule extends Module
                                 ],
                                 [
                                     'key'           => 'field_contato_lista_card_info_descricao',
+                                    'instructions'  => 'Texto curto abaixo do título.',
                                     'name'          => 'descricao',
                                     'label'         => 'Descrição',
                                     'type'          => 'textarea',
@@ -126,6 +136,7 @@ final class ContatoModule extends Module
                                 ],
                                 [
                                     'key'          => 'field_contato_lista_card_info_itens',
+                                    'instructions' => 'Cada linha é um item com ícone e texto (ex.: endereço, horário, telefone).',
                                     'name'         => 'itens',
                                     'label'        => 'Itens (ícone + texto)',
                                     'type'         => 'repeater',
@@ -136,6 +147,7 @@ final class ContatoModule extends Module
                                     'sub_fields'   => [
                                         [
                                             'key'           => 'field_contato_lista_item_icone',
+                                            'instructions'  => 'Ícone em SVG ou PNG com fundo transparente.',
                                             'name'          => 'icone',
                                             'label'         => 'Ícone',
                                             'type'          => 'image',
@@ -164,6 +176,7 @@ final class ContatoModule extends Module
                             'sub_fields' => [
                                 [
                                     'key'           => 'field_contato_lista_card_texto_titulo',
+                                    'instructions'  => 'Título do card.',
                                     'name'          => 'titulo',
                                     'label'         => 'Título',
                                     'type'          => 'text',
@@ -172,6 +185,7 @@ final class ContatoModule extends Module
                                 ],
                                 [
                                     'key'           => 'field_contato_lista_card_texto_texto',
+                                    'instructions'  => 'Use uma linha em branco para separar os parágrafos.',
                                     'name'          => 'texto',
                                     'label'         => 'Texto',
                                     'type'          => 'textarea',
@@ -180,6 +194,7 @@ final class ContatoModule extends Module
                                 ],
                                 [
                                     'key'           => 'field_contato_lista_card_texto_mostrar_botao',
+                                    'instructions'  => 'Ligado: mostra um botão roxo abaixo do texto.',
                                     'name'          => 'mostrar_botao',
                                     'label'         => 'Mostrar Botão',
                                     'type'          => 'true_false',
@@ -188,6 +203,7 @@ final class ContatoModule extends Module
                                 ],
                                 [
                                     'key'               => 'field_contato_lista_card_texto_botao_texto',
+                                    'instructions'      => 'Texto do botão.',
                                     'name'              => 'botao_texto',
                                     'label'             => 'Botão — Texto',
                                     'type'              => 'text',
@@ -204,6 +220,7 @@ final class ContatoModule extends Module
                                 ],
                                 [
                                     'key'               => 'field_contato_lista_card_texto_botao_link',
+                                    'instructions'      => 'Endereço completo do botão, começando com https:// (ou o endereço de uma página do site).',
                                     'name'              => 'botao_link',
                                     'label'             => 'Botão — Link',
                                     'type'              => 'text',

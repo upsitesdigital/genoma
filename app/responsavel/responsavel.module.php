@@ -27,6 +27,7 @@ final class ResponsavelModule extends Module
                 // ── Hero (carrossel) ──────────────────────────────────────
                 [
                     'key'          => 'field_responsavel_hero_slides',
+                    'instructions' => 'Cada linha é um slide. Com 2 ou mais slides aparecem as setas e as bolinhas de navegação. Sem nenhum slide, o topo da página não aparece.',
                     'name'         => 'hero_slides',
                     'label'        => 'Hero — Slides do Carrossel',
                     'type'         => 'repeater',
@@ -37,6 +38,7 @@ final class ResponsavelModule extends Module
                     'sub_fields'   => [
                         [
                             'key'           => 'field_responsavel_hero_slide_imagem',
+                            'instructions'  => 'Foto do slide, exibida ao lado do texto. Prefira PNG com fundo transparente ou foto com o assunto à direita.',
                             'name'          => 'imagem',
                             'label'         => 'Imagem',
                             'type'          => 'image',
@@ -63,6 +65,7 @@ final class ResponsavelModule extends Module
                         ],
                         [
                             'key'           => 'field_responsavel_hero_slide_subtitulo',
+                            'instructions'  => 'Frase de apoio abaixo do título.',
                             'name'          => 'subtitulo',
                             'label'         => 'Subtítulo',
                             'type'          => 'textarea',
@@ -71,6 +74,7 @@ final class ResponsavelModule extends Module
                         ],
                         [
                             'key'           => 'field_responsavel_hero_slide_cta_primario_texto',
+                            'instructions'  => 'Texto do botão roxo. Em branco, o botão não aparece.',
                             'name'          => 'cta_primario_texto',
                             'label'         => 'CTA Primário — Texto',
                             'type'          => 'text',
@@ -78,6 +82,7 @@ final class ResponsavelModule extends Module
                         ],
                         [
                             'key'           => 'field_responsavel_hero_slide_cta_primario_link',
+                            'instructions'  => 'Endereço completo do botão, começando com https:// (ou o endereço de uma página do site).',
                             'name'          => 'cta_primario_link',
                             'label'         => 'CTA Primário — Link',
                             'type'          => 'text',
@@ -85,6 +90,7 @@ final class ResponsavelModule extends Module
                         ],
                         [
                             'key'           => 'field_responsavel_hero_slide_cta_secundario_texto',
+                            'instructions'  => 'Texto do botão branco. Em branco, o botão não aparece.',
                             'name'          => 'cta_secundario_texto',
                             'label'         => 'CTA Secundário — Texto',
                             'type'          => 'text',
@@ -92,6 +98,7 @@ final class ResponsavelModule extends Module
                         ],
                         [
                             'key'           => 'field_responsavel_hero_slide_cta_secundario_link',
+                            'instructions'  => 'Endereço completo do botão, começando com https:// (ou o endereço de uma página do site).',
                             'name'          => 'cta_secundario_link',
                             'label'         => 'CTA Secundário — Link',
                             'type'          => 'text',
@@ -101,6 +108,7 @@ final class ResponsavelModule extends Module
                 ],
                 [
                     'key'           => 'field_responsavel_hero_autoplay',
+                    'instructions'  => 'Ligado: os slides passam sozinhos (pausam quando o mouse está sobre eles).',
                     'name'          => 'hero_autoplay',
                     'label'         => 'Hero — Autoplay do Carrossel',
                     'type'          => 'true_false',
@@ -109,6 +117,7 @@ final class ResponsavelModule extends Module
                 ],
                 [
                     'key'               => 'field_responsavel_hero_intervalo',
+                    'instructions'      => 'Tempo de cada slide em milissegundos: 6000 = 6 segundos. Mínimo 2000.',
                     'name'              => 'hero_intervalo',
                     'label'             => 'Hero — Intervalo do Autoplay (ms)',
                     'type'              => 'number',
@@ -129,6 +138,7 @@ final class ResponsavelModule extends Module
                 // ── Suporte ───────────────────────────────────────────────
                 [
                     'key'           => 'field_responsavel_suporte_eyebrow',
+                    'instructions'  => 'Texto curto exibido acima do título da seção (ex.: SERVIÇOS).',
                     'name'          => 'suporte_eyebrow',
                     'label'         => 'Suporte — Etiqueta',
                     'type'          => 'text',
@@ -145,6 +155,7 @@ final class ResponsavelModule extends Module
                 ],
                 [
                     'key'           => 'field_responsavel_suporte_texto',
+                    'instructions'  => 'Use uma linha em branco para separar os parágrafos.',
                     'name'          => 'suporte_texto',
                     'label'         => 'Suporte — Texto',
                     'type'          => 'textarea',
@@ -153,6 +164,7 @@ final class ResponsavelModule extends Module
                 ],
                 [
                     'key'           => 'field_responsavel_suporte_quote',
+                    'instructions'  => 'Frase em destaque, exibida entre linhas.',
                     'name'          => 'suporte_quote',
                     'label'         => 'Suporte — Quote/Destaque',
                     'type'          => 'textarea',
@@ -161,6 +173,7 @@ final class ResponsavelModule extends Module
                 ],
                 [
                     'key'           => 'field_responsavel_suporte_imagem_1',
+                    'instructions'  => 'Foto vertical (retrato), à esquerda.',
                     'name'          => 'suporte_imagem_1',
                     'label'         => 'Suporte — Imagem 1 (retrato)',
                     'type'          => 'image',
@@ -169,6 +182,7 @@ final class ResponsavelModule extends Module
                 ],
                 [
                     'key'           => 'field_responsavel_suporte_imagem_2',
+                    'instructions'  => 'Foto horizontal (paisagem), à direita.',
                     'name'          => 'suporte_imagem_2',
                     'label'         => 'Suporte — Imagem 2 (paisagem)',
                     'type'          => 'image',
@@ -179,6 +193,7 @@ final class ResponsavelModule extends Module
                 // ── Planos ────────────────────────────────────────────────
                 [
                     'key'           => 'field_responsavel_planos_eyebrow',
+                    'instructions'  => 'Texto curto exibido acima do título da seção (ex.: SERVIÇOS).',
                     'name'          => 'planos_eyebrow',
                     'label'         => 'Planos — Etiqueta',
                     'type'          => 'text',
@@ -195,6 +210,7 @@ final class ResponsavelModule extends Module
                 ],
                 [
                     'key'          => 'field_responsavel_planos_logos',
+                    'instructions' => 'Cada linha é o logo de um plano de saúde pet aceito.',
                     'name'         => 'planos_logos',
                     'label'        => 'Planos — Logos',
                     'type'         => 'repeater',
@@ -205,6 +221,7 @@ final class ResponsavelModule extends Module
                     'sub_fields'   => [
                         [
                             'key'           => 'field_responsavel_planos_logo_imagem',
+                            'instructions'  => 'Logo do plano em PNG ou SVG com fundo transparente.',
                             'name'          => 'imagem',
                             'label'         => 'Logo',
                             'type'          => 'image',
@@ -213,6 +230,7 @@ final class ResponsavelModule extends Module
                         ],
                         [
                             'key'           => 'field_responsavel_planos_logo_nome',
+                            'instructions'  => 'Nome do plano. Não aparece na tela: é lido por leitores de tela e pelo Google.',
                             'name'          => 'nome',
                             'label'         => 'Nome (texto alternativo)',
                             'type'          => 'text',
@@ -223,6 +241,7 @@ final class ResponsavelModule extends Module
                 // ── Exames ────────────────────────────────────────────────
                 [
                     'key'           => 'field_responsavel_exames_eyebrow',
+                    'instructions'  => 'Texto curto exibido acima do título da seção (ex.: SERVIÇOS).',
                     'name'          => 'exames_eyebrow',
                     'label'         => 'Exames — Etiqueta',
                     'type'          => 'text',
@@ -239,6 +258,7 @@ final class ResponsavelModule extends Module
                 ],
                 [
                     'key'           => 'field_responsavel_exames_texto',
+                    'instructions'  => 'Use uma linha em branco para separar os parágrafos.',
                     'name'          => 'exames_texto',
                     'label'         => 'Exames — Texto',
                     'type'          => 'textarea',
@@ -247,6 +267,7 @@ final class ResponsavelModule extends Module
                 ],
                 [
                     'key'          => 'field_responsavel_exames_itens',
+                    'instructions' => 'Cada linha é uma orientação de jejum ou preparo, com ícone.',
                     'name'         => 'exames_itens',
                     'label'        => 'Exames — Itens de Jejum',
                     'type'         => 'repeater',
@@ -257,6 +278,7 @@ final class ResponsavelModule extends Module
                     'sub_fields'   => [
                         [
                             'key'           => 'field_responsavel_exames_item_icone',
+                            'instructions'  => 'Ícone em SVG ou PNG com fundo transparente.',
                             'name'          => 'icone',
                             'label'         => 'Ícone',
                             'type'          => 'image',
@@ -281,6 +303,7 @@ final class ResponsavelModule extends Module
                 ],
                 [
                     'key'           => 'field_responsavel_exames_rodape',
+                    'instructions'  => 'Observação exibida abaixo da lista (ex.: em caso de dúvida, fale com o veterinário).',
                     'name'          => 'exames_rodape',
                     'label'         => 'Exames — Texto de Rodapé',
                     'type'          => 'textarea',
@@ -289,6 +312,7 @@ final class ResponsavelModule extends Module
                 ],
                 [
                     'key'           => 'field_responsavel_exames_imagem',
+                    'instructions'  => 'Foto de fundo da seção, horizontal, com pelo menos 1920 px de largura.',
                     'name'          => 'exames_imagem',
                     'label'         => 'Exames — Imagem de Fundo',
                     'type'          => 'image',
@@ -299,6 +323,7 @@ final class ResponsavelModule extends Module
                 // ── Serviços ──────────────────────────────────────────────
                 [
                     'key'           => 'field_responsavel_servicos_eyebrow',
+                    'instructions'  => 'Texto curto exibido acima do título da seção (ex.: SERVIÇOS).',
                     'name'          => 'servicos_eyebrow',
                     'label'         => 'Serviços — Etiqueta',
                     'type'          => 'text',
@@ -315,6 +340,7 @@ final class ResponsavelModule extends Module
                 ],
                 [
                     'key'           => 'field_responsavel_servicos_texto',
+                    'instructions'  => 'Texto curto abaixo do título.',
                     'name'          => 'servicos_texto',
                     'label'         => 'Serviços — Texto',
                     'type'          => 'textarea',
@@ -323,6 +349,7 @@ final class ResponsavelModule extends Module
                 ],
                 [
                     'key'          => 'field_responsavel_servicos_categorias',
+                    'instructions' => 'Cada linha é uma categoria que abre e fecha ao clicar, com a tabela de exames.',
                     'name'         => 'servicos_categorias',
                     'label'        => 'Serviços — Categorias de Exames',
                     'type'         => 'repeater',
@@ -333,6 +360,7 @@ final class ResponsavelModule extends Module
                     'sub_fields'   => [
                         [
                             'key'           => 'field_responsavel_servicos_categoria_nome',
+                            'instructions'  => 'Nome da categoria (ex.: Citologia).',
                             'name'          => 'nome',
                             'label'         => 'Nome da Categoria',
                             'type'          => 'text',
@@ -356,6 +384,7 @@ final class ResponsavelModule extends Module
                         ],
                         [
                             'key'          => 'field_responsavel_servicos_categoria_exames',
+                            'instructions' => 'Exames da categoria, um por linha.',
                             'name'         => 'exames',
                             'label'        => 'Exames da Categoria',
                             'type'         => 'repeater',
@@ -366,6 +395,7 @@ final class ResponsavelModule extends Module
                             'sub_fields'   => [
                                 [
                                     'key'   => 'field_responsavel_servicos_exame_nome',
+                                    'instructions' => 'Nome do exame.',
                                     'name'  => 'nome',
                                     'label' => 'Nome',
                                     'type'  => 'text',
@@ -392,6 +422,7 @@ final class ResponsavelModule extends Module
                 // ── Resultados dos exames ────────────────────────────────
                 [
                     'key'           => 'field_responsavel_resultados_eyebrow',
+                    'instructions'  => 'Texto curto exibido acima do título da seção (ex.: SERVIÇOS).',
                     'name'          => 'resultados_eyebrow',
                     'label'         => 'Resultados — Etiqueta',
                     'type'          => 'text',
@@ -417,6 +448,7 @@ final class ResponsavelModule extends Module
                 ],
                 [
                     'key'           => 'field_responsavel_resultados_imagem',
+                    'instructions'  => 'Foto ao lado do texto.',
                     'name'          => 'resultados_imagem',
                     'label'         => 'Resultados — Imagem',
                     'type'          => 'image',
@@ -427,6 +459,7 @@ final class ResponsavelModule extends Module
                 // ── Benefícios ────────────────────────────────────────────
                 [
                     'key'           => 'field_responsavel_beneficios_eyebrow',
+                    'instructions'  => 'Texto curto exibido acima do título da seção (ex.: SERVIÇOS).',
                     'name'          => 'beneficios_eyebrow',
                     'label'         => 'Benefícios — Etiqueta',
                     'type'          => 'text',
@@ -434,6 +467,7 @@ final class ResponsavelModule extends Module
                 ],
                 [
                     'key'           => 'field_responsavel_beneficios_titulo',
+                    'instructions'  => 'Título principal da seção.',
                     'name'          => 'beneficios_titulo',
                     'label'         => 'Benefícios — Título',
                     'type'          => 'text',
@@ -450,6 +484,7 @@ final class ResponsavelModule extends Module
                 ],
                 [
                     'key'          => 'field_responsavel_beneficios_itens',
+                    'instructions' => 'Cada linha é um card com ícone e texto. Fica melhor com 4 itens (uma linha no computador).',
                     'name'         => 'beneficios_itens',
                     'label'        => 'Benefícios — Itens',
                     'type'         => 'repeater',
@@ -460,6 +495,7 @@ final class ResponsavelModule extends Module
                     'sub_fields'   => [
                         [
                             'key'           => 'field_responsavel_beneficios_item_icone',
+                            'instructions'  => 'Ícone em SVG ou PNG com fundo transparente.',
                             'name'          => 'icone',
                             'label'         => 'Ícone',
                             'type'          => 'image',
@@ -468,6 +504,7 @@ final class ResponsavelModule extends Module
                         ],
                         [
                             'key'           => 'field_responsavel_beneficios_item_texto',
+                            'instructions'  => 'Texto curto do card (até 3 linhas).',
                             'name'          => 'texto',
                             'label'         => 'Texto',
                             'type'          => 'text',
@@ -496,6 +533,7 @@ final class ResponsavelModule extends Module
                 ],
                 [
                     'key'           => 'field_responsavel_footer_cta_primario_link',
+                    'instructions'  => 'Endereço do botão principal do banner. Em branco, usa o das Opções do Tema.',
                     'name'          => 'footer_cta_primario_link',
                     'label'         => 'Rodapé — CTA Primário (Link)',
                     'type'          => 'text',
@@ -503,6 +541,7 @@ final class ResponsavelModule extends Module
                 ],
                 [
                     'key'           => 'field_responsavel_footer_cta_mostrar_secundario',
+                    'instructions'  => 'Desligado: o banner mostra só o botão principal (roxo).',
                     'name'          => 'footer_cta_mostrar_secundario',
                     'label'         => 'Rodapé — Mostrar Botão Secundário',
                     'type'          => 'true_false',
@@ -511,6 +550,7 @@ final class ResponsavelModule extends Module
                 ],
                 [
                     'key'               => 'field_responsavel_footer_cta_secundario_texto',
+                    'instructions'      => 'Texto do segundo botão do banner. Em branco, usa o das Opções do Tema.',
                     'name'              => 'footer_cta_secundario_texto',
                     'label'             => 'Rodapé — CTA Secundário (Texto)',
                     'type'              => 'text',
@@ -527,6 +567,7 @@ final class ResponsavelModule extends Module
                 ],
                 [
                     'key'               => 'field_responsavel_footer_cta_secundario_link',
+                    'instructions'      => 'Endereço do segundo botão do banner. Em branco, usa o das Opções do Tema.',
                     'name'              => 'footer_cta_secundario_link',
                     'label'             => 'Rodapé — CTA Secundário (Link)',
                     'type'              => 'text',

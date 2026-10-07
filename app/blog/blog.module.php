@@ -35,6 +35,7 @@ final class BlogModule extends Module
                 ],
                 [
                     'key'           => 'field_blog_hero_titulo',
+                    'instructions'  => 'Título grande do topo da página do blog.',
                     'name'          => 'hero_titulo',
                     'label'         => 'Hero — Título',
                     'type'          => 'text',
@@ -43,6 +44,7 @@ final class BlogModule extends Module
                 ],
                 [
                     'key'           => 'field_blog_hero_busca_placeholder',
+                    'instructions'  => 'Texto de exemplo dentro do campo de busca (ex.: Buscar artigos).',
                     'name'          => 'hero_busca_placeholder',
                     'label'         => 'Hero — Busca (placeholder do campo)',
                     'type'          => 'text',
