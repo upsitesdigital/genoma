@@ -2,6 +2,7 @@
 
 Documentação do site da **Genoma Diagnósticos** construído sobre o tema/framework **UpWork**.
 Para a referência genérica do framework (anatomia de módulo, CLI, Form Builder), veja o [README](../README.md).
+Para quem edita o conteúdo no painel, veja o [Guia de Uso](GUIA-DE-USO.md).
 
 ---
 

@@ -2,7 +2,9 @@
 
 Tema WordPress que funciona como um **framework MVC full-stack** — WordPress como CMS headless, backend PHP modular e frontend React SPA.
 
-> 📘 **Site Genoma Diagnósticos:** páginas, campos, opções do tema, deploy e pontos de atenção estão em [docs/SITE.md](docs/SITE.md).
+> 📘 **Site Genoma Diagnósticos:**
+> - [Guia de Uso](docs/GUIA-DE-USO.md): como editar o conteúdo no painel (campos ACF, opções do tema, blog, menus).
+> - [Documentação técnica](docs/SITE.md): páginas, campos, opções do tema, deploy e pontos de atenção.
 
 ## Stack
 
