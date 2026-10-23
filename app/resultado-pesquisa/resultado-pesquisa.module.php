@@ -25,6 +25,12 @@ final class ResultadoPesquisaModule extends Module
             ]],
             'fields' => [
                 // ── Hero ──────────────────────────────────────────────────
+                [
+                    'key'       => 'field_resultado_pesquisa_tab_hero',
+                    'label'     => 'Hero',
+                    'type'      => 'tab',
+                    'placement' => 'left',
+                ],
                 // O título ("Resultados para "termo"") é montado dinamicamente
                 // no controller a partir do termo pesquisado — não é um campo.
                 [
@@ -54,6 +60,12 @@ final class ResultadoPesquisaModule extends Module
                 ],
 
                 // ── Lista de resultados ───────────────────────────────────
+                [
+                    'key'       => 'field_resultado_pesquisa_tab_lista_de_resultados',
+                    'label'     => 'Lista de resultados',
+                    'type'      => 'tab',
+                    'placement' => 'left',
+                ],
                 // 100% dinâmica: busca nativa do WordPress (WP_Query com `s`)
                 // via controller, sem conteúdo ACF — mesmo padrão da Lista de
                 // post do Blog.

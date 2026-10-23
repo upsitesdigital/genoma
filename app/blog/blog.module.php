@@ -26,6 +26,12 @@ final class BlogModule extends Module
             'fields' => [
                 // ── Hero ──────────────────────────────────────────────────
                 [
+                    'key'       => 'field_blog_tab_hero',
+                    'label'     => 'Hero',
+                    'type'      => 'tab',
+                    'placement' => 'left',
+                ],
+                [
                     'key'           => 'field_blog_hero_eyebrow',
                     'name'          => 'hero_eyebrow',
                     'label'         => 'Hero — Etiqueta (H1)',
@@ -56,6 +62,12 @@ final class BlogModule extends Module
                 // + um pill por categoria com posts publicados.
 
                 // ── Lista de post ─────────────────────────────────────────
+                [
+                    'key'       => 'field_blog_tab_lista_de_posts',
+                    'label'     => 'Lista de posts',
+                    'type'      => 'tab',
+                    'placement' => 'left',
+                ],
                 // Seção 100% dinâmica: lista posts reais do WordPress (post type
                 // nativo `post`) via WP_Query no controller, com paginação e
                 // filtro por categoria (?categoria=&page=). Não há campos ACF

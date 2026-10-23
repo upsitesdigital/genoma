@@ -52,7 +52,7 @@ Regras que valem para o site todo:
 
 ## 3. Página por página
 
-Os grupos de campos seguem a ordem das seções na tela, de cima para baixo. O nome antes do travessão no rótulo ("Serviços — Título") diz a qual seção o campo pertence.
+Os campos de cada página ficam separados em abas na lateral esquerda, uma por seção, na ordem em que aparecem na tela, de cima para baixo. O nome antes do travessão no rótulo ("Serviços — Título") diz a qual seção o campo pertence.
 
 ### Home
 

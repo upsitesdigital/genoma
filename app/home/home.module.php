@@ -28,6 +28,12 @@ final class HomeModule extends Module
             'fields' => [
                 // ── Hero (carrossel) ──────────────────────────────────────
                 [
+                    'key'       => 'field_home_tab_hero',
+                    'label'     => 'Hero',
+                    'type'      => 'tab',
+                    'placement' => 'left',
+                ],
+                [
                     'key'          => 'field_home_hero_slides',
                     'instructions' => 'Cada linha é um slide. Com 2 ou mais slides aparecem as setas e as bolinhas de navegação. Sem nenhum slide, o topo da página não aparece.',
                     'name'         => 'hero_slides',
@@ -147,6 +153,12 @@ final class HomeModule extends Module
 
                 // ── Serviços ──────────────────────────────────────────────
                 [
+                    'key'       => 'field_home_tab_servicos',
+                    'label'     => 'Serviços',
+                    'type'      => 'tab',
+                    'placement' => 'left',
+                ],
+                [
                     'key'           => 'field_home_servicos_eyebrow',
                     'instructions'  => 'Texto curto exibido acima do título da seção (ex.: SERVIÇOS).',
                     'name'          => 'servicos_eyebrow',
@@ -237,6 +249,12 @@ final class HomeModule extends Module
 
                 // ── Portfólio de Exames (banner) ───────────────────────────────────────────
                 [
+                    'key'       => 'field_home_tab_portfolio_de_exames',
+                    'label'     => 'Portfólio de Exames',
+                    'type'      => 'tab',
+                    'placement' => 'left',
+                ],
+                [
                     'key'           => 'field_home_portfolio_eyebrow',
                     'instructions'  => 'Texto curto exibido acima do título da seção (ex.: SERVIÇOS).',
                     'name'          => 'portfolio_eyebrow',
@@ -288,6 +306,12 @@ final class HomeModule extends Module
                 ],
 
                 // ── Sobre o Genoma ────────────────────────────────────────
+                [
+                    'key'       => 'field_home_tab_sobre_o_genoma',
+                    'label'     => 'Sobre o Genoma',
+                    'type'      => 'tab',
+                    'placement' => 'left',
+                ],
                 [
                     'key'           => 'field_home_sobre_eyebrow',
                     'instructions'  => 'Texto curto exibido acima do título da seção (ex.: SERVIÇOS).',
@@ -394,6 +418,12 @@ final class HomeModule extends Module
 
                 // ── Diferenciais ──────────────────────────────────────────
                 [
+                    'key'       => 'field_home_tab_diferenciais',
+                    'label'     => 'Diferenciais',
+                    'type'      => 'tab',
+                    'placement' => 'left',
+                ],
+                [
                     'key'           => 'field_home_diferenciais_eyebrow',
                     'instructions'  => 'Texto curto exibido acima do título da seção (ex.: SERVIÇOS).',
                     'name'          => 'diferenciais_eyebrow',
@@ -453,6 +483,12 @@ final class HomeModule extends Module
 
                 // ── Estrutura ─────────────────────────────────────────────
                 [
+                    'key'       => 'field_home_tab_estrutura',
+                    'label'     => 'Estrutura',
+                    'type'      => 'tab',
+                    'placement' => 'left',
+                ],
+                [
                     'key'           => 'field_home_estrutura_eyebrow',
                     'instructions'  => 'Texto curto exibido acima do título da seção (ex.: SERVIÇOS).',
                     'name'          => 'estrutura_eyebrow',
@@ -506,6 +542,12 @@ final class HomeModule extends Module
                 ],
 
                 // ── Depoimentos (carrossel) ──────────────────────────────
+                [
+                    'key'       => 'field_home_tab_depoimentos',
+                    'label'     => 'Depoimentos',
+                    'type'      => 'tab',
+                    'placement' => 'left',
+                ],
                 [
                     'key'           => 'field_home_depoimentos_eyebrow',
                     'instructions'  => 'Texto curto exibido acima do título da seção (ex.: SERVIÇOS).',
@@ -594,6 +636,12 @@ final class HomeModule extends Module
                 ],
 
                 // ── Rodapé (sobrescreve o CTA do banner só nesta página) ───
+                [
+                    'key'       => 'field_home_tab_rodape',
+                    'label'     => 'Rodapé',
+                    'type'      => 'tab',
+                    'placement' => 'left',
+                ],
                 [
                     'key'           => 'field_home_footer_cta_titulo',
                     'name'          => 'footer_cta_titulo',

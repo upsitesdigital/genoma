@@ -35,7 +35,8 @@ class ThemeOptions
 
     public static function enqueueMedia(string $hook): void
     {
-        if ($hook !== 'upwork_page_upwork-theme-options') return;
+        // O prefixo do hook vem do título do menu-pai ("Configuração"), então compara só o final
+        if (!str_ends_with($hook, '_page_upwork-theme-options')) return;
         wp_enqueue_media();
     }
 
@@ -111,357 +112,417 @@ class ThemeOptions
             <h1>Opções do Tema</h1>
             <form method="post" action="options.php">
                 <?php settings_fields('upwork_theme_options_group'); ?>
-                <table class="form-table" role="presentation">
-                    <tr>
-                        <th scope="row"><label for="site_name">Nome do Site</label></th>
-                        <td>
-                            <input
-                                type="text"
-                                id="site_name"
-                                name="<?= self::OPTION_KEY ?>[site_name]"
-                                value="<?= esc_attr($siteName) ?>"
-                                class="regular-text"
-                            >
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><label>Logo do Header</label></th>
-                        <td>
-                            <div id="logo-preview" style="margin-bottom:8px">
-                                <?php if ($logoUrl): ?>
-                                    <img src="<?= esc_url($logoUrl) ?>" style="max-height:80px;display:block">
-                                <?php endif; ?>
-                            </div>
-                            <input type="hidden" id="logo_url" name="<?= self::OPTION_KEY ?>[logo_url]" value="<?= esc_attr($logoUrl) ?>">
-                            <input type="hidden" id="logo_id"  name="<?= self::OPTION_KEY ?>[logo_id]"  value="<?= esc_attr((string)$logoId) ?>">
-                            <button type="button" class="button" id="btn-logo-select">Selecionar imagem</button>
-                            <?php if ($logoUrl): ?>
-                                <button type="button" class="button" id="btn-logo-remove">Remover</button>
-                            <?php endif; ?>
-                            <script>
-                            (function(){
-                                var frame;
-                                document.getElementById('btn-logo-select').addEventListener('click', function(){
-                                    if (frame) { frame.open(); return; }
-                                    frame = wp.media({ title: 'Selecionar Logo do Header', button: { text: 'Usar como logo' }, multiple: false });
-                                    frame.on('select', function(){
-                                        var att = frame.state().get('selection').first().toJSON();
-                                        document.getElementById('logo_url').value = att.url;
-                                        document.getElementById('logo_id').value  = att.id;
-                                        var preview = document.getElementById('logo-preview');
-                                        preview.innerHTML = '<img src="' + att.url + '" style="max-height:80px;display:block">';
-                                    });
-                                    frame.open();
-                                });
-                                var btnRemove = document.getElementById('btn-logo-remove');
-                                if (btnRemove) btnRemove.addEventListener('click', function(){
-                                    document.getElementById('logo_url').value = '';
-                                    document.getElementById('logo_id').value  = '0';
-                                    document.getElementById('logo-preview').innerHTML = '';
-                                });
-                            })();
-                            </script>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><label>Logo do Rodapé</label></th>
-                        <td>
-                            <div id="footer-logo-preview" style="margin-bottom:8px">
-                                <?php if ($footerLogoUrl): ?>
-                                    <img src="<?= esc_url($footerLogoUrl) ?>" style="max-height:80px;display:block">
-                                <?php endif; ?>
-                            </div>
-                            <input type="hidden" id="footer_logo_url" name="<?= self::OPTION_KEY ?>[footer_logo_url]" value="<?= esc_attr($footerLogoUrl) ?>">
-                            <input type="hidden" id="footer_logo_id"  name="<?= self::OPTION_KEY ?>[footer_logo_id]"  value="<?= esc_attr((string)$footerLogoId) ?>">
-                            <button type="button" class="button" id="btn-footer-logo-select">Selecionar imagem</button>
-                            <?php if ($footerLogoUrl): ?>
-                                <button type="button" class="button" id="btn-footer-logo-remove">Remover</button>
-                            <?php endif; ?>
-                            <p class="description">Opcional. Se vazio, usa a mesma logo do header.</p>
-                            <script>
-                            (function(){
-                                var frame;
-                                document.getElementById('btn-footer-logo-select').addEventListener('click', function(){
-                                    if (frame) { frame.open(); return; }
-                                    frame = wp.media({ title: 'Selecionar Logo do Rodapé', button: { text: 'Usar como logo' }, multiple: false });
-                                    frame.on('select', function(){
-                                        var att = frame.state().get('selection').first().toJSON();
-                                        document.getElementById('footer_logo_url').value = att.url;
-                                        document.getElementById('footer_logo_id').value  = att.id;
-                                        var preview = document.getElementById('footer-logo-preview');
-                                        preview.innerHTML = '<img src="' + att.url + '" style="max-height:80px;display:block">';
-                                    });
-                                    frame.open();
-                                });
-                                var btnRemove = document.getElementById('btn-footer-logo-remove');
-                                if (btnRemove) btnRemove.addEventListener('click', function(){
-                                    document.getElementById('footer_logo_url').value = '';
-                                    document.getElementById('footer_logo_id').value  = '0';
-                                    document.getElementById('footer-logo-preview').innerHTML = '';
-                                });
-                            })();
-                            </script>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><label for="primary_color">Cor Primária</label></th>
-                        <td>
-                            <input
-                                type="color"
-                                id="primary_color"
-                                name="<?= self::OPTION_KEY ?>[primary_color]"
-                                value="<?= esc_attr($primaryColor) ?>"
-                            >
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><label for="footer_text">Texto do Rodapé</label></th>
-                        <td>
-                            <textarea
-                                id="footer_text"
-                                name="<?= self::OPTION_KEY ?>[footer_text]"
-                                class="large-text"
-                                rows="3"
-                            ><?= esc_textarea($footerText) ?></textarea>
-                            <p class="description">Aceita HTML básico. Ex: &copy; 2025 Empresa. Todos os direitos reservados.</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><label for="cta_primary_label">Botão do Header — Primário</label></th>
-                        <td>
-                            <input
-                                type="text"
-                                id="cta_primary_label"
-                                name="<?= self::OPTION_KEY ?>[cta_primary_label]"
-                                value="<?= esc_attr($ctaPrimaryLabel) ?>"
-                                class="regular-text"
-                                placeholder="Resultados"
-                            >
-                            <input
-                                type="text"
-                                id="cta_primary_url"
-                                name="<?= self::OPTION_KEY ?>[cta_primary_url]"
-                                value="<?= esc_attr($ctaPrimaryUrl) ?>"
-                                class="regular-text"
-                                placeholder="https://... ou /resultados"
-                            >
-                            <p class="description">Texto e link do botão claro (pill branco) no header. Ex: "Resultados".</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><label for="cta_secondary_label">Botão do Header — Secundário</label></th>
-                        <td>
-                            <input
-                                type="text"
-                                id="cta_secondary_label"
-                                name="<?= self::OPTION_KEY ?>[cta_secondary_label]"
-                                value="<?= esc_attr($ctaSecondaryLabel) ?>"
-                                class="regular-text"
-                                placeholder="Contato"
-                            >
-                            <input
-                                type="text"
-                                id="cta_secondary_url"
-                                name="<?= self::OPTION_KEY ?>[cta_secondary_url]"
-                                value="<?= esc_attr($ctaSecondaryUrl) ?>"
-                                class="regular-text"
-                                placeholder="https://... ou /contato"
-                            >
-                            <p class="description">Texto e link do botão contornado (pill roxo) no header. Ex: "Contato".</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><label for="footer_cta_overline">Rodapé — Banner CTA (texto)</label></th>
-                        <td>
-                            <input
-                                type="text"
-                                id="footer_cta_overline"
-                                name="<?= self::OPTION_KEY ?>[footer_cta_overline]"
-                                value="<?= esc_attr($footerCtaOverline) ?>"
-                                class="regular-text"
-                                placeholder="Fale conosco"
-                            >
-                            <p class="description">Texto pequeno acima do título do banner de CTA do rodapé.</p>
-                            <textarea
-                                id="footer_cta_title"
-                                name="<?= self::OPTION_KEY ?>[footer_cta_title]"
-                                class="large-text"
-                                rows="2"
-                            ><?= esc_textarea($footerCtaTitle) ?></textarea>
-                            <p class="description">Título (H2) do banner de CTA do rodapé.</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><label>Rodapé — Imagem do Banner CTA</label></th>
-                        <td>
-                            <div id="footer-cta-image-preview" style="margin-bottom:8px">
-                                <?php if ($footerCtaImageUrl): ?>
-                                    <img src="<?= esc_url($footerCtaImageUrl) ?>" style="max-height:120px;display:block">
-                                <?php endif; ?>
-                            </div>
-                            <input type="hidden" id="footer_cta_image_url" name="<?= self::OPTION_KEY ?>[footer_cta_image_url]" value="<?= esc_attr($footerCtaImageUrl) ?>">
-                            <input type="hidden" id="footer_cta_image_id"  name="<?= self::OPTION_KEY ?>[footer_cta_image_id]"  value="<?= esc_attr((string)$footerCtaImageId) ?>">
-                            <button type="button" class="button" id="btn-footer-cta-image-select">Selecionar imagem</button>
-                            <?php if ($footerCtaImageUrl): ?>
-                                <button type="button" class="button" id="btn-footer-cta-image-remove">Remover</button>
-                            <?php endif; ?>
-                            <script>
-                            (function(){
-                                var frame;
-                                document.getElementById('btn-footer-cta-image-select').addEventListener('click', function(){
-                                    if (frame) { frame.open(); return; }
-                                    frame = wp.media({ title: 'Selecionar imagem do banner', button: { text: 'Usar imagem' }, multiple: false });
-                                    frame.on('select', function(){
-                                        var att = frame.state().get('selection').first().toJSON();
-                                        document.getElementById('footer_cta_image_url').value = att.url;
-                                        document.getElementById('footer_cta_image_id').value  = att.id;
-                                        var preview = document.getElementById('footer-cta-image-preview');
-                                        preview.innerHTML = '<img src="' + att.url + '" style="max-height:120px;display:block">';
-                                    });
-                                    frame.open();
-                                });
-                                var btnRemove = document.getElementById('btn-footer-cta-image-remove');
-                                if (btnRemove) btnRemove.addEventListener('click', function(){
-                                    document.getElementById('footer_cta_image_url').value = '';
-                                    document.getElementById('footer_cta_image_id').value  = '0';
-                                    document.getElementById('footer-cta-image-preview').innerHTML = '';
-                                });
-                            })();
-                            </script>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><label for="footer_cta_primary_label">Rodapé — Botão CTA Primário</label></th>
-                        <td>
-                            <input
-                                type="text"
-                                id="footer_cta_primary_label"
-                                name="<?= self::OPTION_KEY ?>[footer_cta_primary_label]"
-                                value="<?= esc_attr($footerCtaPrimaryLabel) ?>"
-                                class="regular-text"
-                                placeholder="Agendar Exame"
-                            >
-                            <input
-                                type="text"
-                                id="footer_cta_primary_url"
-                                name="<?= self::OPTION_KEY ?>[footer_cta_primary_url]"
-                                value="<?= esc_attr($footerCtaPrimaryUrl) ?>"
-                                class="regular-text"
-                                placeholder="https://... ou /agendar"
-                            >
-                            <p class="description">Botão contornado do banner de CTA do rodapé. Ex: "Agendar Exame".</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><label for="footer_cta_secondary_label">Rodapé — Botão CTA Secundário</label></th>
-                        <td>
-                            <input
-                                type="text"
-                                id="footer_cta_secondary_label"
-                                name="<?= self::OPTION_KEY ?>[footer_cta_secondary_label]"
-                                value="<?= esc_attr($footerCtaSecondaryLabel) ?>"
-                                class="regular-text"
-                                placeholder="Fale Conosco"
-                            >
-                            <input
-                                type="text"
-                                id="footer_cta_secondary_url"
-                                name="<?= self::OPTION_KEY ?>[footer_cta_secondary_url]"
-                                value="<?= esc_attr($footerCtaSecondaryUrl) ?>"
-                                class="regular-text"
-                                placeholder="https://... ou /contato"
-                            >
-                            <p class="description">Botão preenchido do banner de CTA do rodapé. Ex: "Fale Conosco".</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><label for="footer_privacy_label">Rodapé — Link de Política de Privacidade</label></th>
-                        <td>
-                            <input
-                                type="text"
-                                id="footer_privacy_label"
-                                name="<?= self::OPTION_KEY ?>[footer_privacy_label]"
-                                value="<?= esc_attr($footerPrivacyLabel) ?>"
-                                class="regular-text"
-                                placeholder="Política de privacidade"
-                            >
-                            <input
-                                type="text"
-                                id="footer_privacy_url"
-                                name="<?= self::OPTION_KEY ?>[footer_privacy_url]"
-                                value="<?= esc_attr($footerPrivacyUrl) ?>"
-                                class="regular-text"
-                                placeholder="https://... ou /politica-de-privacidade"
-                            >
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><label for="footer_credits_text">Rodapé — Texto de Créditos</label></th>
-                        <td>
-                            <input
-                                type="text"
-                                id="footer_credits_text"
-                                name="<?= self::OPTION_KEY ?>[footer_credits_text]"
-                                value="<?= esc_attr($footerCreditsText) ?>"
-                                class="regular-text"
-                                placeholder="Desenvolvido por Upsites"
-                            >
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><label for="footer_tagline">Rodapé — Frase abaixo do logo</label></th>
-                        <td>
-                            <input
-                                type="text"
-                                id="footer_tagline"
-                                name="<?= self::OPTION_KEY ?>[footer_tagline]"
-                                value="<?= esc_attr($footerTagline) ?>"
-                                class="large-text"
-                                placeholder="Diagnóstico Veterinário com Precisão, Agilidade e Confiança."
-                            >
-                            <p class="description">Exibida no rodapé mobile.</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><label for="footer_email">Rodapé — E-mail e Telefone</label></th>
-                        <td>
-                            <input
-                                type="email"
-                                id="footer_email"
-                                name="<?= self::OPTION_KEY ?>[footer_email]"
-                                value="<?= esc_attr($footerEmail) ?>"
-                                class="regular-text"
-                                placeholder="contato@genomadiagnostico.com.br"
-                            >
-                            <input
-                                type="text"
-                                id="footer_phone"
-                                name="<?= self::OPTION_KEY ?>[footer_phone]"
-                                value="<?= esc_attr($footerPhone) ?>"
-                                class="regular-text"
-                                placeholder="(11) 99999-9999"
-                            >
-                            <p class="description">Exibidos no rodapé mobile. Vazios não aparecem.</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><label for="footer_rights_text">Rodapé — Direitos reservados</label></th>
-                        <td>
-                            <input
-                                type="text"
-                                id="footer_rights_text"
-                                name="<?= self::OPTION_KEY ?>[footer_rights_text]"
-                                value="<?= esc_attr($footerRightsText) ?>"
-                                class="regular-text"
-                                placeholder="Todos os direitos reservados."
-                            >
-                            <p class="description">Linha abaixo do copyright no rodapé mobile.</p>
-                        </td>
-                    </tr>
-                </table>
+                <div class="upwork-tabs">
+                    <nav class="upwork-tabs__nav" role="tablist">
+                        <a href="#geral" class="upwork-tabs__tab" role="tab" data-tab="geral">Geral</a>
+                        <a href="#header" class="upwork-tabs__tab" role="tab" data-tab="header">Header</a>
+                        <a href="#rodape" class="upwork-tabs__tab" role="tab" data-tab="rodape">Rodapé</a>
+                        <a href="#banner-cta" class="upwork-tabs__tab" role="tab" data-tab="banner-cta">Banner CTA do Rodapé</a>
+                    </nav>
+                    <div class="upwork-tabs__panels">
+                        <div class="upwork-tabs__panel" role="tabpanel" data-panel="geral">
+                            <table class="form-table" role="presentation">
+                            <tr>
+                                <th scope="row"><label for="site_name">Nome do Site</label></th>
+                                <td>
+                                    <input
+                                        type="text"
+                                        id="site_name"
+                                        name="<?= self::OPTION_KEY ?>[site_name]"
+                                        value="<?= esc_attr($siteName) ?>"
+                                        class="regular-text"
+                                    >
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><label for="primary_color">Cor Primária</label></th>
+                                <td>
+                                    <input
+                                        type="color"
+                                        id="primary_color"
+                                        name="<?= self::OPTION_KEY ?>[primary_color]"
+                                        value="<?= esc_attr($primaryColor) ?>"
+                                    >
+                                </td>
+                            </tr>
+                            </table>
+                        </div>
+                        <div class="upwork-tabs__panel" role="tabpanel" data-panel="header">
+                            <table class="form-table" role="presentation">
+                            <tr>
+                                <th scope="row"><label>Logo do Header</label></th>
+                                <td>
+                                    <div id="logo-preview" style="margin-bottom:8px">
+                                        <?php if ($logoUrl): ?>
+                                            <img src="<?= esc_url($logoUrl) ?>" style="max-height:80px;display:block">
+                                        <?php endif; ?>
+                                    </div>
+                                    <input type="hidden" id="logo_url" name="<?= self::OPTION_KEY ?>[logo_url]" value="<?= esc_attr($logoUrl) ?>">
+                                    <input type="hidden" id="logo_id"  name="<?= self::OPTION_KEY ?>[logo_id]"  value="<?= esc_attr((string)$logoId) ?>">
+                                    <button type="button" class="button" id="btn-logo-select">Selecionar imagem</button>
+                                    <?php if ($logoUrl): ?>
+                                        <button type="button" class="button" id="btn-logo-remove">Remover</button>
+                                    <?php endif; ?>
+                                    <script>
+                                    (function(){
+                                        var frame;
+                                        document.getElementById('btn-logo-select').addEventListener('click', function(){
+                                            if (frame) { frame.open(); return; }
+                                            frame = wp.media({ title: 'Selecionar Logo do Header', button: { text: 'Usar como logo' }, multiple: false });
+                                            frame.on('select', function(){
+                                                var att = frame.state().get('selection').first().toJSON();
+                                                document.getElementById('logo_url').value = att.url;
+                                                document.getElementById('logo_id').value  = att.id;
+                                                var preview = document.getElementById('logo-preview');
+                                                preview.innerHTML = '<img src="' + att.url + '" style="max-height:80px;display:block">';
+                                            });
+                                            frame.open();
+                                        });
+                                        var btnRemove = document.getElementById('btn-logo-remove');
+                                        if (btnRemove) btnRemove.addEventListener('click', function(){
+                                            document.getElementById('logo_url').value = '';
+                                            document.getElementById('logo_id').value  = '0';
+                                            document.getElementById('logo-preview').innerHTML = '';
+                                        });
+                                    })();
+                                    </script>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><label for="cta_primary_label">Botão do Header — Primário</label></th>
+                                <td>
+                                    <input
+                                        type="text"
+                                        id="cta_primary_label"
+                                        name="<?= self::OPTION_KEY ?>[cta_primary_label]"
+                                        value="<?= esc_attr($ctaPrimaryLabel) ?>"
+                                        class="regular-text"
+                                        placeholder="Resultados"
+                                    >
+                                    <input
+                                        type="text"
+                                        id="cta_primary_url"
+                                        name="<?= self::OPTION_KEY ?>[cta_primary_url]"
+                                        value="<?= esc_attr($ctaPrimaryUrl) ?>"
+                                        class="regular-text"
+                                        placeholder="https://... ou /resultados"
+                                    >
+                                    <p class="description">Texto e link do botão claro (pill branco) no header. Ex: "Resultados".</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><label for="cta_secondary_label">Botão do Header — Secundário</label></th>
+                                <td>
+                                    <input
+                                        type="text"
+                                        id="cta_secondary_label"
+                                        name="<?= self::OPTION_KEY ?>[cta_secondary_label]"
+                                        value="<?= esc_attr($ctaSecondaryLabel) ?>"
+                                        class="regular-text"
+                                        placeholder="Contato"
+                                    >
+                                    <input
+                                        type="text"
+                                        id="cta_secondary_url"
+                                        name="<?= self::OPTION_KEY ?>[cta_secondary_url]"
+                                        value="<?= esc_attr($ctaSecondaryUrl) ?>"
+                                        class="regular-text"
+                                        placeholder="https://... ou /contato"
+                                    >
+                                    <p class="description">Texto e link do botão contornado (pill roxo) no header. Ex: "Contato".</p>
+                                </td>
+                            </tr>
+                            </table>
+                        </div>
+                        <div class="upwork-tabs__panel" role="tabpanel" data-panel="rodape">
+                            <table class="form-table" role="presentation">
+                            <tr>
+                                <th scope="row"><label>Logo do Rodapé</label></th>
+                                <td>
+                                    <div id="footer-logo-preview" style="margin-bottom:8px">
+                                        <?php if ($footerLogoUrl): ?>
+                                            <img src="<?= esc_url($footerLogoUrl) ?>" style="max-height:80px;display:block">
+                                        <?php endif; ?>
+                                    </div>
+                                    <input type="hidden" id="footer_logo_url" name="<?= self::OPTION_KEY ?>[footer_logo_url]" value="<?= esc_attr($footerLogoUrl) ?>">
+                                    <input type="hidden" id="footer_logo_id"  name="<?= self::OPTION_KEY ?>[footer_logo_id]"  value="<?= esc_attr((string)$footerLogoId) ?>">
+                                    <button type="button" class="button" id="btn-footer-logo-select">Selecionar imagem</button>
+                                    <?php if ($footerLogoUrl): ?>
+                                        <button type="button" class="button" id="btn-footer-logo-remove">Remover</button>
+                                    <?php endif; ?>
+                                    <p class="description">Opcional. Se vazio, usa a mesma logo do header.</p>
+                                    <script>
+                                    (function(){
+                                        var frame;
+                                        document.getElementById('btn-footer-logo-select').addEventListener('click', function(){
+                                            if (frame) { frame.open(); return; }
+                                            frame = wp.media({ title: 'Selecionar Logo do Rodapé', button: { text: 'Usar como logo' }, multiple: false });
+                                            frame.on('select', function(){
+                                                var att = frame.state().get('selection').first().toJSON();
+                                                document.getElementById('footer_logo_url').value = att.url;
+                                                document.getElementById('footer_logo_id').value  = att.id;
+                                                var preview = document.getElementById('footer-logo-preview');
+                                                preview.innerHTML = '<img src="' + att.url + '" style="max-height:80px;display:block">';
+                                            });
+                                            frame.open();
+                                        });
+                                        var btnRemove = document.getElementById('btn-footer-logo-remove');
+                                        if (btnRemove) btnRemove.addEventListener('click', function(){
+                                            document.getElementById('footer_logo_url').value = '';
+                                            document.getElementById('footer_logo_id').value  = '0';
+                                            document.getElementById('footer-logo-preview').innerHTML = '';
+                                        });
+                                    })();
+                                    </script>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><label for="footer_text">Texto do Rodapé</label></th>
+                                <td>
+                                    <textarea
+                                        id="footer_text"
+                                        name="<?= self::OPTION_KEY ?>[footer_text]"
+                                        class="large-text"
+                                        rows="3"
+                                    ><?= esc_textarea($footerText) ?></textarea>
+                                    <p class="description">Aceita HTML básico. Ex: &copy; 2025 Empresa. Todos os direitos reservados.</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><label for="footer_privacy_label">Rodapé — Link de Política de Privacidade</label></th>
+                                <td>
+                                    <input
+                                        type="text"
+                                        id="footer_privacy_label"
+                                        name="<?= self::OPTION_KEY ?>[footer_privacy_label]"
+                                        value="<?= esc_attr($footerPrivacyLabel) ?>"
+                                        class="regular-text"
+                                        placeholder="Política de privacidade"
+                                    >
+                                    <input
+                                        type="text"
+                                        id="footer_privacy_url"
+                                        name="<?= self::OPTION_KEY ?>[footer_privacy_url]"
+                                        value="<?= esc_attr($footerPrivacyUrl) ?>"
+                                        class="regular-text"
+                                        placeholder="https://... ou /politica-de-privacidade"
+                                    >
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><label for="footer_credits_text">Rodapé — Texto de Créditos</label></th>
+                                <td>
+                                    <input
+                                        type="text"
+                                        id="footer_credits_text"
+                                        name="<?= self::OPTION_KEY ?>[footer_credits_text]"
+                                        value="<?= esc_attr($footerCreditsText) ?>"
+                                        class="regular-text"
+                                        placeholder="Desenvolvido por Upsites"
+                                    >
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><label for="footer_tagline">Rodapé — Frase abaixo do logo</label></th>
+                                <td>
+                                    <input
+                                        type="text"
+                                        id="footer_tagline"
+                                        name="<?= self::OPTION_KEY ?>[footer_tagline]"
+                                        value="<?= esc_attr($footerTagline) ?>"
+                                        class="large-text"
+                                        placeholder="Diagnóstico Veterinário com Precisão, Agilidade e Confiança."
+                                    >
+                                    <p class="description">Exibida no rodapé mobile.</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><label for="footer_email">Rodapé — E-mail e Telefone</label></th>
+                                <td>
+                                    <input
+                                        type="email"
+                                        id="footer_email"
+                                        name="<?= self::OPTION_KEY ?>[footer_email]"
+                                        value="<?= esc_attr($footerEmail) ?>"
+                                        class="regular-text"
+                                        placeholder="contato@genomadiagnostico.com.br"
+                                    >
+                                    <input
+                                        type="text"
+                                        id="footer_phone"
+                                        name="<?= self::OPTION_KEY ?>[footer_phone]"
+                                        value="<?= esc_attr($footerPhone) ?>"
+                                        class="regular-text"
+                                        placeholder="(11) 99999-9999"
+                                    >
+                                    <p class="description">Exibidos no rodapé mobile. Vazios não aparecem.</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><label for="footer_rights_text">Rodapé — Direitos reservados</label></th>
+                                <td>
+                                    <input
+                                        type="text"
+                                        id="footer_rights_text"
+                                        name="<?= self::OPTION_KEY ?>[footer_rights_text]"
+                                        value="<?= esc_attr($footerRightsText) ?>"
+                                        class="regular-text"
+                                        placeholder="Todos os direitos reservados."
+                                    >
+                                    <p class="description">Linha abaixo do copyright no rodapé mobile.</p>
+                                </td>
+                            </tr>
+                            </table>
+                        </div>
+                        <div class="upwork-tabs__panel" role="tabpanel" data-panel="banner-cta">
+                            <table class="form-table" role="presentation">
+                            <tr>
+                                <th scope="row"><label for="footer_cta_overline">Rodapé — Banner CTA (texto)</label></th>
+                                <td>
+                                    <input
+                                        type="text"
+                                        id="footer_cta_overline"
+                                        name="<?= self::OPTION_KEY ?>[footer_cta_overline]"
+                                        value="<?= esc_attr($footerCtaOverline) ?>"
+                                        class="regular-text"
+                                        placeholder="Fale conosco"
+                                    >
+                                    <p class="description">Texto pequeno acima do título do banner de CTA do rodapé.</p>
+                                    <textarea
+                                        id="footer_cta_title"
+                                        name="<?= self::OPTION_KEY ?>[footer_cta_title]"
+                                        class="large-text"
+                                        rows="2"
+                                    ><?= esc_textarea($footerCtaTitle) ?></textarea>
+                                    <p class="description">Título (H2) do banner de CTA do rodapé.</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><label>Rodapé — Imagem do Banner CTA</label></th>
+                                <td>
+                                    <div id="footer-cta-image-preview" style="margin-bottom:8px">
+                                        <?php if ($footerCtaImageUrl): ?>
+                                            <img src="<?= esc_url($footerCtaImageUrl) ?>" style="max-height:120px;display:block">
+                                        <?php endif; ?>
+                                    </div>
+                                    <input type="hidden" id="footer_cta_image_url" name="<?= self::OPTION_KEY ?>[footer_cta_image_url]" value="<?= esc_attr($footerCtaImageUrl) ?>">
+                                    <input type="hidden" id="footer_cta_image_id"  name="<?= self::OPTION_KEY ?>[footer_cta_image_id]"  value="<?= esc_attr((string)$footerCtaImageId) ?>">
+                                    <button type="button" class="button" id="btn-footer-cta-image-select">Selecionar imagem</button>
+                                    <?php if ($footerCtaImageUrl): ?>
+                                        <button type="button" class="button" id="btn-footer-cta-image-remove">Remover</button>
+                                    <?php endif; ?>
+                                    <script>
+                                    (function(){
+                                        var frame;
+                                        document.getElementById('btn-footer-cta-image-select').addEventListener('click', function(){
+                                            if (frame) { frame.open(); return; }
+                                            frame = wp.media({ title: 'Selecionar imagem do banner', button: { text: 'Usar imagem' }, multiple: false });
+                                            frame.on('select', function(){
+                                                var att = frame.state().get('selection').first().toJSON();
+                                                document.getElementById('footer_cta_image_url').value = att.url;
+                                                document.getElementById('footer_cta_image_id').value  = att.id;
+                                                var preview = document.getElementById('footer-cta-image-preview');
+                                                preview.innerHTML = '<img src="' + att.url + '" style="max-height:120px;display:block">';
+                                            });
+                                            frame.open();
+                                        });
+                                        var btnRemove = document.getElementById('btn-footer-cta-image-remove');
+                                        if (btnRemove) btnRemove.addEventListener('click', function(){
+                                            document.getElementById('footer_cta_image_url').value = '';
+                                            document.getElementById('footer_cta_image_id').value  = '0';
+                                            document.getElementById('footer-cta-image-preview').innerHTML = '';
+                                        });
+                                    })();
+                                    </script>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><label for="footer_cta_primary_label">Rodapé — Botão CTA Primário</label></th>
+                                <td>
+                                    <input
+                                        type="text"
+                                        id="footer_cta_primary_label"
+                                        name="<?= self::OPTION_KEY ?>[footer_cta_primary_label]"
+                                        value="<?= esc_attr($footerCtaPrimaryLabel) ?>"
+                                        class="regular-text"
+                                        placeholder="Agendar Exame"
+                                    >
+                                    <input
+                                        type="text"
+                                        id="footer_cta_primary_url"
+                                        name="<?= self::OPTION_KEY ?>[footer_cta_primary_url]"
+                                        value="<?= esc_attr($footerCtaPrimaryUrl) ?>"
+                                        class="regular-text"
+                                        placeholder="https://... ou /agendar"
+                                    >
+                                    <p class="description">Botão contornado do banner de CTA do rodapé. Ex: "Agendar Exame".</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><label for="footer_cta_secondary_label">Rodapé — Botão CTA Secundário</label></th>
+                                <td>
+                                    <input
+                                        type="text"
+                                        id="footer_cta_secondary_label"
+                                        name="<?= self::OPTION_KEY ?>[footer_cta_secondary_label]"
+                                        value="<?= esc_attr($footerCtaSecondaryLabel) ?>"
+                                        class="regular-text"
+                                        placeholder="Fale Conosco"
+                                    >
+                                    <input
+                                        type="text"
+                                        id="footer_cta_secondary_url"
+                                        name="<?= self::OPTION_KEY ?>[footer_cta_secondary_url]"
+                                        value="<?= esc_attr($footerCtaSecondaryUrl) ?>"
+                                        class="regular-text"
+                                        placeholder="https://... ou /contato"
+                                    >
+                                    <p class="description">Botão preenchido do banner de CTA do rodapé. Ex: "Fale Conosco".</p>
+                                </td>
+                            </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
                 <?php submit_button('Salvar opções'); ?>
             </form>
         </div>
+        <style>
+            .upwork-tabs { display: flex; margin-top: 16px; background: #fff; border: 1px solid #c3c4c7; }
+            .upwork-tabs__nav { flex: 0 0 200px; background: #f6f7f7; border-right: 1px solid #c3c4c7; }
+            .upwork-tabs__tab { display: block; padding: 12px 16px; border-bottom: 1px solid #dcdcde; color: #50575e; font-weight: 600; text-decoration: none; }
+            .upwork-tabs__tab:hover { color: #2271b1; }
+            .upwork-tabs__tab:focus { box-shadow: inset 0 0 0 2px #2271b1; }
+            .upwork-tabs__tab.is-active { position: relative; margin-right: -1px; background: #fff; color: #1d2327; }
+            .upwork-tabs__panels { flex: 1; min-width: 0; padding: 0 20px; }
+            .upwork-tabs__panel:not(.is-active) { display: none; }
+            @media (max-width: 782px) {
+                .upwork-tabs { flex-direction: column; }
+                .upwork-tabs__nav { flex-basis: auto; border-right: 0; border-bottom: 1px solid #c3c4c7; }
+            }
+        </style>
+        <script>
+        (function(){
+            // Todas as abas ficam no mesmo form: "Salvar opções" grava todos os campos.
+            // A última aba aberta é lembrada porque o salvar recarrega a página.
+            var KEY = 'upwork_theme_options_tab';
+            var tabs = document.querySelectorAll('.upwork-tabs__tab');
+            var panels = document.querySelectorAll('.upwork-tabs__panel');
+            function show(id) {
+                var found = false;
+                tabs.forEach(function(t){ var on = t.dataset.tab === id; t.classList.toggle('is-active', on); t.setAttribute('aria-selected', on); found = found || on; });
+                if (!found) return show(tabs[0].dataset.tab);
+                panels.forEach(function(p){ p.classList.toggle('is-active', p.dataset.panel === id); });
+                try { sessionStorage.setItem(KEY, id); } catch (e) {}
+            }
+            tabs.forEach(function(t){
+                t.addEventListener('click', function(e){ e.preventDefault(); show(t.dataset.tab); });
+            });
+            var saved = null;
+            try { saved = sessionStorage.getItem(KEY); } catch (e) {}
+            show(location.hash.slice(1) || saved || tabs[0].dataset.tab);
+        })();
+        </script>
         <?php
     }
 }

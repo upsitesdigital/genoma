@@ -26,6 +26,12 @@ final class VeterinariosModule extends Module
             'fields' => [
                 // ── Hero (carrossel) ──────────────────────────────────────
                 [
+                    'key'       => 'field_veterinarios_tab_hero',
+                    'label'     => 'Hero',
+                    'type'      => 'tab',
+                    'placement' => 'left',
+                ],
+                [
                     'key'          => 'field_veterinarios_hero_slides',
                     'instructions' => 'Cada linha é um slide. Com 2 ou mais slides aparecem as setas e as bolinhas de navegação. Sem nenhum slide, o topo da página não aparece.',
                     'name'         => 'hero_slides',
@@ -137,6 +143,12 @@ final class VeterinariosModule extends Module
 
                 // ── Suporte ───────────────────────────────────────────────
                 [
+                    'key'       => 'field_veterinarios_tab_suporte',
+                    'label'     => 'Suporte',
+                    'type'      => 'tab',
+                    'placement' => 'left',
+                ],
+                [
                     'key'           => 'field_veterinarios_suporte_eyebrow',
                     'instructions'  => 'Texto curto exibido acima do título da seção (ex.: SERVIÇOS).',
                     'name'          => 'suporte_eyebrow',
@@ -191,6 +203,12 @@ final class VeterinariosModule extends Module
                 ],
 
                 // ── Praticidade ───────────────────────────────────────────
+                [
+                    'key'       => 'field_veterinarios_tab_praticidade',
+                    'label'     => 'Praticidade',
+                    'type'      => 'tab',
+                    'placement' => 'left',
+                ],
                 [
                     'key'           => 'field_veterinarios_praticidade_eyebrow',
                     'instructions'  => 'Texto curto exibido acima do título da seção (ex.: SERVIÇOS).',
@@ -257,6 +275,12 @@ final class VeterinariosModule extends Module
                 ],
 
                 // ── Tipos de Exames (acordeão) ──────────────────────────────────
+                [
+                    'key'       => 'field_veterinarios_tab_tipos_de_exames',
+                    'label'     => 'Tipos de Exames',
+                    'type'      => 'tab',
+                    'placement' => 'left',
+                ],
                 [
                     'key'           => 'field_veterinarios_tipos_exames_eyebrow',
                     'instructions'  => 'Texto curto exibido acima do título da seção (ex.: SERVIÇOS).',
@@ -371,6 +395,12 @@ final class VeterinariosModule extends Module
 
                 // ── Estrutura ─────────────────────────────────────────────
                 [
+                    'key'       => 'field_veterinarios_tab_estrutura',
+                    'label'     => 'Estrutura',
+                    'type'      => 'tab',
+                    'placement' => 'left',
+                ],
+                [
                     'key'           => 'field_veterinarios_estrutura_eyebrow',
                     'instructions'  => 'Texto curto exibido acima do título da seção (ex.: SERVIÇOS).',
                     'name'          => 'estrutura_eyebrow',
@@ -457,6 +487,12 @@ final class VeterinariosModule extends Module
 
                 // ── Benefícios ────────────────────────────────────────────
                 [
+                    'key'       => 'field_veterinarios_tab_beneficios',
+                    'label'     => 'Benefícios',
+                    'type'      => 'tab',
+                    'placement' => 'left',
+                ],
+                [
                     'key'           => 'field_veterinarios_beneficios_eyebrow',
                     'instructions'  => 'Texto curto exibido acima do título da seção (ex.: SERVIÇOS).',
                     'name'          => 'beneficios_eyebrow',
@@ -513,6 +549,12 @@ final class VeterinariosModule extends Module
                 ],
 
                 // ── Rodapé (sobrescreve o CTA do banner só nesta página) ───
+                [
+                    'key'       => 'field_veterinarios_tab_rodape',
+                    'label'     => 'Rodapé',
+                    'type'      => 'tab',
+                    'placement' => 'left',
+                ],
                 [
                     'key'           => 'field_veterinarios_footer_cta_titulo',
                     'name'          => 'footer_cta_titulo',

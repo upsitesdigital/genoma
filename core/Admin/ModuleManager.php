@@ -12,6 +12,7 @@ class ModuleManager
     public static function register(): void
     {
         add_action('admin_menu',                   [self::class, 'addMenuPages']);
+        add_action('admin_menu',                   [self::class, 'hideModulesSubmenu'], 999);
         add_action('admin_post_upwork_toggle_module', [self::class, 'handleToggle']);
     }
 
@@ -19,7 +20,7 @@ class ModuleManager
     {
         add_menu_page(
             page_title: 'UpWork Framework',
-            menu_title: 'UpWork',
+            menu_title: 'Configuração',
             capability: 'manage_options',
             menu_slug:  'upwork',
             callback:   [self::class, 'renderModules'],
@@ -27,15 +28,16 @@ class ModuleManager
             position:   3,
         );
 
-        add_submenu_page(
-            parent_slug: 'upwork',
-            page_title:  'Módulos',
-            menu_title:  'Módulos',
-            capability:  'manage_options',
-            menu_slug:   'upwork',
-            callback:    [self::class, 'renderModules'],
-        );
+    }
 
+    /**
+     * Tira "Módulos" do submenu (o WP o recria a partir da página-mãe ao
+     * registrar Opções do Tema). Com isso o menu UpWork abre direto em
+     * Opções do Tema; a página de módulos segue em admin.php?page=upwork.
+     */
+    public static function hideModulesSubmenu(): void
+    {
+        remove_submenu_page('upwork', 'upwork');
     }
 
     public static function handleToggle(): void

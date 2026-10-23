@@ -26,6 +26,12 @@ final class ContatoModule extends Module
             'fields' => [
                 // ── Hero ──────────────────────────────────────────────────
                 [
+                    'key'       => 'field_contato_tab_hero',
+                    'label'     => 'Hero',
+                    'type'      => 'tab',
+                    'placement' => 'left',
+                ],
+                [
                     'key'           => 'field_contato_hero_eyebrow',
                     'instructions'  => 'Texto curto exibido acima do título (ex.: Contato).',
                     'name'          => 'hero_eyebrow',
@@ -102,6 +108,12 @@ final class ContatoModule extends Module
                 ],
 
                 // ── Lista de contatos ─────────────────────────────────────
+                [
+                    'key'       => 'field_contato_tab_lista_de_contatos',
+                    'label'     => 'Lista de contatos',
+                    'type'      => 'tab',
+                    'placement' => 'left',
+                ],
                 [
                     'key'          => 'field_contato_lista_contatos',
                     'name'         => 'lista_contatos',

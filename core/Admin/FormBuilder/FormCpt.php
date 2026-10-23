@@ -22,7 +22,7 @@ class FormCpt
             ],
             'public'        => false,
             'show_ui'       => true,
-            'show_in_menu'  => 'upwork',
+            'show_in_menu'  => false, // fora do menu: o site não usa formulários dinâmicos
             'supports'      => ['title'],
             'show_in_rest'  => false,
             'menu_icon'     => 'dashicons-feedback',
@@ -35,7 +35,7 @@ class FormCpt
             ],
             'public'       => false,
             'show_ui'      => true,
-            'show_in_menu' => 'upwork',
+            'show_in_menu' => false,
             'supports'     => ['title'],
             'show_in_rest' => false,
             'capabilities' => ['create_posts' => 'do_not_allow'],

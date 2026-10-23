@@ -26,6 +26,12 @@ final class ResponsavelModule extends Module
             'fields' => [
                 // ── Hero (carrossel) ──────────────────────────────────────
                 [
+                    'key'       => 'field_responsavel_tab_hero',
+                    'label'     => 'Hero',
+                    'type'      => 'tab',
+                    'placement' => 'left',
+                ],
+                [
                     'key'          => 'field_responsavel_hero_slides',
                     'instructions' => 'Cada linha é um slide. Com 2 ou mais slides aparecem as setas e as bolinhas de navegação. Sem nenhum slide, o topo da página não aparece.',
                     'name'         => 'hero_slides',
@@ -137,6 +143,12 @@ final class ResponsavelModule extends Module
 
                 // ── Suporte ───────────────────────────────────────────────
                 [
+                    'key'       => 'field_responsavel_tab_suporte',
+                    'label'     => 'Suporte',
+                    'type'      => 'tab',
+                    'placement' => 'left',
+                ],
+                [
                     'key'           => 'field_responsavel_suporte_eyebrow',
                     'instructions'  => 'Texto curto exibido acima do título da seção (ex.: SERVIÇOS).',
                     'name'          => 'suporte_eyebrow',
@@ -192,6 +204,12 @@ final class ResponsavelModule extends Module
 
                 // ── Planos ────────────────────────────────────────────────
                 [
+                    'key'       => 'field_responsavel_tab_planos',
+                    'label'     => 'Planos',
+                    'type'      => 'tab',
+                    'placement' => 'left',
+                ],
+                [
                     'key'           => 'field_responsavel_planos_eyebrow',
                     'instructions'  => 'Texto curto exibido acima do título da seção (ex.: SERVIÇOS).',
                     'name'          => 'planos_eyebrow',
@@ -239,6 +257,12 @@ final class ResponsavelModule extends Module
                 ],
 
                 // ── Exames ────────────────────────────────────────────────
+                [
+                    'key'       => 'field_responsavel_tab_exames',
+                    'label'     => 'Exames',
+                    'type'      => 'tab',
+                    'placement' => 'left',
+                ],
                 [
                     'key'           => 'field_responsavel_exames_eyebrow',
                     'instructions'  => 'Texto curto exibido acima do título da seção (ex.: SERVIÇOS).',
@@ -321,6 +345,12 @@ final class ResponsavelModule extends Module
                 ],
 
                 // ── Serviços ──────────────────────────────────────────────
+                [
+                    'key'       => 'field_responsavel_tab_servicos',
+                    'label'     => 'Serviços',
+                    'type'      => 'tab',
+                    'placement' => 'left',
+                ],
                 [
                     'key'           => 'field_responsavel_servicos_eyebrow',
                     'instructions'  => 'Texto curto exibido acima do título da seção (ex.: SERVIÇOS).',
@@ -421,6 +451,12 @@ final class ResponsavelModule extends Module
 
                 // ── Resultados dos exames ────────────────────────────────
                 [
+                    'key'       => 'field_responsavel_tab_resultados_dos_exames',
+                    'label'     => 'Resultados dos exames',
+                    'type'      => 'tab',
+                    'placement' => 'left',
+                ],
+                [
                     'key'           => 'field_responsavel_resultados_eyebrow',
                     'instructions'  => 'Texto curto exibido acima do título da seção (ex.: SERVIÇOS).',
                     'name'          => 'resultados_eyebrow',
@@ -457,6 +493,12 @@ final class ResponsavelModule extends Module
                 ],
 
                 // ── Benefícios ────────────────────────────────────────────
+                [
+                    'key'       => 'field_responsavel_tab_beneficios',
+                    'label'     => 'Benefícios',
+                    'type'      => 'tab',
+                    'placement' => 'left',
+                ],
                 [
                     'key'           => 'field_responsavel_beneficios_eyebrow',
                     'instructions'  => 'Texto curto exibido acima do título da seção (ex.: SERVIÇOS).',
@@ -514,6 +556,12 @@ final class ResponsavelModule extends Module
                 ],
 
                 // ── Rodapé (sobrescreve o CTA do banner só nesta página) ───
+                [
+                    'key'       => 'field_responsavel_tab_rodape',
+                    'label'     => 'Rodapé',
+                    'type'      => 'tab',
+                    'placement' => 'left',
+                ],
                 [
                     'key'           => 'field_responsavel_footer_cta_titulo',
                     'name'          => 'footer_cta_titulo',
