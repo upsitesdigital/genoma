@@ -59,7 +59,7 @@ function HeroCarousel({ hero }: { hero: OGenomaData['hero'] }) {
   return (
     <section
       id="hero"
-      className="relative isolate z-10 w-full bg-gradient-to-br from-[#95ABB7] to-[#AEC6D3] pt-[186px] lg:pt-40 xl:pt-[203px]"
+      className="relative isolate z-10 w-full bg-gradient-to-br from-[#95ABB7] to-[#AEC6D3] pt-[186px] lg:pt-40 xl:pt-[203px] before:absolute before:bottom-0 before:h-[145px] before:w-full before:bg-white before:content-['']"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       aria-roledescription="carousel"
