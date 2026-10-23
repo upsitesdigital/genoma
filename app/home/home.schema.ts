@@ -43,24 +43,12 @@ export interface HomeServicos {
   cta: HomeCta
 }
 
-export interface HomeExameItem {
-  nome: string
-  prazo: string
-  amostra: string
-}
-
-export interface HomeExameCategoria {
-  titulo: string
-  texto: string
-  itens: HomeExameItem[]
-}
-
-export interface HomeExames {
+export interface HomePortfolio {
   eyebrow: string
   titulo: string
-  descricao: string
-  categorias: HomeExameCategoria[]
+  texto: string
   cta: HomeCta
+  imagem: HomeImage | null
 }
 
 export interface HomeDiferencial {
@@ -114,7 +102,7 @@ export interface HomeDepoimentos {
 export interface HomeData {
   hero: HomeHero
   servicos: HomeServicos
-  exames: HomeExames
+  portfolio: HomePortfolio
   sobre: HomeSobre
   diferenciais: HomeDiferenciais
   estrutura: HomeEstrutura

@@ -34,7 +34,7 @@ function HeroSection({ hero }: { hero: SinglePostHero }) {
   const shareLinks = buildShareLinks(url, titulo)
 
   return (
-    <section className="relative isolate w-full">
+    <section id="hero" className="relative isolate w-full">
       <div
         className="w-full pb-40 pt-[186px] md:pb-52 lg:pb-64 lg:pt-40"
         style={{ backgroundImage: 'linear-gradient(-20deg, #95ABB7 47%, #AEC6D3 100%)' }}
@@ -123,7 +123,7 @@ function ConteudoSection({ html }: { html: string }) {
   if (!html) return null
 
   return (
-    <section className="w-full">
+    <section id="conteudo" className="w-full">
       <div className="container pb-16 md:pb-20 lg:pb-24">
         <div
           className="post-content mx-auto max-w-3xl"
@@ -142,7 +142,7 @@ function VejaTambemSection({ posts }: { posts: SinglePostRelacionado[] }) {
   if (posts.length === 0) return null
 
   return (
-    <section className="w-full">
+    <section id="veja-tambem" className="w-full">
       <div className="container flex flex-col gap-9 pb-16 md:pb-20 lg:pb-24">
         <h2 className="font-heading text-h2 font-normal text-brand-purple-dark">Veja também</h2>
 

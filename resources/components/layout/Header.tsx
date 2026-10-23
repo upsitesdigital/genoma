@@ -158,8 +158,9 @@ export default function Header() {
     <header
       data-no-reveal
       className={cn(
-        'fixed inset-x-0 top-0 z-40 bg-white transition-colors',
-        scrolled ? 'lg:bg-[#ABC3CF]' : 'lg:bg-transparent'
+        'fixed inset-x-0 top-0 z-40 bg-white transition-[background-color,padding] duration-300',
+        // No topo (desktop) o header desce 44px; ao rolar volta a colar no topo
+        scrolled ? 'lg:bg-[#ABC3CF]' : 'lg:bg-transparent lg:pt-[44px]'
       )}
     >
       <div className="container flex min-h-[93px] lg:min-h-0 lg:h-[84px] items-center justify-between gap-4">

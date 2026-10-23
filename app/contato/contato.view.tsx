@@ -30,7 +30,7 @@ function HeroSection({ hero }: { hero: ContatoData['hero'] }) {
   const { eyebrow, titulo, descricao, canais } = hero
 
   return (
-    <section className="relative isolate w-full">
+    <section id="hero" className="relative isolate w-full">
       <div
         className="w-full pb-40 pt-[186px] md:pb-48 lg:pb-56 lg:pt-40"
         style={{ backgroundImage: 'linear-gradient(-20deg, #95ABB7 47%, #AEC6D3 100%)' }}
@@ -83,7 +83,7 @@ function CanalCard({ canal }: { canal: ContatoHeroCanal }) {
 
   if (link) {
     return (
-      <a href={link} className={className}>
+      <a href={link} target="_blank" rel="noopener noreferrer" className={className}>
         {content}
       </a>
     )
@@ -98,7 +98,7 @@ function ListaContatosSection({ cards }: { cards: ContatoListaCard[] }) {
   if (cards.length === 0) return null
 
   return (
-    <section className="container pb-12 pt-4 md:pb-16 md:pt-6 lg:pb-20 lg:pt-8">
+    <section id="contatos" className="container pb-12 pt-4 md:pb-16 md:pt-6 lg:pb-20 lg:pt-8">
       <div className="flex flex-col gap-4 md:gap-[22px]">
         {cards.map((card, i) =>
           card.tipo === 'info' ? (

@@ -19,7 +19,7 @@ final class HomeController extends Controller
         return [
             'hero'         => $this->heroSlides($pageId),
             'servicos'     => $this->servicos($pageId),
-            'exames'       => $this->exames($pageId),
+            'portfolio'    => $this->portfolio($pageId),
             'sobre'        => $this->sobre($pageId),
             'diferenciais' => $this->diferenciais($pageId),
             'estrutura'    => $this->estrutura($pageId),
@@ -111,42 +111,19 @@ final class HomeController extends Controller
     }
 
     /**
-     * Monta o acordeão de categorias de exames.
-     * Se não houver linhas cadastradas no ACF, a lista fica vazia (seção some da tela).
+     * Monta os dados do banner Portfólio de Exames.
      */
-    private function exames(int $pageId): array
+    private function portfolio(int $pageId): array
     {
-        $rows = $this->field($pageId, 'exames_categorias');
-
         return [
-            'eyebrow'    => (string) ($this->field($pageId, 'exames_eyebrow') ?: ''),
-            'titulo'     => (string) ($this->field($pageId, 'exames_titulo') ?: ''),
-            'descricao'  => (string) ($this->field($pageId, 'exames_descricao') ?: ''),
-            'categorias' => is_array($rows) ? array_map(fn (array $row): array => $this->mapExameCategoria($row), $rows) : [],
-            'cta'        => [
-                'texto' => (string) ($this->field($pageId, 'exames_cta_texto') ?: ''),
-                'link'  => (string) ($this->field($pageId, 'exames_cta_link') ?: ''),
+            'eyebrow' => (string) ($this->field($pageId, 'portfolio_eyebrow') ?: ''),
+            'titulo'  => (string) ($this->field($pageId, 'portfolio_titulo') ?: ''),
+            'texto'   => (string) ($this->field($pageId, 'portfolio_texto') ?: ''),
+            'cta'     => [
+                'texto' => (string) ($this->field($pageId, 'portfolio_cta_texto') ?: ''),
+                'link'  => (string) ($this->field($pageId, 'portfolio_cta_link') ?: ''),
             ],
-        ];
-    }
-
-    private function mapExameCategoria(array $row): array
-    {
-        $itens = $row['itens'] ?? [];
-
-        return [
-            'titulo' => (string) ($row['titulo'] ?? ''),
-            'texto'  => (string) ($row['texto'] ?? ''),
-            'itens'  => is_array($itens) ? array_map(fn (array $item): array => $this->mapExameItem($item), $itens) : [],
-        ];
-    }
-
-    private function mapExameItem(array $item): array
-    {
-        return [
-            'nome'    => (string) ($item['nome'] ?? ''),
-            'prazo'   => (string) ($item['prazo'] ?? ''),
-            'amostra' => (string) ($item['amostra'] ?? ''),
+            'imagem'  => $this->image($this->field($pageId, 'portfolio_imagem')),
         ];
     }
 

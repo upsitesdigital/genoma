@@ -46,12 +46,24 @@ export interface VeterinariosPraticidade {
   imagem: VeterinariosImage | null
 }
 
-export interface VeterinariosExames {
-  eyebrow: string
+export interface VeterinariosExameItem {
+  nome: string
+  prazo: string
+  amostra: string
+}
+
+export interface VeterinariosExameCategoria {
   titulo: string
   texto: string
+  itens: VeterinariosExameItem[]
+}
+
+export interface VeterinariosTiposExames {
+  eyebrow: string
+  titulo: string
+  descricao: string
+  categorias: VeterinariosExameCategoria[]
   cta: VeterinariosCta
-  imagem: VeterinariosImage | null
 }
 
 export interface VeterinariosEstruturaContato {
@@ -85,7 +97,7 @@ export interface VeterinariosData {
   hero: VeterinariosHero
   suporte: VeterinariosSuporte
   praticidade: VeterinariosPraticidade
-  exames: VeterinariosExames
+  tiposExames: VeterinariosTiposExames
   estrutura: VeterinariosEstrutura
   beneficios: VeterinariosBeneficios
   footerCta: FooterCtaOverride

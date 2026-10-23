@@ -60,7 +60,7 @@ Os grupos de campos seguem a ordem das seções na tela, de cima para baixo. O n
 | --- | --- | --- |
 | Hero (carrossel do topo) | **Hero — Slides do Carrossel**: Imagem de Fundo, Imagem Mobile, Subtítulo (H1), Título, Subtítulo, CTA Primário e Secundário (texto + link) | Um slide por linha. **Imagem Mobile**: PNG com fundo transparente, proporção 393×459, aparece na base do slide no celular. Setas e bolinhas só aparecem com 2 ou mais slides |
 | Serviços | Etiqueta, Título, **Serviços — Itens** (Imagem, Título, Descrição, botão), CTA Final | Mostra 3 cards; com mais de 3, aparece o botão "Ver mais" |
-| Exames | Etiqueta, Título, Descrição, **Exames — Categorias (acordeão)** | Cada categoria tem Título, Texto opcional e a lista de exames (Nome do Exame, Prazo, Tipo de Amostra) |
+| Portfólio de Exames | Etiqueta, Título, Texto, CTA (texto + link), Imagem | O botão leva à lista de exames |
 | Sobre | Etiqueta, Título, Fotos 1 a 3, Texto, Frase de Destaque, Diferenciais (cards) | No Texto, deixe uma linha em branco entre parágrafos |
 | Diferenciais | Etiqueta, Título, Imagem de Fundo, Itens (Ícone + Texto) | |
 | Estrutura | Etiqueta, Título, Descrição, Fotos 1 a 3 | |
@@ -82,7 +82,7 @@ Os grupos de campos seguem a ordem das seções na tela, de cima para baixo. O n
 | Hero | Slides: Imagem, Etiqueta (H1), Título, Subtítulo, CTAs | |
 | Suporte | Etiqueta, Título, Texto, Texto em destaque, Imagens 1 e 2 | |
 | Praticidade | Etiqueta, Título, Texto, Ícone dos Horários, **Horários** (um por linha), Imagem | Horários de coleta do motoboy; linhas vazias são ignoradas |
-| Exames | Etiqueta, Título, Texto, CTA (texto + link), Imagem | O botão leva à lista de exames |
+| Tipos de Exames | Etiqueta, Título, Descrição, **Tipos de Exames — Categorias (acordeão)**, CTA Final | Cada categoria tem Título, Texto opcional e a lista de exames (Nome do Exame, Prazo, Tipo de Amostra). Mostra 3; com mais, aparece o botão "Ver mais" |
 | Estrutura | Etiqueta, Título, Texto, Texto em destaque, Imagens 1 e 2, **Card de Contato** (Ícone + Texto) | |
 | Benefícios | Etiqueta, Título, Texto, Itens (Ícone + Texto) | Fica bem com 4 itens (uma linha no computador) |
 

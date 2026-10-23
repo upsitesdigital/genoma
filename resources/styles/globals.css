@@ -96,6 +96,10 @@
   h1, h2, h3, h4, h5, h6 {
     @apply font-heading;
   }
+  /* Âncoras (#id) não ficam escondidas atrás do header fixo (93px no mobile, 84px no desktop) */
+  section[id] {
+    scroll-margin-top: 93px;
+  }
 }
 
 /*

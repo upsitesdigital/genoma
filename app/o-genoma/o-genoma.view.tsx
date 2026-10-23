@@ -181,7 +181,7 @@ function SobreSection({ sobre }: { sobre: OGenomaSobre }) {
   if (!eyebrow && !titulo && !texto && !destaque) return null
 
   return (
-    <section className="w-full bg-background pb-16 pt-12 sm:pb-24 sm:pt-20 md:pb-32 md:pt-24 xl:pb-48 xl:pt-28">
+    <section id="sobre" className="w-full bg-background pb-16 pt-12 sm:pb-24 sm:pt-20 md:pb-32 md:pt-24 xl:pb-48 xl:pt-28">
       <div className="container">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_351px] lg:gap-16 xl:gap-24">
           <div>
@@ -250,7 +250,7 @@ function CompromissoSection({ compromisso }: { compromisso: OGenomaCompromisso }
   if (!eyebrow && !titulo && !texto) return null
 
   return (
-    <section className="relative isolate w-full overflow-hidden py-16 sm:py-20 md:py-24 xl:py-28">
+    <section id="compromisso" className="relative isolate w-full overflow-hidden py-16 sm:py-20 md:py-24 xl:py-28">
       {imagem && (
         <img
           src={imagem.src}
@@ -311,7 +311,7 @@ function DiagnosticoSection({ diagnostico }: { diagnostico: OGenomaDiagnostico }
   if (!titulo && !texto && !destaque) return null
 
   return (
-    <section className="w-full bg-background pb-16 pt-12 sm:pb-24 sm:pt-20 md:pb-32 md:pt-24 xl:pb-40 xl:pt-28">
+    <section id="diagnostico" className="w-full bg-background pb-16 pt-12 sm:pb-24 sm:pt-20 md:pb-32 md:pt-24 xl:pb-40 xl:pt-28">
       <div className="container">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_351px] lg:gap-16 xl:gap-24">
           <div>

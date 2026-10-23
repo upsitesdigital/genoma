@@ -121,7 +121,7 @@ Seções, em ordem:
 
 1. **Hero (carrossel)** — slides com fade, autoplay configurável, setas e indicadores (com mais de 1 slide). No desktop usa imagem de fundo com gradiente; no mobile, fundo sólido com a **Imagem Mobile** na base e onda decorativa. O *eyebrow* do 1º slide é o `<h1>` da página.
 2. **Serviços** — grade de cards (imagem, título, descrição, botão). Mostra 3; "Ver mais" expande.
-3. **Exames** — acordeão de categorias (uma aberta por vez), cada uma com texto e lista de exames (nome, prazo, amostra). Mostra 3; "Ver mais" expande.
+3. **Portfólio de Exames** — banner com imagem, texto e botão "Lista de exames".
 4. **Sobre a Genoma** — 3 fotos, texto, destaque e cards de diferenciais.
 5. **Diferenciais** — banner com imagem e cards com ícone.
 6. **Estrutura** — texto e galeria de 3 fotos.
@@ -131,7 +131,7 @@ Seções, em ordem:
 |---|---|
 | Hero | `hero_slides` (repeater: `imagem`, `imagem_mobile`, `eyebrow`, `titulo`, `subtitulo`, `cta_primario_texto/link`, `cta_secundario_texto/link`), `hero_autoplay`, `hero_intervalo` |
 | Serviços | `servicos_eyebrow`, `servicos_titulo`, `servicos_itens` (`imagem`, `titulo`, `descricao`, `cta_texto`, `cta_link`), `servicos_cta_texto/link` |
-| Exames | `exames_eyebrow`, `exames_titulo`, `exames_descricao`, `exames_categorias` (`titulo`, `texto`, `itens` → `nome`, `prazo`, `amostra`), `exames_cta_texto/link` |
+| Portfólio de Exames | `portfolio_eyebrow`, `portfolio_titulo`, `portfolio_texto`, `portfolio_cta_texto/link`, `portfolio_imagem` |
 | Sobre | `sobre_eyebrow`, `sobre_titulo`, `sobre_foto_1..3`, `sobre_texto`, `sobre_destaque`, `sobre_diferenciais` (`icone`, `titulo`, `descricao`) |
 | Diferenciais | `diferenciais_eyebrow`, `diferenciais_titulo`, `diferenciais_imagem`, `diferenciais_itens` (`icone`, `titulo`) |
 | Estrutura | `estrutura_eyebrow`, `estrutura_titulo`, `estrutura_descricao`, `estrutura_foto_1..3` |
@@ -152,11 +152,11 @@ Campos: `hero_slides` (`eyebrow`, `titulo`, `imagem_1`, `imagem_2`, `destaque`),
 1. **Hero (carrossel)** — título, subtítulo, 2 botões, imagem à direita.
 2. **Suporte** — texto, citação e duas imagens.
 3. **Praticidade** — card roxo com horários de coleta por motoboy (`praticidade_horarios`).
-4. **Exames** — imagem, texto e botão "Lista de exames".
+4. **Tipos de Exames** — acordeão de categorias (uma aberta por vez), cada uma com texto e lista de exames (nome, prazo, amostra). Mostra 3; "Ver mais" expande.
 5. **Estrutura** — texto, destaque, 2 imagens e card de contatos.
 6. **Benefícios** — grade de 4 cards com ícone.
 
-Campos: `hero_slides`, `suporte_*`, `praticidade_*`, `exames_*`, `estrutura_*` (com `estrutura_contatos`), `beneficios_*`, `footer_cta_*`.
+Campos: `hero_slides`, `suporte_*`, `praticidade_*`, `tipos_exames_*` (`tipos_exames_categorias` → `titulo`, `texto`, `itens` → `nome`, `prazo`, `amostra`), `estrutura_*` (com `estrutura_contatos`), `beneficios_*`, `footer_cta_*`.
 
 ### Responsável (tutor) — `app/responsavel` · Modelo "Página · Responsável"
 

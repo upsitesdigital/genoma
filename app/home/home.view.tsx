@@ -1,16 +1,16 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useModule } from '@/hooks/useModule'
 import { useDocumentTitle } from '@/hooks/useDocumentTitle'
 import { cn } from '@/lib/cn'
 import { boot } from '@/lib/env'
+import { VerMaisButton, VISIVEIS_INICIAL } from '@/components/shared/VerMaisButton'
 import type {
   HomeData,
   HomeHeroSlide,
   HomeServicoItem,
   HomeServicos,
-  HomeExameCategoria,
-  HomeExames,
+  HomePortfolio,
   HomeDiferencial,
   HomeSobre,
   HomeDiferenciaisItem,
@@ -38,7 +38,7 @@ export default function HomeView() {
     <main>
       <HeroCarousel hero={data.hero} />
       <ServicosSection servicos={data.servicos} />
-      <ExamesSection exames={data.exames} />
+      <PortfolioSection portfolio={data.portfolio} />
       <SobreSection sobre={data.sobre} />
       <DiferenciaisSection diferenciais={data.diferenciais} />
       <EstruturaSection estrutura={data.estrutura} />
@@ -73,7 +73,7 @@ function HeroCarousel({ hero }: { hero: HomeData['hero'] }) {
   const imagemMobilePadrao = `${boot.themeUrl}/app/home/assets/hero-mobile-cachorro.png`
 
   return (
-    <section
+    <section id="hero"
       className="relative isolate flex min-h-[842px] w-full items-start overflow-hidden bg-[#AAC1CD] pt-[186px] lg:min-h-[720px] lg:items-center lg:overflow-visible lg:bg-transparent lg:py-24 xl:min-h-[797px]"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
@@ -237,7 +237,7 @@ function HomeSkeleton() {
         </div>
       </section>
       <ServicosSkeleton />
-      <ExamesSkeleton />
+      <PortfolioSkeleton />
       <SobreSkeleton />
       <DiferenciaisSkeleton />
       <EstruturaSkeleton />
@@ -258,7 +258,7 @@ function ServicosSection({ servicos }: { servicos: HomeServicos }) {
   const visiveis = expanded ? itens : itens.slice(0, VISIVEIS_INICIAL)
 
   return (
-    <section className="w-full py-12 md:py-20 lg:py-24">
+    <section id="servicos" className="w-full py-12 md:py-20 lg:py-24">
       <div className="container">
         <div className="flex max-w-2xl flex-col gap-2">
           {eyebrow && (
@@ -278,46 +278,6 @@ function ServicosSection({ servicos }: { servicos: HomeServicos }) {
         <VerMaisButton hasMore={hasMore} expanded={expanded} onToggle={() => setExpanded((v) => !v)} cta={cta} />
       </div>
     </section>
-  )
-}
-
-// Serviços e Exames mostram só os primeiros itens; o botão expande o restante.
-// Sem itens escondidos, o botão volta a ser o link do CTA configurado no admin.
-const VISIVEIS_INICIAL = 3
-
-function VerMaisButton({
-  hasMore,
-  expanded,
-  onToggle,
-  cta,
-}: {
-  hasMore: boolean
-  expanded: boolean
-  onToggle: () => void
-  cta: { texto: string; link: string }
-}) {
-  const cls =
-    'inline-flex w-full items-center justify-center gap-2 rounded-full border border-brand-purple px-6 py-4 lg:w-auto font-heading text-base font-medium text-brand-purple transition-colors hover:bg-brand-purple hover:text-white md:px-7 md:py-5 md:text-h5'
-
-  if (hasMore) {
-    return (
-      <div className="mt-10 flex justify-center md:mt-12">
-        <button type="button" onClick={onToggle} aria-expanded={expanded} className={cls}>
-          {expanded ? 'Ver menos' : 'Ver mais'}
-          <ChevronDown className={cn('h-4 w-4 transition-transform duration-300', expanded && 'rotate-180')} />
-        </button>
-      </div>
-    )
-  }
-
-  if (!cta.texto) return null
-
-  return (
-    <div className="mt-10 flex justify-center md:mt-12">
-      <a href={cta.link || '#'} className={cls}>
-        {cta.texto}
-      </a>
-    </div>
   )
 }
 
@@ -382,146 +342,66 @@ function ServicosSkeleton() {
   )
 }
 
-// ─── Exames (acordeão) ──────────────────────────────────────────────────────
+// ─── Portfólio de Exames (banner) ─────────────────────────────────────────────────────────────
 
-function ExamesSection({ exames }: { exames: HomeExames }) {
-  const { eyebrow, titulo, descricao, categorias, cta } = exames
-  const [openIndex, setOpenIndex] = useState<number | null>(null)
-  const [expanded, setExpanded] = useState(false)
-
-  if (categorias.length === 0) return null
-
-  const hasMore = categorias.length > VISIVEIS_INICIAL
-  const visiveis = expanded ? categorias : categorias.slice(0, VISIVEIS_INICIAL)
+function PortfolioSection({ portfolio }: { portfolio: HomePortfolio }) {
+  const { eyebrow, titulo, texto, cta, imagem } = portfolio
 
   return (
-    <section className="w-full py-12 md:py-20 lg:py-24">
-      <div className="container">
-        <div className="flex flex-col gap-4">
+    <section id="portfolio-de-exames" className="relative isolate flex min-h-[420px] w-full items-center overflow-hidden bg-[#859CA9] py-16 sm:min-h-[480px] md:py-20 lg:min-h-[560px] xl:min-h-[625px] xl:py-0">
+      {/* Imagem de fundo + gradientes de legibilidade */}
+      <div className="absolute inset-0 lg:inset-y-0 lg:left-[43%] lg:right-0">
+        {imagem && (
+          <img
+            src={imagem.src}
+            alt={imagem.alt}
+            className="h-full w-full object-cover object-[70%_30%] lg:object-[center_25%]"
+          />
+        )}
+
+        {/* Scrim para legibilidade do texto em telas menores (imagem ocupa toda a largura) */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#433292]/70 via-[#433292]/35 to-[#433292]/0 lg:hidden" />
+
+        {/* Fade que funde a borda esquerda da imagem ao fundo (mask do Figma) */}
+        <div className="pointer-events-none absolute inset-y-0 left-0 hidden w-1/3 bg-gradient-to-r from-[#859CA9] via-[#859CA9]/70 to-transparent lg:block" />
+      </div>
+
+      <div className="container relative z-10">
+        <div className="flex max-w-xl flex-col gap-6 lg:max-w-[594px] lg:gap-8">
           <div className="flex flex-col gap-2">
-            {eyebrow && (
-              <span className="font-sans text-eyebrow uppercase text-brand-purple-accent">{eyebrow}</span>
-            )}
-            <h2 className="max-w-xl font-heading text-h2-mobile text-brand-purple-dark md:max-w-2xl md:text-h2">
-              {titulo}
-            </h2>
+            {eyebrow && <p className="font-sans text-body text-white">{eyebrow}</p>}
+            {titulo && <h2 className="font-heading text-h3 text-white md:text-h2">{titulo}</h2>}
           </div>
-          {descricao && (
-            <p className="max-w-xl font-sans text-body-sm text-brand-gray-text md:max-w-2xl md:text-base">
-              {descricao}
+
+          {texto && (
+            <p className="max-w-[560px] font-sans text-body leading-relaxed text-white/80">
+              {texto}
             </p>
           )}
-        </div>
 
-        <div className="mt-8 flex flex-col gap-4 md:mt-10">
-          {visiveis.map((categoria, i) => (
-            <ExameCategoriaAccordion
-              key={i}
-              categoria={categoria}
-              isOpen={openIndex === i}
-              onToggle={() => setOpenIndex((prev) => (prev === i ? null : i))}
-            />
-          ))}
+          {cta.texto && (
+            <a
+              href={cta.link || '#'}
+              className="inline-flex w-full items-center justify-center rounded-full bg-white px-7 py-5 font-heading text-h4 lg:w-fit leading-none text-primary transition-colors hover:bg-primary hover:text-white"
+            >
+              {cta.texto}
+            </a>
+          )}
         </div>
-
-        <VerMaisButton hasMore={hasMore} expanded={expanded} onToggle={() => setExpanded((v) => !v)} cta={cta} />
       </div>
     </section>
   )
 }
 
-function ExameCategoriaAccordion({
-  categoria,
-  isOpen,
-  onToggle,
-}: {
-  categoria: HomeExameCategoria
-  isOpen: boolean
-  onToggle: () => void
-}) {
-  const { titulo, texto, itens } = categoria
-  const hasItens = itens.length > 0
-  const hasContent = hasItens || !!texto
-
+function PortfolioSkeleton() {
   return (
-    <div className="flex flex-col rounded-2xl bg-brand-purple-subtle p-5 md:p-6 lg:p-8">
-      <div className="flex w-full items-center justify-between gap-4">
-        <h3 className="font-heading text-h5 font-medium text-brand-purple-dark md:text-h4">
-          {titulo}
-        </h3>
-
-        <button
-          type="button"
-          onClick={onToggle}
-          disabled={!hasContent}
-          aria-expanded={isOpen}
-          aria-label={isOpen ? `Recolher ${titulo}` : `Expandir ${titulo}`}
-          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-purple text-white transition-opacity disabled:opacity-40 sm:h-[46px] sm:w-[46px]"
-        >
-          <ChevronDown
-            className={cn('h-4 w-4 transition-transform duration-300', isOpen && 'rotate-180')}
-          />
-        </button>
-      </div>
-
-      {hasContent && (
-        <div
-          className="grid transition-[grid-template-rows] duration-300 ease-in-out"
-          style={{ gridTemplateRows: isOpen ? '1fr' : '0fr' }}
-        >
-          {/* Espaçamento como padding interno: some junto ao recolher (sem gap fixo) */}
-          <div className="overflow-hidden">
-          <div className="flex flex-col gap-4 pt-6 sm:pt-9">
-            {texto && (
-              <p className="font-sans text-body-sm text-brand-gray-text">{texto}</p>
-            )}
-            {hasItens && (
-              <div className="flex flex-col gap-2">
-                {itens.map((item, i) => (
-                  <div key={i} className="flex w-full flex-wrap items-center gap-2">
-                    <div className="min-w-[200px] flex-1 self-stretch rounded-2xl bg-white px-4 py-4 font-sans text-sm font-semibold text-brand-purple-dark sm:text-base">
-                      {item.nome}
-                    </div>
-                    {/* Larguras fixas: dias e amostra alinham em coluna em todas as linhas */}
-                    {item.prazo && (
-                      <div className="flex w-full shrink-0 items-center justify-center self-stretch rounded-2xl bg-white px-4 py-4 text-center font-sans text-body-sm text-brand-purple-dark sm:w-[132px]">
-                        {item.prazo}
-                      </div>
-                    )}
-                    {item.amostra && (
-                      <div className="flex w-full shrink-0 items-center justify-center self-stretch rounded-2xl bg-white px-4 py-4 text-center font-sans text-body-sm text-brand-purple-dark sm:w-[220px]">
-                        {item.amostra}
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-          </div>
-        </div>
-      )}
-    </div>
-  )
-}
-
-function ExamesSkeleton() {
-  return (
-    <section className="w-full py-12 md:py-20 lg:py-24">
-      <div className="container">
-        <div className="flex flex-col gap-2">
+    <section className="relative flex min-h-[420px] w-full items-center overflow-hidden bg-muted py-16 sm:min-h-[480px] md:py-20 lg:min-h-[560px] xl:min-h-[625px]">
+      <div className="container relative z-10">
+        <div className="max-w-xl space-y-4 lg:max-w-[594px]">
           <div className="h-5 w-24 animate-pulse rounded bg-foreground/10" />
-          <div className="h-9 w-2/3 animate-pulse rounded bg-foreground/10 md:h-10" />
-          <div className="mt-2 h-5 w-full max-w-xl animate-pulse rounded bg-foreground/10" />
-        </div>
-
-        <div className="mt-8 flex flex-col gap-4 md:mt-10">
-          {Array.from({ length: 4 }).map((_, i) => (
-            <div key={i} className="flex items-center justify-between gap-4 rounded-2xl bg-brand-purple-subtle p-5 md:p-6 lg:p-8">
-              <div className="h-7 w-40 animate-pulse rounded bg-foreground/10" />
-              <div className="h-10 w-10 shrink-0 animate-pulse rounded-full bg-foreground/10" />
-            </div>
-          ))}
+          <div className="h-9 w-full animate-pulse rounded bg-foreground/10" />
+          <div className="mt-4 h-16 w-full animate-pulse rounded bg-foreground/10" />
+          <div className="mt-4 h-14 w-40 animate-pulse rounded-full bg-foreground/10" />
         </div>
       </div>
     </section>
@@ -535,7 +415,7 @@ function SobreSection({ sobre }: { sobre: HomeSobre }) {
   const [foto1, foto2, foto3] = fotos
 
   return (
-    <section className="w-full py-12 md:py-20 lg:py-24">
+    <section id="sobre" className="w-full py-12 md:py-20 lg:py-24">
       <div className="container flex flex-col gap-12 md:gap-14 lg:gap-[73px]">
         {/* Cabeçalho + fotos */}
         <div className="flex flex-col gap-8 md:gap-10 lg:gap-[49px]">
@@ -680,7 +560,7 @@ function DiferenciaisSection({ diferenciais }: { diferenciais: HomeDiferenciais 
   if (itens.length === 0) return null
 
   return (
-    <section className="relative isolate w-full">
+    <section id="diferenciais" className="relative isolate w-full">
       {/* Mobile: fundo claro, foto simples no topo e lista de cards com borda (Figma "Why-Us") */}
       <div className="bg-brand-light-purple py-12 md:hidden">
         <div className="container flex flex-col gap-8">
@@ -793,7 +673,7 @@ function EstruturaSection({ estrutura }: { estrutura: HomeEstrutura }) {
   const { eyebrow, titulo, descricao, fotos } = estrutura
 
   return (
-    <section className="w-full py-12 md:mt-[110px] md:py-20 lg:py-24">
+    <section id="estrutura" className="w-full py-12 md:mt-[110px] md:py-20 lg:py-24">
       <div className="container flex flex-col gap-6 md:gap-8 lg:gap-16">
         <div className="flex flex-col gap-2">
           <div className="flex flex-col gap-2">
@@ -890,7 +770,7 @@ function DepoimentosSection({ depoimentos }: { depoimentos: HomeDepoimentos }) {
   if (itens.length === 0) return null
 
   return (
-    <section
+    <section id="depoimentos"
       className="w-full py-12 md:py-20 lg:py-24"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}

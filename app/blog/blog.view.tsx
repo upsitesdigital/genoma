@@ -41,7 +41,7 @@ function HeroSection({ hero }: { hero: BlogHero }) {
   }
 
   return (
-    <section className="relative isolate w-full">
+    <section id="hero" className="relative isolate w-full">
       <div
         className="w-full pb-16 pt-[186px] md:pb-20 lg:pb-24 lg:pt-40"
         style={{ backgroundImage: 'linear-gradient(-20deg, #95ABB7 47%, #AEC6D3 100%)' }}
@@ -134,14 +134,14 @@ function ListaPostSection({ initial }: { initial: BlogListaPost }) {
 
   if (listaPost.posts.length === 0) {
     return (
-      <section className="container py-16 text-center font-sans text-body-sm text-brand-gray-text md:py-20">
+      <section id="posts" className="container py-16 text-center font-sans text-body-sm text-brand-gray-text md:py-20">
         Nenhum post encontrado.
       </section>
     )
   }
 
   return (
-    <section className="container py-12 md:py-20 lg:py-24">
+    <section id="posts" className="container py-12 md:py-20 lg:py-24">
       <div
         className={cn(
           'grid grid-cols-1 gap-8 transition-opacity md:grid-cols-2 lg:grid-cols-3',

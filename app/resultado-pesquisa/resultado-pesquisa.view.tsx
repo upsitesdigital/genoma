@@ -46,7 +46,7 @@ function HeroSection({ hero }: { hero: ResultadoPesquisaHero }) {
   }
 
   return (
-    <section className="relative isolate w-full">
+    <section id="hero" className="relative isolate w-full">
       <div
         className="w-full pb-16 pt-[186px] md:pb-20 lg:pb-24 lg:pt-24"
         style={{ backgroundImage: 'linear-gradient(-20deg, #95ABB7 47%, #AEC6D3 100%)' }}
@@ -123,14 +123,14 @@ function ListaResultadosSection({
 
   if (resultados.posts.length === 0) {
     return (
-      <section className="container py-16 text-center font-sans text-body-sm text-brand-gray-text md:py-20">
+      <section id="resultados" className="container py-16 text-center font-sans text-body-sm text-brand-gray-text md:py-20">
         {semResultadosTexto || 'Nenhum resultado encontrado.'}
       </section>
     )
   }
 
   return (
-    <section className="container py-12 md:py-20 lg:py-24">
+    <section id="resultados" className="container py-12 md:py-20 lg:py-24">
       <p className="mb-8 font-sans text-body text-brand-gray-text md:mb-10">
         {resultados.totalPosts} resultado{resultados.totalPosts === 1 ? '' : 's'} encontrado
         {resultados.totalPosts === 1 ? '' : 's'}

@@ -1,15 +1,17 @@
 import { useCallback, useEffect, useState } from 'react'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react'
 import { useModule } from '@/hooks/useModule'
 import { useDocumentTitle } from '@/hooks/useDocumentTitle'
 import { cn } from '@/lib/cn'
 import { boot } from '@/lib/env'
+import { VerMaisButton, VISIVEIS_INICIAL } from '@/components/shared/VerMaisButton'
 import type {
   VeterinariosData,
   VeterinariosHeroSlide,
   VeterinariosSuporte,
   VeterinariosPraticidade,
-  VeterinariosExames,
+  VeterinariosTiposExames,
+  VeterinariosExameCategoria,
   VeterinariosEstrutura,
   VeterinariosBeneficios,
 } from './veterinarios.schema'
@@ -33,7 +35,7 @@ export default function VeterinariosView() {
       <HeroCarousel hero={data.hero} />
       <SuporteSection suporte={data.suporte} />
       <PraticidadeSection praticidade={data.praticidade} />
-      <ExamesSection exames={data.exames} />
+      <TiposExamesSection tiposExames={data.tiposExames} />
       <EstruturaSection estrutura={data.estrutura} />
       <BeneficiosSection beneficios={data.beneficios} />
     </main>
@@ -64,7 +66,7 @@ function HeroCarousel({ hero }: { hero: VeterinariosData['hero'] }) {
   const waveUrl = `${boot.themeUrl}/app/veterinarios/assets/hero-bottom-wave.svg`
 
   return (
-    <section
+    <section id="hero"
       className="relative isolate flex min-h-[620px] w-full items-center bg-gradient-to-br from-[#95ABB7] to-[#AEC6D3] py-20 sm:min-h-[680px] md:py-24 lg:min-h-[720px] xl:min-h-[797px] xl:py-0"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
@@ -209,7 +211,7 @@ function SuporteSection({ suporte }: { suporte: VeterinariosSuporte }) {
   const { eyebrow, titulo, texto, quote, imagem1, imagem2 } = suporte
 
   return (
-    <section className="bg-background pb-6 pt-12 md:pb-10 md:pt-20 lg:pb-12 lg:pt-24 xl:pb-14 xl:pt-28">
+    <section id="suporte" className="bg-background pb-6 pt-12 md:pb-10 md:pt-20 lg:pb-12 lg:pt-24 xl:pb-14 xl:pt-28">
       <div className="container">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_351px] lg:gap-16 xl:gap-24">
           <div>
@@ -298,7 +300,7 @@ function PraticidadeSection({ praticidade }: { praticidade: VeterinariosPraticid
   const { eyebrow, titulo, texto, icone, horarios, imagem } = praticidade
 
   return (
-    <section className="bg-background py-12 md:py-20 lg:py-24 xl:py-28">
+    <section id="praticidade" className="bg-background py-12 md:py-20 lg:py-24 xl:py-28">
       <div className="container">
         <div className="relative overflow-hidden rounded-2xl bg-brand-purple">
           {/* Painel decorativo mais escuro atrás da imagem (apenas telas maiores) */}
@@ -378,66 +380,146 @@ function PraticidadeSkeleton() {
   )
 }
 
-// ─── Exames ─────────────────────────────────────────────────────────────────
+// ─── Exames (acordeão) ──────────────────────────────────────────────────────
 
-function ExamesSection({ exames }: { exames: VeterinariosExames }) {
-  const { eyebrow, titulo, texto, cta, imagem } = exames
+function TiposExamesSection({ tiposExames }: { tiposExames: VeterinariosTiposExames }) {
+  const { eyebrow, titulo, descricao, categorias, cta } = tiposExames
+  const [openIndex, setOpenIndex] = useState<number | null>(null)
+  const [expanded, setExpanded] = useState(false)
+
+  if (categorias.length === 0) return null
+
+  const hasMore = categorias.length > VISIVEIS_INICIAL
+  const visiveis = expanded ? categorias : categorias.slice(0, VISIVEIS_INICIAL)
 
   return (
-    <section className="relative isolate flex min-h-[420px] w-full items-center overflow-hidden bg-[#859CA9] py-16 sm:min-h-[480px] md:py-20 lg:min-h-[560px] xl:min-h-[625px] xl:py-0">
-      {/* Imagem de fundo + gradientes de legibilidade */}
-      <div className="absolute inset-0 lg:inset-y-0 lg:left-[43%] lg:right-0">
-        {imagem && (
-          <img
-            src={imagem.src}
-            alt={imagem.alt}
-            className="h-full w-full object-cover object-[70%_30%] lg:object-[center_25%]"
-          />
-        )}
-
-        {/* Scrim para legibilidade do texto em telas menores (imagem ocupa toda a largura) */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#433292]/70 via-[#433292]/35 to-[#433292]/0 lg:hidden" />
-
-        {/* Fade que funde a borda esquerda da imagem ao fundo (mask do Figma) */}
-        <div className="pointer-events-none absolute inset-y-0 left-0 hidden w-1/3 bg-gradient-to-r from-[#859CA9] via-[#859CA9]/70 to-transparent lg:block" />
-      </div>
-
-      <div className="container relative z-10">
-        <div className="flex max-w-xl flex-col gap-6 lg:max-w-[594px] lg:gap-8">
+    <section id="tipos-de-exames" className="w-full py-12 md:py-20 lg:py-24">
+      <div className="container">
+        <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
-            {eyebrow && <p className="font-sans text-body text-white">{eyebrow}</p>}
-            {titulo && <h2 className="font-heading text-h3 text-white md:text-h2">{titulo}</h2>}
+            {eyebrow && (
+              <span className="font-sans text-eyebrow uppercase text-brand-purple-accent">{eyebrow}</span>
+            )}
+            <h2 className="max-w-xl font-heading text-h2-mobile text-brand-purple-dark md:max-w-2xl md:text-h2">
+              {titulo}
+            </h2>
           </div>
-
-          {texto && (
-            <p className="max-w-[560px] font-sans text-body leading-relaxed text-white/80">
-              {texto}
+          {descricao && (
+            <p className="max-w-xl font-sans text-body-sm text-brand-gray-text md:max-w-2xl md:text-base">
+              {descricao}
             </p>
           )}
-
-          {cta.texto && (
-            <a
-              href={cta.link || '#'}
-              className="inline-flex w-full items-center justify-center rounded-full bg-white px-7 py-5 font-heading text-h4 lg:w-fit leading-none text-primary transition-colors hover:bg-primary hover:text-white"
-            >
-              {cta.texto}
-            </a>
-          )}
         </div>
+
+        <div className="mt-8 flex flex-col gap-4 md:mt-10">
+          {visiveis.map((categoria, i) => (
+            <ExameCategoriaAccordion
+              key={i}
+              categoria={categoria}
+              isOpen={openIndex === i}
+              onToggle={() => setOpenIndex((prev) => (prev === i ? null : i))}
+            />
+          ))}
+        </div>
+
+        <VerMaisButton hasMore={hasMore} expanded={expanded} onToggle={() => setExpanded((v) => !v)} cta={cta} />
       </div>
     </section>
   )
 }
 
-function ExamesSkeleton() {
+function ExameCategoriaAccordion({
+  categoria,
+  isOpen,
+  onToggle,
+}: {
+  categoria: VeterinariosExameCategoria
+  isOpen: boolean
+  onToggle: () => void
+}) {
+  const { titulo, texto, itens } = categoria
+  const hasItens = itens.length > 0
+  const hasContent = hasItens || !!texto
+
   return (
-    <section className="relative flex min-h-[420px] w-full items-center overflow-hidden bg-muted py-16 sm:min-h-[480px] md:py-20 lg:min-h-[560px] xl:min-h-[625px]">
-      <div className="container relative z-10">
-        <div className="max-w-xl space-y-4 lg:max-w-[594px]">
+    <div className="flex flex-col rounded-2xl bg-brand-purple-subtle p-5 md:p-6 lg:p-8">
+      <div className="flex w-full items-center justify-between gap-4">
+        <h3 className="font-heading text-h5 font-medium text-brand-purple-dark md:text-h4">
+          {titulo}
+        </h3>
+
+        <button
+          type="button"
+          onClick={onToggle}
+          disabled={!hasContent}
+          aria-expanded={isOpen}
+          aria-label={isOpen ? `Recolher ${titulo}` : `Expandir ${titulo}`}
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-purple text-white transition-opacity disabled:opacity-40 sm:h-[46px] sm:w-[46px]"
+        >
+          <ChevronDown
+            className={cn('h-4 w-4 transition-transform duration-300', isOpen && 'rotate-180')}
+          />
+        </button>
+      </div>
+
+      {hasContent && (
+        <div
+          className="grid transition-[grid-template-rows] duration-300 ease-in-out"
+          style={{ gridTemplateRows: isOpen ? '1fr' : '0fr' }}
+        >
+          {/* Espaçamento como padding interno: some junto ao recolher (sem gap fixo) */}
+          <div className="overflow-hidden">
+          <div className="flex flex-col gap-4 pt-6 sm:pt-9">
+            {texto && (
+              <p className="font-sans text-body-sm text-brand-gray-text">{texto}</p>
+            )}
+            {hasItens && (
+              <div className="flex flex-col gap-2">
+                {itens.map((item, i) => (
+                  <div key={i} className="flex w-full flex-wrap items-center gap-2">
+                    <div className="min-w-[200px] flex-1 self-stretch rounded-2xl bg-white px-4 py-4 font-sans text-sm font-semibold text-brand-purple-dark sm:text-base">
+                      {item.nome}
+                    </div>
+                    {/* Larguras fixas: dias e amostra alinham em coluna em todas as linhas */}
+                    {item.prazo && (
+                      <div className="flex w-full shrink-0 items-center justify-center self-stretch rounded-2xl bg-white px-4 py-4 text-center font-sans text-body-sm text-brand-purple-dark sm:w-[132px]">
+                        {item.prazo}
+                      </div>
+                    )}
+                    {item.amostra && (
+                      <div className="flex w-full shrink-0 items-center justify-center self-stretch rounded-2xl bg-white px-4 py-4 text-center font-sans text-body-sm text-brand-purple-dark sm:w-[220px]">
+                        {item.amostra}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+function TiposExamesSkeleton() {
+  return (
+    <section className="w-full py-12 md:py-20 lg:py-24">
+      <div className="container">
+        <div className="flex flex-col gap-2">
           <div className="h-5 w-24 animate-pulse rounded bg-foreground/10" />
-          <div className="h-9 w-full animate-pulse rounded bg-foreground/10" />
-          <div className="mt-4 h-16 w-full animate-pulse rounded bg-foreground/10" />
-          <div className="mt-4 h-14 w-40 animate-pulse rounded-full bg-foreground/10" />
+          <div className="h-9 w-2/3 animate-pulse rounded bg-foreground/10 md:h-10" />
+          <div className="mt-2 h-5 w-full max-w-xl animate-pulse rounded bg-foreground/10" />
+        </div>
+
+        <div className="mt-8 flex flex-col gap-4 md:mt-10">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className="flex items-center justify-between gap-4 rounded-2xl bg-brand-purple-subtle p-5 md:p-6 lg:p-8">
+              <div className="h-7 w-40 animate-pulse rounded bg-foreground/10" />
+              <div className="h-10 w-10 shrink-0 animate-pulse rounded-full bg-foreground/10" />
+            </div>
+          ))}
         </div>
       </div>
     </section>
@@ -450,7 +532,7 @@ function EstruturaSection({ estrutura }: { estrutura: VeterinariosEstrutura }) {
   const { eyebrow, titulo, texto, destaque, imagem1, imagem2, contatos } = estrutura
 
   return (
-    <section className="bg-background pb-6 pt-12 md:pb-10 md:pt-20 lg:pb-12 lg:pt-24 xl:pb-14 xl:pt-28">
+    <section id="estrutura" className="bg-background pb-6 pt-12 md:pb-10 md:pt-20 lg:pb-12 lg:pt-24 xl:pb-14 xl:pt-28">
       <div className="container">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between lg:gap-10">
           <div className="flex flex-col gap-6 lg:gap-8">
@@ -553,7 +635,7 @@ function BeneficiosSection({ beneficios }: { beneficios: VeterinariosBeneficios 
   const { eyebrow, titulo, texto, itens } = beneficios
 
   return (
-    <section className="bg-background py-12 md:py-20 lg:py-24 xl:py-28">
+    <section id="beneficios" className="bg-background py-12 md:py-20 lg:py-24 xl:py-28">
       <div className="container">
         <div className="flex flex-col gap-2">
           {eyebrow && <p className="font-sans text-eyebrow uppercase text-brand-purple-accent">{eyebrow}</p>}
@@ -635,7 +717,7 @@ function VeterinariosSkeleton() {
 
       <SuporteSkeleton />
       <PraticidadeSkeleton />
-      <ExamesSkeleton />
+      <TiposExamesSkeleton />
       <EstruturaSkeleton />
       <BeneficiosSkeleton />
     </main>

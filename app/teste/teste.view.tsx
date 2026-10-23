@@ -30,7 +30,7 @@ export default function TesteView() {
     <div className="min-h-screen">
       {/* Banner / Hero */}
       {data.exibir_banner && (
-        <section className={`bg-gradient-to-br ${gradiente} text-white py-20`}>
+        <section id="hero" className={`bg-gradient-to-br ${gradiente} text-white py-20`}>
           <div className="container max-w-4xl mx-auto px-4 text-center">
             {data.imagem && (
               <img
@@ -66,7 +66,7 @@ export default function TesteView() {
 
       {/* Cards */}
       {data.cards.length > 0 && (
-        <section className="container max-w-5xl mx-auto px-4 py-16">
+        <section id="recursos" className="container max-w-5xl mx-auto px-4 py-16">
           <h2 className="text-2xl font-bold text-center mb-10 text-foreground">
             Recursos
           </h2>
@@ -90,7 +90,7 @@ export default function TesteView() {
       )}
 
       {/* Debug: dados brutos */}
-      <section className="container max-w-5xl mx-auto px-4 pb-16">
+      <section id="debug" className="container max-w-5xl mx-auto px-4 pb-16">
         <details className="rounded-xl border bg-muted/40 p-4">
           <summary className="cursor-pointer text-sm font-medium text-muted-foreground select-none">
             Dados brutos da API (debug)

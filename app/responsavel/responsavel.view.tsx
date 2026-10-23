@@ -66,7 +66,7 @@ function HeroCarousel({ hero }: { hero: ResponsavelData['hero'] }) {
   const waveUrl = `${boot.themeUrl}/app/responsavel/assets/hero-bottom-wave.svg`
 
   return (
-    <section
+    <section id="hero"
       className="relative isolate flex min-h-[842px] w-full items-center bg-gradient-to-br from-[#95ABB7] to-[#AEC6D3] py-20 md:py-24 lg:min-h-[720px] xl:min-h-[797px] xl:py-0"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
@@ -238,7 +238,7 @@ function SuporteSection({ suporte }: { suporte: ResponsavelSuporte }) {
   const { eyebrow, titulo, texto, quote, imagem1, imagem2 } = suporte
 
   return (
-    <section className="bg-background py-12 md:py-20 lg:py-24 xl:py-28">
+    <section id="suporte" className="bg-background py-12 md:py-20 lg:py-24 xl:py-28">
       <div className="container">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_351px] lg:gap-16 xl:gap-24">
           <div>
@@ -329,7 +329,7 @@ function PlanosSection({ planos }: { planos: ResponsavelPlanos }) {
   if (!eyebrow && !titulo && logos.length === 0) return null
 
   return (
-    <section className="bg-background pb-12 md:pb-20 lg:pb-24 xl:pb-28">
+    <section id="planos" className="bg-background pb-12 md:pb-20 lg:pb-24 xl:pb-28">
       <div className="container">
         {(eyebrow || titulo) && (
           <div className="max-w-[572px]">
@@ -392,7 +392,7 @@ function ExamesSection({ exames }: { exames: ResponsavelExames }) {
   const { eyebrow, titulo, texto, itens, rodape, imagem } = exames
 
   return (
-    <section className="relative isolate overflow-hidden bg-brand-purple-dark py-16 md:py-20 lg:min-h-[560px] lg:py-24 xl:min-h-[667px] xl:py-28">
+    <section id="exames" className="relative isolate overflow-hidden bg-brand-purple-dark py-16 md:py-20 lg:min-h-[560px] lg:py-24 xl:min-h-[667px] xl:py-28">
       {/* Imagem de fundo */}
       {imagem && (
         <img
@@ -500,7 +500,7 @@ function ServicosSection({ servicos }: { servicos: ResponsavelServicos }) {
   const toggle = (i: number) => setOpenState((prev) => prev.map((v, idx) => (idx === i ? !v : v)))
 
   return (
-    <section className="bg-background py-12 md:py-20 lg:py-24 xl:py-28">
+    <section id="tipos-de-exames" className="bg-background py-12 md:py-20 lg:py-24 xl:py-28">
       <div className="container">
         <div className="max-w-[571px]">
           {eyebrow && (
@@ -630,7 +630,7 @@ function ResultadosSection({ resultados }: { resultados: ResponsavelResultados }
   if (!eyebrow && !titulo && !texto) return null
 
   return (
-    <section className="border-b border-[rgba(41,19,154,0.2)] bg-background py-12 md:py-20 lg:py-24 xl:py-28">
+    <section id="resultados" className="border-b border-[rgba(41,19,154,0.2)] bg-background py-12 md:py-20 lg:py-24 xl:py-28">
       <div className="container">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_508px] lg:gap-16 xl:gap-24">
           <div>
@@ -695,7 +695,7 @@ function BeneficiosSection({ beneficios }: { beneficios: ResponsavelBeneficios }
   if (!eyebrow && !titulo && itens.length === 0) return null
 
   return (
-    <section className="bg-background py-12 md:py-20 lg:py-24 xl:py-28">
+    <section id="beneficios" className="bg-background py-12 md:py-20 lg:py-24 xl:py-28">
       <div className="container">
         <div className="flex flex-col gap-2">
           {eyebrow && <p className="font-sans text-eyebrow uppercase text-brand-purple-accent">{eyebrow}</p>}
