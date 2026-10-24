@@ -90,6 +90,16 @@
   * {
     @apply border-border;
   }
+  html {
+    scroll-behavior: smooth;
+    /* Âncoras (#id) param abaixo do header fixo: 93px no mobile, 84px no desktop */
+    scroll-padding-top: 93px;
+  }
+  @media (min-width: 1024px) {
+    html {
+      scroll-padding-top: 84px;
+    }
+  }
   body {
     @apply bg-background text-foreground font-sans;
   }
