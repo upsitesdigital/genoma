@@ -205,7 +205,7 @@ export default function Header() {
       {mobileOpen && (
         // Ocupa o restante da tela abaixo do header (min-h 93px); dvh desconta a barra do navegador mobile
         <div className="lg:hidden h-[calc(100vh-93px)] overflow-y-auto border-t border-white/15 bg-primary supports-[height:100dvh]:h-[calc(100dvh-93px)]">
-          <nav className="container flex flex-col py-4 gap-1">
+          <nav className="container flex min-h-full flex-col py-4 gap-1">
             {items.map((item) => (
               <div key={item.id}>
                 {item.children.length > 0 ? (
@@ -246,8 +246,8 @@ export default function Header() {
               </div>
             ))}
 
-            {/* CTAs mobile/tablet */}
-            <div className="flex flex-col gap-2 mt-3">
+            {/* CTAs mobile/tablet: fixados na base do menu (mt-auto) */}
+            <div className="mt-auto flex flex-col gap-2 pt-8 pb-4">
               <CtaLink label={ctaPrimaryLabel} url={ctaPrimaryUrl} variant="primary" />
               <CtaLink label={ctaSecondaryLabel} url={ctaSecondaryUrl} variant="secondary" />
             </div>

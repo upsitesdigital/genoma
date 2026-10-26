@@ -68,7 +68,7 @@ class ThemeOptions
             'footer_privacy_label'       => sanitize_text_field($input['footer_privacy_label'] ?? ''),
             'footer_privacy_url'         => esc_url_raw($input['footer_privacy_url'] ?? ''),
             'footer_credits_text'        => sanitize_text_field($input['footer_credits_text'] ?? ''),
-            'footer_tagline'             => sanitize_text_field($input['footer_tagline'] ?? ''),
+            'footer_tagline'             => sanitize_textarea_field($input['footer_tagline'] ?? ''),
             'footer_email'               => sanitize_email($input['footer_email'] ?? ''),
             'footer_phone'               => sanitize_text_field($input['footer_phone'] ?? ''),
             'footer_rights_text'         => sanitize_text_field($input['footer_rights_text'] ?? ''),
@@ -325,15 +325,14 @@ class ThemeOptions
                             <tr>
                                 <th scope="row"><label for="footer_tagline">Rodapé — Frase abaixo do logo</label></th>
                                 <td>
-                                    <input
-                                        type="text"
+                                    <textarea
                                         id="footer_tagline"
                                         name="<?= self::OPTION_KEY ?>[footer_tagline]"
-                                        value="<?= esc_attr($footerTagline) ?>"
                                         class="large-text"
+                                        rows="3"
                                         placeholder="Diagnóstico Veterinário com Precisão, Agilidade e Confiança."
-                                    >
-                                    <p class="description">Exibida no rodapé mobile.</p>
+                                    ><?= esc_textarea($footerTagline) ?></textarea>
+                                    <p class="description">Exibida no rodapé mobile. Aceita quebra de linha.</p>
                                 </td>
                             </tr>
                             <tr>

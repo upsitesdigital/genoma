@@ -224,7 +224,7 @@ export default function Footer() {
         </a>
 
         {/* Mobile/tablet: frase + contatos no lugar do menu e do botão Contato */}
-        <p className="text-center font-sans text-[13px] leading-[1.5] text-brand-gray-border lg:hidden">{tagline}</p>
+        <p className="text-center font-sans text-[13px] leading-[1.5] text-brand-gray-border whitespace-pre-line lg:hidden">{tagline}</p>
 
         {(email || phone) && (
           <div className="flex flex-col items-center gap-3 font-sans text-xs leading-[1.5] text-white lg:hidden">

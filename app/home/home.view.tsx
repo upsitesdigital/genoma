@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useModule } from '@/hooks/useModule'
 import { useDocumentTitle } from '@/hooks/useDocumentTitle'
+import { useSwipe } from '@/hooks/useSwipe'
 import { cn } from '@/lib/cn'
 import { boot } from '@/lib/env'
 import { VerMaisButton, VISIVEIS_INICIAL } from '@/components/shared/VerMaisButton'
@@ -59,6 +60,7 @@ function HeroCarousel({ hero }: { hero: HomeData['hero'] }) {
   const goTo = useCallback((i: number) => setIndex(((i % total) + total) % total), [total])
   const next = useCallback(() => goTo(index + 1), [goTo, index])
   const prev = useCallback(() => goTo(index - 1), [goTo, index])
+  const swipe = useSwipe({ onNext: next, onPrev: prev })
 
   useEffect(() => {
     if (!autoplay || paused || total <= 1) return
@@ -78,6 +80,7 @@ function HeroCarousel({ hero }: { hero: HomeData['hero'] }) {
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       aria-roledescription="carousel"
+      {...swipe}
     >
       {/* Slides (imagem de fundo + overlay) */}
       {slides.map((slide, i) => (
@@ -434,21 +437,21 @@ function SobreSection({ sobre }: { sobre: HomeSobre }) {
                 <img
                   src={foto1.src}
                   alt={foto1.alt}
-                  className="h-64 w-full rounded-2xl object-cover sm:h-72 sm:flex-1 md:h-80 lg:h-[389px]"
+                  className="h-64 w-full min-w-0 rounded-2xl object-cover sm:h-72 sm:flex-1 md:h-80 lg:h-[389px]"
                 />
               )}
               {foto2 && (
                 <img
                   src={foto2.src}
                   alt={foto2.alt}
-                  className="h-64 w-full rounded-2xl object-cover sm:h-72 sm:flex-1 md:h-80 lg:h-[389px]"
+                  className="h-64 w-full min-w-0 rounded-2xl object-cover sm:h-72 sm:flex-1 md:h-80 lg:h-[389px]"
                 />
               )}
               {foto3 && (
                 <img
                   src={foto3.src}
                   alt={foto3.alt}
-                  className="h-64 w-full rounded-2xl object-cover sm:h-72 sm:flex-[1.8] md:h-80 lg:h-[389px]"
+                  className="h-64 w-full min-w-0 rounded-2xl object-cover sm:h-72 sm:flex-[1.8] md:h-80 lg:h-[389px]"
                 />
               )}
               <img
@@ -623,7 +626,7 @@ function DiferencialItemCard({ item }: { item: HomeDiferenciaisItem }) {
         <img src={item.icone.src} alt={item.icone.alt} className="h-[52px] w-[52px]" />
       )}
       {item.titulo && (
-        <p className="max-w-[198px] font-sans text-body-lg text-brand-purple-dark">{item.titulo}</p>
+        <p className="max-w-[198px] whitespace-pre-line font-sans text-body-lg text-brand-purple-dark">{item.titulo}</p>
       )}
     </div>
   )
@@ -638,7 +641,7 @@ function DiferencialItemCardMobile({ item }: { item: HomeDiferenciaisItem }) {
         </span>
       )}
       {item.titulo && (
-        <p className="font-heading text-base font-medium leading-snug text-brand-purple-dark">
+        <p className="whitespace-pre-line font-heading text-base font-medium leading-snug text-brand-purple-dark">
           {item.titulo}
         </p>
       )}

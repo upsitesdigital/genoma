@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react'
 import { useModule } from '@/hooks/useModule'
 import { useDocumentTitle } from '@/hooks/useDocumentTitle'
+import { useSwipe } from '@/hooks/useSwipe'
 import { cn } from '@/lib/cn'
 import { boot } from '@/lib/env'
 import { VerMaisButton, VISIVEIS_INICIAL } from '@/components/shared/VerMaisButton'
@@ -54,6 +55,7 @@ function HeroCarousel({ hero }: { hero: VeterinariosData['hero'] }) {
   const goTo = useCallback((i: number) => setIndex(((i % total) + total) % total), [total])
   const next = useCallback(() => goTo(index + 1), [goTo, index])
   const prev = useCallback(() => goTo(index - 1), [goTo, index])
+  const swipe = useSwipe({ onNext: next, onPrev: prev })
 
   useEffect(() => {
     if (!autoplay || paused || total <= 1) return
@@ -71,6 +73,7 @@ function HeroCarousel({ hero }: { hero: VeterinariosData['hero'] }) {
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       aria-roledescription="carousel"
+      {...swipe}
     >
       {/* Slides */}
       {slides.map((slide, i) => (
