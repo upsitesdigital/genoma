@@ -379,7 +379,7 @@ final class ResponsavelModule extends Module
                 ],
                 [
                     'key'          => 'field_responsavel_servicos_categorias',
-                    'instructions' => 'Cada linha é uma categoria que abre e fecha ao clicar, com a tabela de exames.',
+                    'instructions' => 'Cada linha é uma categoria que abre e fecha ao clicar, com a tabela de exames. Aparecem 3; com mais, surge o botão "Ver mais".',
                     'name'         => 'servicos_categorias',
                     'label'        => 'Serviços — Categorias de Exames',
                     'type'         => 'repeater',

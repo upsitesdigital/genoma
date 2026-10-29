@@ -5,6 +5,7 @@ import { useDocumentTitle } from '@/hooks/useDocumentTitle'
 import { useSwipe } from '@/hooks/useSwipe'
 import { cn } from '@/lib/cn'
 import { boot } from '@/lib/env'
+import { VerMaisButton, VISIVEIS_INICIAL } from '@/components/shared/VerMaisButton'
 import type {
   ResponsavelData,
   ResponsavelHeroSlide,
@@ -497,8 +498,12 @@ function ServicosSection({ servicos }: { servicos: ResponsavelServicos }) {
   const { eyebrow, titulo, texto, categorias } = servicos
 
   const [openState, setOpenState] = useState<boolean[]>(() => categorias.map((c) => c.aberto))
+  const [expanded, setExpanded] = useState(false)
 
   if (!eyebrow && !titulo && categorias.length === 0) return null
+
+  const hasMore = categorias.length > VISIVEIS_INICIAL
+  const visiveis = expanded ? categorias : categorias.slice(0, VISIVEIS_INICIAL)
 
   const toggle = (i: number) => setOpenState((prev) => prev.map((v, idx) => (idx === i ? !v : v)))
 
@@ -529,7 +534,7 @@ function ServicosSection({ servicos }: { servicos: ResponsavelServicos }) {
 
         {categorias.length > 0 && (
           <div className="mt-8 flex flex-col gap-4 md:mt-10">
-            {categorias.map((categoria, i) => {
+            {visiveis.map((categoria, i) => {
               const isOpen = Boolean(openState[i])
               const hasContent = Boolean(categoria.descricao) || categoria.exames.length > 0
 
@@ -598,6 +603,13 @@ function ServicosSection({ servicos }: { servicos: ResponsavelServicos }) {
             })}
           </div>
         )}
+
+        <VerMaisButton
+          hasMore={hasMore}
+          expanded={expanded}
+          onToggle={() => setExpanded((v) => !v)}
+          cta={{ texto: '', link: '' }}
+        />
       </div>
     </section>
   )
