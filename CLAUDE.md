@@ -29,7 +29,7 @@ UpWork/
 │   ├── components/
 │   │   ├── layout/    # Header, Footer, Layout
 │   │   └── shared/    # DynamicForm, ErrorBoundary
-│   ├── hooks/         # useModule, useDocumentTitle
+│   ├── hooks/         # useModule
 │   └── lib/           # api.ts, cn.ts, env.ts
 ├── bin/               ← CLI scripts
 │   ├── make-module.php   # scaffold de módulo

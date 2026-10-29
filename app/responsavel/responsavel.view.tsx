@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react'
 import { useModule } from '@/hooks/useModule'
-import { useDocumentTitle } from '@/hooks/useDocumentTitle'
 import { useSwipe } from '@/hooks/useSwipe'
 import { cn } from '@/lib/cn'
 import { boot } from '@/lib/env'
@@ -19,7 +18,6 @@ import type {
 
 export default function ResponsavelView() {
   const { data, isLoading, error } = useModule<ResponsavelData>('responsavel')
-  useDocumentTitle(data?.hero.slides[0]?.titulo.replace(/\n/g, ' ') ?? 'Responsável')
 
   if (isLoading) return <ResponsavelSkeleton />
 

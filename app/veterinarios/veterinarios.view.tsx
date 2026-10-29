@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react'
 import { useModule } from '@/hooks/useModule'
-import { useDocumentTitle } from '@/hooks/useDocumentTitle'
 import { useSwipe } from '@/hooks/useSwipe'
 import { cn } from '@/lib/cn'
 import { boot } from '@/lib/env'
@@ -19,7 +18,6 @@ import type {
 
 export default function VeterinariosView() {
   const { data, isLoading, error } = useModule<VeterinariosData>('veterinarios')
-  useDocumentTitle(data?.hero.slides[0]?.titulo.replace(/\n/g, ' ') ?? 'Veterinários')
 
   if (isLoading) return <VeterinariosSkeleton />
 

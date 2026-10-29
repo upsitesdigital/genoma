@@ -1,11 +1,9 @@
 import { Mail, Linkedin, Facebook, MessageCircle } from 'lucide-react'
 import { useModule } from '@/hooks/useModule'
-import { useDocumentTitle } from '@/hooks/useDocumentTitle'
 import type { SinglePostData, SinglePostHero, SinglePostRelacionado } from './single-post.schema'
 
 export default function SinglePostView() {
   const { data, isLoading, error } = useModule<SinglePostData>('single-post')
-  useDocumentTitle(data?.hero.titulo ?? 'Single Post')
 
   if (isLoading) return <SinglePostSkeleton />
 

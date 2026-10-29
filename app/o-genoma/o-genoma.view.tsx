@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useModule } from '@/hooks/useModule'
-import { useDocumentTitle } from '@/hooks/useDocumentTitle'
 import { useSwipe } from '@/hooks/useSwipe'
 import { cn } from '@/lib/cn'
 import type {
@@ -14,7 +13,6 @@ import type {
 
 export default function OGenomaView() {
   const { data, isLoading, error } = useModule<OGenomaData>('o-genoma')
-  useDocumentTitle(data?.hero.slides[0]?.titulo.replace(/\n/g, ' ') ?? 'O Genoma')
 
   if (isLoading) return <OGenomaSkeleton />
 

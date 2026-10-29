@@ -69,7 +69,7 @@ UpWork/
 │   ├── components/
 │   │   ├── layout/             # Header, Footer, Layout
 │   │   └── shared/             # DynamicForm, ErrorBoundary
-│   ├── hooks/                  # useModule, useDocumentTitle
+│   ├── hooks/                  # useModule
 │   └── lib/                    # api.ts, cn.ts, env.ts
 ├── bin/                        ← CLI scripts
 │   ├── make-module.php         # Scaffold de módulo
@@ -231,12 +231,10 @@ export interface QuemSomosData {
 
 ```tsx
 import { useModule } from '@/hooks/useModule'
-import { useDocumentTitle } from '@/hooks/useDocumentTitle'
 import type { QuemSomosData } from './quem-somos.schema'
 
 export default function QuemSomosView() {
   const { data, isLoading, error } = useModule<QuemSomosData>('quem-somos')
-  useDocumentTitle(data?.titulo ?? 'Quem Somos')
 
   if (isLoading) return <Skeleton />
   if (error || !data) return (

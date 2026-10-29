@@ -1,10 +1,8 @@
 import { useModule } from '@/hooks/useModule'
-import { useDocumentTitle } from '@/hooks/useDocumentTitle'
 import type { PaginaPadraoData } from './pagina-padrao.schema'
 
 export default function PaginaPadraoView() {
   const { data, isLoading, error } = useModule<PaginaPadraoData>('pagina-padrao')
-  useDocumentTitle(data?.titulo ?? 'Página')
 
   if (isLoading) return <PaginaPadraoSkeleton />
 

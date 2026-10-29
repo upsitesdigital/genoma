@@ -1,10 +1,8 @@
 import { useModule } from '@/hooks/useModule'
-import { useDocumentTitle } from '@/hooks/useDocumentTitle'
 import type { ContatoData, ContatoHeroCanal, ContatoListaCard } from './contato.schema'
 
 export default function ContatoView() {
   const { data, isLoading, error } = useModule<ContatoData>('contato')
-  useDocumentTitle(data?.hero.titulo ?? 'Contato')
 
   if (isLoading) return <ContatoSkeleton />
 

@@ -59,7 +59,7 @@ upwork/
 │   ├── app.tsx                 # entry point React
 │   ├── module-registry.ts      # slug → view (gerado automaticamente)
 │   ├── components/layout/      # Header, Footer, Layout
-│   ├── hooks/                  # useModule, useScrollReveal, useDocumentTitle...
+│   ├── hooks/                  # useModule, useScrollReveal...
 │   ├── lib/                    # api, env (FW_BOOT), preload, cn
 │   └── styles/globals.css
 ├── public/build/               # saída do Vite (gerada, fora do git)

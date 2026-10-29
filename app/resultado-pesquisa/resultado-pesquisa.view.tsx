@@ -1,7 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import { useQuery, keepPreviousData } from '@tanstack/react-query'
 import { useModule } from '@/hooks/useModule'
-import { useDocumentTitle } from '@/hooks/useDocumentTitle'
 import { cn } from '@/lib/cn'
 import { api } from '@/lib/api'
 import { boot } from '@/lib/env'
@@ -14,7 +13,6 @@ import type {
 
 export default function ResultadoPesquisaView() {
   const { data, isLoading, error } = useModule<ResultadoPesquisaData>('resultado-pesquisa')
-  useDocumentTitle(data ? `Busca: ${data.hero.termo}` : 'Resultado da pesquisa')
 
   if (isLoading) return <ResultadoPesquisaSkeleton />
 

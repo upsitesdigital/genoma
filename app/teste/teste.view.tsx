@@ -1,5 +1,4 @@
 import { useModule } from '@/hooks/useModule'
-import { useDocumentTitle } from '@/hooks/useDocumentTitle'
 import type { TesteData } from './teste.schema'
 
 const corMap = {
@@ -12,7 +11,6 @@ const corMap = {
 export default function TesteView() {
   const { data, isLoading, error } = useModule<TesteData>('teste')
 
-  useDocumentTitle(data?.titulo ?? 'Teste')
 
   if (isLoading) return <TesteSkeleton />
 

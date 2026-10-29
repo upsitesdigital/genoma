@@ -117,14 +117,12 @@ export interface {Pascal}Data {
 
 ```tsx
 import { useModule } from '@/hooks/useModule'
-import { useDocumentTitle } from '@/hooks/useDocumentTitle'
 import { cn } from '@/lib/cn'
 import { boot } from '@/lib/env'
 import type { {Pascal}Data } from './{slug}.schema'
 
 export default function {Pascal}View() {
   const { data, isLoading, error } = useModule<{Pascal}Data>('{slug}')
-  useDocumentTitle(data?.titulo ?? '{Nome}')
 
   if (isLoading) return <{Pascal}Skeleton />
   if (error || !data) return (
@@ -141,7 +139,6 @@ function {Pascal}Skeleton() {
 
 **Imports disponíveis:**
 - `@/hooks/useModule` — busca dados do módulo
-- `@/hooks/useDocumentTitle` — atualiza `<title>`
 - `@/lib/cn` — merge de classes Tailwind
 - `@/lib/api` — `api<T>(path)` para endpoints customizados
 - `@/lib/env` — `boot` (window.FW_BOOT: apiBase, themeUrl, nonce, currentRoute)
