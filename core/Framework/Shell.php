@@ -14,20 +14,6 @@ class Shell
      */
     public static function render(?array $route): void
     {
-        $seoTitle       = wp_get_document_title();
-        $seoDescription = get_bloginfo('description');
-        $seoImage       = '';
-        $queriedId      = get_queried_object_id();
-
-        if ($queriedId) {
-            $excerpt = get_the_excerpt($queriedId);
-            if ($excerpt) $seoDescription = wp_strip_all_tags($excerpt);
-
-            if (has_post_thumbnail($queriedId)) {
-                $seoImage = (string) get_the_post_thumbnail_url($queriedId, 'large');
-            }
-        }
-
         $bootData = [
             'apiBase'      => rest_url('framework/v1'),
             'wpApiBase'    => rest_url('wp/v2'),
@@ -55,19 +41,7 @@ class Shell
     <meta charset="<?php bloginfo('charset'); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title><?= esc_html($seoTitle) ?></title>
-    <meta name="description" content="<?= esc_attr($seoDescription) ?>">
-
-    <meta property="og:type"        content="website">
-    <meta property="og:title"       content="<?= esc_attr($seoTitle) ?>">
-    <meta property="og:description" content="<?= esc_attr($seoDescription) ?>">
-    <meta property="og:url"         content="<?= esc_url(home_url(add_query_arg([]))) ?>">
-    <?php if ($seoImage): ?>
-    <meta property="og:image"       content="<?= esc_url($seoImage) ?>">
-    <meta name="twitter:card"       content="summary_large_image">
-    <meta name="twitter:image"      content="<?= esc_url($seoImage) ?>">
-    <?php endif; ?>
-
+    <?php // <title>, description, Open Graph etc. ficam a cargo do Yoast via wp_head() ?>
     <?php wp_head(); ?>
     <?php if ($route) \Core\Support\Asset::preload("app/{$route['module']}/{$route['module']}.view.tsx"); ?>
 </head>
