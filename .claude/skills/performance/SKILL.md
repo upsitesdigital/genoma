@@ -1,95 +1,112 @@
 ---
 name: performance
-description: Known performance risk areas in the "logic" WordPress theme (Logic Assessoria) — no cache headers, duplicate Font Awesome load, a scrollreveal enqueue with no matching build entry, and a build that has never been run (assets/ is empty). Use when investigating PageSpeed/Lighthouse scores, slow page loads, or before running/fixing the build.
+description: Pontos de desempenho do UpWork Framework — HTML renderizado no servidor (PHP + Interactivity API, sem hidratação), JS só nas partes interativas (stores), cache dos controllers (atributo Cache) e cache de página, LCP, imagens, fontes e o enqueue legado do upsites. Use ao investigar PageSpeed/Lighthouse, páginas lentas, seção que não aparece, ou antes de otimizar build e enqueue.
 ---
 
-# Performance notes for the logic theme
+# Desempenho no UpWork Framework
 
-This theme is an unbuilt boilerplate (see the `wordpress` skill) — most
-"performance" issues right now are about the build/enqueue pipeline never
-having been run, not about optimizing real page content, because there
-isn't much real page content yet (`template-pages/`/`template-parts/` are
-stubs, `src/sass/pages/*.scss` are 3-line stubs with zero real CSS).
+Para revisão de código PHP/WP em geral (queries, hooks, cache de objeto), use
+também a skill `wp-performance-review`. Aqui ficam os pontos **específicos
+deste framework**.
 
-## Build has never been run — `assets/css/` and `assets/js/` are empty
+## Página sem estilo / seção sumida — confira o build e o log antes de tudo
 
-Both directories exist but contain zero files. Every `wp_enqueue_style`/
-`wp_enqueue_script` call in `upsites/functions.php` currently 404s. Run
-`npx gulp sass:release` (CSS) and `npm run scripts` (webpack, JS) — or
-`npm run build` for both — before evaluating any real page-weight/PageSpeed
-number; right now a slow/empty page load is a build-pipeline symptom, not a
-real optimization problem.
+- CSS/JS do gulp: no localhost o WP carrega o aberto (`main.css`, ~5× maior,
+  com sourcemap); em homolog/prod, **só** o `.min`. Site sem estilo fora do
+  localhost = `main.min.css` não gerado/enviado (veja o `error_log` e o aviso no
+  painel; rode `npm run build`). Classe nova sem efeito no local = CSS não recompilado
+  (`npm run dev` ou `npm run css`).
+- Seção que não aparece: ou o editor marcou "Ocultar seção" (`$data` null), ou o
+  template deu erro — o `Part` engole o `Throwable`, some só com aquela parte e
+  registra `[upwork] erro ao renderizar "{grupo}/{nome}"` no `error_log`.
+- Não há bundle de app: o HTML sai pronto do servidor e **só as partes interativas
+  baixam JS** — o `{nome}.store.js` delas (script module, enfileirado pelo `Part` só
+  nas páginas que usam a parte) + o runtime da Interactivity API do próprio WP
+  (~10 KB gz, compartilhado e cacheado). Sem vendor chunk, sem view lazy, sem
+  `modulepreload` manual.
+- **Medir:** `npm run size` — JS gzip por página ("comum" = store do header +
+  `mainJS`; cada módulo = comum + stores das suas seções). Store acima de ~10 KB gz
+  merece olhar (lógica que poderia ir para o PHP). Não importe biblioteca grande num
+  store do header.
 
-## Font Awesome loaded twice
+## Como o conteúdo chega (custo por requisição)
 
-`header.php` hardcodes `<link href="https://cdnjs.cloudflare.com/.../font-awesome.min.css">`
-directly in `<head>`, **and** `upsites/functions.php`'s `wp_enqueue_scripts`
-separately enqueues Font Awesome 4.7.0 from `maxcdn.bootstrapcdn.com`. Both
-requests fire on every page load. Drop the hardcoded `<link>` in
-`header.php` and keep only the enqueued version (or vice versa) — same fix
-pattern documented in sibling UpSites-boilerplate projects, but **not yet
-applied here**.
+- `View::render()` chama o `page()` do controller direto em PHP **no
+  servidor**, em toda visualização — sem REST (nem o servidor REST do WP, que
+  registraria as ~170 rotas do WP e dos plugins a cada página). Use
+  `#[Cache(ttl: …)]` no `page()`: o transient `upwork_page_*` evita refazer as queries ACF.
+- Como o HTML é completo e não depende de JS, **cache de página** (plugin/CDN)
+  funciona normalmente; o nonce do `upwork/api` vencido em página cacheada é renovado
+  sozinho.
+- `Bootstrap::clearRestCache()` invalida **todo** o cache do framework — `upwork_page_*`
+  (page()) e `upwork_rest_*` (rotas dos stores), trocando a versão da chave — ao
+  salvar/apagar página, post, CPT público ou anexo e ao atribuir termos; criar/editar/apagar
+  termo e salvar o Customizer chamam o `flushAll` — uma vez só, no fim da requisição
+  (`Rest::flushCacheLater`), depois de tudo gravado. Tipos internos (envio de formulário,
+  pedido, item de menu) não invalidam. Deploy que altera um controller também não serve o
+  cache antigo (a data do arquivo entra na chave). Em sites com muitas edições o cache
+  esvazia com frequência; se pesar, invalide por módulo.
+- Header e footer montam os menus em toda página (`MenuApi::tree()` →
+  `wp_get_nav_menu_items`). Com menus grandes, considere cache por localização.
+- O render de uma página lê só o controller dela (`ModuleLoader::controller`); todos os
+  controllers e as rotas REST só são compilados na REST. Ícone SVG inline
+  (`Media::iconData`/`inlineSvg`) é sanitizado uma vez e, em anexo, guardado no post meta
+  `_upwork_svg_inline` até o arquivo mudar.
+- O retorno do `page()` vai inteiro para o transient: devolva só o que o view usa
+  (sem `get_fields()` inteiro, sem objetos `WP_Post` crus).
+- `#[Cache]` só vale para GET/HEAD — numa rota de escrita ele é ignorado (e avisa no log).
+- Estado global passado ao navegador (`wp_interactivity_state()`) vai no HTML como
+  JSON: só o que o store precisa.
 
-## `scrollreveal` enqueue has no build entry to satisfy it
+## Renderização e LCP
 
-`upsites/functions.php` enqueues `scrollrevealJS` from
-`{$assets_src}/js/scrollreveal(.min).js`. The source file
-`src/js/scrollreveal.js` **does exist** (unlike some sibling projects where
-it's missing entirely), but neither `webpack.config.js`'s `entry` map
-(`mainJS`, `seletric`, `slick` only) nor `gulpfile.js`'s `jsBuild` array
-includes it — so `assets/js/scrollreveal.js` will never be produced by the
-current build, and the enqueue will 404 regardless of whether the build has
-been run. Either add a webpack entry (and a matching `gulp` `:release` task)
-for it, or remove the enqueue if the feature isn't actually used yet — grep
-the theme for `ScrollReveal(` to check before assuming it's needed.
+- O conteúdo é renderizado no servidor: o LCP não depende de JS nem de
+  hidratação, e o Google lê o HTML completo.
+- Imagem do hero: `fw_img($img, ['fetchpriority' => 'high', 'loading' => false])`;
+  demais imagens com o padrão do `fw_img()` (`loading="lazy"` + `decoding="async"`).
+  Sempre `width`/`height` (CLS) — o `fw_img()` já põe.
+- A imagem do hero está no HTML inicial, então o navegador a descobre sem preload.
+  `View::lcpImage()` (maior imagem da 1ª seção) é usada como `og:image` pelo `Seo`.
+- Anexos saem pelo `wp_get_attachment_image()` (dentro do `fw_img()`): `srcset` só com
+  os tamanhos da mesma proporção e `sizes="auto, …"` nas lazy. Escolha o tamanho pelo
+  espaço (3º argumento: `medium` em ícone/logo, `large` em card, `full` no hero de tela
+  cheia — com `large` o `sizes` limita a 1024px e o fundo fica borrado em tela larga).
+- Conteúdo carregado depois por um store (`api()`) não deve ser o LCP nem o
+  conteúdo principal para SEO — o que importa vem no HTML do servidor.
 
-## `gulpfile.js` has no per-page auto-discovery (by design, not a bug)
+## Fontes e CSS
 
-Unlike some sibling UpSites projects, this `gulpfile.js` doesn't scan a
-folder for page SCSS files — it hardcodes a `styles = ['main']` array and
-builds `main`/`main-mobile` (+`:release`) from it. As real pages get built
-(see the `fluid-scss-pages` skill), add each page name to that array
-directly; there's no auto-discovery path to fix or debug here, just entries
-to add as pages come online.
+- Fontes **só locais**: Google Fonts por `@import`/`<link>` bloqueia a
+  renderização, abre conexão com outro domínio e expõe o IP do visitante (LGPD).
+  `.woff2` (subset latin, só os pesos usados) em `src/fonts/` → `gulp fonts`
+  copia para `assets/fonts/`; `@font-face` no `main.scss` com `font-display: swap`.
+  Preload só da fonte do texto acima da dobra:
+  `add_filter('upwork/preload_fonts', fn() => ['{arquivo}.woff2']);` (o
+  `upsites/functions.php` imprime o `<link rel="preload" as="font" crossorigin>`).
+  Cada peso/estilo é um arquivo a mais — não carregue pesos que o layout não usa.
+- **Critical CSS da home**: `src/sass/home-above-the-fold.scss` (importa o `main.scss` com
+  `$fw-critical: true`; classes só dos `@source` dele — header, hero e componentes que eles
+  usam) vai inline no `<head>` da home e o `main.css` dela carrega sem bloquear
+  (`US_critical_css`, `upsites/functions.php`; `url()` relativo vira absoluto). Seção
+  visível na primeira tela do celular/desktop precisa de `@source` lá; bloco do `main.scss`
+  que nunca aparece na dobra fica em `@if not $fw-critical { … }`. Conferir: print da
+  primeira tela com o `main.css` bloqueado (Playwright `page.route`) igual ao normal.
+  Outra página: `src/sass/{módulo}-above-the-fold.scss` (o gulp compila todos).
+- Tailwind usa `source(none)` + `@source` explícito: só `src/js/`,
+  `template-pages/`, `template-parts/`, os `*.php` da raiz e `upsites/core/Framework/`
+  são varridos. Classe montada por pedaço não é gerada (ver skill `tailwind`).
 
-## No cache headers, no compression config
+## Legado que pesa em toda página
 
-`.htaccess` (site root) only has the stock WordPress rewrite block — no
-`Expires`/`Cache-Control` for static assets, no `mod_deflate`/gzip
-directive. No caching plugin is installed (plugins present: only Akismet
-and Hello Dolly).
+- `upsites/functions.php` enfileira `mainJS` (JS manual, sem jQuery) em **todas**
+  as páginas. Se o projeto não tem JS manual, deixe o `src/js/mainJS.js` mínimo;
+  interação de seção vai num store da Interactivity API, não no `mainJS`.
 
-## Legacy build toolchain
+## Medir
 
-`webpack@1.14.0`, `gulp@3.9.1`, `babel-preset-es2015` — a pre-modern
-toolchain (no code-splitting, no tree-shaking beyond `lodash-webpack-plugin`,
-no ES modules). Not itself a bug, but worth knowing before assuming modern
-webpack behavior (e.g. `optimization.splitChunks`) applies — this version
-predates that API (it uses `webpack.optimize.DedupePlugin`/
-`OccurrenceOrderPlugin` instead, both removed in later webpack majors).
-
-## No ACF Pro installed — no field-driven images/content to audit yet
-
-See the `acf` skill: no ACF plugin is active at all, so there's no
-`wp_get_attachment_image()`/ACF-image-field usage to audit for `srcset`/
-`loading` yet. Once real sections get built (via the t1000/t800 pipeline),
-audit each hero/LCP image for `fetchpriority="high"`/eager loading instead
-of a blanket `loading="lazy"` inherited from a shared template pattern —
-this is a "when you get there" note, not a current bug, since no image
-markup exists in any real template yet.
-
-## Debugging technique: real network capture beats guessing from static HTML
-
-The PageSpeed Insights web report is a JS-rendered SPA — `WebFetch`/`curl` on
-its URL only returns the empty shell, and the public PSI API has a 0-quota
-daily limit without an API key. A local headless Chrome capture against the
-live/local URL resolves ambiguous network requests reliably:
-```bash
-"/c/Program Files/Google/Chrome/Application/chrome.exe" --headless=new --disable-gpu \
-  --virtual-time-budget=20000 --log-net-log=netlog.json <url>
-```
-Then parse `netlog.json` for `URL_REQUEST_START_JOB` events (grouped by
-`source.id`, matched against `constants.logEventTypes`) to get every
-request's URL, start time, and duration — useful once there's an actual
-built page to profile, e.g. to confirm the duplicate Font Awesome load or
-check whether the scrollreveal 404 above is actually firing.
+- Lighthouse / aba Network em janela anônima (sem admin bar, sem cache de
+  usuário logado).
+- `npm run size` para o JS por página; no Network, filtre por "JS" e confira que
+  só aparecem os stores das partes interativas da página.
+- Tempo do PHP: Query Monitor (plugin) mostra o custo do controller (`page()`)
+  e das queries ACF por página.

@@ -1,11 +1,15 @@
-/*
-Theme Name: UpWork
-Theme URI: https://upsites.digital
-Description: Framework MVC full-stack para WordPress — WordPress headless + React SPA + shadcn/ui.
-Version: 1.0.0
-Author: Pedro Hilário / Upsites
-Author URI: https://upsites.digital
-Text Domain: upwork
-Requires at least: 6.0
-Requires PHP: 8.1
-*/
+/*!
+ * Theme Name: 		UpWork
+ * Theme URI: 		https://upsites.digital
+ * Author: 			  UpSites Digital
+ * Author URI: 		https://upsites.digital
+ * Description: 	Tema base da UpSites: páginas montadas por módulos (controller + seções em PHP com Tailwind), renderizadas no servidor, com campos ACF e interatividade pela Interactivity API do WordPress.
+ * Version: 		  1.0.0
+ * Requires at least: 6.5
+ * Tested up to: 	7.1
+ * Requires PHP: 	8.1
+ * License: 		  GPLv2 or later
+ * License URI: 	https://www.gnu.org/licenses/gpl-2.0.html
+ * Text Domain: 	upsites
+ * Domain Path: 	/languages
+ */

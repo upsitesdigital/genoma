@@ -1,0 +1,23 @@
+// =============================================================================
+// home-above-the-fold.scss — critical CSS da home (primeira dobra), compilado pelo gulp:
+//   → assets/css/home-above-the-fold.css (localhost) / .min.css (homolog/prod)
+// Impresso inline no <head> da home (US_critical_css, upsites/functions.php); com ele, o
+// main.css da home carrega sem bloquear a renderização.
+//
+// Tokens, fontes, base e animações vêm do main.scss (fonte única); as classes do Tailwind,
+// SÓ dos arquivos abaixo — o que aparece na primeira dobra (header + hero) em celular e
+// desktop. Seção nova visível no carregamento (ou hero trocado)? Acrescente o @source dela.
+// Outra página com critical CSS: crie src/sass/{módulo}-above-the-fold.scss igual a este
+// (o gulp compila sozinho todo *-above-the-fold.scss).
+// =============================================================================
+$fw-critical: true;
+
+@source '../../header.php';
+@source '../../template-parts/includes/layout/header';
+@source '../../template-pages/home';
+@source '../../template-parts/includes/home/hero';
+// componentes compartilhados que o header/hero usam (botão, ícone)
+@source '../../template-parts/includes/shared/button';
+@source '../../template-parts/includes/shared/icon';
+
+@import 'main';

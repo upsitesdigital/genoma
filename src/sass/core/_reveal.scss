@@ -1,0 +1,53 @@
+// Estados das animações de entrada (upsites/core/js/reveal.js). Só valem com a classe
+// .fw-reveal no <html> (posta no <head> quando add_filter('upwork/animation', …) está ligado)
+// — sem JS ou com reduced-motion, tudo fica visível. Tempos e curva do ScrollReveal.
+
+.fw-reveal [data-reveal] {
+  --reveal-x: 0;
+  --reveal-y: 50px;
+  opacity: 0;
+  transform: translate3d(var(--reveal-x), var(--reveal-y), 0);
+  transition-property: opacity, transform;
+  transition-duration: 1000ms;
+  transition-timing-function: cubic-bezier(0.5, 0, 0, 1);
+  will-change: opacity, transform;
+}
+
+.fw-reveal [data-reveal='fade'] { --reveal-y: 0; }
+.fw-reveal [data-reveal='left'] { --reveal-x: -50px; --reveal-y: 0; }
+.fw-reveal [data-reveal='right'] { --reveal-x: 50px; --reveal-y: 0; }
+.fw-reveal [data-reveal='quick'] { transition-duration: 600ms; }
+
+// divisor/linha: cresce da esquerda (revealdivleft)
+.fw-reveal [data-reveal='line'] {
+  --reveal-y: 0;
+  opacity: 1;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition-duration: 2000ms;
+}
+
+// header e footer nunca animam (o reveal.js também solta a marcação lá)
+.fw-reveal :is(#fw-header, #fw-footer) [data-reveal] {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
+.fw-reveal [data-reveal].is-revealed {
+  opacity: 1;
+  transform: none;
+  will-change: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fw-reveal [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+// o deslocamento lateral (left/right) não pode criar rolagem horizontal antes da entrada;
+// clip (e não hidden) para não virar contêiner de rolagem nem quebrar position: sticky
+.fw-reveal body { overflow-x: clip; }

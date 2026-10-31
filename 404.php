@@ -1,7 +1,16 @@
 <?php
-declare(strict_types=1);
+/**
+ * Página não encontrada (404). O WordPress já responde com status 404; o markup é a
+ * parte shared/not-found (a mesma usada pelo View::render quando o módulo não existe) + a busca
+ * (searchform.php, com aria-label "Buscar no site") dentro do mesmo <main>: template-parts/error.php.
+ *
+ * @package UpWork
+ */
 
-use Core\Framework\Shell;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
 
-status_header(404);
-Shell::render(null);
+get_header();
+get_template_part( 'template-parts/error' );
+get_footer();

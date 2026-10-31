@@ -1,0 +1,57 @@
+{
+  "$schema": "https://schemas.wp.org/wp/6.5/theme.json",
+  "version": 2,
+  "settings": {
+    "color": {
+      "palette": [
+        {
+          "slug": "background",
+          "name": "Fundo",
+          "color": "#ffffff"
+        },
+        {
+          "slug": "foreground",
+          "name": "Texto",
+          "color": "#0a0a0a"
+        },
+        {
+          "slug": "card",
+          "name": "Card",
+          "color": "#fafafa"
+        },
+        {
+          "slug": "card-foreground",
+          "name": "Texto do card",
+          "color": "#0a0a0a"
+        },
+        {
+          "slug": "muted",
+          "name": "Suave",
+          "color": "#f4f4f5"
+        },
+        {
+          "slug": "muted-foreground",
+          "name": "Texto suave",
+          "color": "#71717a"
+        },
+        {
+          "slug": "border",
+          "name": "Borda",
+          "color": "#e4e4e7"
+        },
+        {
+          "slug": "primary",
+          "name": "Primária",
+          "color": "#2563eb"
+        },
+        {
+          "slug": "primary-foreground",
+          "name": "Texto sobre primária",
+          "color": "#ffffff"
+        }
+      ],
+      "defaultPalette": true,
+      "defaultGradients": true
+    }
+  }
+}

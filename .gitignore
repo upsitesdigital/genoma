@@ -1,11 +1,16 @@
 node_modules/
-vendor/
-public/build/
-public/build/hot
-*.zip
-.DS_Store
-Thumbs.db
-tsconfig.tsbuildinfo
-bin/setup-teste-page.php
-bin/generate-screenshot.php
-.mcp.json
+*.log
+.fidelity/
+
+# Build (gulp) — gerado no deploy por `npm run build` / `npm run package`, nunca commitado
+/assets/
+/dist/
+
+# Credenciais e configurações locais — nunca commitar
+.env
+.env.*
+*.local.*
+.mcp.local.json
+
+# Ferramentas PHP (composer install) — só a raiz: o upsites/core/acf/vendor (autoload do ACF) é do tema e vai no deploy
+/vendor/

@@ -4,10 +4,15 @@
 
 projeto:
   tipo: custom-theme
-  skills: [wordpress, acf]
+  skills: [wordpress, acf, tailwind]
+  palavra-chave-seo: Diagnóstico Veterinário em SP   # OBRIGATÓRIA — nome de todas as imagens: diagnostico-veterinario-em-sp-01.webp
+  woocommerce: false
+  animation: false
   link admin: http://localhost/projetos/genoma/site/wp-login.php
-  user admin: admin
-  senha admin: admin
+  # Usuário/senha do wp-admin NÃO ficam aqui (este arquivo é versionado): faça login
+  # no navegador antes de rodar os agentes, ou use as variáveis FW_ADMIN_USER/FW_ADMIN_PASS.
+  # MIGRAÇÃO (tema React → v3): setup e modelos abaixo ainda estão no formato do tema React;
+  # são convertidos ao formato do v3 na etapa de reconstrução visual (ver .claude/migracao/).
 
 setup:
   card: https://www.figma.com/design/oG2OHKdDS4A2o0aFM63ywp/Genoma-Diagn%C3%B3sticos--c%C3%B3pia-?node-id=2002-1474&m=dev       # link do card (fontes, cores primárias)

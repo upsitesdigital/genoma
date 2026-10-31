@@ -1,0 +1,167 @@
+// =============================================================================
+// main.scss — CSS global do tema, compilado pelo gulp:
+//   Sass → PostCSS (@tailwindcss/postcss) → assets/css/main.css (localhost)
+//                                         → assets/css/main.min.css (homolog/prod)
+// Tailwind é a base; ajustes manuais do DEV vão no bloco SCSS no fim do arquivo.
+// Diretivas do Tailwind (@import, @source, @theme, @utility, @apply) passam
+// intactas pelo Sass e são resolvidas na etapa do PostCSS.
+// source(none): não varre upsites/ nem node_modules — as fontes de classes
+// ficam listadas nos @source (caminhos relativos a src/sass/).
+// =============================================================================
+@import 'tailwindcss' source(none);
+
+// Critical CSS ({módulo}-above-the-fold.scss): importa este arquivo com $fw-critical: true —
+// tokens, fontes e base vêm daqui, mas as classes só dos arquivos da primeira dobra (os @source
+// de lá). Aqui, o CSS completo: classes de todo o tema.
+$fw-critical: false !default;
+@if not $fw-critical {
+  @source '../js';
+  @source '../../template-pages';
+  @source '../../template-parts';
+  @source '../../*.php';
+  // classes usadas pelo framework (View: erro de carregamento, formulário de senha)
+  @source '../../upsites/core/Framework';
+}
+
+// Fontes web: SEMPRE locais — nunca @import/<link> do Google Fonts (expõe o IP do visitante ao
+// Google: LGPD). Baixe os .woff2 (subset latin, só os pesos usados) para src/fonts/; o build
+// (gulp fonts) copia para assets/fonts/. Ponha junto o arquivo de licença da fonte (ex.: OFL.txt,
+// que vem no pacote da Google Fonts) — o build copia os .txt também e ele vai no pacote do tema.
+// Um @font-face por peso + token --font-* no @theme:
+// (o editor.css só copia @font-face escrito na coluna 0 e fora de @layer — não indente nem aninhe)
+//
+// @font-face {
+//   font-family: 'Inter';
+//   font-style: normal;
+//   font-weight: 400;
+//   font-display: swap;
+//   src: url('../fonts/inter-latin-400.woff2') format('woff2');
+// }
+//
+// Preload só da fonte do texto (functions.php):
+//   add_filter('upwork/preload_fonts', fn() => ['inter-latin-400.woff2']);
+
+// Tokens (padrão shadcn/ui). Cores vêm do Figma (setup do t800) — não são editáveis no painel.
+:root {
+  --background: #ffffff;
+  --foreground: #0a0a0a;
+  --card: #fafafa;
+  --card-foreground: #0a0a0a;
+  --muted: #f4f4f5;
+  --muted-foreground: #71717a;
+  --border: #e4e4e7;
+  --primary: #2563eb;
+  --primary-foreground: #ffffff;
+  --radius: 0.5rem;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+@utility container {
+  margin-inline: auto;
+  padding-inline: 1rem;
+  max-width: 80rem;
+
+  @variant md {
+    padding-inline: 2rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    // overflow-x-clip: o .alignfull (w-screen) não gera rolagem lateral; clip (e não hidden)
+    // não cria contêiner de rolagem, então o header sticky continua funcionando
+    @apply overflow-x-clip bg-background text-foreground antialiased;
+  }
+
+  // texto só para leitor de tela que o próprio WP imprime (paginação, comentários, busca)
+  .screen-reader-text {
+    @apply sr-only;
+  }
+}
+
+// Conteúdo do editor de blocos (the_content em single.php/page.php): o preflight do Tailwind
+// zera margens e listas — aqui volta o mínimo de tipografia de leitura. Seções de módulo não usam
+// (fica fora do critical CSS).
+@if not $fw-critical {
+@layer components {
+  .entry-content {
+    @apply leading-relaxed;
+
+    > * + * { @apply mt-5; }
+    h2 { @apply mt-10 text-2xl font-bold tracking-tight; }
+    h3 { @apply mt-8 text-xl font-bold; }
+    h4, h5, h6 { @apply mt-6 font-semibold; }
+    a { @apply text-primary underline underline-offset-2; }
+    ul { @apply list-disc pl-6; }
+    ol { @apply list-decimal pl-6; }
+    li + li { @apply mt-1; }
+    blockquote { @apply border-l-4 border-primary pl-4 italic text-muted-foreground; }
+    img, video, iframe { @apply h-auto max-w-full; }
+    figcaption { @apply mt-2 text-sm text-muted-foreground; }
+    pre { @apply overflow-x-auto rounded-md bg-muted p-4 text-sm; }
+    table { @apply w-full border-collapse text-sm; }
+    th, td { @apply border px-3 py-2 text-left; }
+    .alignleft { @apply md:float-left md:mr-6 md:mb-4; }
+    .alignright { @apply md:float-right md:ml-6 md:mb-4; }
+    .aligncenter { @apply mx-auto; }
+    // mais larga que a coluna de leitura (max-w-3xl do article), centrada, sem passar da tela
+    .alignwide { @apply relative left-1/2 w-[min(64rem,calc(100vw_-_2rem))] max-w-none -translate-x-1/2; }
+    // largura total da viewport, saindo do container (overflow-x do body evita rolagem lateral)
+    .alignfull { @apply relative left-1/2 w-screen max-w-none -translate-x-1/2; }
+    // legenda de imagem do editor clássico ([caption]) e de galeria
+    .wp-caption { @apply max-w-full; }
+    .wp-caption img { @apply block h-auto max-w-full; }
+    .wp-caption-text,
+    .gallery-caption { @apply mt-2 text-sm text-muted-foreground; }
+  }
+
+  // comment_class() do autor do post (Handbook): só um filete discreto
+  .bypostauthor > .comment-body { @apply border-l-2 border-primary/40 pl-3; }
+}
+
+// post_class() põe "sticky" no post fixo, e .sticky também é utilitário do Tailwind
+// (position: sticky — o #fw-header usa). Fora de @layer para vencer o utilitário só no post.
+.hentry.sticky { @apply static; }
+}
+
+// Header sticky abaixo da barra de admin do WP (logado): ela é fixed com a altura nessa variável
+// (32px; 46px até 782px). Até 600px ela é absolute e rola junto — aí o header volta ao topo.
+.admin-bar #fw-header { top: var(--wp-admin--admin-bar--height, 0px); }
+@media (max-width: 600px) {
+  .admin-bar #fw-header { top: 0; }
+}
+
+// Âncoras não param por baixo do header sticky: --fw-header-h = altura real dele (mainJS,
+// src/js/_header-offset.js; 0 se o header não gruda; 4rem sem JS) + a barra de admin, que é
+// fixed acima de 600px (abaixo ela rola junto).
+html { scroll-padding-top: calc(var(--fw-header-h, 4rem) + var(--wp-admin--admin-bar--height, 0px)); }
+@media (max-width: 600px) {
+  html { scroll-padding-top: var(--fw-header-h, 4rem); }
+}
+
+// -----------------------------------------------------------------------------
+// Ajustes manuais do DEV (SCSS) — por cima do Tailwind. Parciais em core/,
+// modules/, pages/ entram aqui com @use/@import. Seções não ganham SCSS
+// próprio: são estilizadas com classes Tailwind no próprio .php.
+// -----------------------------------------------------------------------------
+// Config
+@import 'core/reveal';

@@ -1,21 +1,18 @@
 {
-  "name": "upsites/upwork",
-  "description": "UpWork — Framework MVC WordPress + React SPA",
+  "name": "upsites/upwork-theme",
+  "description": "UpWork Framework — ferramentas PHP de desenvolvimento (não vão para o servidor).",
   "type": "wordpress-theme",
-  "version": "1.0.0",
-  "require": {
-    "php": "^8.1"
-  },
-  "autoload": {
-    "psr-4": {
-      "Core\\": "core/"
-    }
+  "license": "proprietary",
+  "require-dev": {
+    "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+    "wp-coding-standards/wpcs": "^3.1"
   },
   "scripts": {
-    "fw:make:module": "@php bin/make-module.php",
-    "fw:sync-modules": "@php bin/sync-modules.php"
+    "wpcs": "phpcs"
   },
   "config": {
-    "optimize-autoloader": true
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
   }
 }
