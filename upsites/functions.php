@@ -188,6 +188,10 @@ add_action('wp_head', function () {
   }
 }, 2, 0);
 
+// Genoma: Manrope (texto) na primeira dobra; animações de entrada ao rolar, como no tema React
+add_filter('upwork/preload_fonts', fn() => array('manrope-latin-variable.woff2'));
+add_filter('upwork/animation', '__return_true');
+
 
 /* US_SET_POST_VIEWS — contador de visualizações (coluna "Views" em Posts).
  * Grava no banco a cada visualização de post: desligado por padrão.

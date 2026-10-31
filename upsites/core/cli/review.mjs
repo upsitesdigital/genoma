@@ -212,7 +212,9 @@ for (const slug of dirs(pagesDir)) {
   // ── acf_fields.php: seções e grupos de CPT/taxonomia deste slug ──
   mod = acf
   const mine = calls.filter((c) => c.slug === slug)
-  const sections = mine.filter((c) => c.kind === 'section').map((c) => ({ snake: c.name, index: c.index }))
+  // seção com o comentário "// layout:" é lida pelo header/footer (ex.: banner do rodapé por página),
+  // não pelo controller: não tem pasta nem entra no view
+  const sections = mine.filter((c) => c.kind === 'section').map((c) => ({ snake: c.name, index: c.index, layout: /^\s*\/\/ layout:/m.test(acf.slice(c.index, callEnd(c.index))) }))
   const orders = sections.map((x) => (acf.slice(x.index, callEnd(x.index)).match(/order:\s*(\d+)/) || [])[1]).filter(Boolean)
   if (sections.length > 1 && new Set(orders).size !== orders.length) report('AVISO', FIELDS, lineOf(acf, sections[0].index), `${slug}: Fields::section() com order repetido — use a posicao de cada seção`)
 
@@ -246,7 +248,7 @@ for (const slug of dirs(pagesDir)) {
   // ── controller.php ───────────────────────────────────────────
   const ctrl = read(files.controller)
   if (ctrl) {
-    for (const s of sections) {
+    for (const s of sections.filter((x) => !x.layout)) {
       if (!new RegExp(`section\\(\\s*\\$\\w+\\s*,\\s*'${s.snake}'`).test(ctrl)) report('ERRO', files.controller, 0, `seção ${s.snake} não é lida via $this->section($id, '${s.snake}', …)`)
     }
     const pageFn = ctrl.match(/((?:[ \t]*#\[[^\n]*\]\r?\n)*)[ \t]*public function page\(/)
@@ -341,7 +343,7 @@ for (const slug of dirs(pagesDir)) {
     }
   }
 
-  for (const s of sections) {
+  for (const s of sections.filter((x) => !x.layout)) {
     const kebab = s.snake.replace(/_/g, '-')
     if (!isShared && !sectionDirs.includes(kebab)) report('ERRO', FIELDS, lineOf(acf, s.index), `Fields::section('${slug}', '${s.snake}') sem pasta template-parts/includes/${slug}/${kebab}/`)
   }

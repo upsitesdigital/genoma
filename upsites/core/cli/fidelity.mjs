@@ -18,9 +18,11 @@
  *   --capture element|viewport  o que fotografar (padrão: element; com --click, viewport)
  *   também aceita --shared cta / --layout header no lugar de slug/section
  *   --url http://localhost/meu-site   URL do WP local (padrão: FW_SITE_URL ou o `link admin` do .claude/prompt.yaml)
+ *   --page 7                 dados (e contexto) da página 7 em vez dos padrões — medir contra o site no ar
+ *   FW_TEMA=<pasta>          (variável de ambiente) tema da requisição, com o mu-plugin local de troca de tema
  *
  * O render vem do WP local: {site}/?fw_preview={grupo}/{nome} (Core\Framework\Preview, só em localhost),
- * com os dados padrão do controller do módulo (conteúdo do Figma).
+ * com os dados padrão do controller do módulo (conteúdo do Figma), ou os da página do --page.
  *
  * Token da API do Figma: variável de ambiente FIGMA_API_KEY (ou FIGMA_TOKEN) — nunca grave o token no .mcp.json versionado.
  * Saída em .fidelity/{alvo}/{label}/: figma.png, render.png, diff.png (vermelho = diferença), result.json
@@ -103,7 +105,11 @@ execSync('npx gulp main', { cwd: root, stdio: 'ignore' })
 
 const { chromium } = await import('playwright')
 
+const previewPage = opt('page')
+if (previewPage !== undefined && !/^\d+$/.test(previewPage)) fail('--page: informe o ID numérico da página.')
 const url = `${siteUrl()}/?fw_preview=${encodeURIComponent(query).replace('%2F', '/')}`
+  + (previewPage ? `&fw_preview_page=${previewPage}` : '')
+  + (process.env.FW_TEMA ? `&fw_tema=${encodeURIComponent(process.env.FW_TEMA)}` : '')
 const browser = await chromium.launch()
 let render
 let renderError

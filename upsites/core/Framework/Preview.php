@@ -31,9 +31,18 @@ final class Preview
         if (!preg_match('#^([a-z0-9-]+)/([a-z0-9-]+)$#', $part, $m)) wp_die('fw_preview: use {grupo}/{nome}', 400);
 
         [, $group, $name] = $m;
+
+        // &fw_preview_page={id}: conteúdo salvo dessa página (e ela como página atual, para o
+        // header/footer) no lugar dos padrões — medir contra o site no ar, não contra o Figma
+        $pageId = isset($_GET['fw_preview_page']) ? absint($_GET['fw_preview_page']) : 0; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- leitura, só no localhost
+        if ($pageId && get_post_type($pageId) === 'page') {
+            $GLOBALS['wp_query'] = $GLOBALS['wp_the_query'] = new \WP_Query(['page_id' => $pageId]);
+            $GLOBALS['post']     = get_post($pageId);
+        }
+
         $data = [];
         if (!in_array($group, ['layout', 'shared'], true)) {
-            $module = View::fetch($group, null);
+            $module = View::fetch($group, $pageId ?: null);
             $key    = lcfirst(str_replace(' ', '', ucwords(str_replace('-', ' ', $name))));
             $data   = is_array($module) && is_array($module[$key] ?? null) ? $module[$key] : [];
         }

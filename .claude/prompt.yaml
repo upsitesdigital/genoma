@@ -7,7 +7,7 @@ projeto:
   skills: [wordpress, acf, tailwind]
   palavra-chave-seo: Diagnóstico Veterinário em SP   # OBRIGATÓRIA — nome de todas as imagens: diagnostico-veterinario-em-sp-01.webp
   woocommerce: false
-  animation: false
+  animation: true     # o tema React tinha scroll reveal (sobe 50px com fade): mesma animação pela skill animation
   link admin: http://localhost/projetos/genoma/site/wp-login.php
   # Usuário/senha do wp-admin NÃO ficam aqui (este arquivo é versionado): faça login
   # no navegador antes de rodar os agentes, ou use as variáveis FW_ADMIN_USER/FW_ADMIN_PASS.

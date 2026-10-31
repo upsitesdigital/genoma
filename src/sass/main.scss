@@ -21,6 +21,9 @@ $fw-critical: false !default;
   @source '../../*.php';
   // classes usadas pelo framework (View: erro de carregamento, formulário de senha)
   @source '../../upsites/core/Framework';
+  // classes que só aparecem no nome de diretiva (data-wp-class--{classe}): o Tailwind não as
+  // lê ali — toda classe alternada por store entra nesta lista
+  @source inline('rotate-180 opacity-0 opacity-100 pointer-events-none hidden');
 }
 
 // Fontes web: SEMPRE locais — nunca @import/<link> do Google Fonts (expõe o IP do visitante ao
@@ -41,18 +44,67 @@ $fw-critical: false !default;
 // Preload só da fonte do texto (functions.php):
 //   add_filter('upwork/preload_fonts', fn() => ['inter-latin-400.woff2']);
 
-// Tokens (padrão shadcn/ui). Cores vêm do Figma (setup do t800) — não são editáveis no painel.
+// Genoma: Manrope (texto, variável 400–700) e Poppins (títulos, 400/500/600/700) — as mesmas
+// do tema React, que as carregava do Google Fonts.
+@font-face {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('../fonts/manrope-latin-variable.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/poppins-latin-400.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../fonts/poppins-latin-500.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('../fonts/poppins-latin-600.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../fonts/poppins-latin-700.woff2') format('woff2');
+}
+
+// Tokens (padrão shadcn/ui). Cores do tema React (Figma: Style Guide de Cores) — não são
+// editáveis no painel. Mesmos valores HSL do tema anterior.
 :root {
-  --background: #ffffff;
-  --foreground: #0a0a0a;
-  --card: #fafafa;
-  --card-foreground: #0a0a0a;
-  --muted: #f4f4f5;
-  --muted-foreground: #71717a;
-  --border: #e4e4e7;
-  --primary: #2563eb;
-  --primary-foreground: #ffffff;
-  --radius: 0.5rem;
+  --background: hsl(0 0% 100%);
+  --foreground: hsl(0 0% 10%);
+  --card: hsl(0 0% 100%);
+  --card-foreground: hsl(0 0% 10%);
+  --popover: hsl(0 0% 100%);
+  --popover-foreground: hsl(0 0% 10%);
+  --primary: hsl(250 49% 38%); // #433292
+  --primary-foreground: hsl(0 0% 100%);
+  --secondary: hsl(248 47% 97%); // #F5F4FB
+  --secondary-foreground: hsl(249 41% 25%);
+  --muted: hsl(248 47% 97%);
+  --muted-foreground: hsl(0 0% 43%); // #6E6E6E
+  --accent: hsl(254 87% 61%); // #6E47F2
+  --accent-foreground: hsl(0 0% 100%);
+  --destructive: hsl(0 84.2% 60.2%);
+  --destructive-foreground: hsl(210 40% 98%);
+  --border: hsl(252 8% 88%); // #DFDEE3
+  --input: hsl(252 8% 88%);
+  --ring: hsl(250 49% 38%);
+  --radius: 0.75rem;
 }
 
 @theme inline {
@@ -60,25 +112,79 @@ $fw-critical: false !default;
   --color-foreground: var(--foreground);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-border: var(--border);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  // raios do tema React (Tailwind v3 + shadcn): sm 8px, md 10px, lg 12px, xl 12px
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  --radius-xl: 0.75rem;
 }
 
+@theme {
+  // marca — Genoma Diagnósticos (bg-brand-purple, text-brand-gray-text…)
+  --color-brand-purple: #433292;
+  --color-brand-purple-dark: #2D2559;
+  --color-brand-purple-accent: #6E47F2;
+  --color-brand-purple-subtle: rgba(67, 40, 187, 0.05);
+  --color-brand-purple-light: rgba(110, 71, 242, 0.2);
+  --color-brand-gray-text: #6E6E6E;
+  --color-brand-gray-border: #DFDEE3;
+  --color-brand-light-purple: #F5F4FB;
+
+  --font-sans: 'Manrope', system-ui, sans-serif;
+  --font-heading: 'Poppins', system-ui, sans-serif;
+
+  // escala tipográfica do Figma (text-h1…text-body-sm)
+  --text-h1: 3rem; // Poppins Medium 48px
+  --text-h1--line-height: 1.15;
+  --text-h1--font-weight: 500;
+  --text-h2: 2.25rem; // Poppins Regular 36px
+  --text-h2--line-height: 1.3;
+  --text-h2--font-weight: 400;
+  --text-h3: 1.75rem; // Poppins Regular 28px
+  --text-h3--line-height: 1.3;
+  --text-h3--font-weight: 400;
+  --text-h4: 1.5rem; // Poppins Medium 24px
+  --text-h4--line-height: 1.4;
+  --text-h4--font-weight: 500;
+  --text-h5: 1.25rem; // Poppins Medium 20px
+  --text-h5--line-height: 1.4;
+  --text-h5--font-weight: 500;
+  --text-h2-mobile: 1.375rem; // Poppins Medium 22px — título de seção no mobile
+  --text-h2-mobile--line-height: 1.3;
+  --text-h2-mobile--font-weight: 500;
+  --text-eyebrow: 0.8125rem; // Manrope Regular 13px UPPERCASE — etiqueta de seção
+  --text-eyebrow--line-height: 1.5;
+  --text-eyebrow--letter-spacing: 0.0769em;
+  --text-body-lg: 1.125rem; // Manrope 18px
+  --text-body-lg--line-height: 1.5;
+  --text-body: 1rem; // Manrope 16px
+  --text-body--line-height: 1.5;
+  --text-body-sm: 0.875rem; // Manrope 14px
+  --text-body-sm--line-height: 1.5;
+}
+
+// Container do tema React: 100% com 20px de respiro, até 1400px, centrado (o "sm: 2rem" do
+// config nunca valia — o screens do container só tinha o 2xl)
 @utility container {
   margin-inline: auto;
-  padding-inline: 1rem;
-  max-width: 80rem;
-
-  @variant md {
-    padding-inline: 2rem;
-  }
+  padding-inline: 1.25rem;
+  width: 100%;
+  max-width: 1400px;
 }
 
 @layer base {
@@ -89,7 +195,22 @@ $fw-critical: false !default;
   body {
     // overflow-x-clip: o .alignfull (w-screen) não gera rolagem lateral; clip (e não hidden)
     // não cria contêiner de rolagem, então o header sticky continua funcionando
-    @apply overflow-x-clip bg-background text-foreground antialiased;
+    // sem antialiased: o tema React não suavizava (no macOS a fonte ficaria mais fina)
+    @apply overflow-x-clip bg-background font-sans text-foreground;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading;
+  }
+
+  // o Tailwind v4 tirou o cursor de mão dos botões; o tema React (Tailwind v3) tinha
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
+  }
+
+  html {
+    scroll-behavior: smooth;
   }
 
   // texto só para leitor de tela que o próprio WP imprime (paginação, comentários, busca)
@@ -136,6 +257,51 @@ $fw-critical: false !default;
 
   // comment_class() do autor do post (Handbook): só um filete discreto
   .bypostauthor > .comment-body { @apply border-l-2 border-primary/40 pl-3; }
+
+  // Conteúdo do post (single-post) — tipografia do tema React (Figma: Single post > Conteúdo,
+  // node 149-1979): Poppins nos títulos (Purple Dark), Manrope no corpo (Gray).
+  .post-content {
+    @apply font-sans text-body-lg leading-relaxed text-brand-gray-text;
+
+    p { @apply mb-6 last:mb-0; }
+    h2 { @apply mt-12 mb-6 font-heading text-h2 font-normal text-brand-purple-dark first:mt-0; }
+    h3 { @apply mt-10 mb-5 font-heading text-h3 font-normal text-brand-purple-dark first:mt-0; }
+    h4 { @apply mt-8 mb-4 font-heading text-h4 font-medium text-brand-purple-dark first:mt-0; }
+    h5 { @apply mt-6 mb-3 font-heading text-h5 font-medium text-brand-purple-dark first:mt-0; }
+    h6 { @apply mt-6 mb-3 font-heading text-body-lg font-semibold tracking-wide text-brand-purple-dark uppercase first:mt-0; }
+    a { @apply text-brand-purple underline underline-offset-2 transition-colors hover:text-brand-purple-accent; }
+    ul { @apply mb-6 list-disc space-y-2 pl-6 marker:text-brand-purple-accent; }
+    ol { @apply mb-6 list-decimal space-y-2 pl-6 marker:text-brand-purple-accent; }
+    li > ul, li > ol { @apply mt-2 mb-0; }
+    img { @apply rounded-2xl; }
+    .wp-block-image { @apply my-8; }
+    .wp-block-image img { @apply w-full; }
+    .wp-block-image figcaption { @apply mt-3 text-center font-sans text-body text-brand-gray-text; }
+    .alignleft { @apply float-left mr-6; }
+    .alignright { @apply float-right ml-6; }
+    .aligncenter { @apply mx-auto; }
+    blockquote, .wp-block-quote { @apply my-8 border-l-4 border-brand-purple-accent pl-6 font-heading text-h5 text-brand-purple-dark italic; }
+    blockquote p, .wp-block-quote p { @apply mb-2; }
+    blockquote cite, .wp-block-quote cite { @apply block font-sans text-body text-brand-gray-text not-italic; }
+    .wp-block-pullquote { @apply my-10 border-y-2 border-brand-purple-accent px-4 py-8 text-center; }
+    .wp-block-pullquote p { @apply font-heading text-h4 font-medium text-brand-purple-dark italic; }
+    .wp-block-pullquote cite { @apply mt-3 block font-sans text-body text-brand-gray-text not-italic; }
+    pre, .wp-block-code { @apply my-6 overflow-x-auto rounded-xl bg-brand-light-purple p-4; }
+    pre code, .wp-block-code code { @apply font-mono text-body-sm leading-relaxed text-brand-purple-dark; }
+    :not(pre) > code { @apply rounded bg-brand-light-purple px-1.5 py-0.5 font-mono text-body-sm text-brand-purple-dark; }
+    .wp-block-table, table { @apply my-8 w-full overflow-x-auto; }
+    table { @apply border-collapse text-left; }
+    th { @apply border border-brand-gray-border bg-brand-light-purple p-3 font-heading font-medium text-brand-purple-dark; }
+    td { @apply border border-brand-gray-border p-3 align-top text-brand-gray-text; }
+    .wp-block-table figcaption { @apply mt-3 text-center font-sans text-body text-brand-gray-text; }
+    .wp-block-embed { @apply my-8; }
+    .wp-block-embed__wrapper { @apply relative aspect-video overflow-hidden rounded-2xl; }
+    .wp-block-embed__wrapper iframe, .wp-block-embed__wrapper video { @apply absolute inset-0 h-full w-full; }
+    .wp-block-embed figcaption { @apply mt-3 text-center font-sans text-body text-brand-gray-text; }
+    hr { @apply my-10 border-t border-brand-gray-border; }
+    strong { @apply font-semibold text-brand-purple-dark; }
+    em { @apply italic; }
+  }
 }
 
 // post_class() põe "sticky" no post fixo, e .sticky também é utilitário do Tailwind
@@ -150,6 +316,16 @@ $fw-critical: false !default;
   .admin-bar #fw-header { top: 0; }
 }
 
+// Genoma: header FIXO, fora do fluxo, como no tema React — o topo de cada página já tem o recuo
+// dele (padding-top das seções); sticky no fluxo empurraria todas as páginas para baixo.
+// O #fw-header (header.php da raiz) vem com `sticky top-0 z-40`; aqui só a posição muda.
+#fw-header { position: fixed; inset-inline: 0; }
+// recuo das âncoras antes do JS medir: a barra do header (93px no celular, 84px no desktop)
+:root { --fw-header-h: 93px; }
+@media (min-width: 1024px) {
+  :root { --fw-header-h: 84px; }
+}
+
 // Âncoras não param por baixo do header sticky: --fw-header-h = altura real dele (mainJS,
 // src/js/_header-offset.js; 0 se o header não gruda; 4rem sem JS) + a barra de admin, que é
 // fixed acima de 600px (abaixo ela rola junto).
@@ -157,6 +333,9 @@ html { scroll-padding-top: calc(var(--fw-header-h, 4rem) + var(--wp-admin--admin
 @media (max-width: 600px) {
   html { scroll-padding-top: var(--fw-header-h, 4rem); }
 }
+// Genoma: o tema React somava 93px de scroll-margin às âncoras de seção (param 177px/186px do
+// topo, não logo abaixo da barra) — mantido igual ao site no ar; remova para parar rente à barra.
+section[id] { scroll-margin-top: 93px; }
 
 // -----------------------------------------------------------------------------
 // Ajustes manuais do DEV (SCSS) — por cima do Tailwind. Parciais em core/,

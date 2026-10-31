@@ -242,6 +242,7 @@ add_action('acf/init', function (): void {
     ], order: 7);
 
     Fields::section('home', 'footer_cta', 'Rodapé', [
+        // layout: lida pelo layout/footer (banner de CTA do rodapé desta página), não é seção da página
         ['key' => 'field_home_footer_cta_titulo', 'label' => 'Rodapé — CTA Título', 'name' => 'footer_cta_titulo', 'type' => 'textarea',
          'instructions' => 'Sobrescreve o título do banner de CTA do rodapé só nesta página. Deixe em branco para usar o padrão de Opções do Tema.',
          'rows' => 2, 'default_value' => 'Cuidado começa com diagnóstico preciso.'],
@@ -349,6 +350,7 @@ add_action('acf/init', function (): void {
     ], order: 4);
 
     Fields::section('o-genoma', 'footer_cta', 'Rodapé', [
+        // layout: lida pelo layout/footer (banner de CTA do rodapé desta página), não é seção da página
         // legado: keys do tema React em produção (slug com hífen) — não renomear
         ['key' => 'field_o-genoma_footer_cta_titulo', 'label' => 'Rodapé — CTA Título', 'name' => 'footer_cta_titulo', 'type' => 'textarea',
          'instructions' => 'Sobrescreve o título do banner de CTA do rodapé só nesta página. Deixe em branco para usar o padrão de Opções do Tema.',
@@ -566,6 +568,7 @@ add_action('acf/init', function (): void {
     ], order: 6);
 
     Fields::section('veterinarios', 'footer_cta', 'Rodapé', [
+        // layout: lida pelo layout/footer (banner de CTA do rodapé desta página), não é seção da página
         ['key' => 'field_veterinarios_footer_cta_titulo', 'label' => 'Rodapé — CTA Título', 'name' => 'footer_cta_titulo', 'type' => 'textarea',
          'instructions' => 'Sobrescreve o título do banner de CTA do rodapé só nesta página. Deixe em branco para usar o padrão de Opções do Tema.',
          'rows' => 2, 'default_value' => 'Cuidado começa com diagnóstico preciso.'],
@@ -778,6 +781,7 @@ add_action('acf/init', function (): void {
     ], order: 7);
 
     Fields::section('responsavel', 'footer_cta', 'Rodapé', [
+        // layout: lida pelo layout/footer (banner de CTA do rodapé desta página), não é seção da página
         ['key' => 'field_responsavel_footer_cta_titulo', 'label' => 'Rodapé — CTA Título', 'name' => 'footer_cta_titulo', 'type' => 'textarea',
          'instructions' => 'Sobrescreve o título do banner de CTA do rodapé só nesta página. Deixe em branco para usar o padrão de Opções do Tema.',
          'rows' => 2, 'default_value' => "Entre em contato com\na nossa equipe."],

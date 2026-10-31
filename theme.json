@@ -7,51 +7,115 @@
         {
           "slug": "background",
           "name": "Fundo",
-          "color": "#ffffff"
+          "color": "hsl(0 0% 100%)"
         },
         {
           "slug": "foreground",
           "name": "Texto",
-          "color": "#0a0a0a"
+          "color": "hsl(0 0% 10%)"
         },
         {
           "slug": "card",
           "name": "Card",
-          "color": "#fafafa"
+          "color": "hsl(0 0% 100%)"
         },
         {
           "slug": "card-foreground",
           "name": "Texto do card",
-          "color": "#0a0a0a"
+          "color": "hsl(0 0% 10%)"
         },
         {
-          "slug": "muted",
-          "name": "Suave",
-          "color": "#f4f4f5"
+          "slug": "popover",
+          "name": "Popover",
+          "color": "hsl(0 0% 100%)"
         },
         {
-          "slug": "muted-foreground",
-          "name": "Texto suave",
-          "color": "#71717a"
-        },
-        {
-          "slug": "border",
-          "name": "Borda",
-          "color": "#e4e4e7"
+          "slug": "popover-foreground",
+          "name": "Popover foreground",
+          "color": "hsl(0 0% 10%)"
         },
         {
           "slug": "primary",
           "name": "Primária",
-          "color": "#2563eb"
+          "color": "hsl(250 49% 38%)"
         },
         {
           "slug": "primary-foreground",
           "name": "Texto sobre primária",
-          "color": "#ffffff"
+          "color": "hsl(0 0% 100%)"
+        },
+        {
+          "slug": "secondary",
+          "name": "Secundária",
+          "color": "hsl(248 47% 97%)"
+        },
+        {
+          "slug": "secondary-foreground",
+          "name": "Texto sobre secundária",
+          "color": "hsl(249 41% 25%)"
+        },
+        {
+          "slug": "muted",
+          "name": "Suave",
+          "color": "hsl(248 47% 97%)"
+        },
+        {
+          "slug": "muted-foreground",
+          "name": "Texto suave",
+          "color": "hsl(0 0% 43%)"
+        },
+        {
+          "slug": "accent",
+          "name": "Accent",
+          "color": "hsl(254 87% 61%)"
+        },
+        {
+          "slug": "accent-foreground",
+          "name": "Accent foreground",
+          "color": "hsl(0 0% 100%)"
+        },
+        {
+          "slug": "destructive",
+          "name": "Destructive",
+          "color": "hsl(0 84.2% 60.2%)"
+        },
+        {
+          "slug": "destructive-foreground",
+          "name": "Destructive foreground",
+          "color": "hsl(210 40% 98%)"
+        },
+        {
+          "slug": "border",
+          "name": "Borda",
+          "color": "hsl(252 8% 88%)"
+        },
+        {
+          "slug": "input",
+          "name": "Input",
+          "color": "hsl(252 8% 88%)"
+        },
+        {
+          "slug": "ring",
+          "name": "Ring",
+          "color": "hsl(250 49% 38%)"
         }
       ],
       "defaultPalette": true,
       "defaultGradients": true
+    },
+    "typography": {
+      "fontFamilies": [
+        {
+          "slug": "sans",
+          "name": "Sans",
+          "fontFamily": "'Manrope', system-ui, sans-serif"
+        },
+        {
+          "slug": "heading",
+          "name": "Heading",
+          "fontFamily": "'Poppins', system-ui, sans-serif"
+        }
+      ]
     }
   }
 }
