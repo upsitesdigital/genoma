@@ -11,7 +11,7 @@ final class ResultadoPesquisaController extends Controller
 {
     #[Get('/resultado-pesquisa')]
     #[Get('/resultado-pesquisa/:id')]
-    #[Cache(ttl: 60)]
+    #[Cache(ttl: 60, vary: ['page', 's'])]
     public function index(\WP_REST_Request $request): array
     {
         $pageId = (int) ($request->get_param('id') ?: 0);
@@ -29,7 +29,7 @@ final class ResultadoPesquisaController extends Controller
      * /blog-posts.
      */
     #[Get('/resultado-pesquisa-lista')]
-    #[Cache(ttl: 60)]
+    #[Cache(ttl: 60, vary: ['page', 's'])]
     public function lista(\WP_REST_Request $request): array
     {
         $page  = max(1, (int) ($request->get_param('page') ?: 1));
@@ -52,7 +52,7 @@ final class ResultadoPesquisaController extends Controller
     private function defaultBuscaIcone(): array
     {
         return [
-            'src'    => get_template_directory_uri() . '/app/blog/assets/hero-icon-busca.svg',
+            'src'    => get_template_directory_uri() . '/app/blog/assets/diagnostico-veterinario-em-sp-73.svg',
             'alt'    => '',
             'width'  => 24,
             'height' => 24,
@@ -111,6 +111,10 @@ final class ResultadoPesquisaController extends Controller
 
     private function postExcerpt(\WP_Post $post): string
     {
+        if (post_password_required($post)) {
+            return '';
+        }
+
         if ($post->post_excerpt !== '') {
             return wp_strip_all_tags($post->post_excerpt);
         }
@@ -140,7 +144,7 @@ final class ResultadoPesquisaController extends Controller
     private function defaultPostImagem(): array
     {
         return [
-            'src'    => get_template_directory_uri() . '/app/blog/assets/lista-post-placeholder.png',
+            'src'    => get_template_directory_uri() . '/app/blog/assets/diagnostico-veterinario-em-sp-74.png',
             'alt'    => '',
             'width'  => 630,
             'height' => 340,

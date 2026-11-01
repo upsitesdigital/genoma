@@ -64,7 +64,7 @@ function HeroCarousel({ hero }: { hero: ResponsavelData['hero'] }) {
 
   if (total === 0) return null
 
-  const waveUrl = `${boot.themeUrl}/app/responsavel/assets/hero-bottom-wave.svg`
+  const waveUrl = `${boot.themeUrl}/app/responsavel/assets/diagnostico-veterinario-em-sp-58.svg`
 
   return (
     <section id="hero"

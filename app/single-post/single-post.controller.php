@@ -173,6 +173,10 @@ final class SinglePostController extends Controller
 
     private function relacionadoExcerpt(\WP_Post $post): string
     {
+        if (post_password_required($post)) {
+            return '';
+        }
+
         if ($post->post_excerpt !== '') {
             return wp_strip_all_tags($post->post_excerpt);
         }
@@ -197,7 +201,7 @@ final class SinglePostController extends Controller
         }
 
         return [
-            'src'    => get_template_directory_uri() . '/app/single-post/assets/veja-tambem-placeholder.png',
+            'src'    => get_template_directory_uri() . '/app/single-post/assets/diagnostico-veterinario-em-sp-76.png',
             'alt'    => '',
             'width'  => 315,
             'height' => 170,
@@ -227,7 +231,7 @@ final class SinglePostController extends Controller
     private function defaultImagem(): array
     {
         return [
-            'src'    => get_template_directory_uri() . '/app/single-post/assets/hero-placeholder.png',
+            'src'    => get_template_directory_uri() . '/app/single-post/assets/diagnostico-veterinario-em-sp-75.png',
             'alt'    => '',
             'width'  => 800,
             'height' => 432,

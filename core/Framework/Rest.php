@@ -71,7 +71,15 @@ class Rest
         ?Attributes\Cache $cache,
     ): callable {
         return function (\WP_REST_Request $request) use ($instance, $method, $cache) {
-            $cacheKey = $cache ? 'fw_rest_' . md5($request->get_route() . serialize($request->get_params())) : null;
+            // No WP REST a query string tem precedência sobre os params da rota:
+            // sem isso, /pagina-padrao/3?id=118 serviria o post 118.
+            $request->set_query_params(array_diff_key($request->get_query_params(), $request->get_url_params()));
+
+            $denied = self::guardPost($request);
+            if ($denied) return $denied;
+
+            // Logado não usa cache: a resposta pode conter o que só ele pode ver.
+            $cacheKey = $cache && !is_user_logged_in() ? self::cacheKey($request, $cache) : null;
 
             if ($cacheKey) {
                 $cached = get_transient($cacheKey);
@@ -94,6 +102,40 @@ class Rest
 
             return rest_ensure_response($result);
         };
+    }
+
+    /**
+     * Por convenção, `id` nas rotas de módulo é o ID do post/página exibido.
+     * Só passa o que o WP mostraria publicamente (ou o que o usuário logado pode
+     * ler, ex: preview de rascunho) e nunca conteúdo protegido por senha.
+     */
+    private static function guardPost(\WP_REST_Request $request): ?\WP_Error
+    {
+        $id = $request->get_param('id');
+        if ($id === null || $id === '') return null;
+
+        $post    = is_scalar($id) ? get_post((int) $id) : null;
+        $visible = $post instanceof \WP_Post
+            && (is_post_publicly_viewable($post) || current_user_can('read_post', $post->ID))
+            && !post_password_required($post);
+
+        return $visible ? null : new \WP_Error('fw_not_found', 'Conteúdo não encontrado.', ['status' => 404]);
+    }
+
+    /**
+     * Chave = rota (já inclui os params de URL) + só os params de query que a
+     * rota declara em #[Cache(vary: [...])]. Query string desconhecida
+     * (utm_*, fbclid…) não gera transient novo.
+     */
+    private static function cacheKey(\WP_REST_Request $request, Attributes\Cache $cache): string
+    {
+        $vary = [];
+        foreach ($cache->vary as $param) {
+            $value = $request->get_param($param);
+            $vary[$param] = is_scalar($value) ? trim((string) $value) : '';
+        }
+
+        return 'fw_rest_' . md5($request->get_route() . serialize($vary));
     }
 
     private static function buildPermission(?Attributes\Auth $auth): callable

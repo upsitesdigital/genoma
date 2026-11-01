@@ -5,6 +5,7 @@
 projeto:
   tipo: custom-theme
   skills: [wordpress, acf]
+  palavra-chave-seo: Diagnóstico Veterinário em SP   # OBRIGATÓRIA — nome de todas as imagens: diagnostico-veterinario-em-sp-01.webp
   link admin: http://localhost/projetos/genoma/site/wp-login.php
   user admin: admin
   senha admin: admin

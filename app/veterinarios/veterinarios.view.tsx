@@ -63,7 +63,7 @@ function HeroCarousel({ hero }: { hero: VeterinariosData['hero'] }) {
 
   if (total === 0) return null
 
-  const waveUrl = `${boot.themeUrl}/app/veterinarios/assets/hero-bottom-wave.svg`
+  const waveUrl = `${boot.themeUrl}/app/veterinarios/assets/diagnostico-veterinario-em-sp-46.svg`
 
   return (
     <section id="hero"

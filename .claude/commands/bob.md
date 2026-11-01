@@ -87,7 +87,7 @@ final class {Pascal}Controller extends Controller
 
         // Fallback de imagem local:
         $img = $this->image($this->field($pageId, 'imagem')) ?? [
-            'src'    => get_template_directory_uri() . '/app/{slug}/assets/hero.webp',
+            'src'    => get_template_directory_uri() . '/app/{slug}/assets/{palavra-chave}-01.webp',
             'alt'    => '',
             'width'  => null,
             'height' => null,
@@ -207,7 +207,15 @@ Gerar todos os arquivos com o conteúdo do Figma como padrão.
 
 ### 4. Baixar assets do Figma
 - Usar `mcp__figma__download_figma_images` (nodeId de cada imagem/ícone vem da árvore retornada por `get_figma_data`)
-- Salvar em: `app/{slug}/assets/{secao}-{descricao}.webp`
+- Salvar em: `app/{slug}/assets/{palavra-chave}-{NN}.webp` (header/footer:
+  `resources/components/layout/assets/`). **Nome do arquivo (SEO)** — `palavra-chave-seo`
+  do prompt.yaml é obrigatória (sem ela, pare e peça a palavra-chave — não baixe asset).
+  **Todo** arquivo baixado (imagem, ícone, decoração) se chama `{palavra-chave}-{NN}.{ext}`:
+  a palavra-chave em kebab-case, minúscula e sem acento (`Diagnóstico Veterinário em SP` →
+  `diagnostico-veterinario-em-sp-01.webp`) e `NN` com dois dígitos, numeração **única no
+  tema inteiro** (a imagem costuma ir para a biblioteca de mídia; nome repetido ganha sufixo
+  do WP). O próximo número é o maior existente + 1:
+  `find app resources -path '*/assets/*' -name '{palavra-chave}-*'`
 - Referenciar no controller como fallback e no view como src padrão
 - Nunca deixar URLs hotlinkadas do Figma no código final
 
@@ -255,6 +263,7 @@ Ajustar por viewport: direção do layout, colunas do grid, tamanhos de fonte, e
 - [ ] Controller retorna todos os campos do schema
 - [ ] Imagens com fallback local no controller
 - [ ] URLs do Figma substituídas por paths locais
+- [ ] Assets novos nomeados `{palavra-chave-seo}-{NN}.{ext}`, sem repetir número no tema
 - [ ] `module-registry.ts` atualizado (se módulo novo)
 - [ ] Todos os 4 viewports implementados
 - [ ] Skeleton espelha o layout real

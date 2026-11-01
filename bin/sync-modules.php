@@ -8,6 +8,9 @@
  * Uso: composer fw:sync-modules
  */
 
+// Fica dentro do web root: aberto via HTTP, não pode regravar arquivos.
+if (PHP_SAPI !== 'cli') exit;
+
 $themeDir = dirname(__DIR__);
 $appDir   = $themeDir . '/app';
 $slugs    = [];

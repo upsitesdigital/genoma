@@ -68,9 +68,9 @@ function HeroCarousel({ hero }: { hero: HomeData['hero'] }) {
 
   if (total === 0) return null
 
-  const waveUrl = `${boot.themeUrl}/app/home/assets/hero-bottom-wave.svg`
-  const waveMobileUrl = `${boot.themeUrl}/app/home/assets/hero-mobile-bottom-wave.svg`
-  const imagemMobilePadrao = `${boot.themeUrl}/app/home/assets/hero-mobile-cachorro.png`
+  const waveUrl = `${boot.themeUrl}/app/home/assets/diagnostico-veterinario-em-sp-16.svg`
+  const waveMobileUrl = `${boot.themeUrl}/app/home/assets/diagnostico-veterinario-em-sp-17.svg`
+  const imagemMobilePadrao = `${boot.themeUrl}/app/home/assets/diagnostico-veterinario-em-sp-18.png`
 
   return (
     <section id="hero"
@@ -453,7 +453,7 @@ function SobreSection({ sobre }: { sobre: HomeSobre }) {
                 />
               )}
               <img
-                src={`${boot.themeUrl}/app/home/assets/sobre-genoma-dna-decor.svg`}
+                src={`${boot.themeUrl}/app/home/assets/diagnostico-veterinario-em-sp-25.svg`}
                 alt=""
                 aria-hidden="true"
                 className="pointer-events-none absolute -top-[73px] right-6 hidden w-16 sm:block md:-top-[92px] md:right-8 md:w-20 lg:-top-[115px] lg:right-[46px] lg:w-[100px]"

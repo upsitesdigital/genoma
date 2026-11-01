@@ -37,6 +37,9 @@ export default defineConfig({
     cors: true,
   },
   publicDir: false,
+  // Relativo: o preload dos chunks resolve a partir do próprio bundle
+  // (wp-content/themes/upwork/public/build/), não da raiz do domínio.
+  base: './',
   build: {
     outDir: 'public/build',
     manifest: true,

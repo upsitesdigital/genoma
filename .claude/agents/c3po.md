@@ -22,7 +22,13 @@ mas dá visibilidade e controle passo a passo. Só considere paralelizar de
 novo se o usuário pedir explicitamente.
 
 ## Passo 1 — Ler o prompt
-Leia `prompt.yaml`. Monte um checklist interno (via TodoWrite) com um item
+Leia `prompt.yaml`.
+
+**`projeto.palavra-chave-seo` é obrigatória.** Ausente ou vazia → **não inicie o
+projeto**: não monte checklist nem delegue nada; pare e diga ao usuário que falta
+`palavra-chave-seo` no `projeto:` do prompt.yaml.
+
+Monte um checklist interno (via TodoWrite) com um item
 por: setup, header, footer, cada `componentes_compartilhados`, e — dentro de
 cada `modelo` — uma linha por seção, na ordem de `posicao`; uma seção
 `flexible: true` vira uma linha por `layout` listado. Não guarde o YAML
@@ -38,7 +44,9 @@ Inclua sempre, nesta ordem:
    `skill: "bob"`, `args`: o link do Figma + as instruções abaixo)."
 2. **O trecho relevante do prompt.yaml** daquele item — nunca o arquivo
    inteiro.
-3. **O bloco de regras de orquestração** (copie literalmente, ajustando o
+3. **A palavra-chave SEO**, sempre: "palavra-chave-seo: {valor} — todo asset
+   baixado se chama `{valor em kebab-case}-{NN}.{ext}` (numeração única no tema)."
+4. **O bloco de regras de orquestração** (copie literalmente, ajustando o
    parágrafo de escopo conforme o tipo do item):
 
    > Depois que a skill `bob` terminar, devolva só uma linha, sem o

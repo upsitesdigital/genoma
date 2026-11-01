@@ -137,12 +137,12 @@ export default function Footer() {
   const year = new Date().getFullYear()
   const ctaOverride = useFooterCtaOverride()
 
-  const logoUrl = opts.footer_logo_url || opts.logo_url || `${boot.themeUrl}/resources/components/layout/assets/header-logo.svg`
-  const ctaImageUrl = opts.footer_cta_image_url || `${boot.themeUrl}/resources/components/layout/assets/footer-cta-photo.png`
+  const logoUrl = opts.footer_logo_url || opts.logo_url || `${boot.themeUrl}/resources/components/layout/assets/diagnostico-veterinario-em-sp-04.svg`
+  const ctaImageUrl = opts.footer_cta_image_url || `${boot.themeUrl}/resources/components/layout/assets/diagnostico-veterinario-em-sp-02.png`
   // Mobile/tablet: recorte mais alto da mesma foto (Figma 353×215). Imagem
   // definida nas Opções do Tema vale para todas as larguras.
-  const ctaImageMobileUrl = opts.footer_cta_image_url || `${boot.themeUrl}/resources/components/layout/assets/footer-cta-photo-mobile.webp`
-  const watermarkUrl = `${boot.themeUrl}/resources/components/layout/assets/footer-watermark.svg`
+  const ctaImageMobileUrl = opts.footer_cta_image_url || `${boot.themeUrl}/resources/components/layout/assets/diagnostico-veterinario-em-sp-01.webp`
+  const watermarkUrl = `${boot.themeUrl}/resources/components/layout/assets/diagnostico-veterinario-em-sp-03.svg`
 
   const overline = opts.footer_cta_overline || 'Fale conosco'
   // O módulo da página atual pode sobrescrever título, CTAs e a quantidade de

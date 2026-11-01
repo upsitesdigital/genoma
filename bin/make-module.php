@@ -8,6 +8,9 @@
  * Uso: composer fw:make:module quem-somos
  */
 
+// Fica dentro do web root: aberto via HTTP, não pode criar arquivos.
+if (PHP_SAPI !== 'cli') exit;
+
 $slug = $argv[1] ?? null;
 
 if (!$slug) {

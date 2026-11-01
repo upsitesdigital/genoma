@@ -144,7 +144,7 @@ export default function Header() {
 
   const opts = boot.themeOptions as ThemeOptions
   const siteName = opts.site_name || 'Genoma Diagnósticos'
-  const logoUrl = opts.logo_url || `${boot.themeUrl}/resources/components/layout/assets/header-logo.svg`
+  const logoUrl = opts.logo_url || `${boot.themeUrl}/resources/components/layout/assets/diagnostico-veterinario-em-sp-04.svg`
 
   const ctaPrimaryLabel = opts.cta_primary_label || 'Resultados'
   const ctaPrimaryUrl = opts.cta_primary_url || '#'

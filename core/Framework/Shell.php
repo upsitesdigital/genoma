@@ -48,7 +48,8 @@ class Shell
 <body <?php body_class(); ?>>
     <?php wp_body_open(); ?>
     <div id="app-root"></div>
-    <script>window.FW_BOOT = <?= wp_json_encode(\Core\Support\Webp::rewrite($bootData)) ?>;</script>
+    <?php // HEX_TAG: "<!--" ou "</script>" vindos de ?s= ou do conteúdo não podem fechar/quebrar o <script> ?>
+    <script>window.FW_BOOT = <?= wp_json_encode(\Core\Support\Webp::rewrite($bootData), JSON_HEX_TAG | JSON_HEX_AMP) ?>;</script>
     <?php wp_footer(); ?>
 </body>
 </html>
