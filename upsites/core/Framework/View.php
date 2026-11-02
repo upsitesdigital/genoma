@@ -55,6 +55,7 @@ final class View
 
         $view = self::viewFile($module);
         self::$data = $view ? self::fetch($module, $id, $params) : null;
+        if (is_array(self::$data)) self::primeAttachments(self::$data);
 
         // status HTTP de verdade (sem "soft 404" indexado): view inexistente → 404; controller falhou → 404/500
         if (!$view) {
@@ -99,6 +100,23 @@ final class View
         // referência ao trecho casado e duplicariam o <main>
         $withMain = preg_replace_callback('/<main\b[^>]*>/i', static fn($m) => $m[0] . $h1, $html, 1, $count);
         return $count ? (string) $withMain : $h1 . $html;
+    }
+
+    /**
+     * Anexos das imagens da página (ImageData: `id` + `src`) num lote só — o fw_img() chama o
+     * wp_get_attachment_image() por imagem, e cada uma buscaria o post e os metadados do anexo
+     * separadamente (2 consultas por imagem, mesmo com o page() vindo do cache).
+     */
+    private static function primeAttachments(array $data): void
+    {
+        $ids  = [];
+        $walk = function (array $node) use (&$walk, &$ids): void {
+            if (isset($node['src']) && is_int($node['id'] ?? null) && $node['id'] > 0) $ids[] = $node['id'];
+            foreach ($node as $child) if (is_array($child)) $walk($child);
+        };
+        $walk($data);
+
+        if ($ids && function_exists('_prime_post_caches')) _prime_post_caches(array_unique($ids), false, true);
     }
 
     /** template-pages/{slug}/{slug}.view.php, ou null se o slug for inválido/o arquivo não existir. */

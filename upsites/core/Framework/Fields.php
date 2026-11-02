@@ -23,6 +23,9 @@ final class Fields
     /** @var array<string, list<array{order: int|array, key: string, label: string, location: array, fields: array}>> seções por página */
     private static array $pending = [];
 
+    /** @var list<string> names dos campos das Opções do Tema (ThemeOptions pré-carrega as options deles) */
+    private static array $optionNames = [];
+
     /**
      * UMA seção da página = uma aba lateral no grupo de campos da página.
      *
@@ -103,6 +106,10 @@ final class Fields
     {
         if (!function_exists('acf_add_local_field_group')) return;
 
+        foreach ($fields as $field) {
+            if (!empty($field['name'])) self::$optionNames[] = (string) $field['name'];
+        }
+
         self::$pending[self::OPTIONS][] = [
             'order'    => $order,
             'key'      => self::OPTIONS . "_{$section}",
@@ -116,6 +123,12 @@ final class Fields
         } else {
             self::flush();
         }
+    }
+
+    /** @return list<string> names dos campos de primeiro nível das Opções do Tema (Fields::option) */
+    public static function optionNames(): array
+    {
+        return self::$optionNames;
     }
 
     /**

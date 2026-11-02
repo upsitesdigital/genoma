@@ -76,13 +76,36 @@ final class ThemeOptions
     /** O campo já foi salvo nas opções? (nunca salvo → padrão do Figma; salvo vazio → some) */
     public static function saved(string $name): bool
     {
+        self::prime();
         return get_option("options_{$name}", null) !== null;
     }
 
     /** Valor cru do campo (repeater, imagem, link…) — null se o ACF não estiver ativo. */
     public static function value(string $name): mixed
     {
+        self::prime();
         return function_exists('get_field') ? get_field($name, 'option') : null;
+    }
+
+    /**
+     * Na primeira leitura da requisição, as options de todos os campos (valor `options_{name}` e
+     * referência do ACF `_options_{name}`) numa consulta só — não ficam no autoload, e header e
+     * footer leem várias em toda página (2 consultas por campo). Nunca salvas viram "não existe" no
+     * cache, sem consulta.
+     */
+    private static function prime(): void
+    {
+        static $done = false;
+        if ($done || !function_exists('wp_prime_option_caches')) return;
+
+        // antes do acf/init os campos ainda não foram declarados: tenta de novo na próxima leitura
+        $names = \Core\Framework\Fields::optionNames();
+        if (!$names) return;
+        $done = true;
+
+        $options = [];
+        foreach ($names as $name) array_push($options, "options_{$name}", "_options_{$name}");
+        wp_prime_option_caches($options);
     }
 
     /** Texto: nunca salvo → $default; apagado pelo editor → null; preenchido → o do editor. */

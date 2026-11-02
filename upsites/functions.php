@@ -91,6 +91,29 @@ add_action('wp_enqueue_scripts', function () {
 }, 1);
 
 /**
+ * CSS do editor de blocos só onde há conteúdo do editor. Nas páginas de módulo (home, blog, busca…)
+ * o conteúdo vem dos campos ACF: global-styles (paleta do theme.json), wp-block-library e
+ * classic-theme-styles são ~20 KB de CSS inline sem uso em cada página — o tema React também os
+ * tirava. Post e página comum (módulos single-post e pagina-padrao) mantêm: bloco com cor/tamanho
+ * da paleta depende deles.
+ */
+add_action('wp_enqueue_scripts', function () {
+  $current = Core\Framework\View::current();
+  $module  = is_array($current) ? (string) ($current['module'] ?? '') : '';
+  if ('' === $module || in_array($module, array('single-post', 'pagina-padrao'), true)) return;
+
+  foreach (array('global-styles', 'wp-block-library', 'classic-theme-styles') as $handle) {
+    wp_dequeue_style($handle);
+  }
+  // tema clássico com estilos sob demanda: o WP enfileira o global-styles no wp_footer (e o leva ao <head>)
+  remove_action('wp_footer', 'wp_enqueue_global_styles', 1);
+}, 100);
+
+// Emoji: os navegadores desenham nativamente — sem o script de detecção nem o CSS do WP em toda página
+remove_action('wp_head', 'print_emoji_detection_script', 7);
+remove_action('wp_enqueue_scripts', 'wp_enqueue_emoji_styles');
+
+/**
  * Critical CSS (primeira dobra) da página de módulo: assets/css/{módulo}-above-the-fold.css
  * (localhost) / .min.css (homolog/prod), gerado pelo gulp de src/sass/{módulo}-above-the-fold.scss
  * — ex.: home-above-the-fold.scss para a home. Um arquivo só para celular e desktop: o Tailwind
