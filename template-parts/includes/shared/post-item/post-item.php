@@ -1,41 +1,68 @@
 <?php
 /**
- * Item de lista de posts (post atual do loop): imagem destacada, data, título com link e resumo.
- * Usado pelo shared/post-list (index.php, arquivo, busca, autor) — chame dentro do loop,
- * depois de the_post():
+ * Card de post — o PostCard do blog e o ResultadoCard da busca do tema React (app/blog/blog.view.tsx,
+ * app/resultado-pesquisa/resultado-pesquisa.view.tsx): imagem, categoria (opcional), título, resumo
+ * (3 linhas) e "Saiba mais". O card inteiro é o link do post. Usado pelo shared/post-list.
  *
- *   Part::render('shared/post-item');
- *   Part::render('shared/post-item', ['heading' => 'h3']);
+ *   Part::render('shared/post-item', ['post' => $post, 'categoria' => true]);   // PostData de um controller
+ *   Part::render('shared/post-item');                                            // dentro do loop, depois de the_post()
  *
- * @var array{heading?: 'h2'|'h3'} $data  heading = nível do título (padrão h2).
+ * - post: PostData (BlogController/ResultadoPesquisaController::post). Sem ele, o post atual do loop,
+ *   montado com as mesmas regras (resumo do editor ou 20 palavras do conteúdo; sem imagem destacada →
+ *   assets/diagnostico-veterinario-em-sp-74.png).
+ * - categoria: mostra a 1ª categoria acima do título (busca); sem categoria (página) não aparece.
+ * - Imagem sem texto alternativo → o título do post (como no React).
+ *
+ * @var array{
+ *   post?: array{id: int, titulo: string, resumo: string, data: string, link: string, categoria: string, imagem: array{id: int, src: string, alt: string, width: int|null, height: int|null, sizes: array}|null},
+ *   categoria?: bool,
+ * } $data
  */
 
 defined('ABSPATH') || exit;
 
-$tag = ($data['heading'] ?? 'h2') === 'h3' ? 'h3' : 'h2';
+$post = $data['post'] ?? null;
+
+if (!$post) {
+  // modo loop: o post atual, no mesmo formato dos controllers
+  $atual = get_post();
+  if (!$atual) return;
+
+  $thumbId    = (int) get_post_thumbnail_id($atual);
+  $src        = $thumbId ? wp_get_attachment_image_url($thumbId, 'medium_large') : false;
+  $categorias = 'post' === $atual->post_type ? get_the_category($atual->ID) : [];
+  $resumo     = '';
+  if ($atual->post_password === '') {
+    $resumo = $atual->post_excerpt !== '' ? wp_strip_all_tags($atual->post_excerpt) : wp_trim_words(wp_strip_all_tags($atual->post_content), 20, '…');
+  }
+
+  $post = [
+    'titulo'    => (string) get_the_title($atual),
+    'resumo'    => $resumo,
+    'link'      => (string) get_permalink($atual),
+    'categoria' => (string) ($categorias[0]->name ?? ''),
+    'imagem'    => $src
+      ? ['id' => $thumbId, 'src' => $src, 'alt' => (string) get_post_meta($thumbId, '_wp_attachment_image_alt', true), 'width' => null, 'height' => null, 'sizes' => []]
+      : ['id' => 0, 'src' => get_template_directory_uri() . '/template-parts/includes/shared/post-item/assets/diagnostico-veterinario-em-sp-74.png', 'alt' => '', 'width' => 630, 'height' => 340, 'sizes' => []],
+  ];
+}
+
+$alt = ($post['imagem']['alt'] ?? '') ?: wp_strip_all_tags($post['titulo']);
 ?>
-<article id="post-<?php the_ID(); ?>" <?php post_class('flex flex-col gap-4 md:flex-row md:gap-6'); ?>>
-  <?php if (has_post_thumbnail()) : ?>
-    <a href="<?php the_permalink(); ?>" class="shrink-0 md:w-64" tabindex="-1" aria-hidden="true">
-      <?php the_post_thumbnail('medium_large', ['class' => 'aspect-[16/10] w-full rounded-lg object-cover', 'alt' => '']); ?>
-    </a>
-  <?php endif; ?>
-
-  <div class="flex-1">
-    <?php if ('post' === get_post_type()) : ?>
-      <p class="text-sm text-muted-foreground">
-        <time datetime="<?= esc_attr(get_the_date('c')) ?>"><?= esc_html(get_the_date()) ?></time>
-      </p>
-    <?php endif; ?>
-
-    <<?= $tag // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- h2|h3 fixo acima ?> class="mt-1 text-xl font-bold tracking-tight md:text-2xl">
-      <a href="<?php the_permalink(); ?>" class="hover:text-primary"><?php the_title(); ?></a>
-    </<?= $tag // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- h2|h3 fixo acima ?>>
-
-    <div class="mt-2 text-muted-foreground"><?php the_excerpt(); ?></div>
-
-    <a href="<?php the_permalink(); ?>" class="mt-3 inline-block text-sm font-semibold text-primary hover:underline">
-      <?php esc_html_e('Ler mais', 'upsites'); ?><span class="sr-only">: <?php the_title(); ?></span>
-    </a>
+<a <?= fw_attrs([
+  'href'        => fw_url($post['link']),
+  'data-reveal' => true,
+  'class'       => 'flex flex-col gap-9 rounded-2xl bg-brand-purple-subtle p-6 transition-shadow hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-purple md:p-8',
+]) ?>>
+  <div class="flex flex-col gap-4">
+    <?= fw_img($post['imagem'], ['alt' => $alt, 'class' => 'h-[170px] w-full rounded-lg object-cover'], 'medium_large') ?>
+    <div class="flex flex-col gap-2">
+      <?php if (!empty($data['categoria']) && $post['categoria'] !== '') : ?>
+        <span class="font-sans text-body-sm text-brand-purple-accent"><?= esc_html($post['categoria']) ?></span>
+      <?php endif; ?>
+      <h3 class="font-heading text-h4 leading-snug font-medium text-brand-purple-dark"><?= esc_html($post['titulo']) ?></h3>
+      <p class="line-clamp-3 font-sans text-body-sm text-brand-gray-text"><?= esc_html($post['resumo']) ?></p>
+    </div>
   </div>
-</article>
+  <span class="inline-flex w-full shrink-0 items-center justify-center rounded-full bg-brand-purple px-4 py-3.5 font-sans text-body-sm font-semibold text-white transition-opacity hover:opacity-90 lg:w-fit"><?php esc_html_e('Saiba mais', 'upsites'); ?></span>
+</a>

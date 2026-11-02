@@ -1,8 +1,9 @@
 <?php
 /**
- * Formulário de busca (get_search_form()) — usado no search.php, na lista de posts sem
- * resultados de arquivo e autor (shared/post-list com searchForm) e no 404 (shared/not-found
- * com search). Rótulo visível só para leitor de tela; foco visível no campo e no botão.
+ * Formulário de busca (get_search_form()) — usado na lista de posts sem resultados de arquivo e
+ * autor (shared/post-list com searchForm). O 404 não tem busca (como no tema React). A página da
+ * busca (/?s=) e o topo do blog têm o campo próprio do layout, no hero (resultado-pesquisa/hero,
+ * blog/hero). Rótulo visível só para leitor de tela; foco visível no campo e no botão.
  *
  * $args vem do get_search_form( $args ): 'aria_label' (WP 5.2+) vira o aria-label do
  * <form role="search"> — distingue o landmark quando há mais de uma busca na página.
