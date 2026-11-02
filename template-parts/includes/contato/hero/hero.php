@@ -30,6 +30,7 @@ $canais = $data['canais'] ?? [];
 
 // card do canal (React: CanalCard) — mesmo visual com e sem link
 $cardClass = 'flex h-full items-center gap-6 rounded-xl border border-brand-gray-border bg-white p-6 shadow-xs transition-shadow hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-purple sm:p-8 md:gap-8 md:p-12';
+$entrada = 0; // entrada do hero só em CSS (data-hero-reveal): posição de cada elemento na cascata
 ?>
 <section id="hero" class="relative isolate w-full">
   <div class="w-full bg-[linear-gradient(-20deg,#95ABB7_47%,#AEC6D3_100%)] pt-[186px] pb-40 md:pb-48 lg:pt-40 lg:pb-56">
@@ -39,10 +40,10 @@ $cardClass = 'flex h-full items-center gap-6 rounded-xl border border-brand-gray
       <?php endif; ?>
       <?php if ($data['titulo']) : ?>
         <?php // text-3xl/tight: entrelinha 1.25 só no celular — no md o text-h1 volta a ter a dele (1.15), como no React ?>
-        <h1 data-reveal class="max-w-[280px] font-heading text-3xl/tight font-medium text-white sm:max-w-md md:max-w-xl md:text-h1 lg:max-w-2xl"><?= esc_html($data['titulo']) ?></h1>
+        <h1 <?= fw_attrs(['data-hero-reveal' => $entrada++]) ?> class="max-w-[280px] font-heading text-3xl/tight font-medium text-white sm:max-w-md md:max-w-xl md:text-h1 lg:max-w-2xl"><?= esc_html($data['titulo']) ?></h1>
       <?php endif; ?>
       <?php if ($data['descricao']) : ?>
-        <p data-reveal class="max-w-2xl font-sans text-body-lg text-white"><?= esc_html($data['descricao']) ?></p>
+        <p <?= fw_attrs(['data-hero-reveal' => $entrada++]) ?> class="max-w-2xl font-sans text-body-lg text-white"><?= esc_html($data['descricao']) ?></p>
       <?php endif; ?>
     </div>
   </div>
@@ -53,7 +54,7 @@ $cardClass = 'flex h-full items-center gap-6 rounded-xl border border-brand-gray
         <?php foreach ($canais as $canal) :
           $href = fw_url($canal['link']);
           ?>
-          <li data-reveal>
+          <li <?= fw_attrs(['data-hero-reveal' => $entrada++]) ?>>
             <?php if ($href) : ?>
               <a <?= fw_attrs(['href' => $href, 'class' => $cardClass] + fw_target('_blank')) ?>>
             <?php else : ?>

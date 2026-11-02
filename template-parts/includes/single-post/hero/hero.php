@@ -53,16 +53,17 @@ $shares = [
     'icone' => '<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>',
   ],
 ];
+$entrada = 0; // entrada do hero só em CSS (data-hero-reveal): posição de cada elemento na cascata
 ?>
 <section id="hero" class="relative isolate w-full">
   <div class="w-full bg-[linear-gradient(-20deg,#95ABB7_47%,#AEC6D3_100%)] pt-[186px] pb-40 md:pb-52 lg:pt-40 lg:pb-64">
     <div class="container">
       <div class="mx-auto flex max-w-3xl flex-col gap-4 md:gap-6">
         <?php // data    •    categoria: os espaços viram um só, como no React ?>
-        <p data-reveal class="font-sans text-body text-white"><?= esc_html($data['data']) ?><?php if ($data['categoria']) : ?>    •    <?php if ($data['categoriaLink']) : ?><a href="<?= esc_url($data['categoriaLink']) ?>" class="hover:underline focus-visible:underline focus-visible:outline-none"><?= esc_html($data['categoria']) ?></a><?php else : ?><?= esc_html($data['categoria']) ?><?php endif; ?><?php endif; ?></p>
+        <p <?= fw_attrs(['data-hero-reveal' => $entrada++]) ?> class="font-sans text-body text-white"><?= esc_html($data['data']) ?><?php if ($data['categoria']) : ?>    •    <?php if ($data['categoriaLink']) : ?><a href="<?= esc_url($data['categoriaLink']) ?>" class="hover:underline focus-visible:underline focus-visible:outline-none"><?= esc_html($data['categoria']) ?></a><?php else : ?><?= esc_html($data['categoria']) ?><?php endif; ?><?php endif; ?></p>
 
         <?php // v4: o leading-tight venceria o line-height do text-h1 (no React, a partir do md vale o do text-h1) ?>
-        <h1 data-reveal class="font-heading text-3xl leading-tight font-medium text-white md:text-h1 md:leading-[1.15]"><?= esc_html($data['titulo']) ?></h1>
+        <h1 <?= fw_attrs(['data-hero-reveal' => $entrada++]) ?> class="font-heading text-3xl leading-tight font-medium text-white md:text-h1 md:leading-[1.15]"><?= esc_html($data['titulo']) ?></h1>
 
         <div class="flex items-center gap-6">
           <span class="font-sans text-body text-white"><?php esc_html_e('Compartilhe', 'upsites'); ?></span>
@@ -85,13 +86,13 @@ $shares = [
   <div class="relative z-10 container -mt-32 pb-10 md:-mt-40 md:pb-14 lg:-mt-56 lg:pb-16">
     <div class="mx-auto max-w-3xl">
       <?= fw_img($data['imagem'], [
-        'alt'           => ($data['imagem']['alt'] ?? '') ?: $data['titulo'],
-        'class'         => 'aspect-[800/432] w-full rounded-2xl object-cover shadow-xl',
-        'sizes'         => '(min-width: 808px) 768px, calc(100vw - 40px)',
-        'data-reveal'   => true,
+        'alt'              => ($data['imagem']['alt'] ?? '') ?: $data['titulo'],
+        'class'            => 'aspect-[800/432] w-full rounded-2xl object-cover shadow-xl',
+        'sizes'            => '(min-width: 808px) 768px, calc(100vw - 40px)',
+        'data-hero-reveal' => $entrada++,
         // LCP da página: sem lazy, com prioridade
-        'fetchpriority' => 'high',
-        'loading'       => false,
+        'fetchpriority'    => 'high',
+        'loading'          => false,
       ], 'large') ?>
     </div>
   </div>

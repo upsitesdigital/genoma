@@ -76,7 +76,7 @@ $arrow = '<svg class="size-5 text-primary sm:size-6" viewBox="0 0 24 24" fill="n
     <?php foreach ($slides as $i => $slide) :
       $first  = $i === 0;
       $tag    = $first ? 'h1' : 'p'; // eyebrow: h1 no 1º slide, p nos demais
-      $reveal = $first ? true : null; // entrada só no 1º slide (o que aparece no carregamento)
+      $entrada = 0; // entrada só no 1º slide (o que aparece no carregamento): posição na cascata (data-hero-reveal)
       ?>
       <div
         <?= wp_interactivity_data_wp_context(['i' => $i]) ?>
@@ -97,12 +97,12 @@ $arrow = '<svg class="size-5 text-primary sm:size-6" viewBox="0 0 24 24" fill="n
           <div class="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_351px] lg:gap-16 xl:gap-24">
             <div class="max-w-xl lg:max-w-[636px]">
               <?php if ($slide['eyebrow']) : ?>
-                <<?= tag_escape($tag) ?> <?= fw_attrs(['data-reveal' => $reveal, 'class' => 'font-sans text-body text-white']) ?>><?= esc_html($slide['eyebrow']) ?></<?= tag_escape($tag) ?>>
+                <<?= tag_escape($tag) ?> <?= fw_attrs(['data-hero-reveal' => $first ? $entrada++ : null, 'class' => 'font-sans text-body text-white']) ?>><?= esc_html($slide['eyebrow']) ?></<?= tag_escape($tag) ?>>
               <?php endif; ?>
 
               <?php if ($slide['titulo']) : ?>
                 <?php // no Tailwind v3 do React o md:text-4xl e o lg:text-h1 trocavam a altura de linha do leading-tight ?>
-                <h2 <?= fw_attrs(['data-reveal' => $reveal, 'class' => 'mt-4 font-heading text-3xl leading-tight font-medium text-white sm:mt-6 md:text-4xl md:leading-10 lg:text-h1 lg:leading-[1.15]']) ?>>
+                <h2 <?= fw_attrs(['data-hero-reveal' => $first ? $entrada++ : null, 'class' => 'mt-4 font-heading text-3xl leading-tight font-medium text-white sm:mt-6 md:text-4xl md:leading-10 lg:text-h1 lg:leading-[1.15]']) ?>>
                   <?php foreach (preg_split('/\R/', $slide['titulo']) ?: [] as $linha) : ?>
                     <span class="block"><?= esc_html($linha) ?></span>
                   <?php endforeach; ?>
@@ -112,9 +112,9 @@ $arrow = '<svg class="size-5 text-primary sm:size-6" viewBox="0 0 24 24" fill="n
 
             <?php if ($slide['destaque']) : ?>
               <div class="flex flex-col gap-8 lg:mt-[52px] lg:gap-[49px]">
-                <hr <?= fw_attrs(['data-reveal' => $reveal, 'class' => 'border-t border-white']) ?>>
-                <p <?= fw_attrs(['data-reveal' => $reveal, 'class' => 'font-sans text-body-lg text-white']) ?>><?= esc_html($slide['destaque']) ?></p>
-                <hr <?= fw_attrs(['data-reveal' => $reveal, 'class' => 'border-t border-white']) ?>>
+                <hr <?= fw_attrs(['data-hero-reveal' => $first ? $entrada++ : null, 'class' => 'border-t border-white']) ?>>
+                <p <?= fw_attrs(['data-hero-reveal' => $first ? $entrada++ : null, 'class' => 'font-sans text-body-lg text-white']) ?>><?= esc_html($slide['destaque']) ?></p>
+                <hr <?= fw_attrs(['data-hero-reveal' => $first ? $entrada++ : null, 'class' => 'border-t border-white']) ?>>
               </div>
             <?php endif; ?>
           </div>
@@ -123,18 +123,18 @@ $arrow = '<svg class="size-5 text-primary sm:size-6" viewBox="0 0 24 24" fill="n
             <?php // fotos do 1º slide = LCP: sem lazy e com prioridade; sizes ≈ colunas 314fr/873fr do container ?>
             <div class="relative z-10 mt-10 grid grid-cols-1 gap-4 sm:grid-cols-[314fr_873fr] sm:gap-7 md:mt-16 lg:mt-24 xl:mt-[147px]">
               <?= fw_img($slide['imagem1'], [
-                'data-reveal'   => $reveal,
-                'class'         => 'h-64 w-full rounded-2xl object-cover sm:aspect-[314/390] sm:h-auto',
-                'sizes'         => '(min-width: 1400px) 360px, (min-width: 640px) 27vw, 100vw',
-                'loading'       => $first ? false : 'lazy',
-                'fetchpriority' => $first ? 'high' : null,
+                'data-hero-reveal' => $first ? $entrada++ : null,
+                'class'            => 'h-64 w-full rounded-2xl object-cover sm:aspect-[314/390] sm:h-auto',
+                'sizes'            => '(min-width: 1400px) 360px, (min-width: 640px) 27vw, 100vw',
+                'loading'          => $first ? false : 'lazy',
+                'fetchpriority'    => $first ? 'high' : null,
               ]) ?>
               <?= fw_img($slide['imagem2'], [
-                'data-reveal'   => $reveal,
-                'class'         => 'h-64 w-full rounded-2xl object-cover sm:aspect-[873/390] sm:h-auto',
-                'sizes'         => '(min-width: 1400px) 980px, (min-width: 640px) 70vw, 100vw',
-                'loading'       => $first ? false : 'lazy',
-                'fetchpriority' => $first ? 'high' : null,
+                'data-hero-reveal' => $first ? $entrada++ : null,
+                'class'            => 'h-64 w-full rounded-2xl object-cover sm:aspect-[873/390] sm:h-auto',
+                'sizes'            => '(min-width: 1400px) 980px, (min-width: 640px) 70vw, 100vw',
+                'loading'          => $first ? false : 'lazy',
+                'fetchpriority'    => $first ? 'high' : null,
               ], 'full') ?>
             </div>
           <?php endif; ?>

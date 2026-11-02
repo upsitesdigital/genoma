@@ -62,8 +62,11 @@ em `fw_attrs()`/`fw_img()`: `'data-reveal' => true` ou `'data-reveal' => 'right'
 </section>
 ```
 
-- **Hero**: título, texto e botão com `data-reveal` (sobem logo no carregamento,
-  em cascata); imagem de fundo **sem** animação; imagem lateral `fade`.
+- **Hero** (primeira dobra): título, texto e botão com `data-hero-reveal="{posição}"`
+  (0, 1, 2… na ordem do DOM — no PHP, um contador: `fw_attrs(['data-hero-reveal' => $entrada++])`;
+  em carrossel, só no 1º slide). É o mesmo movimento do preset padrão, mas só em CSS
+  (`_reveal.scss`): começa ao pintar a página, sem esperar o `reveal.js` — com `data-reveal`
+  o texto do hero ficava invisível até o JS carregar e atrasava o LCP. Imagem de fundo **sem** animação.
 - **Listas/cards/grades**: cada `li`/card com `data-reveal` → cascata por linha.
   Listas longas (logos, links) com `quick`.
 - **Duas colunas texto + imagem**: textos `up`, imagem `left`/`right` do lado em que está.
@@ -85,8 +88,8 @@ em `fw_attrs()`/`fw_img()`: `'data-reveal' => true` ou `'data-reveal' => 'right'
   (conteúdo que abre por clique já tem a própria transição);
 - campos de formulário (CF7) e mensagens de erro/sucesso;
 - a imagem de fundo do hero/CTA e qualquer elemento que seja o **LCP** com
-  atraso — o LCP só conta quando fica visível: no hero use no máximo o preset
-  padrão (sem `data-reveal-delay`);
+  atraso — o LCP só conta quando fica visível: no hero use `data-hero-reveal` (nunca
+  `data-reveal`, que espera o JS) e sem `data-reveal-delay`;
 - um wrapper e os filhos ao mesmo tempo (anima duas vezes);
 - elementos `position: fixed/sticky`.
 

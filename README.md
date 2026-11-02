@@ -250,6 +250,8 @@ O c3po atualiza o `CONTEXTO-IA.md` a cada página concluída. Fora do fluxo do c
 Com `animation: true` no `.claude/prompt.yaml`, os agentes seguem a skill `animation`: o setup liga
 `add_filter('upwork/animation', '__return_true');` e as seções marcam títulos, textos, botões e cards com `data-reveal`
 (sobem com fade em cascata ao entrar na tela; presets `fade`, `left`, `right`, `line`, `quick`).
+No hero (primeira dobra) a marcação é `data-hero-reveal="{posição}"`: o mesmo movimento, só em CSS, que começa ao pintar
+a página sem esperar o JS — o texto do hero costuma ser o LCP e não pode ficar invisível até o `reveal.js` carregar.
 Sem dependência (`upsites/core/js/reveal.js` + `src/sass/core/_reveal.scss`), respeita `prefers-reduced-motion` e não
 afeta a medição de fidelidade. Sem o filtro, nada disso é carregado.
 

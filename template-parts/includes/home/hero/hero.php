@@ -118,7 +118,7 @@ $arrow = '<svg class="size-5 text-primary sm:size-6" viewBox="0 0 24 24" fill="n
     <?php foreach ($slides as $i => $slide) :
       $first  = $i === 0;
       $tag    = $first ? 'h1' : 'p'; // eyebrow: h1 no 1º slide, p nos demais
-      $reveal = $first ? true : null; // entrada só no 1º slide (o que aparece no carregamento)
+      $entrada = 0; // entrada só no 1º slide (o que aparece no carregamento): posição na cascata (data-hero-reveal)
       $ctas   = array_filter(
         ['ctaPrimario' => $slide['ctaPrimario'], 'ctaSecundario' => $slide['ctaSecundario']],
         static fn(array $cta): bool => (bool) $cta['texto']
@@ -134,21 +134,21 @@ $arrow = '<svg class="size-5 text-primary sm:size-6" viewBox="0 0 24 24" fill="n
         <?= $first ? '' : 'hidden' ?>
       >
         <?php if ($slide['eyebrow']) : ?>
-          <<?= tag_escape($tag) ?> <?= fw_attrs(['data-reveal' => $reveal, 'class' => 'font-sans text-body text-white']) ?>><?= esc_html($slide['eyebrow']) ?></<?= tag_escape($tag) ?>>
+          <<?= tag_escape($tag) ?> <?= fw_attrs(['data-hero-reveal' => $first ? $entrada++ : null, 'class' => 'font-sans text-body text-white']) ?>><?= esc_html($slide['eyebrow']) ?></<?= tag_escape($tag) ?>>
         <?php endif; ?>
 
         <?php if ($slide['titulo']) : ?>
-          <h2 <?= fw_attrs(['data-reveal' => $reveal, 'class' => 'mt-4 font-heading text-[28px] leading-[1.25] font-semibold text-white lg:mt-6 lg:text-5xl lg:leading-tight lg:font-medium xl:text-h1 xl:leading-[1.15]']) ?>><?= esc_html($slide['titulo']) ?></h2>
+          <h2 <?= fw_attrs(['data-hero-reveal' => $first ? $entrada++ : null, 'class' => 'mt-4 font-heading text-[28px] leading-[1.25] font-semibold text-white lg:mt-6 lg:text-5xl lg:leading-tight lg:font-medium xl:text-h1 xl:leading-[1.15]']) ?>><?= esc_html($slide['titulo']) ?></h2>
         <?php endif; ?>
 
         <?php if ($slide['subtitulo']) : ?>
-          <p <?= fw_attrs(['data-reveal' => $reveal, 'class' => 'mt-4 font-sans text-[15px] leading-[1.5] text-white lg:mt-6 lg:max-w-lg lg:font-heading lg:text-h4 lg:leading-[1.4] lg:font-medium lg:text-white/90']) ?>><?= esc_html($slide['subtitulo']) ?></p>
+          <p <?= fw_attrs(['data-hero-reveal' => $first ? $entrada++ : null, 'class' => 'mt-4 font-sans text-[15px] leading-[1.5] text-white lg:mt-6 lg:max-w-lg lg:font-heading lg:text-h4 lg:leading-[1.4] lg:font-medium lg:text-white/90']) ?>><?= esc_html($slide['subtitulo']) ?></p>
         <?php endif; ?>
 
         <?php if ($ctas) : ?>
           <div class="mt-6 flex flex-col items-stretch gap-3 lg:mt-10 lg:flex-row lg:flex-wrap lg:items-center lg:gap-4">
             <?php foreach ($ctas as $key => $cta) : ?>
-              <a <?= fw_attrs(['href' => fw_url($cta['link']) ?? '#', 'data-reveal' => $reveal, 'class' => $ctaClass[$key]]) ?>><?= esc_html($cta['texto']) ?></a>
+              <a <?= fw_attrs(['href' => fw_url($cta['link']) ?? '#', 'data-hero-reveal' => $first ? $entrada++ : null, 'class' => $ctaClass[$key]]) ?>><?= esc_html($cta['texto']) ?></a>
             <?php endforeach; ?>
           </div>
         <?php endif; ?>

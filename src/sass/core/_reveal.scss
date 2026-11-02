@@ -40,12 +40,32 @@
   will-change: auto;
 }
 
+// Hero (primeira dobra): a mesma entrada do preset padrão — sobe 50px + fade, 1s, cascata de
+// 100ms a partir de 100ms —, mas só em CSS: começa quando a página é pintada, sem esperar o
+// reveal.js. Com data-reveal o texto do hero ficava invisível até o JS carregar (~2s no 4G) e era
+// ele que segurava o LCP. O valor é a posição na cascata: data-hero-reveal="0", "1", "2"…
+// `backwards`: invisível só durante o atraso; ao terminar, o elemento volta ao próprio estilo
+// (hover/transition dos botões), como o reveal.js faz ao soltar o data-reveal.
+@keyframes fw-hero-reveal {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 50px, 0);
+  }
+}
+.fw-reveal [data-hero-reveal] {
+  animation: fw-hero-reveal 1000ms cubic-bezier(0.5, 0, 0, 1) 100ms backwards;
+}
+@for $i from 1 through 9 {
+  .fw-reveal [data-hero-reveal='#{$i}'] { animation-delay: #{100 + $i * 100}ms; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .fw-reveal [data-reveal] {
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
   }
+  .fw-reveal [data-hero-reveal] { animation: none !important; }
 }
 
 // o deslocamento lateral (left/right) não pode criar rolagem horizontal antes da entrada;

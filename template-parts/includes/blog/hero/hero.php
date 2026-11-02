@@ -24,6 +24,7 @@ defined('ABSPATH') || exit;
 $busca = $data['buscaPlaceholder'] ?? null;
 // rótulo do campo e do botão para leitor de tela: o placeholder do painel (React: aria-label={buscaPlaceholder})
 $rotulo = $busca ?: __('Buscar', 'upsites');
+$entrada = 0; // entrada do hero só em CSS (data-hero-reveal): posição de cada elemento na cascata
 ?>
 <section id="hero" class="relative isolate w-full">
   <div class="w-full bg-[linear-gradient(-20deg,#95ABB7_47%,#AEC6D3_100%)] pt-[186px] pb-16 md:pb-20 lg:pt-40 lg:pb-24">
@@ -31,11 +32,11 @@ $rotulo = $busca ?: __('Buscar', 'upsites');
       <?php if ($data['eyebrow'] || $data['titulo']) : ?>
         <div class="flex max-w-xl flex-col gap-3 md:gap-4">
           <?php if ($data['eyebrow']) : ?>
-            <h1 data-reveal class="font-sans text-body-lg text-white"><?= esc_html($data['eyebrow']) ?></h1>
+            <h1 <?= fw_attrs(['data-hero-reveal' => $entrada++]) ?> class="font-sans text-body-lg text-white"><?= esc_html($data['eyebrow']) ?></h1>
           <?php endif; ?>
           <?php if ($data['titulo']) : ?>
             <?php // md:leading-[1.15]: no React (Tailwind v3) o md:text-h1 trocava a altura de linha do leading-tight ?>
-            <h2 data-reveal class="font-heading text-3xl leading-tight font-medium text-white sm:max-w-md md:text-h1 md:leading-[1.15] lg:max-w-md"><?= esc_html($data['titulo']) ?></h2>
+            <h2 <?= fw_attrs(['data-hero-reveal' => $entrada++]) ?> class="font-heading text-3xl leading-tight font-medium text-white sm:max-w-md md:text-h1 md:leading-[1.15] lg:max-w-md"><?= esc_html($data['titulo']) ?></h2>
           <?php endif; ?>
         </div>
       <?php endif; ?>
@@ -44,7 +45,7 @@ $rotulo = $busca ?: __('Buscar', 'upsites');
         role="search"
         method="get"
         action="<?= esc_url(home_url('/')) ?>"
-        data-reveal
+        <?= fw_attrs(['data-hero-reveal' => $entrada++]) ?>
         class="flex w-full items-center justify-between gap-3 rounded-full border border-white/70 px-6 py-4 focus-within:border-white lg:w-[423px] lg:shrink-0"
       >
         <input
