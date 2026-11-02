@@ -18,6 +18,8 @@
   <exclude-pattern>/upsites/core/tests/*</exclude-pattern>
   <!-- ferramentas de desenvolvimento (scripts da migração), fora do tema empacotado -->
   <exclude-pattern>/.claude/*</exclude-pattern>
+  <!-- saída do npm run fidelity e scripts de teste temporários (.fidelity/ está no .gitignore) -->
+  <exclude-pattern>/.fidelity/*</exclude-pattern>
 
   <arg name="extensions" value="php"/>
   <arg name="colors"/>

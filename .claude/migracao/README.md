@@ -10,8 +10,8 @@ e as opções continuam com os mesmos nomes, e nada no banco é renomeado ou apa
 |---|---|---|
 | 1. Base | v3 no lugar do React; módulos com os mesmos `fw:{slug}`; os 230 campos com as mesmas keys/names; menus `primary`/`footer` | feita |
 | 2. Opções do Tema | `upwork_theme_options` → campos do ACF (Configuração do Tema), pelo `ThemeOptions::migrateLegacy()` | feita |
-| 3. Visual | seções em PHP + Tailwind v4, comparadas com o **site atual** (não com o Figma) | em andamento: setup (tokens, fontes locais, animação), header e Home prontos — Home 99,97% (desktop) / 99,96% (mobile) igual ao React, mesma altura; falta footer e as outras páginas |
-| 4. Comparação final | cada URL antiga × nova, desktop e mobile; Yoast; Lighthouse | a fazer |
+| 3. Visual | seções em PHP + Tailwind v4, comparadas com o **site atual** (não com o Figma) | feita: header, footer e todas as páginas (Home, O Genoma, Veterinários, Responsável, Contato, Blog, busca, post, página comum, 404) ≥ 99,9% iguais ao React, com a mesma altura, no desktop e no mobile (o que falta é reamostragem de foto pelo `srcset`) |
+| 4. Comparação final | cada URL antiga × nova, desktop e mobile; Yoast; Lighthouse | em andamento: páginas, footer, campos e interações conferidos no banco local (02/11/2026); falta Yoast e Lighthouse (o Yoast não está instalado no local) |
 | 5. Deploy | homologação com cópia do banco de produção → produção | a fazer |
 
 ## O que garante que o conteúdo não muda
@@ -45,9 +45,9 @@ outra pasta (aqui, `themes/upwork-migracao` — worktree do git).
    node .claude/migracao/comparar-campos.mjs react.json v3.json   # tem que terminar em "OK: nada mudou"
    ```
 
-   Resultado no banco local (31/10/2026): 230 campos idênticos, 1.334 referências do banco
-   resolvidas, 148 valores iguais nas 7 páginas. As 532 referências órfãs são restos de
-   versões antigas das páginas e são as mesmas nos dois temas.
+   Resultado no banco local (31/10 e de novo em 02/11/2026): 230 campos idênticos, 1.334
+   referências do banco resolvidas, 148 valores iguais nas 7 páginas. As 532 referências órfãs
+   são restos de versões antigas das páginas e são as mesmas nos dois temas.
 3. Opções: abra o wp-admin como administrador com o cookie do tema novo — a migração roda
    uma vez (`upwork_theme_options_migrado` = 1) — e confira Configuração do Tema. Ou pelo
    terminal, depois de um backup de `wp_options`:
@@ -58,7 +58,10 @@ outra pasta (aqui, `themes/upwork-migracao` — worktree do git).
 4. Visual: `node .claude/migracao/capturar-referencias.mjs` (PNGs do React por seção, em
    `.fidelity/referencia/`) e, por página, `MSYS_NO_PATHCONV=1 node .claude/migracao/comparar-paginas.mjs home /`
    (o `<main>` inteiro nos dois temas, desktop e mobile; prints e diff em `.fidelity/paginas/`).
-   No Git Bash, o `MSYS_NO_PATHCONV=1` evita que o `/` vire caminho do Windows.
+   O footer: `MSYS_NO_PATHCONV=1 node .claude/migracao/comparar-footer.mjs` (7 páginas, em
+   `.fidelity/footer/`). No Git Bash, o `MSYS_NO_PATHCONV=1` evita que o `/` vire caminho do Windows.
+   O tema ativo do WordPress local é o v3: o React só aparece com o cookie `fw_tema=upwork`
+   (os scripts já o pedem).
 
 ## Checklist de deploy
 

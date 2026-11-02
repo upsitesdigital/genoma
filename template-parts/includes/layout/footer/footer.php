@@ -71,7 +71,8 @@ $button = static function (?string $label, ?string $url) use ($isExternal): ?arr
 $route    = RouteResolver::current();
 $pageId   = (int) ($route['pageId'] ?? 0);
 $toggle   = $route ? 'field_' . str_replace('-', '_', $route['module']) . '_footer_cta_ocultar' : '';
-$hasTab   = $pageId > 0 && function_exists('acf_get_field') && acf_get_field($toggle);
+// página com senha ainda não digitada: nada dela no rodapé (o React mostrava os padrões — a REST dava 404)
+$hasTab   = $pageId > 0 && !post_password_required($pageId) && function_exists('acf_get_field') && acf_get_field($toggle);
 $fromPage = static fn(string $name): mixed => $hasTab ? get_field($name, $pageId) : null;
 // texto da página: vazio ou nunca salvo → null (cai na Configuração do Tema)
 $pageText = static function (string $name) use ($fromPage): ?string {
