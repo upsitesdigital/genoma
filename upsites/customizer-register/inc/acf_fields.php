@@ -36,7 +36,7 @@ add_action('acf/init', function (): void {
               'instructions' => 'Foto de fundo do slide no computador. Horizontal, com pelo menos 1920 px de largura. No celular é substituída pela Imagem Mobile.',
               'return_format' => 'array', 'preview_size' => 'medium'],
              ['key' => 'field_home_hero_slide_imagem_mobile', 'label' => 'Imagem Mobile', 'name' => 'imagem_mobile', 'type' => 'image',
-              'instructions' => 'Imagem exibida na parte inferior do slide no mobile (PNG com fundo transparente, proporção 393×459).',
+              'instructions' => 'Foto de fundo do slide no celular e no tablet: preenche o slide inteiro (cortada nas bordas para cobrir). Use uma foto vertical, por volta de 780×1680 px, com o assunto no centro. Vazio, aparece a imagem padrão do tema.',
               'return_format' => 'array', 'preview_size' => 'medium'],
              ['key' => 'field_home_hero_slide_eyebrow', 'label' => 'Subtítulo (H1)', 'name' => 'eyebrow', 'type' => 'text',
               'instructions' => 'Texto curto exibido acima do título. Renderizado como H1 da página (o Título abaixo vira H2).',

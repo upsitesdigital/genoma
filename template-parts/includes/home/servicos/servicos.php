@@ -71,10 +71,8 @@ $verMaisClass = 'inline-flex w-full items-center justify-center gap-2 rounded-fu
               <?= fw_img($item['imagem'], [
                 'class'         => 'h-[170px] w-full rounded-lg object-cover',
                 'sizes'         => '(min-width: 1400px) 368px, (min-width: 1024px) 27vw, (min-width: 640px) 44vw, 90vw',
-                // card escondido (display:none): lazy não carregaria até abrir e o preview do
-                // fidelity espera todas as imagens — sem lazy, com prioridade baixa
-                'loading'       => $extra ? false : 'lazy',
-                'fetchpriority' => $extra ? 'low' : null,
+                // lazy também nos cards escondidos (display:none): a imagem só baixa quando o
+                // "Ver mais" abre o card — antes, 3 imagens invisíveis vinham com a página
               ]) ?>
               <?php if ($item['titulo'] || $item['descricao']) : ?>
                 <div class="flex flex-col gap-4">

@@ -60,8 +60,8 @@ final class HomeController extends Controller
      */
     private function hero(int $pageId): array
     {
-        // React: slide sem "Imagem Mobile" mostra esta imagem do tema no celular (object-fill em vez de
-        // object-cover) — apagar o campo NÃO tira a imagem. Fica aqui para o template não ter padrão.
+        // React: slide sem "Imagem Mobile" mostra esta imagem do tema no celular — apagar o campo NÃO
+        // tira a imagem. Fica aqui para o template não ter padrão.
         $imagemMobilePadrao = $this->asset(self::HERO_IMAGEM_MOBILE);
         unset($imagemMobilePadrao['svg']);
         $rows = $this->rows($pageId, 'hero_slides') ?? [];

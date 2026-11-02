@@ -5,8 +5,8 @@
  *
  * - slides vazio → a seção não aparece (como no React); setas e bolinhas só com 2+ slides.
  * - eyebrow é o <h1> no 1º slide e <p> nos demais; titulo é <h2>.
- * - imagemMobile null → usa imagemMobilePadrao (imagem do tema) com object-fill; com imagem do
- *   editor, object-cover object-bottom (como no React).
+ * - imagemMobile null → usa imagemMobilePadrao (imagem do tema). No mobile a imagem cobre o slide
+ *   inteiro (w-full h-full object-cover) — no React ocupava só a base (393×459) com object-fill.
  * - CTA: texto null → o botão não aparece; link null → href "#" (como no React).
  * - intervalo: aplique o mínimo de 2000 ms no store (React: Math.max(intervalo, 2000)).
  * - Ondas decorativas (não são campo): assets/diagnostico-veterinario-em-sp-16.svg (desktop) e -17.svg (mobile).
@@ -73,11 +73,18 @@ $arrow = '<svg class="size-5 text-primary sm:size-6" viewBox="0 0 24 24" fill="n
   data-wp-on--focusin="actions.pause"
   data-wp-on--focusout="actions.resumeOnFocusOut"
 >
-  <?php // Slides (imagem de fundo + overlay): todos no HTML, o ativo visível. Sem lazy (como no React):
-        // a imagem do outro breakpoint é display:none e, lazy, nunca carregaria ?>
+  <?php // Slides (imagem de fundo + overlay): todos no HTML, o ativo visível. Um <picture> por slide: o
+        // navegador baixa SÓ a imagem do tamanho de tela atual (desktop a partir do lg pelo <source>,
+        // senão a mobile) — com uma tag img por tamanho, o celular baixava também a de desktop escondida, em prioridade
+        // alta, disputando banda com a imagem do LCP. 1º slide: fetchpriority high; os demais, lazy. ?>
   <?php foreach ($slides as $i => $slide) :
-    $mobile = $slide['imagemMobile'] ?? $data['imagemMobilePadrao'];
-    $first  = $i === 0;
+    $desktop = $slide['imagem'];
+    $mobile  = $slide['imagemMobile'] ?? $data['imagemMobilePadrao'];
+    $first   = $i === 0;
+    // mesmo srcset que o fw_img(…, 'full') gerava para a imagem de desktop
+    $desktopSrcset = $desktop
+      ? ((($desktop['id'] ?? 0) ? (string) wp_get_attachment_image_srcset((int) $desktop['id'], 'full') : '') ?: (string) $desktop['src'])
+      : '';
     ?>
     <div
       <?= wp_interactivity_data_wp_context(['i' => $i]) ?>
@@ -87,22 +94,22 @@ $arrow = '<svg class="size-5 text-primary sm:size-6" viewBox="0 0 24 24" fill="n
       data-wp-class--pointer-events-none="!state.isActive"
       data-wp-bind--aria-hidden="!state.isActive"
     >
-      <?= fw_img($slide['imagem'], [
-        'class'         => 'relative z-[1] hidden h-full w-full object-cover lg:block',
-        'sizes'         => '100vw',
-        'loading'       => false,
-        'fetchpriority' => $first ? 'high' : 'low',
-      ], 'full') ?>
       <div class="absolute inset-0 hidden bg-[linear-gradient(295.78deg,#95ABB7_54.95%,#AEC6D3_100.42%)] lg:block"></div>
 
-      <?php // Mobile/tablet: imagem recortada na base do slide (Figma 393×459) ?>
-      <?= fw_img($mobile, [
-        'alt'           => $slide['imagemMobile']['alt'] ?? '',
-        'class'         => fw_cn('absolute inset-x-0 bottom-0 aspect-[393/459] w-full lg:hidden', $slide['imagemMobile'] ? 'object-cover object-bottom' : 'object-fill'),
-        'sizes'         => '100vw',
-        'loading'       => false,
-        'fetchpriority' => $first ? null : 'low',
-      ]) ?>
+      <?php // Cobre o slide inteiro (100% × 100%, object-fit: cover); no desktop fica sobre o degradê (z-[1]) ?>
+      <picture>
+        <?php if ($desktopSrcset) : ?>
+          <source media="(min-width: 1024px)" srcset="<?= esc_attr($desktopSrcset) ?>" sizes="100vw">
+        <?php endif; ?>
+        <?= fw_img($mobile ?? $desktop, [
+          'alt'           => (string) (($desktop['alt'] ?? '') ?: ($slide['imagemMobile']['alt'] ?? '')),
+          // sem imagem de desktop, a mobile não aparece no desktop (fica só o degradê, como antes)
+          'class'         => fw_cn('absolute inset-0 h-full w-full object-cover lg:z-[1]', ['lg:hidden' => $desktopSrcset === '']),
+          'sizes'         => '100vw',
+          'loading'       => $first ? false : 'lazy',
+          'fetchpriority' => $first ? 'high' : null,
+        ]) ?>
+      </picture>
     </div>
   <?php endforeach; ?>
 
