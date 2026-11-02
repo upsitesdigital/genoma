@@ -6,7 +6,7 @@
  *   node .claude/migracao/capturar-referencias.mjs [url do site] [pasta de saída]
  *
  * Padrão: http://localhost/projetos/genoma/site → .fidelity/referencia/{slug}/{id}-{viewport}.png
- * O tema da requisição é o padrão do WP (o React); com o mu-plugin local, o cookie fw_tema
+ * O React é pedido pelo cookie fw_tema=upwork (o tema ativo pode já ser o v3); com o mu-plugin local, o cookie fw_tema
  * não é enviado. Movimento reduzido: o scroll reveal e o autoplay do React ficam desligados.
  * Medir uma seção do v3 contra a referência:
  *   FW_TEMA=upwork-migracao npm run fidelity -- home/hero --figma-png .fidelity/referencia/home/hero-desktop.png --page 7
@@ -33,6 +33,7 @@ const browser = await chromium.launch()
 const index = []
 for (const [label, width, height] of VIEWPORTS) {
   const ctx = await browser.newContext({ viewport: { width, height }, deviceScaleFactor: 1, reducedMotion: 'reduce' })
+  await ctx.addCookies([{ name: 'fw_tema', value: 'upwork', domain: 'localhost', path: '/' }]) // React por cookie: o tema ativo pode ser o v3
   const page = await ctx.newPage()
   // post publicado mais recente, para o modelo de post
   const pages = [...PAGES]

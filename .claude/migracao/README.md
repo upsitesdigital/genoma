@@ -40,7 +40,7 @@ outra pasta (aqui, `themes/upwork-migracao` — worktree do git).
 2. Campos e valores:
 
    ```bash
-   php .claude/migracao/verificar-campos.php <raiz do WP> react.json
+   FW_TEMA=upwork php .claude/migracao/verificar-campos.php <raiz do WP> react.json
    FW_TEMA=upwork-migracao php .claude/migracao/verificar-campos.php <raiz do WP> v3.json
    node .claude/migracao/comparar-campos.mjs react.json v3.json   # tem que terminar em "OK: nada mudou"
    ```
@@ -49,7 +49,12 @@ outra pasta (aqui, `themes/upwork-migracao` — worktree do git).
    resolvidas, 148 valores iguais nas 7 páginas. As 532 referências órfãs são restos de
    versões antigas das páginas e são as mesmas nos dois temas.
 3. Opções: abra o wp-admin como administrador com o cookie do tema novo — a migração roda
-   uma vez (`upwork_theme_options_migrado` = 1) — e confira Configuração do Tema.
+   uma vez (`upwork_theme_options_migrado` = 1) — e confira Configuração do Tema. Ou pelo
+   terminal, depois de um backup de `wp_options`:
+   `FW_TEMA=upwork-migracao php .claude/migracao/migrar-opcoes.php <raiz do WP>`.
+   Banco local: migrado em 31/10/2026 pelo terminal — 15 opções gravadas; as outras 7
+   (`site_name`, `footer_text`, `footer_tagline`, `footer_email`, `footer_phone`,
+   `footer_rights_text`, `footer_cta_image`) estavam vazias e continuam no padrão, como no React.
 4. Visual: `node .claude/migracao/capturar-referencias.mjs` (PNGs do React por seção, em
    `.fidelity/referencia/`) e, por página, `MSYS_NO_PATHCONV=1 node .claude/migracao/comparar-paginas.mjs home /`
    (o `<main>` inteiro nos dois temas, desktop e mobile; prints e diff em `.fidelity/paginas/`).

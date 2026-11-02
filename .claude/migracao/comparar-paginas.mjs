@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Conteúdo da página (<main>, sem header/footer): tema React (padrão do WP) × tema v3 (cookie fw_tema),
+ * Conteúdo da página (<main>, sem header/footer): tema React (cookie fw_tema=upwork) × tema v3 (cookie fw_tema={tema-v3}),
  * desktop e mobile.
  * Salva os dois prints e o diff em .fidelity/paginas/{slug}/ e imprime a % de pixels iguais
  * (na altura comum) e a diferença de altura.
@@ -21,7 +21,7 @@ mkdirSync(out, { recursive: true })
 const browser = await chromium.launch()
 for (const [label, width, height] of [['desktop', 1440, 900], ['mobile', 390, 844]]) {
   const shots = {}
-  for (const [name, cookie] of [['react', null], ['v3', tema]]) {
+  for (const [name, cookie] of [['react', 'upwork'], ['v3', tema]]) {
     const ctx = await browser.newContext({ viewport: { width, height }, deviceScaleFactor: 1, reducedMotion: 'reduce' })
     if (cookie) await ctx.addCookies([{ name: 'fw_tema', value: cookie, domain: 'localhost', path: '/' }])
     const page = await ctx.newPage()
