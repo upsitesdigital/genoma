@@ -34,15 +34,44 @@ final class ResultadoPesquisaModule extends Module
 
     /**
      * $params do ResultadoPesquisaController::page() na busca: o termo (o mesmo que o WP buscou) e a
-     * página da lista (?pagina=, ≥ 1).
+     * página da lista (?pagina=, ≥ 1). Da 2 em diante, só até a última página dos resultados; além
+     * dela → null (o search.php responde 404, como o blog — não uma lista vazia indexável).
      *
-     * @return array{termo: string, pagina: int}
+     * @return array{termo: string, pagina: int}|null
      */
-    public static function params(): array
+    public static function params(): ?array
     {
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- navegação pública (página da lista), só leitura
         $pagina = isset($_GET['pagina']) && is_string($_GET['pagina']) ? absint($_GET['pagina']) : 1;
+        $pagina = max(1, $pagina);
+        $termo  = (string) get_search_query(false);
 
-        return ['termo' => (string) get_search_query(false), 'pagina' => max(1, $pagina)];
+        return $pagina > 1 && $pagina > self::lastPage($termo) ? null : ['termo' => $termo, 'pagina' => $pagina];
+    }
+
+    /**
+     * Última página dos resultados (a mesma consulta do ResultadoPesquisaController::resultados, só
+     * contando). Sem termo → 1. Só roda para ?pagina= ≥ 2.
+     */
+    private static function lastPage(string $termo): int
+    {
+        if ($termo === '') return 1;
+
+        $args = [
+            's'                      => $termo,
+            'post_type'              => ['post', 'page'],
+            'post_status'            => 'publish',
+            'posts_per_page'         => 1,
+            'fields'                 => 'ids',
+            'ignore_sticky_posts'    => true,
+            'update_post_meta_cache' => false,
+            'update_post_term_cache' => false,
+        ];
+        $pageId = self::pageId();
+        if ($pageId) $args['post__not_in'] = [$pageId];
+
+        $total = (int) (new \WP_Query($args))->found_posts;
+
+        return max(1, (int) ceil($total / max(1, (int) get_option('posts_per_page'))));
     }
 }

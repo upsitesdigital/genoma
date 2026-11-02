@@ -1,6 +1,7 @@
 <?php
 // Dump do tema ativo (FW_TEMA, ver fw-tema-local.php): definições dos campos ACF, referências do banco
 // e valores de cada página. Uso: FW_TEMA=<pasta do tema> php verificar-campos.php <raiz do WP> <saida.json>
+if (PHP_SAPI !== 'cli') exit(1); // fica dentro do web root: aberto via HTTP, não roda
 if (count($argv) < 3) exit("uso: FW_TEMA=<pasta do tema> php verificar-campos.php <raiz do WP> <saida.json>\n");
 require rtrim($argv[1], '/\\') . '/wp-load.php';
 global $wpdb;

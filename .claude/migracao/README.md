@@ -36,7 +36,9 @@ outra pasta (aqui, `themes/upwork-migracao` — worktree do git).
 
 1. Copie `fw-tema-local.php` para `wp-content/mu-plugins/` (só local/homologação — nunca
    produção). Ele troca o tema por requisição: cookie `fw_tema` no navegador
-   (`?fw_tema=upwork-migracao` grava, `?fw_tema=0` apaga) ou `FW_TEMA` no CLI.
+   (`?fw_tema=upwork-migracao` grava, `?fw_tema=0` apaga) ou `FW_TEMA` no CLI. Só age no CLI, com o
+   endereço do site em `localhost` ou com `WP_ENVIRONMENT_TYPE` = `local`/`development`/`staging` — na
+   homologação, defina `define('WP_ENVIRONMENT_TYPE', 'staging');` no `wp-config.php`.
 2. Campos e valores:
 
    ```bash
@@ -68,6 +70,12 @@ outra pasta (aqui, `themes/upwork-migracao` — worktree do git).
 - [ ] O zip do `npm run package` usa o **nome da pasta**: gere a partir de uma pasta
       chamada `upwork` (não `upwork-migracao`), senão o tema perde o slug e os menus.
 - [ ] Homologação com cópia do banco de produção: verificação acima sem diferenças.
+- [ ] Na homologação, conferir que nenhum conteúdo antigo tem diretivas da Interactivity API (o v3
+      carrega o runtime em toda página): `SELECT ID FROM wp_posts WHERE post_content LIKE '%data-wp-%'
+      OR post_excerpt LIKE '%data-wp-%'` e o mesmo em `wp_postmeta.meta_value` — tem que vir vazio
+      (no banco local, 0 em 02/11/2026).
+- [ ] **Apagar `wp-content/mu-plugins/fw-tema-local.php`** da homologação antes de levar qualquer coisa
+      para a produção (uma migração de site inteiro, ex.: All-in-One WP Migration, leva os mu-plugins junto).
 - [ ] Logo depois de subir em produção, abrir o wp-admin como administrador (dispara a
       migração das opções; até lá o topo e o rodapé mostram os textos padrão).
 - [ ] Conferir Configuração do Tema e uma página de cada modelo no painel.

@@ -6,7 +6,6 @@ namespace App\ResultadoPesquisa;
 defined('ABSPATH') || exit; // acesso direto ao arquivo: nada a fazer
 
 use Core\Framework\Controller;
-use Core\Framework\Attributes\Cache;
 
 /**
  * Resultado da pesquisa — porte do app/resultado-pesquisa/resultado-pesquisa.controller.php do tema
@@ -16,8 +15,11 @@ use Core\Framework\Attributes\Cache;
  * Os resultados são a busca nativa do WP (WP_Query com `s`) em posts e páginas publicados, sem a
  * própria página de resultados. No React a lista paginava pela REST (/resultado-pesquisa-lista) sem
  * recarregar; aqui toda navegação é carregamento de página: o template-parts/search.php passa o termo
- * e a ?pagina= em $params (ResultadoPesquisaModule::params) — a chave do #[Cache] é id + $params, com
- * TTL curto (60 s, como no React), porque cada termo é uma entrada.
+ * e a ?pagina= em $params (ResultadoPesquisaModule::params).
+ *
+ * Sem cache de propósito (o `npm run review` avisa — é esperado): a chave do cache do page() leva os
+ * $params, e o termo e a página vêm do visitante — cada URL de busca gravaria um transient novo no
+ * wp_options, sem limite. A busca é uma WP_Query só; o hero lê poucos campos.
  *
  * Diferenças em relação ao React (intencionais):
  * - texto salvo vazio → null (o React devolvia ''; nos dois o elemento não aparece);
@@ -25,7 +27,7 @@ use Core\Framework\Attributes\Cache;
  *   hero oculto pelo editor);
  * - resultados.paginas: os links das pílulas de paginação (no React eram botões com estado no JS);
  * - imagem do post: ImageData com o id do anexo (fw_img: src medium_large, como no React, + srcset);
- * - post com senha: resumo sempre vazio (a resposta vai para o cache e seria servida a todos).
+ * - post com senha: resumo sempre vazio (como no blog, cuja resposta vai para o cache e seria servida a todos).
  */
 final class ResultadoPesquisaController extends Controller
 {
@@ -43,7 +45,6 @@ final class ResultadoPesquisaController extends Controller
      *
      * @param array{termo?: string, pagina?: int} $params termo buscado ('' = sem busca) e página da lista (≥ 1).
      */
-    #[Cache(ttl: 60)]
     public function page(int $pageId, array $params = []): array
     {
         $termo  = (string) ($params['termo'] ?? '');

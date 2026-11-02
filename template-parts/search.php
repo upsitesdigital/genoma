@@ -19,4 +19,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-View::render( 'resultado-pesquisa', ResultadoPesquisaModule::pageId(), ResultadoPesquisaModule::params() );
+$upsites_busca = ResultadoPesquisaModule::params();
+if ( null === $upsites_busca ) {
+	// ?pagina= além da última página dos resultados: 404 de verdade, como no blog (index.php)
+	global $wp_query;
+	$wp_query->set_404();
+	status_header( 404 );
+	nocache_headers();
+	$upsites_404 = get_query_template( '404' );
+	if ( $upsites_404 ) {
+		require $upsites_404;
+	}
+	return;
+}
+
+View::render( 'resultado-pesquisa', ResultadoPesquisaModule::pageId(), $upsites_busca );

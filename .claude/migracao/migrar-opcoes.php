@@ -8,6 +8,7 @@
  * Em homologação/produção, com o tema novo já ativo, o FW_TEMA não é necessário.
  * Roda uma vez só (flag upwork_theme_options_migrado); imprime as opções gravadas.
  */
+if (PHP_SAPI !== 'cli') exit(1); // fica dentro do web root: aberto via HTTP, não roda
 $_SERVER['HTTP_HOST'] = 'localhost';
 $_SERVER['REQUEST_URI'] = '/';
 require rtrim($argv[1], '/\\') . '/wp-load.php';

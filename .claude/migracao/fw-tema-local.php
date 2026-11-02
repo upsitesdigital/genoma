@@ -1,12 +1,16 @@
 <?php
 /**
  * Plugin Name: Troca de tema por requisição (só local)
- * Description: Migração do genoma (React → v3). Só em localhost/CLI: com o cookie fw_tema (ou a variável de ambiente FW_TEMA no CLI) = pasta de um tema instalado, a requisição usa esse tema; sem ele, nada muda. ?fw_tema=upwork-migracao grava o cookie; ?fw_tema=0 apaga. Não vai para produção.
+ * Description: Migração do genoma (React → v3). Só no CLI, em site local (home em localhost/127.0.0.1) ou com WP_ENVIRONMENT_TYPE local/development/staging (homologação): com o cookie fw_tema (ou a variável de ambiente FW_TEMA no CLI) = pasta de um tema instalado, a requisição usa esse tema; sem ele, nada muda. ?fw_tema=upwork-migracao grava o cookie; ?fw_tema=0 apaga. Não vai para produção — apague-o antes de publicar.
  */
 
 defined('ABSPATH') || exit;
 
-$fw_local = PHP_SAPI === 'cli' || in_array(strtok($_SERVER['HTTP_HOST'] ?? '', ':'), ['localhost', '127.0.0.1'], true);
+// O ambiente vem do servidor (wp-config / endereço salvo do site), nunca do cabeçalho Host da requisição:
+// o visitante controla o Host e, com "Host: localhost", trocaria o tema de um servidor real.
+$fw_local = PHP_SAPI === 'cli'
+    || in_array(wp_get_environment_type(), ['local', 'development', 'staging'], true)
+    || in_array(wp_parse_url((string) get_option('home'), PHP_URL_HOST), ['localhost', '127.0.0.1'], true);
 if (!$fw_local) return;
 
 $fw_tema = PHP_SAPI === 'cli' ? (string) getenv('FW_TEMA') : sanitize_key(wp_unslash($_COOKIE['fw_tema'] ?? ''));

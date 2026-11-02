@@ -30,8 +30,9 @@ const INCLUDE_FILE = /^(style\.css|readme\.txt|screenshot\.(png|jpe?g|webp)|them
 // adminer.php, cópia de wp-config.php…) ABORTA o pacote — nunca vai para o servidor calado.
 const THEME_PHP = /^(functions|header|footer|sidebar|index|page|single|singular|archive|search|searchform|404|category|tag|taxonomy|author|date|home|front-page|attachment|comments|embed|privacy-policy|woocommerce)(-[\w-]+)?\.php$/;
 // dentro das pastas: sem CLI/testes do framework, fontes TS/SCSS (já compiladas), sourcemaps,
-// markdown e dotfiles
-const SKIP_PATH = [join('upsites', 'core', 'cli'), join('upsites', 'core', 'tests')];
+// markdown e dotfiles; nem o readme.txt do ACF PRO embarcado — só repete a licença (já citada no
+// readme.txt do tema) e expõe a versão ("Stable tag") a quem procura uma vulnerável
+const SKIP_PATH = [join('upsites', 'core', 'cli'), join('upsites', 'core', 'tests'), join('upsites', 'core', 'acf', 'readme.txt')];
 const SKIP_FILE = /\.(tsx?|scss|map|md)$/;
 
 if (!process.argv.includes('--no-build')) {
