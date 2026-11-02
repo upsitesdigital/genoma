@@ -2,8 +2,8 @@
 /**
  * Página não encontrada, quando o index.php cai no is_404() — e o corpo do 404.php da raiz.
  * O WP já envia o status 404.
- * Markup: a parte shared/not-found (a mesma do View::render sem módulo) com a busca
- * (searchform.php) ligada, dentro do mesmo <main>.
+ * Markup: a parte shared/not-found (a mesma do View::render sem módulo) — o 404 do tema React,
+ * só o "404" e "Página não encontrada." (sem busca).
  *
  * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
  *
@@ -16,5 +16,4 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-// busca abaixo do aviso, dentro do <main> (get_search_form com aria_label "Buscar no site")
-Part::render( 'shared/not-found', array( 'search' => true ) );
+Part::render( 'shared/not-found' );

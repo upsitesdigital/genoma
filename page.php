@@ -1,53 +1,39 @@
 <?php
 /**
- * Página comum (sem modelo "Página · {Nome}"): título e conteúdo do editor de blocos.
+ * Página comum (sem modelo "Página · {Nome}", ex.: Política de privacidade): módulo pagina-padrao
+ * (template-pages/pagina-padrao/) — título e conteúdo do editor, como no tema React (sem
+ * comentários: o React não tinha). View::render imprime header e footer.
  *
  * Páginas com modelo fw:{slug} e a página inicial NÃO passam por aqui: o
  * Core\Framework\Bootstrap::catchAll() as manda para template-parts/app.php (módulo).
  *
+ * Página com senha ainda não digitada: só o título e o formulário de senha do WP (o conteúdo não
+ * é buscado) — a própria seção pagina-padrao/conteudo, chamada direto (o View::render tem um
+ * formulário próprio, mas sem o recuo do header fixo do Genoma).
+ *
  * @package UpWork
  */
+
+use Core\Framework\Part;
+use Core\Framework\View;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-get_header();
-?>
-<main class="container py-12 md:py-16 lg:py-20">
-	<?php
-	while ( have_posts() ) :
-		the_post();
-		?>
-		<article id="post-<?php the_ID(); ?>" <?php post_class( 'mx-auto max-w-3xl' ); ?>>
-			<?php the_title( '<h1 class="text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">', '</h1>' ); ?>
+if ( post_password_required() ) {
+	get_header();
+	echo '<main>';
+	Part::render(
+		'pagina-padrao/conteudo',
+		array(
+			'titulo' => get_the_title(),
+			'id'     => get_the_ID(),
+		)
+	);
+	echo '</main>';
+	get_footer();
+	return;
+}
 
-			<div class="entry-content mt-8">
-				<?php the_content(); ?>
-			</div>
-
-			<?php
-			wp_link_pages(
-				array(
-					'before' => '<nav class="mt-8 flex flex-wrap gap-2 text-sm" aria-label="' . esc_attr__( 'Páginas', 'upsites' ) . '"><span class="font-semibold">' . esc_html__( 'Páginas:', 'upsites' ) . '</span>',
-					'after'  => '</nav>',
-				)
-			);
-
-			edit_post_link(
-				esc_html__( 'Editar', 'upsites' ),
-				'<p class="mt-8 text-sm">',
-				'</p>',
-				null,
-				'font-semibold text-primary hover:underline'
-			);
-
-			if ( comments_open() || get_comments_number() ) {
-				comments_template();
-			}
-			?>
-		</article>
-	<?php endwhile; ?>
-</main>
-<?php
-get_footer();
+View::render( 'pagina-padrao', get_the_ID() );

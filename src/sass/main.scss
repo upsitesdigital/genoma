@@ -219,60 +219,39 @@ $fw-critical: false !default;
   }
 }
 
-// Conteúdo do editor de blocos (the_content em single.php/page.php): o preflight do Tailwind
-// zera margens e listas — aqui volta o mínimo de tipografia de leitura. Seções de módulo não usam
-// (fica fora do critical CSS).
+// Conteúdo do editor (the_content nas seções conteudo dos módulos single-post e pagina-padrao):
+// a tipografia da .post-content do tema React (Figma: Single post > Conteúdo, node 149-1979) —
+// Poppins nos títulos (Purple Dark), Manrope no corpo (Gray). O preflight do Tailwind zera margens
+// e listas; aqui volta tudo, regra a regra igual ao React. Fora do critical CSS.
+// Fora de @layer de propósito: o WP imprime no <head> o CSS de cada bloco usado (citação em
+// destaque, tabela, separador…), sem layer — e CSS sem layer sempre vence o que está numa layer
+// do v4 (dentro de `components`, o padding de 4em da citação em destaque, a borda de 2px do
+// separador e a borda/padding das células passavam por cima destas regras). No React (Tailwind
+// v3) o @layer não virava cascade layer: a .post-content disputava com o CSS dos blocos por
+// especificidade e ordem — e é o que acontece aqui, sem layer (o main.css vem depois no <head>).
 @if not $fw-critical {
-@layer components {
   .entry-content {
-    @apply leading-relaxed;
-
-    > * + * { @apply mt-5; }
-    h2 { @apply mt-10 text-2xl font-bold tracking-tight; }
-    h3 { @apply mt-8 text-xl font-bold; }
-    h4, h5, h6 { @apply mt-6 font-semibold; }
-    a { @apply text-primary underline underline-offset-2; }
-    ul { @apply list-disc pl-6; }
-    ol { @apply list-decimal pl-6; }
-    li + li { @apply mt-1; }
-    blockquote { @apply border-l-4 border-primary pl-4 italic text-muted-foreground; }
-    img, video, iframe { @apply h-auto max-w-full; }
-    figcaption { @apply mt-2 text-sm text-muted-foreground; }
-    pre { @apply overflow-x-auto rounded-md bg-muted p-4 text-sm; }
-    table { @apply w-full border-collapse text-sm; }
-    th, td { @apply border px-3 py-2 text-left; }
-    .alignleft { @apply md:float-left md:mr-6 md:mb-4; }
-    .alignright { @apply md:float-right md:ml-6 md:mb-4; }
-    .aligncenter { @apply mx-auto; }
-    // mais larga que a coluna de leitura (max-w-3xl do article), centrada, sem passar da tela
-    .alignwide { @apply relative left-1/2 w-[min(64rem,calc(100vw_-_2rem))] max-w-none -translate-x-1/2; }
-    // largura total da viewport, saindo do container (overflow-x do body evita rolagem lateral)
-    .alignfull { @apply relative left-1/2 w-screen max-w-none -translate-x-1/2; }
-    // legenda de imagem do editor clássico ([caption]) e de galeria
-    .wp-caption { @apply max-w-full; }
-    .wp-caption img { @apply block h-auto max-w-full; }
-    .wp-caption-text,
-    .gallery-caption { @apply mt-2 text-sm text-muted-foreground; }
-  }
-
-  // comment_class() do autor do post (Handbook): só um filete discreto
-  .bypostauthor > .comment-body { @apply border-l-2 border-primary/40 pl-3; }
-
-  // Conteúdo do post (single-post) — tipografia do tema React (Figma: Single post > Conteúdo,
-  // node 149-1979): Poppins nos títulos (Purple Dark), Manrope no corpo (Gray).
-  .post-content {
     @apply font-sans text-body-lg leading-relaxed text-brand-gray-text;
 
+    // parágrafo
     p { @apply mb-6 last:mb-0; }
+
+    // títulos
     h2 { @apply mt-12 mb-6 font-heading text-h2 font-normal text-brand-purple-dark first:mt-0; }
     h3 { @apply mt-10 mb-5 font-heading text-h3 font-normal text-brand-purple-dark first:mt-0; }
     h4 { @apply mt-8 mb-4 font-heading text-h4 font-medium text-brand-purple-dark first:mt-0; }
     h5 { @apply mt-6 mb-3 font-heading text-h5 font-medium text-brand-purple-dark first:mt-0; }
     h6 { @apply mt-6 mb-3 font-heading text-body-lg font-semibold tracking-wide text-brand-purple-dark uppercase first:mt-0; }
+
+    // link
     a { @apply text-brand-purple underline underline-offset-2 transition-colors hover:text-brand-purple-accent; }
+
+    // listas
     ul { @apply mb-6 list-disc space-y-2 pl-6 marker:text-brand-purple-accent; }
     ol { @apply mb-6 list-decimal space-y-2 pl-6 marker:text-brand-purple-accent; }
     li > ul, li > ol { @apply mt-2 mb-0; }
+
+    // imagem (com ou sem legenda)
     img { @apply rounded-2xl; }
     .wp-block-image { @apply my-8; }
     .wp-block-image img { @apply w-full; }
@@ -280,28 +259,48 @@ $fw-critical: false !default;
     .alignleft { @apply float-left mr-6; }
     .alignright { @apply float-right ml-6; }
     .aligncenter { @apply mx-auto; }
+    // legenda do editor clássico ([caption], largura fixa no style): não passa da coluna no celular
+    .wp-caption { @apply max-w-full; }
+
+    // citação
     blockquote, .wp-block-quote { @apply my-8 border-l-4 border-brand-purple-accent pl-6 font-heading text-h5 text-brand-purple-dark italic; }
     blockquote p, .wp-block-quote p { @apply mb-2; }
     blockquote cite, .wp-block-quote cite { @apply block font-sans text-body text-brand-gray-text not-italic; }
+
+    // citação em destaque
     .wp-block-pullquote { @apply my-10 border-y-2 border-brand-purple-accent px-4 py-8 text-center; }
     .wp-block-pullquote p { @apply font-heading text-h4 font-medium text-brand-purple-dark italic; }
     .wp-block-pullquote cite { @apply mt-3 block font-sans text-body text-brand-gray-text not-italic; }
+
+    // código
     pre, .wp-block-code { @apply my-6 overflow-x-auto rounded-xl bg-brand-light-purple p-4; }
     pre code, .wp-block-code code { @apply font-mono text-body-sm leading-relaxed text-brand-purple-dark; }
     :not(pre) > code { @apply rounded bg-brand-light-purple px-1.5 py-0.5 font-mono text-body-sm text-brand-purple-dark; }
+
+    // tabela
     .wp-block-table, table { @apply my-8 w-full overflow-x-auto; }
     table { @apply border-collapse text-left; }
     th { @apply border border-brand-gray-border bg-brand-light-purple p-3 font-heading font-medium text-brand-purple-dark; }
     td { @apply border border-brand-gray-border p-3 align-top text-brand-gray-text; }
     .wp-block-table figcaption { @apply mt-3 text-center font-sans text-body text-brand-gray-text; }
+
+    // embed / vídeo
     .wp-block-embed { @apply my-8; }
     .wp-block-embed__wrapper { @apply relative aspect-video overflow-hidden rounded-2xl; }
     .wp-block-embed__wrapper iframe, .wp-block-embed__wrapper video { @apply absolute inset-0 h-full w-full; }
     .wp-block-embed figcaption { @apply mt-3 text-center font-sans text-body text-brand-gray-text; }
+
+    // separador
     hr { @apply my-10 border-t border-brand-gray-border; }
+
+    // negrito/itálico do editor
     strong { @apply font-semibold text-brand-purple-dark; }
     em { @apply italic; }
   }
+
+@layer components {
+  // comment_class() do autor do post (Handbook): só um filete discreto
+  .bypostauthor > .comment-body { @apply border-l-2 border-primary/40 pl-3; }
 }
 
 // post_class() põe "sticky" no post fixo, e .sticky também é utilitário do Tailwind

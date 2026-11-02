@@ -1,8 +1,8 @@
 <?php
 /**
- * Página não encontrada (404). O WordPress já responde com status 404; o markup é a
- * parte shared/not-found (a mesma usada pelo View::render quando o módulo não existe) + a busca
- * (searchform.php, com aria-label "Buscar no site") dentro do mesmo <main>: template-parts/error.php.
+ * Página não encontrada (404). O WordPress já responde com status 404; o markup é a parte
+ * shared/not-found (o 404 do tema React; a mesma usada pelo View::render quando o módulo não
+ * existe), via template-parts/error.php.
  *
  * @package UpWork
  */

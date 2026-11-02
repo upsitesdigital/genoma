@@ -1,8 +1,12 @@
 <?php
 /**
  * Comentários de post/página: lista (wp_list_comments), paginação, aviso de comentários
- * fechados e formulário (comment_form). Chamado por comments_template() em single.php
- * e page.php só quando os comentários estão abertos ou já existem.
+ * fechados e formulário (comment_form).
+ *
+ * Genoma: o single.php e o page.php NÃO chamam comments_template() — o tema React não mostrava
+ * comentários em post nem em página. Fica pronto para quando um módulo quiser (chame
+ * comments_template() só se comments_open() || get_comments_number()); sem a chamada, nenhum
+ * comentário aparece, mesmo com "Permitir comentários" marcado no post.
  *
  * @package UpWork
  */
