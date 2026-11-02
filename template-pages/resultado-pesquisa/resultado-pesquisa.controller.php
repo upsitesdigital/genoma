@@ -12,8 +12,8 @@ use Core\Framework\Controller;
  * React: mesmos campos (acf_fields.php, bloco resultado-pesquisa) e formato do
  * resultado-pesquisa.schema.ts (hero + resultados), para o markup ser portado 1:1.
  *
- * Os resultados são a busca nativa do WP (WP_Query com `s`) em posts e páginas publicados, sem a
- * própria página de resultados. No React a lista paginava pela REST (/resultado-pesquisa-lista) sem
+ * Os resultados são a busca nativa do WP (WP_Query com `s`) só em posts publicados — páginas não
+ * entram (o React buscava posts e páginas). No React a lista paginava pela REST (/resultado-pesquisa-lista) sem
  * recarregar; aqui toda navegação é carregamento de página: o template-parts/search.php passa o termo
  * e a ?pagina= em $params (ResultadoPesquisaModule::params).
  *
@@ -72,24 +72,21 @@ final class ResultadoPesquisaController extends Controller
     }
 
     /**
-     * Busca nativa do WP em posts e páginas publicados (12 por página = "Posts por página" de
+     * Busca nativa do WP só em posts publicados (12 por página = "Posts por página" de
      * Configurações → Leitura). Sem termo → nenhuma consulta e a mensagem de "sem resultados".
      */
     private function resultados(int $pageId, string $termo, int $pagina): array
     {
         $query = null;
         if ($termo !== '') {
-            $args = [
+            $query = new \WP_Query([
                 's'                   => $termo,
-                'post_type'           => ['post', 'page'],
+                'post_type'           => 'post',
                 'post_status'         => 'publish',
                 'posts_per_page'      => max(1, (int) get_option('posts_per_page')),
                 'paged'               => $pagina,
                 'ignore_sticky_posts' => true,
-            ];
-            // a própria página de resultados não aparece como resultado
-            if ($pageId) $args['post__not_in'] = [$pageId];
-            $query = new \WP_Query($args);
+            ]);
             // imagens destacadas dos cards (anexo + metadados) numa consulta só, sem uma por post
             update_post_thumbnail_cache($query);
         }

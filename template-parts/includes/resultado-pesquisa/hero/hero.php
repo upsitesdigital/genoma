@@ -23,7 +23,8 @@ $busca = $data['buscaPlaceholder'] ?? null;
 $rotulo = $busca ?: __('Buscar', 'upsites');
 ?>
 <section id="hero" class="relative isolate w-full">
-  <div class="w-full bg-[linear-gradient(-20deg,#95ABB7_47%,#AEC6D3_100%)] pt-[186px] pb-16 md:pb-20 lg:pt-24 lg:pb-24">
+  <?php // lg:pt-40 (como o hero do blog): o header fixo vai até ~128px — com o lg:pt-24 do React, a etiqueta e o título ficavam por baixo dele ?>
+  <div class="w-full bg-[linear-gradient(-20deg,#95ABB7_47%,#AEC6D3_100%)] pt-[186px] pb-16 md:pb-20 lg:pt-40 lg:pb-24">
     <div class="container flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between lg:gap-10">
       <div class="flex max-w-xl flex-col gap-3 md:gap-4">
         <?php if ($data['eyebrow']) : ?>

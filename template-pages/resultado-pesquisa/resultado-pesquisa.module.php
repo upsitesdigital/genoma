@@ -20,6 +20,17 @@ final class ResultadoPesquisaModule extends Module
 {
     // Campos ACF: upsites/customizer-register/inc/acf_fields.php
 
+    /** A busca do site é só de posts: a consulta principal do WP também (feed da busca, plugins de SEO). */
+    public function boot(): void
+    {
+        add_action('pre_get_posts', [self::class, 'onlyPosts']);
+    }
+
+    public static function onlyPosts(\WP_Query $query): void
+    {
+        if (!is_admin() && $query->is_main_query() && $query->is_search()) $query->set('post_type', 'post');
+    }
+
     /**
      * Página com o modelo fw:resultado-pesquisa (a primeira publicada) — de onde vêm os campos da busca
      * (React: RouteResolver::findModulePageId). Sem ela → null: os padrões dos campos.
@@ -57,20 +68,16 @@ final class ResultadoPesquisaModule extends Module
     {
         if ($termo === '') return 1;
 
-        $args = [
+        $total = (int) (new \WP_Query([
             's'                      => $termo,
-            'post_type'              => ['post', 'page'],
+            'post_type'              => 'post',
             'post_status'            => 'publish',
             'posts_per_page'         => 1,
             'fields'                 => 'ids',
             'ignore_sticky_posts'    => true,
             'update_post_meta_cache' => false,
             'update_post_term_cache' => false,
-        ];
-        $pageId = self::pageId();
-        if ($pageId) $args['post__not_in'] = [$pageId];
-
-        $total = (int) (new \WP_Query($args))->found_posts;
+        ]))->found_posts;
 
         return max(1, (int) ceil($total / max(1, (int) get_option('posts_per_page'))));
     }
