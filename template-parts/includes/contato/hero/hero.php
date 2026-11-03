@@ -6,9 +6,9 @@
  *
  * - eyebrow/titulo/descricao null → o elemento não aparece; titulo é o <h1> da página.
  * - canais vazio → só a faixa (sem a grade de cards), como no React.
- * - Cards sobre o fim da faixa só do lg em diante (3 numa linha, todos metade no azul). Abaixo do lg
- *   a faixa termina antes e os cards ficam no branco — empilhados, só o 1º (ou os 2 primeiros) ficaria
- *   metade no azul, diferente dos outros.
+ * - Cards sobem sobre o fim da faixa: a 1ª linha de cards fica metade no azul e metade no branco em
+ *   todas as larguras (empilhados no celular: só o 1º card). O pb da faixa = respiro abaixo do texto
+ *   + o -mt dos cards (≈ metade da altura do card).
  * - Card com link → <a> em nova aba (como no React, inclusive mailto:); link null → <div> sem clique.
  *   O href sai igual ao do campo (https://wa.me/…, mailto:…, tel:…) — fw_url bloqueia o resto.
  * - valor longo (e-mail) quebra dentro do card — de preferência depois do @ — em vez de vazar.
@@ -38,8 +38,8 @@ $cardClass = 'flex h-full items-center gap-6 rounded-xl border border-brand-gray
 $entrada = 0; // entrada do hero só em CSS (data-hero-reveal): posição de cada elemento na cascata
 ?>
 <section id="hero" class="relative isolate w-full">
-  <?php // com cards, a faixa só deixa espaço para eles subirem no lg (abaixo, ela termina antes dos cards) ?>
-  <div class="<?= fw_cn('w-full bg-[linear-gradient(-20deg,#95ABB7_47%,#AEC6D3_100%)] pt-[186px] lg:pt-40 lg:pb-56', $canais ? 'pb-12 md:pb-16' : 'pb-40 md:pb-48') ?>">
+  <?php // com cards: pb = respiro (40px; md 56px) + o quanto os cards sobem (-mt-14) — no lg, o do React ?>
+  <div class="<?= fw_cn('w-full bg-[linear-gradient(-20deg,#95ABB7_47%,#AEC6D3_100%)] pt-[186px] lg:pt-40 lg:pb-56', $canais ? 'pb-24 md:pb-28' : 'pb-40 md:pb-48') ?>">
     <div class="container flex flex-col items-center gap-6 text-center md:gap-9">
       <?php if ($data['eyebrow']) : ?>
         <span class="font-sans text-body-lg text-white"><?= esc_html($data['eyebrow']) ?></span>
@@ -55,8 +55,8 @@ $entrada = 0; // entrada do hero só em CSS (data-hero-reveal): posição de cad
   </div>
 
   <?php if ($canais) : ?>
-    <?php // sobem sobre a faixa só no lg, com os cards numa linha: empilhados (ou 2 + 1), só os primeiros ficariam metade no azul ?>
-    <div class="relative z-10 container pt-8 pb-8 md:pt-10 md:pb-10 lg:-mt-24 lg:pt-0">
+    <?php // sobem ≈ metade da altura da 1ª linha de cards ?>
+    <div class="relative z-10 container -mt-14 pb-8 md:pb-10 lg:-mt-24">
       <ul class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         <?php foreach ($canais as $canal) :
           $href = fw_url($canal['link']);
