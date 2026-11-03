@@ -28,6 +28,8 @@
  * Contato); Rodapé `footer_logo`, `footer_text` ({ano}/{site}), `footer_privacy_label`/`_url` (abre
  * em nova aba, como no React), `footer_credits_text`, `footer_tagline`, `footer_email`, `footer_phone`
  * e `footer_rights_text`. Menu: Aparência → Menus → localização "footer" (só o 1º nível, como no React).
+ * Redes sociais (Rodapé `rodape_redes`, novo no v3 — o React não tinha): shared/social-links abaixo
+ * do logo, em todas as larguras (também no menu mobile do header).
  *
  * @var array $data (não usado: o footer monta os próprios dados)
  */
@@ -176,12 +178,17 @@ $credits = ThemeOptions::text('footer_credits_text', 'Desenvolvido por Upsites')
 
   <?php // Barra: logo, menu e botão Contato (desktop); no celular/tablet, frase e contatos ?>
   <div class="container flex flex-col items-center gap-6 pt-12 pb-8 lg:flex-row lg:items-center lg:justify-between lg:gap-8 lg:py-12">
-    <a href="<?= esc_url(home_url('/')) ?>" class="shrink-0 rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">
-      <?= fw_img($logo, [
-        'alt'   => $siteName,
-        'class' => 'h-[84px] w-[166px] object-contain',
-      ], 'medium') ?>
-    </a>
+    <div class="flex shrink-0 flex-col items-center gap-4 lg:items-start">
+      <a href="<?= esc_url(home_url('/')) ?>" class="rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">
+        <?= fw_img($logo, [
+          'alt'   => $siteName,
+          'class' => 'h-[84px] w-[166px] object-contain',
+        ], 'medium') ?>
+      </a>
+
+      <?php // abaixo do logo; no desktop, alinhado à esquerda com ele (sem rede preenchida, não aparece) ?>
+      <?php Part::render('shared/social-links', ['class' => 'justify-center lg:justify-start']); ?>
+    </div>
 
     <?php if ($tagline) : ?>
       <p class="text-center font-sans text-[13px] leading-[1.5] whitespace-pre-line text-brand-gray-border lg:hidden"><?= esc_html($tagline) ?></p>

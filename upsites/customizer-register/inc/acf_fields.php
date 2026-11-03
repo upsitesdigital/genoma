@@ -965,6 +965,27 @@ add_action('acf/init', function (): void {
          'instructions' => 'E-mail exibido no rodapé do celular, com link para enviar mensagem. Vazio, não aparece.'],
         ['key' => 'field_opcoes_rodape_footer_phone', 'label' => 'Telefone', 'name' => 'footer_phone', 'type' => 'text',
          'instructions' => 'Telefone exibido no rodapé do celular. Vazio, não aparece.'],
+        // campo novo (não existia no tema React): padrão {aba}_{nome}. Linhas padrão sem link = não aparecem
+        // até o editor preencher; ícones em layout/footer/assets: 77 Instagram, 78 Facebook, 79 LinkedIn, 80 YouTube, 81 WhatsApp
+        ['key' => 'field_opcoes_rodape_redes', 'label' => 'Redes sociais', 'name' => 'rodape_redes', 'type' => 'repeater',
+         'instructions' => 'Ícones das redes sociais abaixo do logo do rodapé, em todas as páginas, na ordem desta lista. Cada um abre o perfil em nova aba. Rede sem link ou sem ícone não aparece.',
+         'layout' => 'table', 'min' => 0, 'max' => 0, 'button_label' => 'Adicionar Rede',
+         'sub_fields' => [
+             ['key' => 'field_opcoes_rodape_redes_nome', 'label' => 'Nome', 'name' => 'nome', 'type' => 'text',
+              'instructions' => 'Nome da rede (ex.: Instagram). Não aparece na tela: é lido por leitores de tela.'],
+             ['key' => 'field_opcoes_rodape_redes_url', 'label' => 'Link do perfil', 'name' => 'url', 'type' => 'url',
+              'instructions' => 'Endereço completo do perfil, começando com https:// (WhatsApp: https://wa.me/55DDDNÚMERO).'],
+             ['key' => 'field_opcoes_rodape_redes_icone', 'label' => 'Ícone', 'name' => 'icone',
+              'instructions' => 'SVG de uma cor só (fica branco no rodapé) ou PNG com fundo transparente.']
+             + Fields::icon(),
+         ],
+         'default_rows' => [
+             ['nome' => 'Instagram', 'url' => '', 'icone' => 'template-parts/includes/layout/footer/assets/diagnostico-veterinario-em-sp-77.svg'],
+             ['nome' => 'Facebook', 'url' => '', 'icone' => 'template-parts/includes/layout/footer/assets/diagnostico-veterinario-em-sp-78.svg'],
+             ['nome' => 'LinkedIn', 'url' => '', 'icone' => 'template-parts/includes/layout/footer/assets/diagnostico-veterinario-em-sp-79.svg'],
+             ['nome' => 'YouTube', 'url' => '', 'icone' => 'template-parts/includes/layout/footer/assets/diagnostico-veterinario-em-sp-80.svg'],
+             ['nome' => 'WhatsApp', 'url' => '', 'icone' => 'template-parts/includes/layout/footer/assets/diagnostico-veterinario-em-sp-81.svg'],
+         ]],
         ['key' => 'field_opcoes_rodape_footer_rights_text', 'label' => 'Direitos reservados', 'name' => 'footer_rights_text', 'type' => 'text',
          'instructions' => 'Linha abaixo do copyright no rodapé do celular. Vazio, não aparece.',
          'default_value' => 'Todos os direitos reservados.'],

@@ -8,7 +8,8 @@
  *   (`context.scrolled` → data-scrolled). Páginas com o modelo padrão (body_class
  *   page-template-default) têm o fundo sempre pintado, como no React.
  * - Celular/tablet: barra branca + menu em tela cheia (trava a rolagem da página) com os CTAs na
- *   base; submenus em acordeão. Desktop: submenu em dropdown (mouse ou botão).
+ *   base e, abaixo deles, as redes sociais (shared/social-links — Rodapé → Redes sociais; novo no
+ *   v3); submenus em acordeão. Desktop: submenu em dropdown (mouse ou botão).
  * - Store `upwork/layout-header` (header.store.js): menu, submenus, Esc, foco preso, rolagem.
  * - `data-fw-header-bar` = a barra (93px / 84px): é a altura que o src/js/_header-offset.js usa
  *   no recuo das âncoras (sem os 44px do topo nem o menu mobile aberto).
@@ -197,9 +198,16 @@ $ctaLinks = static function () use ($ctas, $ctaClass): void {
         </ul>
       <?php endif; ?>
 
-      <?php if ($ctas) : ?>
+      <?php
+      // redes sociais (Rodapé → Redes sociais) abaixo dos CTAs; '' sem nenhuma preenchida
+      $redes = Part::html('shared/social-links', ['class' => fw_cn('justify-center', ['mt-4' => $ctas])]);
+      ?>
+      <?php if ($ctas || $redes) : ?>
         <?php // fixados na base do menu (mt-auto) ?>
-        <div class="mt-auto flex flex-col gap-2 pt-8 pb-4"><?php $ctaLinks(); ?></div>
+        <div class="mt-auto flex flex-col gap-2 pt-8 pb-4">
+          <?php $ctaLinks(); ?>
+          <?= $redes // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- markup do shared/social-links, escapado nele ?>
+        </div>
       <?php endif; ?>
     </nav>
   </div>
