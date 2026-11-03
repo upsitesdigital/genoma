@@ -53,7 +53,8 @@ defined('ABSPATH') || exit;
               <?= fw_img($data['icone'], ['class' => 'h-10 w-10 shrink-0 sm:h-12 sm:w-12 lg:h-[58px] lg:w-[58px]']) ?>
               <ul class="flex flex-col gap-1">
                 <?php foreach ($data['horarios'] as $linha) : ?>
-                  <li class="font-heading text-h5 text-white md:text-h4"><?= esc_html($linha) ?></li>
+                  <?php // textarea: quebra de linha do painel mantida ?>
+                  <li class="font-heading text-h5 whitespace-pre-line text-white md:text-h4"><?= esc_html($linha) ?></li>
                 <?php endforeach; ?>
               </ul>
             </div>

@@ -43,7 +43,8 @@ defined('ABSPATH') || exit;
           <li data-reveal class="flex flex-col gap-8 rounded-xl border border-border bg-white p-7 sm:gap-10 sm:p-8 lg:gap-12 lg:p-9">
             <?= fw_img($item['icone'], ['class' => 'h-10 w-10 shrink-0 sm:h-12 sm:w-12 lg:h-[52px] lg:w-[52px]']) ?>
             <?php if ($item['texto']) : ?>
-              <p class="font-sans text-body text-brand-purple-dark"><?= esc_html($item['texto']) ?></p>
+              <?php // textarea: quebra de linha do painel mantida (como nos Diferenciais da home) ?>
+              <p class="font-sans text-body whitespace-pre-line text-brand-purple-dark"><?= esc_html($item['texto']) ?></p>
             <?php endif; ?>
           </li>
         <?php endforeach; ?>

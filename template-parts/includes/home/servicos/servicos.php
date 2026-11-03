@@ -49,7 +49,8 @@ $verMaisClass = 'inline-flex w-full items-center justify-center gap-2 rounded-fu
           <span data-reveal class="font-sans text-eyebrow text-brand-purple-accent uppercase"><?= esc_html($data['eyebrow']) ?></span>
         <?php endif; ?>
         <?php if ($data['titulo']) : ?>
-          <h2 data-reveal class="font-heading text-h2-mobile text-brand-purple-dark md:text-h2"><?= esc_html($data['titulo']) ?></h2>
+          <?php // textarea: quebra de linha do painel mantida ?>
+          <h2 data-reveal class="font-heading text-h2-mobile whitespace-pre-line text-brand-purple-dark md:text-h2"><?= esc_html($data['titulo']) ?></h2>
         <?php endif; ?>
       </div>
     <?php endif; ?>

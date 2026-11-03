@@ -73,9 +73,10 @@ add_action('acf/init', function (): void {
         ['key' => 'field_home_servicos_eyebrow', 'label' => 'Serviços — Etiqueta', 'name' => 'servicos_eyebrow', 'type' => 'text',
          'instructions' => 'Texto curto exibido acima do título da seção (ex.: SERVIÇOS).',
          'default_value' => 'Nossos Serviços'],
-        ['key' => 'field_home_servicos_titulo', 'label' => 'Serviços — Título', 'name' => 'servicos_titulo', 'type' => 'text',
-         'instructions' => 'Título principal da seção.',
-         'default_value' => 'Tecnologia e cuidado a serviço da saúde animal'],
+        // text → textarea a pedido (03/11/2026): o valor no banco é o mesmo (string); key e name intactos
+        ['key' => 'field_home_servicos_titulo', 'label' => 'Serviços — Título', 'name' => 'servicos_titulo', 'type' => 'textarea',
+         'instructions' => 'Título principal da seção. Uma quebra de linha (Enter) aparece no site.',
+         'rows' => 2, 'new_lines' => '', 'default_value' => 'Tecnologia e cuidado a serviço da saúde animal'],
         ['key' => 'field_home_servicos_itens', 'label' => 'Serviços — Itens', 'name' => 'servicos_itens', 'type' => 'repeater',
          'instructions' => 'Cada linha é um card de serviço. Aparecem 3; com mais de 3, surge o botão "Ver mais".',
          'layout' => 'block', 'min' => 0, 'max' => 0, 'button_label' => 'Adicionar Serviço',
@@ -457,9 +458,10 @@ add_action('acf/init', function (): void {
          'instructions' => 'Horários de coleta do motoboy, um por linha (ex.: Segunda a sexta, das 8h às 18h).',
          'layout' => 'block', 'min' => 0, 'max' => 0, 'button_label' => 'Adicionar horário',
          'sub_fields' => [
-             ['key' => 'field_veterinarios_praticidade_horario_texto', 'label' => 'Texto', 'name' => 'texto', 'type' => 'text',
-              'instructions' => 'Um horário ou faixa de horário.',
-              'default_value' => 'Seg a sex: das 9h às 17h'],
+             // text → textarea a pedido (03/11/2026): o valor no banco é o mesmo (string); key e name intactos
+             ['key' => 'field_veterinarios_praticidade_horario_texto', 'label' => 'Texto', 'name' => 'texto', 'type' => 'textarea',
+              'instructions' => 'Um horário ou faixa de horário. Uma quebra de linha (Enter) aparece no site.',
+              'rows' => 2, 'new_lines' => '', 'default_value' => 'Seg a sex: das 9h às 17h'],
          ]],
         ['key' => 'field_veterinarios_praticidade_imagem', 'label' => 'Praticidade — Imagem', 'name' => 'praticidade_imagem', 'type' => 'image',
          'instructions' => 'Foto ao lado do card roxo.',
@@ -561,9 +563,10 @@ add_action('acf/init', function (): void {
              ['key' => 'field_veterinarios_beneficios_item_icone', 'label' => 'Ícone', 'name' => 'icone', 'type' => 'image',
               'instructions' => 'Ícone em SVG ou PNG com fundo transparente.',
               'return_format' => 'array', 'preview_size' => 'medium'],
-             ['key' => 'field_veterinarios_beneficios_item_texto', 'label' => 'Texto', 'name' => 'texto', 'type' => 'text',
-              'instructions' => 'Texto curto do card (até 3 linhas).',
-              'default_value' => 'Estrutura própria e moderna'],
+             // text → textarea a pedido (03/11/2026): o valor no banco é o mesmo (string); key e name intactos
+             ['key' => 'field_veterinarios_beneficios_item_texto', 'label' => 'Texto', 'name' => 'texto', 'type' => 'textarea',
+              'instructions' => 'Texto curto do card (até 3 linhas). Uma quebra de linha (Enter) aparece no site.',
+              'rows' => 2, 'new_lines' => '', 'default_value' => 'Estrutura própria e moderna'],
          ]],
     ], order: 6);
 
@@ -774,9 +777,10 @@ add_action('acf/init', function (): void {
              ['key' => 'field_responsavel_beneficios_item_icone', 'label' => 'Ícone', 'name' => 'icone', 'type' => 'image',
               'instructions' => 'Ícone em SVG ou PNG com fundo transparente.',
               'return_format' => 'array', 'preview_size' => 'medium'],
-             ['key' => 'field_responsavel_beneficios_item_texto', 'label' => 'Texto', 'name' => 'texto', 'type' => 'text',
-              'instructions' => 'Texto curto do card (até 3 linhas).',
-              'default_value' => 'Qualidade e confiabilidade nos exames'],
+             // text → textarea a pedido (03/11/2026): o valor no banco é o mesmo (string); key e name intactos
+             ['key' => 'field_responsavel_beneficios_item_texto', 'label' => 'Texto', 'name' => 'texto', 'type' => 'textarea',
+              'instructions' => 'Texto curto do card (até 3 linhas). Uma quebra de linha (Enter) aparece no site.',
+              'rows' => 2, 'new_lines' => '', 'default_value' => 'Qualidade e confiabilidade nos exames'],
          ]],
     ], order: 7);
 
