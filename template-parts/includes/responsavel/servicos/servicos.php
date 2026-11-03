@@ -4,6 +4,8 @@
  * app/responsavel/responsavel.view.tsx; <section id="tipos-de-exames">, âncora dos menus).
  * Dados: ResponsavelController → 'servicos' (null = "Ocultar seção" → nem chega aqui).
  *
+ * - Textos (cabeçalho, card, descrição e exames) com a mesma diagramação de Veterinários
+ *   (veterinarios/tipos-exames), que mostra o mesmo conteúdo — e não a do React daqui, que era diferente.
  * - Sem etiqueta, título e categorias → a seção não aparece (como no React).
  * - Mostra 3 categorias; com mais de 3, o botão "Ver mais"/"Ver menos" mostra as outras
  *   (VerMaisButton do React, sem CTA no lugar quando não há mais).
@@ -48,23 +50,29 @@ $chevron = '<path d="m6 9 6 6 6-6"/>';
   <?= wp_interactivity_data_wp_context(['expanded' => false]) ?>
 >
   <div class="container">
-    <div class="max-w-[571px]">
-      <?php if ($data['eyebrow']) : ?>
-        <p data-reveal class="font-sans text-eyebrow text-brand-purple-accent uppercase"><?= esc_html($data['eyebrow']) ?></p>
-      <?php endif; ?>
+    <?php if ($data['eyebrow'] || $linhas || $data['texto']) : ?>
+      <div class="flex flex-col gap-4">
+        <?php if ($data['eyebrow'] || $linhas) : ?>
+          <div class="flex flex-col gap-2">
+            <?php if ($data['eyebrow']) : ?>
+              <p data-reveal class="font-sans text-eyebrow text-brand-purple-accent uppercase"><?= esc_html($data['eyebrow']) ?></p>
+            <?php endif; ?>
 
-      <?php if ($linhas) : ?>
-        <h2 data-reveal class="mt-2 font-heading text-h2-mobile text-brand-purple-dark md:text-h2">
-          <?php foreach ($linhas as $linha) : ?>
-            <span class="block"><?= esc_html($linha) ?></span>
-          <?php endforeach; ?>
-        </h2>
-      <?php endif; ?>
+            <?php if ($linhas) : ?>
+              <h2 data-reveal class="max-w-xl font-heading text-h2-mobile text-brand-purple-dark md:max-w-2xl md:text-h2">
+                <?php foreach ($linhas as $linha) : ?>
+                  <span class="block"><?= esc_html($linha) ?></span>
+                <?php endforeach; ?>
+              </h2>
+            <?php endif; ?>
+          </div>
+        <?php endif; ?>
 
-      <?php if ($data['texto']) : ?>
-        <p data-reveal class="mt-4 max-w-[553px] font-sans text-body-lg leading-relaxed text-brand-gray-text md:mt-6"><?= esc_html($data['texto']) ?></p>
-      <?php endif; ?>
-    </div>
+        <?php if ($data['texto']) : ?>
+          <p data-reveal class="max-w-xl font-sans text-body-sm text-brand-gray-text md:max-w-2xl md:text-base"><?= esc_html($data['texto']) ?></p>
+        <?php endif; ?>
+      </div>
+    <?php endif; ?>
 
     <?php if ($categorias) : ?>
       <ul id="tipos-de-exames-lista" class="mt-8 flex flex-col gap-4 md:mt-10">
@@ -74,7 +82,7 @@ $chevron = '<path d="m6 9 6 6 6-6"/>';
           $painel     = 'tipos-de-exames-' . ($i + 1);
           ?>
           <li
-            class="rounded-2xl bg-brand-purple-subtle p-6 md:p-8"
+            class="rounded-2xl bg-brand-purple-subtle p-5 md:p-6 lg:p-8"
             <?= wp_interactivity_data_wp_context(['open' => $hasContent && $categoria['aberto']]) ?>
             <?php if ($extra) : ?>
               hidden
@@ -96,29 +104,29 @@ $chevron = '<path d="m6 9 6 6 6-6"/>';
               <span class="font-heading text-h5 font-medium text-brand-purple-dark md:text-h4"><?= esc_html((string) $categoria['nome']) ?></span>
 
               <?php if ($hasContent) : ?>
-                <span class="flex size-10 shrink-0 items-center justify-center rounded-full bg-brand-purple md:size-[46px]">
+                <span class="flex size-10 shrink-0 items-center justify-center rounded-full bg-brand-purple sm:size-[46px]">
                   <svg class="size-4 text-white transition-transform duration-300" data-wp-class--rotate-180="context.open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><?= $chevron // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- SVG fixo do template ?></svg>
                 </span>
               <?php endif; ?>
             </button>
 
             <?php if ($hasContent) : ?>
-              <div id="<?= esc_attr($painel) ?>" class="mt-6 flex flex-col gap-4 md:mt-9" hidden data-wp-bind--hidden="!context.open">
+              <div id="<?= esc_attr($painel) ?>" class="mt-6 flex flex-col gap-6 sm:mt-9 md:gap-8" hidden data-wp-bind--hidden="!context.open">
                 <?php if ($categoria['descricao']) : ?>
-                  <p class="max-w-3xl font-sans text-body leading-relaxed font-semibold text-brand-gray-text"><?= esc_html($categoria['descricao']) ?></p>
+                  <p class="font-sans text-body-sm text-brand-gray-text"><?= esc_html($categoria['descricao']) ?></p>
                 <?php endif; ?>
 
                 <?php if ($categoria['exames']) : ?>
                   <ul class="flex flex-col gap-2">
                     <?php foreach ($categoria['exames'] as $exame) : ?>
-                      <li class="flex flex-col gap-2 sm:flex-row sm:items-stretch">
-                        <div class="flex-1 rounded-2xl bg-white p-4 font-sans text-body font-semibold text-brand-purple-dark"><?= esc_html((string) $exame['nome']) ?></div>
-                        <?php // larguras fixas: prazo e amostra alinham em coluna em todas as linhas ?>
+                      <?php // larguras fixas: prazo e amostra alinham em coluna em todas as linhas ?>
+                      <li class="flex w-full flex-wrap items-center gap-2">
+                        <div class="min-w-[200px] flex-1 self-stretch rounded-2xl bg-white p-4 font-sans text-sm font-semibold text-brand-purple-dark sm:text-base"><?= esc_html((string) $exame['nome']) ?></div>
                         <?php if ($exame['prazo']) : ?>
-                          <div class="flex shrink-0 items-center justify-center rounded-2xl bg-white p-4 text-center font-sans text-body-sm text-brand-purple-dark sm:w-[132px]"><?= esc_html($exame['prazo']) ?></div>
+                          <div class="flex w-full shrink-0 items-center justify-center self-stretch rounded-2xl bg-white p-4 text-center font-sans text-body-sm text-brand-purple-dark sm:w-[132px]"><?= esc_html($exame['prazo']) ?></div>
                         <?php endif; ?>
                         <?php if ($exame['amostra']) : ?>
-                          <div class="flex shrink-0 items-center justify-center rounded-2xl bg-white p-4 text-center font-sans text-body-sm text-brand-purple-dark sm:w-[220px]"><?= esc_html($exame['amostra']) ?></div>
+                          <div class="flex w-full shrink-0 items-center justify-center self-stretch rounded-2xl bg-white p-4 text-center font-sans text-body-sm text-brand-purple-dark sm:w-[220px]"><?= esc_html($exame['amostra']) ?></div>
                         <?php endif; ?>
                       </li>
                     <?php endforeach; ?>

@@ -132,7 +132,7 @@ $chevron = '<svg class="size-4 transition-transform duration-300 group-aria-expa
             >
               <?php // espaçamento como padding interno: some junto ao recolher (sem gap fixo) ?>
               <div class="overflow-hidden">
-                <div class="flex flex-col gap-4 pt-6 sm:pt-9">
+                <div class="flex flex-col gap-6 pt-6 sm:pt-9 md:gap-8">
                   <?php if ($categoria['texto']) : ?>
                     <p class="font-sans text-body-sm text-brand-gray-text"><?= esc_html($categoria['texto']) ?></p>
                   <?php endif; ?>
