@@ -56,7 +56,7 @@ defined('ABSPATH') || exit;
         <a <?= fw_attrs([
           'href'        => fw_url($data['cta']['link']) ?? '#',
           'data-reveal' => true,
-          'class'       => 'inline-flex w-full items-center justify-center rounded-full bg-white px-7 py-5 font-heading text-h4 leading-none text-primary transition-colors hover:bg-primary hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white lg:w-fit',
+          'class'       => 'inline-flex w-full items-center justify-center rounded-full bg-white px-7 py-5 font-heading text-base leading-none md:text-h4 text-primary transition-colors hover:bg-primary hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white lg:w-fit',
         ]) ?>><?= esc_html($data['cta']['texto']) ?></a>
       <?php endif; ?>
     </div>

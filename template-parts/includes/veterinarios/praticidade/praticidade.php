@@ -6,8 +6,9 @@
  *
  * - texto: textarea com as quebras de linha mantidas (whitespace-pre-line, como no React).
  * - horarios vazio → o quadro de horários (com o ícone) não aparece; icone null → só os textos.
- * - imagem: no celular/tablet abaixo do texto; do lg em diante solta à direita (absolute), sobre o
- *   painel roxo-escuro decorativo (22% da largura, não é campo), encostada na base do card.
+ * - imagem: no celular/tablet abaixo do texto, encostada na base do card (sem padding embaixo); do lg
+ *   em diante solta à direita (absolute), sobre o painel roxo-escuro decorativo (22% da largura, não
+ *   é campo), também encostada na base. Sem imagem, o card tem padding embaixo.
  *
  * @var array{
  *   eyebrow: string|null,
@@ -27,7 +28,8 @@ defined('ABSPATH') || exit;
       <?php // Painel decorativo mais escuro atrás da imagem (só do lg em diante) ?>
       <div aria-hidden="true" class="absolute inset-y-0 right-0 hidden w-[22%] rounded-r-2xl bg-brand-purple-dark lg:block"></div>
 
-      <div class="relative z-10 flex flex-col gap-8 p-8 sm:p-10 md:p-12 lg:flex-row lg:items-center lg:gap-10 lg:p-14 xl:gap-16 xl:p-16">
+      <?php // com foto, sem padding embaixo no celular/tablet: a foto encosta na base do card (no lg ela é absolute) ?>
+      <div class="<?= fw_cn('relative z-10 flex flex-col gap-8 px-8 pt-8 sm:px-10 sm:pt-10 md:px-12 md:pt-12 lg:flex-row lg:items-center lg:gap-10 lg:p-14 xl:gap-16 xl:p-16', ['pb-8 sm:pb-10 md:pb-12' => !$data['imagem']]) ?>">
         <div class="flex flex-col gap-8 lg:max-w-[552px] lg:shrink-0 lg:gap-[46px]">
           <div class="flex flex-col gap-4">
             <?php if ($data['eyebrow'] || $data['titulo']) : ?>
@@ -62,7 +64,7 @@ defined('ABSPATH') || exit;
           <div class="relative h-64 w-full overflow-hidden rounded-2xl sm:h-80 lg:absolute lg:top-[30px] lg:right-10 lg:bottom-0 lg:h-full lg:w-[38%] xl:right-16 xl:w-[478px]">
             <?= fw_img($data['imagem'], [
               'data-reveal' => 'fade',
-              'class'       => 'h-full w-full rounded-2xl object-contain',
+              'class'       => 'h-full w-full rounded-2xl object-contain object-bottom',
               'sizes'       => '(min-width: 1280px) 478px, (min-width: 1024px) 38vw, 100vw',
             ]) ?>
           </div>

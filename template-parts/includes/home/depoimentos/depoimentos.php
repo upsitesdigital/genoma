@@ -91,7 +91,7 @@ $arrow = '<svg class="size-5 sm:size-6" viewBox="0 0 24 24" fill="none" stroke="
         <?php foreach ($itens as $item) : ?>
           <li class="flex w-full shrink-0 snap-start flex-col gap-5 rounded-2xl bg-brand-light-purple p-6 lg:w-[calc(50%-16px)] lg:gap-8 lg:p-16">
             <?php if ($item['texto']) : ?>
-              <blockquote class="font-sans text-[15px] leading-[1.5] text-brand-purple-dark lg:order-2 lg:font-heading lg:text-h4 lg:leading-[1.4] lg:font-medium"><?= esc_html($item['texto']) ?></blockquote>
+              <blockquote class="font-sans text-[15px] leading-[1.5] text-brand-purple-dark lg:order-2 lg:font-heading lg:text-h4 lg:leading-[1.4] lg:font-normal"><?= esc_html($item['texto']) ?></blockquote>
             <?php endif; ?>
 
             <?php // celular: avatar ao lado do nome; desktop: avatar no topo, nome no fim (lg:contents + order) ?>
