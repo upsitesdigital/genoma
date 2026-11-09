@@ -114,7 +114,7 @@ $arrow = '<svg class="size-5 text-primary sm:size-6" viewBox="0 0 24 24" fill="n
   <?php endforeach; ?>
 
   <?php // Conteúdo: um bloco por slide, só o ativo visível ?>
-  <div class="container relative z-10">
+  <div class="<?= fw_cn('container relative z-10', ['lg:pl-hero-arrows' => $total > 1]) ?>">
     <?php foreach ($slides as $i => $slide) :
       $first  = $i === 0;
       $tag    = $first ? 'h1' : 'p'; // eyebrow: h1 no 1º slide, p nos demais

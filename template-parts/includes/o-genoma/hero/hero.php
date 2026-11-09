@@ -93,7 +93,7 @@ $arrow = '<svg class="size-5 text-primary sm:size-6" viewBox="0 0 24 24" fill="n
         data-wp-class--opacity-0="!state.isActive"
         data-wp-bind--aria-hidden="!state.isActive"
       >
-        <div class="container">
+        <div class="<?= fw_cn('container', ['lg:pl-hero-arrows' => $total > 1]) ?>">
           <div class="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_351px] lg:gap-16 xl:gap-24">
             <div class="max-w-xl lg:max-w-[636px]">
               <?php if ($slide['eyebrow']) : ?>

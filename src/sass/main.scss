@@ -187,6 +187,12 @@ $fw-critical: false !default;
   max-width: 1400px;
 }
 
+// Recuo do texto dos heros com setas (left-10 + 58px = 98px + 20px de folga): só age onde a
+// margem do container não basta (< ~1556px); acima disso vale o padding normal (1.25rem)
+@utility pl-hero-arrows {
+  padding-left: max(1.25rem, calc(118px - max(0px, (100vw - 1400px) / 2)));
+}
+
 @layer base {
   * {
     @apply border-border;

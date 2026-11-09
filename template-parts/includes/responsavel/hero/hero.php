@@ -109,7 +109,7 @@ $arrow = '<svg class="size-5 text-primary sm:size-6" viewBox="0 0 24 24" fill="n
         </div>
       <?php endif; ?>
 
-      <div class="container relative z-10 flex h-full items-start pt-[186px] lg:items-center lg:pt-0">
+      <div class="<?= fw_cn('container relative z-10 flex h-full items-start pt-[186px] lg:items-center lg:pt-0', ['lg:pl-hero-arrows' => $total > 1]) ?>">
         <div class="relative max-w-xl text-left lg:max-w-[598px]">
           <?php if ($slide['eyebrow']) : ?>
             <<?= tag_escape($tag) ?> <?= fw_attrs(['data-hero-reveal' => $first ? $entrada++ : null, 'class' => 'font-sans text-body text-white']) ?>><?= esc_html($slide['eyebrow']) ?></<?= tag_escape($tag) ?>>
