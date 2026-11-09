@@ -62,7 +62,8 @@ $ctaClass = [
 ];
 
 // fundo sempre pintado nas páginas com o modelo padrão (globals.css do React: .page-template-default header)
-$painted = in_array('page-template-default', get_body_class(), true);
+// e no 404 (fundo branco: os links brancos do menu sumiriam sem a cor)
+$painted = is_404() || in_array('page-template-default', get_body_class(), true);
 
 // chevron do submenu: gira com o submenu aberto (e, no desktop, com o mouse sobre o item)
 $chevron = '<svg class="size-3.5 shrink-0 transition-transform group-hover:rotate-180" data-wp-class--rotate-180="context.sub" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg>';
