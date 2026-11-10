@@ -8,6 +8,7 @@
  * - Acordeão: uma categoria aberta por vez (clicar na aberta fecha). O conteúdo (texto + exames)
  *   abre animando grid-template-rows 0fr → 1fr, como no React; fechado, fica `inert`.
  *   Categoria sem texto e sem exames: botão desabilitado (opacity-40) e sem conteúdo.
+ *   `aberto` = já aberta ao carregar (vale a primeira marcada com conteúdo).
  * - Exames: nome (flex-1) + prazo (132px) + amostra (220px) — larguras fixas alinham as colunas;
  *   prazo/amostra null → a caixa não aparece.
  * - Mostra 3 categorias; com mais de 3, o botão "Ver mais"/"Ver menos" expande (VerMaisButton) e o
@@ -23,6 +24,7 @@
  *   descricao: string|null,
  *   categorias: list<array{
  *     titulo: string|null,
+ *     aberto: bool,
  *     texto: string|null,
  *     itens: list<array{nome: string|null, prazo: string|null, amostra: string|null}>,
  *   }>,
@@ -37,6 +39,15 @@ if (!$categorias) return;
 
 $visiveis = 3; // VISIVEIS_INICIAL do VerMaisButton
 $hasMore  = count($categorias) > $visiveis;
+
+// "Aberta por padrão?": uma aberta por vez → vale a primeira marcada que tem conteúdo
+$abertaInicial = null;
+foreach ($categorias as $i => $categoria) {
+  if (!empty($categoria['aberto']) && ($categoria['texto'] || $categoria['itens'])) {
+    $abertaInicial = $i;
+    break;
+  }
+}
 
 // categoria aberta e rótulo do botão no HTML do servidor — os mesmos getters do tipos-exames.store.js
 wp_interactivity_state('upwork/veterinarios-tipos-exames', [
@@ -60,7 +71,7 @@ $chevron = '<svg class="size-4 transition-transform duration-300 group-aria-expa
   id="tipos-de-exames"
   class="w-full py-12 md:py-20 lg:py-24"
   data-wp-interactive="upwork/veterinarios-tipos-exames"
-  <?= wp_interactivity_data_wp_context(['aberta' => null, 'expanded' => false]) ?>
+  <?= wp_interactivity_data_wp_context(['aberta' => $abertaInicial, 'expanded' => false]) ?>
 >
   <div class="container">
     <?php if ($data['eyebrow'] || $data['titulo'] || $data['descricao']) : ?>

@@ -120,6 +120,7 @@ final class VeterinariosController extends Controller
             'descricao'  => $this->text($pageId, 'tipos_exames_descricao', self::TIPOS_EXAMES_DESCRICAO),
             'categorias' => array_map(fn(array $row): array => [
                 'titulo' => $this->textFrom($row, 'titulo'),
+                'aberto' => !empty($row['aberto']),
                 'texto'  => $this->textFrom($row, 'texto'),
                 'itens'  => array_map(fn(array $item): array => [
                     'nome'    => $this->textFrom($item, 'nome'),
