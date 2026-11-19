@@ -60,12 +60,25 @@ final class Seo
         return self::description(View::data()) ?? $description;
     }
 
-    /** Yoast: imagem do hero como og:image (o plugin só a usa se não houver outra definida). */
+    /**
+     * Yoast: imagem do hero como og:image. O Yoast só a usa se a página não tiver imagem própria
+     * (aba Social), mas ela passa na frente da "Imagem do site" (Yoast → Configurações → Básico
+     * do site) — então, com essa imagem cadastrada, o hero não entra e vale a do site.
+     */
     public static function yoastImage(mixed $images): void
     {
         if (!View::isActive() || !is_object($images) || !method_exists($images, 'add_image_by_url')) return;
+        if (self::yoastDefaultImage()) return;
         $image = View::lcpImage(View::data());
         if ($image) $images->add_image_by_url($image);
+    }
+
+    /** "Imagem do site" do Yoast (og_default_image) está cadastrada? */
+    private static function yoastDefaultImage(): bool
+    {
+        if (!class_exists('WPSEO_Options')) return false;
+        return trim((string) \WPSEO_Options::get('og_default_image', '')) !== ''
+            || (int) \WPSEO_Options::get('og_default_image_id', 0) > 0;
     }
 
     /**
