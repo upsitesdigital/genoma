@@ -16,7 +16,7 @@ use Core\Framework\Part;
 
 defined('ABSPATH') || exit;
 ?>
-<main>
+<main style="overflow: hidden;">
   <?php Part::render('blog/hero', $data['hero']); ?>
   <?php Part::render('shared/post-list', ['id' => 'posts', 'empty' => __('Nenhum post encontrado.', 'upsites')] + $data['listaPost']); ?>
 </main>

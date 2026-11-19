@@ -15,7 +15,7 @@ use Core\Framework\Part;
 
 defined('ABSPATH') || exit;
 ?>
-<main>
+<main style="overflow: hidden;">
   <?php Part::render('contato/hero', $data['hero']); ?>
   <?php Part::render('contato/lista', $data['lista']); ?>
 </main>

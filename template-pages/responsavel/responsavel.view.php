@@ -20,7 +20,7 @@ use Core\Framework\Part;
 
 defined('ABSPATH') || exit;
 ?>
-<main>
+<main style="overflow: hidden;">
   <?php Part::render('responsavel/hero', $data['hero']); ?>
   <?php Part::render('responsavel/suporte', $data['suporte']); ?>
   <?php Part::render('responsavel/planos', $data['planos']); ?>

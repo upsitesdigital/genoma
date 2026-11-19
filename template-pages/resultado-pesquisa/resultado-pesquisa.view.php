@@ -17,7 +17,7 @@ use Core\Framework\Part;
 
 defined('ABSPATH') || exit;
 ?>
-<main>
+<main style="overflow: hidden;">
   <?php Part::render('resultado-pesquisa/hero', $data['hero']); ?>
   <?php
   Part::render('shared/post-list', [

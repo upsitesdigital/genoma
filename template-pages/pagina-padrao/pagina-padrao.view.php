@@ -11,6 +11,6 @@ use Core\Framework\Part;
 
 defined('ABSPATH') || exit;
 ?>
-<main>
+<main style="overflow: hidden;">
   <?php Part::render('pagina-padrao/conteudo', $data['conteudo']); ?>
 </main>

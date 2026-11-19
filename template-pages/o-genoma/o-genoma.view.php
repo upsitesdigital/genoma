@@ -17,7 +17,7 @@ use Core\Framework\Part;
 
 defined('ABSPATH') || exit;
 ?>
-<main>
+<main style="overflow: hidden;">
   <?php Part::render('o-genoma/hero', $data['hero']); ?>
   <?php Part::render('o-genoma/sobre', $data['sobre']); ?>
   <?php Part::render('o-genoma/compromisso', $data['compromisso']); ?>

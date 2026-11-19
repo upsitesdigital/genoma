@@ -16,7 +16,7 @@ use Core\Framework\Part;
 
 defined('ABSPATH') || exit;
 ?>
-<main>
+<main style="overflow: hidden;">
   <?php Part::render('single-post/hero', $data['hero']); ?>
   <?php Part::render('single-post/conteudo', $data['conteudo']); ?>
   <?php Part::render('single-post/veja-tambem', $data['vejaTambem']); ?>

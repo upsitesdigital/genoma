@@ -19,7 +19,7 @@ use Core\Framework\Part;
 
 defined('ABSPATH') || exit;
 ?>
-<main>
+<main style="overflow: hidden;">
   <?php Part::render('veterinarios/hero', $data['hero']); ?>
   <?php Part::render('veterinarios/suporte', $data['suporte']); ?>
   <?php Part::render('veterinarios/praticidade', $data['praticidade']); ?>

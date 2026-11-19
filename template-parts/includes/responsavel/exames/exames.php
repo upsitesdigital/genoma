@@ -36,7 +36,7 @@ $itens  = $data['itens'] ?? [];
     'sizes' => '100vw',
   ], 'full') ?>
   <div class="absolute inset-0 -z-10 bg-[linear-gradient(to_top,rgba(0,0,0,0.85),rgba(0,0,0,0.55),rgba(0,0,0,0.25))] lg:hidden" aria-hidden="true"></div>
-  <div class="absolute inset-0 -z-10 hidden bg-[linear-gradient(90deg,rgba(134,156,170,1)_39%,rgba(158,180,193,0)_100%)] lg:block" aria-hidden="true"></div>
+  <div class="absolute inset-0 -z-10 hidden bg-[linear-gradient(90deg,rgba(134,156,170,1)_39%,rgba(158,180,193,0)_70%)] lg:block" aria-hidden="true"></div>
 
   <div class="container relative flex flex-col gap-8 lg:h-full lg:justify-center lg:gap-10 xl:gap-12">
     <?php if ($data['eyebrow'] || $linhas || $data['texto']) : ?>
