@@ -161,11 +161,14 @@ add_action('wp_head', 'US_critical_css', 1);
  * Página com critical CSS: o main.css não bloqueia a renderização — carrega com media="print"
  * e vira "all" ao terminar (padrão do loadCSS); sem JS, o <noscript> carrega do jeito normal.
  * Sem critical CSS, o main.css continua como sempre (bloqueante, para não piscar sem estilo).
+ *
+ * data-no-optimize: o "Combinar CSS" do LiteSpeed juntava este arquivo no CSS dele embrulhado em
+ * @media print e jogava fora o onload — o site ficava só com o critical CSS (sem estilo abaixo do hero).
  */
 add_filter('style_loader_tag', function ($tag, $handle) {
   if ('fw-main' !== $handle || !US_critical_css_file()) return $tag;
 
-  $async = preg_replace('/\smedia=([\'"])[^\'"]*\1/', ' media=\'print\' onload="this.media=\'all\'"', $tag, 1);
+  $async = preg_replace('/\smedia=([\'"])[^\'"]*\1/', ' media=\'print\' onload="this.media=\'all\'" data-no-optimize="1"', $tag, 1);
   return $async . '<noscript>' . trim($tag) . "</noscript>\n";
 }, 10, 2);
 
