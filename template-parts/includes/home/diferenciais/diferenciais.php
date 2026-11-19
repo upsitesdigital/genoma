@@ -5,7 +5,7 @@
  * Dados: HomeController → 'diferenciais' (null = "Ocultar seção" → nem chega aqui).
  *
  * - itens vazio → a seção não aparece (como no React).
- * - imagem: foto no topo no mobile; fundo do banner (atrás do degradê) no tablet/desktop.
+ * - imagem: foto no topo no mobile; no tablet/desktop, metade direita do banner sobre o degradê (Figma 2002:1751).
  * - titulo dos itens vem de textarea: quebras de linha mantidas (whitespace-pre-line).
  * - icone: IconData — shared/icon (SVG inline; PNG/WebP como tag img).
  *
@@ -34,14 +34,13 @@ defined('ABSPATH') || exit;
 $itens = $data['itens'] ?? [];
 if (!$itens) return;
 ?>
-<section id="diferenciais" class="relative isolate w-full bg-brand-light-purple py-12 md:mb-[110px] md:bg-[#9EB4C1] md:pt-88 md:pb-20 lg:pb-24">
-  <?php // degradê sobre a foto de fundo (tablet/desktop) ?>
-  <div class="pointer-events-none absolute inset-0 -z-10 hidden bg-[linear-gradient(36deg,rgba(158,180,193,1)_15%,rgba(158,180,193,0)_100%)] md:block" aria-hidden="true"></div>
-
+<section id="diferenciais" class="relative isolate w-full bg-brand-light-purple py-12 md:mb-[110px] md:bg-white md:bg-[linear-gradient(65.57deg,#9EB4C1_29.47%,rgba(158,180,193,0)_120.46%)] md:pt-88 md:pb-20 lg:pb-24">
   <div class="container flex flex-col gap-8 md:-mb-[210px] md:gap-20">
+    <?php // md+: como no Figma, a foto ocupa só a metade direita do banner (918 de 1920px), ancorada embaixo e
+          // esfumada à esquerda sobre o degradê — esticada na largura toda o cover dava um zoom enorme ?>
     <?= fw_img($data['imagem'], [
-      'class' => 'h-40 w-full rounded-2xl object-cover md:absolute md:inset-0 md:-z-20 md:h-full md:rounded-none',
-      'sizes' => '(min-width: 768px) 100vw, calc(100vw - 40px)',
+      'class' => 'h-40 w-full rounded-2xl object-cover md:absolute md:inset-y-0 md:right-0 md:-z-10 md:h-full md:w-3/5 md:rounded-none md:object-bottom md:[mask-image:linear-gradient(to_right,transparent,#000_30%)] lg:w-[48%]',
+      'sizes' => '(min-width: 1024px) 48vw, (min-width: 768px) 60vw, calc(100vw - 40px)',
     ], 'full') ?>
 
     <?php if ($data['eyebrow'] || $data['titulo']) : ?>
