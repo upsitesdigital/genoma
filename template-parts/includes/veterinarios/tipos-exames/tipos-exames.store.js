@@ -13,11 +13,6 @@ store('upwork/veterinarios-tipos-exames', {
       const ctx = getContext()
       return ctx.aberta === ctx.i
     },
-    // aria-label do botão: "Expandir X" fechado, "Recolher X" aberto
-    get rotulo() {
-      const ctx = getContext()
-      return ctx.aberta === ctx.i ? ctx.recolher : ctx.expandir
-    },
   },
   actions: {
     toggle() {

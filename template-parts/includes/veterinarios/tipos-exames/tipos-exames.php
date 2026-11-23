@@ -7,7 +7,8 @@
  * - categorias vazio → a seção não aparece (como no React).
  * - Acordeão: uma categoria aberta por vez (clicar na aberta fecha). O conteúdo (texto + exames)
  *   abre animando grid-template-rows 0fr → 1fr, como no React; fechado, fica `inert`.
- *   Categoria sem texto e sem exames: botão desabilitado (opacity-40) e sem conteúdo.
+ *   O card inteiro (título + seta) é o botão. Categoria sem texto e sem exames: botão desabilitado
+ *   (seta em opacity-40) e sem conteúdo.
  *   `aberto` = já aberta ao carregar (vale a primeira marcada com conteúdo).
  * - Exames: nome (flex-1) + prazo (132px) + amostra (220px) — larguras fixas alinham as colunas;
  *   prazo/amostra null → a caixa não aparece.
@@ -49,16 +50,11 @@ foreach ($categorias as $i => $categoria) {
   }
 }
 
-// categoria aberta e rótulo do botão no HTML do servidor — os mesmos getters do tipos-exames.store.js
+// categoria aberta no HTML do servidor — o mesmo getter do tipos-exames.store.js
 wp_interactivity_state('upwork/veterinarios-tipos-exames', [
   'isOpen' => static function (): bool {
     $ctx = wp_interactivity_get_context();
     return isset($ctx['i'], $ctx['aberta']) && $ctx['aberta'] === $ctx['i'];
-  },
-  'rotulo' => static function (): string {
-    $ctx  = wp_interactivity_get_context();
-    $open = isset($ctx['i'], $ctx['aberta']) && $ctx['aberta'] === $ctx['i'];
-    return (string) ($open ? ($ctx['recolher'] ?? '') : ($ctx['expandir'] ?? ''));
   },
 ]);
 
@@ -98,38 +94,34 @@ $chevron = '<svg class="size-4 transition-transform duration-300 group-aria-expa
         $titulo     = (string) $categoria['titulo'];
         $hasContent = $categoria['texto'] || $categoria['itens'];
         $painel     = 'tipos-de-exames-' . ($i + 1);
-        /* translators: %s: nome da categoria de exames */
-        $expandir = sprintf(__('Expandir %s', 'upsites'), $titulo);
-        /* translators: %s: nome da categoria de exames */
-        $recolher = sprintf(__('Recolher %s', 'upsites'), $titulo);
         ?>
         <?php // acordeão não ganha data-reveal (skill animation: conteúdo que abre por clique) ?>
         <li
-          <?= wp_interactivity_data_wp_context(['i' => $i, 'expandir' => $expandir, 'recolher' => $recolher]) ?>
-          class="flex flex-col rounded-2xl bg-brand-purple-subtle p-5 md:p-6 lg:p-8"
+          <?= wp_interactivity_data_wp_context(['i' => $i]) ?>
+          class="flex flex-col rounded-2xl bg-brand-purple-subtle"
           <?php if ($extra) : ?>
             hidden
             data-wp-bind--hidden="!context.expanded"
           <?php endif; ?>
         >
-          <div class="flex w-full items-center justify-between gap-4">
-            <h3 class="font-heading text-h5 font-medium text-brand-purple-dark md:text-h4"><?= esc_html($titulo) ?></h3>
-
+          <?php // o card todo é o botão (padding no botão): nome da categoria = nome acessível ?>
+          <h3>
             <button
               type="button"
-              class="group flex size-10 shrink-0 items-center justify-center rounded-full bg-brand-purple text-white transition-opacity focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-purple disabled:opacity-40 sm:size-[46px]"
-              aria-label="<?= esc_attr($expandir) ?>"
+              class="<?= fw_cn('group flex w-full items-center justify-between gap-4 rounded-2xl p-5 text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-purple md:p-6 lg:p-8', $hasContent ? 'cursor-pointer' : 'cursor-default') ?>"
               aria-expanded="false"
               <?php if ($hasContent) : ?>
                 aria-controls="<?= esc_attr($painel) ?>"
                 data-wp-bind--aria-expanded="state.isOpen"
-                data-wp-bind--aria-label="state.rotulo"
                 data-wp-on--click="actions.toggle"
               <?php else : ?>
                 disabled
               <?php endif; ?>
-            ><?= $chevron // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- SVG fixo do template ?></button>
-          </div>
+            >
+              <span class="font-heading text-h5 font-medium text-brand-purple-dark md:text-h4"><?= esc_html($titulo) ?></span>
+              <span class="flex size-10 shrink-0 items-center justify-center rounded-full bg-brand-purple text-white transition-opacity group-disabled:opacity-40 sm:size-[46px]"><?= $chevron // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- SVG fixo do template ?></span>
+            </button>
+          </h3>
 
           <?php if ($hasContent) : ?>
             <?php // grid-template-rows 0fr → 1fr anima a altura (o React fazia o mesmo por style) ?>
@@ -141,9 +133,10 @@ $chevron = '<svg class="size-4 transition-transform duration-300 group-aria-expa
               data-wp-bind--data-open="state.isOpen"
               data-wp-bind--inert="!state.isOpen"
             >
-              <?php // espaçamento como padding interno: some junto ao recolher (sem gap fixo) ?>
+              <?php // espaçamento como padding interno: some junto ao recolher (sem gap fixo).
+                    // pt = respiro de antes (24/36px) menos o padding de baixo do botão (20/24/32px) ?>
               <div class="overflow-hidden">
-                <div class="flex flex-col gap-6 pt-6 sm:pt-9 md:gap-8">
+                <div class="flex flex-col gap-6 px-5 pt-1 pb-5 sm:pt-4 md:gap-8 md:px-6 md:pt-3 md:pb-6 lg:px-8 lg:pt-1 lg:pb-8">
                   <?php if ($categoria['texto']) : ?>
                     <p class="font-sans text-body-sm text-brand-gray-text"><?= esc_html($categoria['texto']) ?></p>
                   <?php endif; ?>

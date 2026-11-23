@@ -82,16 +82,17 @@ $chevron = '<path d="m6 9 6 6 6-6"/>';
           $painel     = 'tipos-de-exames-' . ($i + 1);
           ?>
           <li
-            class="rounded-2xl bg-brand-purple-subtle p-5 md:p-6 lg:p-8"
+            class="rounded-2xl bg-brand-purple-subtle"
             <?= wp_interactivity_data_wp_context(['open' => $hasContent && $categoria['aberto']]) ?>
             <?php if ($extra) : ?>
               hidden
               data-wp-bind--hidden="!context.expanded"
             <?php endif; ?>
           >
+            <?php // o card todo é o botão (padding no botão, não no <li>) ?>
             <button
               type="button"
-              class="<?= fw_cn('flex w-full items-center justify-between gap-4 text-left', ['cursor-default' => !$hasContent]) ?>"
+              class="<?= fw_cn('flex w-full items-center justify-between gap-4 rounded-2xl p-5 text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-purple md:p-6 lg:p-8', $hasContent ? 'cursor-pointer' : 'cursor-default') ?>"
               <?php if ($hasContent) : ?>
                 aria-expanded="false"
                 aria-controls="<?= esc_attr($painel) ?>"
@@ -111,7 +112,7 @@ $chevron = '<path d="m6 9 6 6 6-6"/>';
             </button>
 
             <?php if ($hasContent) : ?>
-              <div id="<?= esc_attr($painel) ?>" class="mt-6 flex flex-col gap-6 sm:mt-9 md:gap-8" hidden data-wp-bind--hidden="!context.open">
+              <div id="<?= esc_attr($painel) ?>" class="flex flex-col gap-6 px-5 pt-1 pb-5 sm:pt-4 md:gap-8 md:px-6 md:pt-3 md:pb-6 lg:px-8 lg:pt-1 lg:pb-8" hidden data-wp-bind--hidden="!context.open">
                 <?php if ($categoria['descricao']) : ?>
                   <p class="font-sans text-body-sm text-brand-gray-text"><?= esc_html($categoria['descricao']) ?></p>
                 <?php endif; ?>
