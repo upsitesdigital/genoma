@@ -247,10 +247,18 @@ $credits = ThemeOptions::text('footer_credits_text', 'Desenvolvido por Upsites')
       ] + fw_target('_blank')) ?>><?= esc_html($privacyLabel) ?></a>
     <?php endif; ?>
     <?php if ($credits) : ?>
-      <a <?= fw_attrs([
+      <?php // link só na palavra "Upsites" do texto (sem ela, a assinatura fica sem link) ?>
+      <?php
+      $creditsLink = fw_attrs([
         'href'  => 'https://upsites.digital/',
-        'class' => 'hidden rounded-sm text-white/70 transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white lg:inline',
-      ] + fw_target('_blank')) ?>><?= esc_html($credits) ?></a>
+        'class' => 'rounded-sm underline-offset-2 transition-colors hover:text-white hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white',
+      ] + fw_target('_blank'));
+      $creditsHtml = '';
+      foreach (preg_split('/(upsites)/iu', $credits, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY) as $parte) {
+        $creditsHtml .= strcasecmp($parte, 'upsites') === 0 ? '<a ' . $creditsLink . '>' . esc_html($parte) . '</a>' : esc_html($parte);
+      }
+      ?>
+      <span class="hidden text-white/70 lg:inline"><?= $creditsHtml // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- partes escapadas acima; atributos pelo fw_attrs ?></span>
     <?php endif; ?>
   </div>
 </footer>
