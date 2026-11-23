@@ -3,9 +3,10 @@
  * Depoimentos — carrossel (React: DepoimentosSection em app/home/home.view.tsx; <section id="depoimentos">).
  * Dados: HomeController → 'depoimentos' (null = "Ocultar seção" → nem chega aqui).
  *
- * - itens vazio → a seção não aparece (como no React); setas só com 2+ itens (desktop).
- * - icone: IconData (no banco é o SVG de aspas; o React mostrava como imagem redonda pelo src):
- *   SVG inline pelo shared/icon; foto (PNG/JPG/WebP) recortada no círculo (object-cover).
+ * - itens vazio → a seção não aparece (como no React); setas e autoplay só com 3+ itens (no desktop
+ *   cabem 2 cards — com 2 não há o que rolar).
+ * - avatar: foto do cliente (PNG/JPG/WebP) recortada no círculo (object-cover); sem foto (ou com o
+ *   SVG da bola vazia que veio do React), círculo roxo com as iniciais do nome (máx. 2 letras).
  * - intervalo: mínimo de 2000 ms no store (React: Math.max(intervalo, 2000)).
  * - Como no React: no celular/tablet os cards ficam empilhados; do lg em diante, trilho com rolagem
  *   horizontal (scroll-snap, 2 cards visíveis) e setas. Sem bolinhas nem swipe próprio (o React não
@@ -18,7 +19,8 @@
  *   eyebrow: string|null,
  *   titulo: string|null,
  *   itens: list<array{
- *     icone: array{id: int, src: string, alt: string, width: int|null, height: int|null, sizes: array, svg: string|null}|null,
+ *     foto: array{id: int, src: string, alt: string, width: int|null, height: int|null, sizes: array, svg: null}|null,
+ *     iniciais: string|null,
  *     texto: string|null,
  *     nome: string|null,
  *   }>,
@@ -27,14 +29,12 @@
  * } $data
  */
 
-use Core\Framework\Part;
-
 defined('ABSPATH') || exit;
 
 $itens = $data['itens'] ?? [];
 if (!$itens) return;
 
-$carrossel = count($itens) > 1;
+$carrossel = count($itens) > 2;
 $trilho    = 'depoimentos-trilho';
 
 $avatarClass = 'size-10 shrink-0 rounded-full lg:order-1 lg:size-[60px]';
@@ -95,15 +95,15 @@ $arrow = '<svg class="size-5 sm:size-6" viewBox="0 0 24 24" fill="none" stroke="
             <?php endif; ?>
 
             <?php // celular: avatar ao lado do nome; desktop: avatar no topo, nome no fim (lg:contents + order) ?>
-            <?php if ($item['icone'] || $item['nome']) : ?>
+            <?php if ($item['foto'] || $item['iniciais'] || $item['nome']) : ?>
               <div class="flex items-center gap-3 lg:contents">
-                <?php if (!empty($item['icone']['svg'])) : ?>
-                  <?php Part::render('shared/icon', ['icon' => $item['icone'], 'class' => $avatarClass]); ?>
-                <?php else : ?>
-                  <?= fw_img($item['icone'], [
+                <?php if ($item['foto']) : ?>
+                  <?= fw_img($item['foto'], [
                     'class' => 'object-cover ' . $avatarClass,
                     'sizes' => '60px',
                   ], 'medium') ?>
+                <?php elseif ($item['iniciais']) : ?>
+                  <span aria-hidden="true" class="<?= esc_attr('flex items-center justify-center bg-brand-purple-accent font-heading text-[14px] leading-none font-medium text-white lg:text-h5 lg:leading-none ' . $avatarClass) ?>"><?= esc_html($item['iniciais']) ?></span>
                 <?php endif; ?>
                 <?php if ($item['nome']) : ?>
                   <span class="font-sans text-[15px] leading-[1.5] font-semibold text-brand-purple-accent lg:order-3 lg:font-heading lg:text-h5 lg:leading-[1.4] lg:font-medium"><?= esc_html($item['nome']) ?></span>

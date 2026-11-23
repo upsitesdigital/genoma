@@ -185,14 +185,32 @@ final class HomeController extends Controller
             // Estrutura); o banco tem "Depoimentos" — corrigir o default_value no acf_fields.php e aqui
             'eyebrow'   => $this->text($pageId, 'depoimentos_eyebrow', 'Estrutura / Tecnologia'),
             'titulo'    => $this->text($pageId, 'depoimentos_titulo', 'O que nossos clientes dizem'),
-            'itens'     => array_map(fn(array $row): array => [
-                'icone' => $this->iconFrom($row['icone'] ?? null),
-                'texto' => $this->textFrom($row, 'texto'),
-                'nome'  => $this->textFrom($row, 'nome'),
-            ], $rows),
+            'itens'     => array_map(function (array $row): array {
+                $icone = $this->iconFrom($row['icone'] ?? null);
+                $nome  = $this->textFrom($row, 'nome');
+
+                return [
+                    // só foto (PNG/JPG/WebP) vira avatar; o SVG do banco é a bola vazia do React → iniciais
+                    'foto'     => $icone && empty($icone['svg']) ? $icone : null,
+                    'iniciais' => $this->iniciais($nome),
+                    'texto'    => $this->textFrom($row, 'texto'),
+                    'nome'     => $nome,
+                ];
+            }, $rows),
             'autoplay'  => $this->flag($pageId, 'depoimentos_autoplay', true),
             'intervalo' => $this->number($pageId, 'depoimentos_intervalo', 6000),
         ];
+    }
+
+    /** Iniciais do nome (primeiro + último nome, máx. 2 letras, maiúsculas): "Iza Neri" → "IN", "Leny" → "L". */
+    private function iniciais(?string $nome): ?string
+    {
+        preg_match_all('/\p{L}+/u', (string) $nome, $m);
+        $palavras = $m[0];
+        if (!$palavras) return null;
+
+        $letras = [reset($palavras), ...(count($palavras) > 1 ? [end($palavras)] : [])];
+        return mb_strtoupper(implode('', array_map(fn(string $p): string => mb_substr($p, 0, 1), $letras)));
     }
 
     /**

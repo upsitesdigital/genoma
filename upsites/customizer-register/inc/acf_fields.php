@@ -223,9 +223,9 @@ add_action('acf/init', function (): void {
          'instructions' => 'Cada linha é um depoimento. No computador aparecem 2 por vez em carrossel; no celular, um abaixo do outro.',
          'layout' => 'block', 'min' => 0, 'max' => 0, 'button_label' => 'Adicionar Depoimento',
          'sub_fields' => [
-             ['key' => 'field_home_depoimentos_item_icone', 'label' => 'Ícone', 'name' => 'icone', 'type' => 'image',
-              'instructions' => 'Foto do cliente, quadrada (aparece em círculo).',
-              'return_format' => 'array', 'preview_size' => 'thumbnail', 'mime_types' => 'svg,png'],
+             ['key' => 'field_home_depoimentos_item_icone', 'label' => 'Foto do Cliente', 'name' => 'icone', 'type' => 'image',
+              'instructions' => 'Foto do cliente, quadrada (aparece em círculo). Sem foto, o círculo mostra as iniciais do nome (ex.: "Iza Neri" → IN).',
+              'return_format' => 'array', 'preview_size' => 'thumbnail', 'mime_types' => 'jpg,jpeg,png,webp,svg'],
              ['key' => 'field_home_depoimentos_item_texto', 'label' => 'Depoimento', 'name' => 'texto', 'type' => 'textarea',
               'instructions' => 'Texto do depoimento, sem aspas (até 4 linhas).',
               'rows' => 4, 'required' => 1, 'default_value' => ''],
