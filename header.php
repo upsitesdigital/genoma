@@ -18,6 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <!doctype html>
 <html <?php language_attributes(); ?>>
 <head>
+	<meta name="google-site-verification" content="HRHNm31uBjW2nJVhWa64bilSeb7ju6Zd6hoffkjUq3Q" />
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<?php wp_head(); ?>
